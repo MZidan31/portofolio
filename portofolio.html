@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio | Muhammad Zidan</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Boxicons CDN (untuk ikon) -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            @apply bg-neutral-100 text-neutral-800;
+        }
+
+        /* Animasi */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-down { animation: fadeInDown 1s ease-out; }
+        .animate-fade-in-up { animation: fadeInUp 1s ease-out; }
+
+    </style>
+</head>
+<body>
+
+    <!-- ==================== Navbar ==================== -->
+    <nav id="main-navbar" class="fixed top-0 left-0 w-full z-50 bg-neutral-100/80 backdrop-blur-md transition-all duration-300 shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-bold text-teal-600 hover:text-teal-400 transition-colors duration-300">Muhammad Zidan</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#about" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">About</a>
+                <a href="#education" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Education</a>
+                <a href="#skills" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Skills</a>
+                <a href="#projects" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Projects</a>
+                <a href="#contact" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-neutral-800 hover:text-teal-600 transition-colors duration-300">
+                <i class="bx bx-menu"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-neutral-100/90 py-4 text-center space-y-4 transition-all duration-300 ease-in-out transform">
+            <a href="#about" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">About</a>
+            <a href="#education" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Education</a>
+            <a href="#skills" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Skills</a>
+            <a href="#projects" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Projects</a>
+            <a href="#contact" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Contact</a>
+        </div>
+    </nav>
+
+    <!-- ==================== Hero Section ==================== -->
+    <header id="hero" class="relative min-h-screen flex items-center justify-center text-center p-6 bg-neutral-200 overflow-hidden">
+        <!-- Teks dan Tombol -->
+        <div class="relative z-20 flex flex-col items-center justify-center w-full max-w-2xl px-4">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-neutral-800 mb-4 animate-fade-in-down">Hai, saya <span class="text-teal-600">Muhammad Zidan</span></h1>
+            <p class="text-lg sm:text-xl md:text-2xl text-neutral-600 mb-8 animate-fade-in-up">Data Scientist | Analytics | DevOps</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#projects" class="bg-teal-600 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-500 transition-transform duration-300 hover:scale-105 shadow-lg">View Projects</a>
+                <a href="#contact" class="border border-teal-600 text-teal-600 font-bold py-3 px-8 rounded-full hover:bg-teal-600 hover:text-white transition-colors duration-300 hover:scale-105 shadow-lg">Contact Me</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== About Me Section ==================== -->
+    <section id="about" class="py-20 px-6 bg-neutral-100">
+        <div class="container mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">About Me</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-12">
+                <!-- Foto Profil -->
+                <div class="w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden border-4 border-teal-600 shadow-2xl">
+                    <img src="/artifacts/uploaded_image_0cb081.png" alt="Foto Profil" class="w-full h-full object-cover object-top">
+                </div>
+                <!-- Deskripsi singkat dengan kata-kata tebal -->
+                <div class="max-w-xl text-center md:text-left">
+                    <p class="text-lg text-neutral-600 leading-relaxed">
+                        Halo, saya <b>Muhammad Zidan</b>, mahasiswa undergraduate <b>Teknik Informatika</b> dengan minat utama di bidang <b>Data Science</b>, <b>Analytics</b>, dan <b>DevOps Engineering</b>. Saya memiliki <b>semangat</b> untuk terus <b>belajar</b> dan <b>mengeksplorasi</b> bagaimana <b>teknologi</b> dapat digunakan untuk <b>menyelesaikan masalah</b> nyata, meningkatkan <b>efisiensi</b>, serta membuka <b>peluang</b> baru dalam dunia <b>bisnis</b> maupun <b>akademik</b>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Education Section ==================== -->
+    <section id="education" class="py-20 px-6 bg-neutral-200">
+        <div class="container mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">Education</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8 bg-white p-8 rounded-lg shadow-xl">
+                <!-- Logo STT-NF -->
+                <div class="w-24 h-24 md:w-32 md:h-32">
+                    <img src="/artifacts/uploaded_image_0c2a39.png" alt="Logo STT-NF" class="w-full h-full object-contain">
+                </div>
+                <div class="text-center md:text-left">
+                    <h3 class="text-2xl font-semibold text-neutral-800">Sekolah Tinggi Teknologi Terpadu Nurul Fikri</h3>
+                    <p class="text-lg text-neutral-600">Informatics Engineering</p>
+                    <p class="text-md text-neutral-500">Focus: Data Science, Analytics, and DevOps Engineering</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Skills Section ==================== -->
+    <section id="skills" class="py-20 px-6 bg-neutral-100">
+        <div class="container mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">My Skills</h2>
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Technical Skills -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-center text-neutral-800">Technical Skills</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                        <!-- EDIT: Tambahkan atau ubah Technical Skills Anda -->
+                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            <i class='bx bxl-python text-5xl text-teal-600 mb-2'></i>
+                            <span class="text-sm text-neutral-700">Python</span>
+                        </div>
+                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            <i class='bx bxs-bar-chart-alt-2 text-5xl text-teal-600 mb-2'></i>
+                            <span class="text-sm text-neutral-700 text-center">Data Visualization</span>
+                        </div>
+                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            <i class='bx bx-data text-5xl text-teal-600 mb-2'></i>
+                            <span class="text-sm text-neutral-700">SQL</span>
+                        </div>
+                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            <i class='bx bxs-cloud-upload text-5xl text-teal-600 mb-2'></i>
+                            <span class="text-sm text-neutral-700">Cloud Computing</span>
+                        </div>
+                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            <i class='bx bxs-analyse text-5xl text-teal-600 mb-2'></i>
+                            <span class="text-sm text-neutral-700">Machine Learning</span>
+                        </div>
+                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            <i class='bx bxs-spreadsheet text-5xl text-teal-600 mb-2'></i>
+                            <span class="text-sm text-neutral-700">Big Data</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Personal Skills -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-center text-neutral-800">Personal Skills</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                        <!-- EDIT: Tambahkan atau ubah Personal Skills Anda -->
+                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            <i class='bx bx-analyse text-5xl text-teal-600 mb-2'></i>
+                            <span class="text-sm text-neutral-700 text-center">Problem Solving</span>
+                        </div>
+                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            <i class='bx bxs-group text-5xl text-teal-600 mb-2'></i>
+                            <span class="text-sm text-neutral-700">Teamwork</span>
+                        </div>
+                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            <i class='bx bx-brain text-5xl text-teal-600 mb-2'></i>
+                            <span class="text-sm text-neutral-700">Critical Thinking</span>
+                        </div>
+                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            <i class='bx bx-book-open text-5xl text-teal-600 mb-2'></i>
+                            <span class="text-sm text-neutral-700">Fast Learner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Projects Section ==================== -->
+    <section id="projects" class="py-20 px-6 bg-neutral-200">
+        <div class="container mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">My Projects</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- EDIT: Tambah, ubah, atau hapus Project Card di sini -->
+                <!-- Project 1 -->
+                <div class="bg-white rounded-lg p-6 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-transform duration-300">
+                    <h3 class="text-xl font-bold mb-2 text-teal-600">Project Data Science</h3>
+                    <p class="text-neutral-600 mb-4">Deskripsi singkat tentang project ini. Jelaskan teknologi yang digunakan dan hasil yang dicapai.</p>
+                    <div class="flex gap-4">
+                        <a href="https://github.com" target="_blank" class="bg-neutral-800 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-600 hover:text-white transition-colors duration-300">
+                            <i class="bx bxl-github mr-2"></i>GitHub
+                        </a>
+                        <a href="#" target="_blank" class="bg-neutral-800 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-600 hover:text-white transition-colors duration-300">
+                            <i class="bx bx-link-external mr-2"></i>Demo
+                        </a>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="bg-white rounded-lg p-6 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-transform duration-300">
+                    <h3 class="text-xl font-bold mb-2 text-teal-600">Website Dinamis</h3>
+                    <p class="text-neutral-600 mb-4">Deskripsi singkat tentang project website. Ceritakan fitur-fitur utamanya.</p>
+                    <div class="flex gap-4">
+                        <a href="https://github.com" target="_blank" class="bg-neutral-800 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-600 hover:text-white transition-colors duration-300">
+                            <i class="bx bxl-github mr-2"></i>GitHub
+                        </a>
+                        <a href="#" target="_blank" class="bg-neutral-800 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-600 hover:text-white transition-colors duration-300">
+                            <i class="bx bx-link-external mr-2"></i>Demo
+                        </a>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="bg-white rounded-lg p-6 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-transform duration-300">
+                    <h3 class="text-xl font-bold mb-2 text-teal-600">Mobile App Sederhana</h3>
+                    <p class="text-neutral-600 mb-4">Deskripsi singkat tentang mobile app. Jelaskan fungsinya dan teknologi yang dipakai.</p>
+                    <div class="flex gap-4">
+                        <a href="https://github.com" target="_blank" class="bg-neutral-800 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-600 hover:text-white transition-colors duration-300">
+                            <i class="bx bxl-github mr-2"></i>GitHub
+                        </a>
+                        <a href="#" target="_blank" class="bg-neutral-800 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-600 hover:text-white transition-colors duration-300">
+                            <i class="bx bx-link-external mr-2"></i>Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Contact Section ==================== -->
+    <section id="contact" class="py-20 px-6 bg-neutral-100">
+        <div class="container mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">Get In Touch</h2>
+            <div class="flex flex-col md:flex-row items-start justify-center gap-12">
+                <!-- Contact Form -->
+                <div class="w-full max-w-lg bg-white p-8 rounded-lg shadow-xl">
+                    <h3 class="text-xl font-semibold mb-6 text-neutral-800">Send me a message</h3>
+                    <!-- Form ini sekarang mengarahkan ke email Anda -->
+                    <form action="mailto:jidan1307@gmail.com" method="POST" enctype="text/plain">
+                        <div class="mb-4">
+                            <label for="name" class="block text-sm font-medium mb-1 text-neutral-700">Nama Lengkap</label>
+                            <input type="text" id="name" name="Nama" class="w-full p-3 bg-neutral-100 rounded-lg border border-neutral-300 focus:outline-none focus:border-teal-600 text-neutral-800 placeholder-neutral-500 transition-colors duration-300">
+                        </div>
+                        <div class="mb-4">
+                            <label for="email" class="block text-sm font-medium mb-1 text-neutral-700">Email</label>
+                            <input type="email" id="email" name="Email" class="w-full p-3 bg-neutral-100 rounded-lg border border-neutral-300 focus:outline-none focus:border-teal-600 text-neutral-800 placeholder-neutral-500 transition-colors duration-300">
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="block text-sm font-medium mb-1 text-neutral-700">Pesan</label>
+                            <textarea id="message" name="Pesan" rows="4" class="w-full p-3 bg-neutral-100 rounded-lg border border-neutral-300 focus:outline-none focus:border-teal-600 text-neutral-800 placeholder-neutral-500 transition-colors duration-300"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 px-6 rounded-full hover:bg-teal-500 transition-colors duration-300 shadow-md">Kirim Pesan</button>
+                    </form>
+                </div>
+                <!-- Social Links -->
+                <div class="w-full max-w-sm">
+                    <h3 class="text-xl font-semibold mb-6 text-neutral-800">Find me on</h3>
+                    <div class="flex flex-col space-y-4">
+                        <!-- EDIT: Ganti tautan sosial media Anda -->
+                        <a href="https://www.linkedin.com/in/muhammad-zidan-849a1a251/" target="_blank" class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md hover:bg-teal-600 hover:text-white transition-colors duration-300">
+                            <i class='bx bxl-linkedin-square text-3xl'></i>
+                            <span class="font-medium">LinkedIn</span>
+                        </a>
+                        <a href="https://www.instagram.com/zdn2231/?__pwa=1" target="_blank" class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md hover:bg-teal-600 hover:text-white transition-colors duration-300">
+                            <i class='bx bxl-instagram text-3xl'></i>
+                            <span class="font-medium">Instagram</span>
+                        </a>
+                        <a href="https://wa.me/6285711457917" target="_blank" class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md hover:bg-teal-600 hover:text-white transition-colors duration-300">
+                            <i class='bx bxl-whatsapp text-3xl'></i>
+                            <span class="font-medium">WhatsApp</span>
+                        </a>
+                        <a href="mailto:jidan1307@gmail.com" target="_blank" class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md hover:bg-teal-600 hover:text-white transition-colors duration-300">
+                            <i class='bx bx-envelope text-3xl'></i>
+                            <span class="font-medium">Email</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 bg-neutral-900 text-center text-neutral-400 text-sm">
+        &copy; 2025 Muhammad Zidan. All Rights Reserved.
+    </footer>
+
+    <script>
+        // JavaScript untuk mobile menu
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = this.querySelector('i');
+            menu.classList.toggle('hidden');
+            icon.classList.toggle('bx-menu');
+            icon.classList.toggle('bx-x');
+        });
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+                document.getElementById('mobile-menu-btn').querySelector('i').classList.remove('bx-x');
+                document.getElementById('mobile-menu-btn').querySelector('i').classList.add('bx-menu');
+            });
+        });
+
+    </script>
+</body>
+</html>
