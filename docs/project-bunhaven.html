@@ -17,6 +17,10 @@
             font-family: 'Poppins', sans-serif;
             @apply bg-neutral-100 text-neutral-800;
         }
+        .text-justify {
+            text-align: justify;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -34,29 +38,29 @@
         <div class="container mx-auto max-w-4xl prose prose-neutral">
             <!-- Teks Laporan -->
             <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">1. Tujuan dan Manfaat</h2>
-            <p>Penerapan metode Association Rules dengan algoritma Apriori pada Toko Bun Haven memiliki tujuan dan manfaat sebagai berikut:</p>
-            <h3>Tujuan</h3>
+            <p class="text-justify">Penerapan metode Association Rules dengan algoritma Apriori pada Toko Bun Haven memiliki tujuan dan manfaat sebagai berikut:</p>
+            <h3><strong>Tujuan</strong></h3>
             <ul>
                 <li>Mengetahui pola penjualan pada Toko Bun Haven dengan melihat produk yang sering atau laris terjual pada periode tahun 2016–2017.</li>
                 <li>Memberikan rekomendasi strategi untuk optimasi penjualan melalui temuan pola pembelian antar produk.</li>
                 <li>Mendukung pengelolaan stok produksi yang lebih baik berdasarkan hasil analisis data.</li>
             </ul>
-            <h3>Manfaat</h3>
+            <h3><strong>Manfaat</strong></h3>
             <ul>
                 <li>Mengoptimalkan stok produksi dengan menyesuaikan pola permintaan yang ditemukan pada data penjualan.</li>
                 <li>Meningkatkan pendapatan melalui strategi promosi bundling produk yang didasarkan pada temuan pola penjualan tahun 2016–2017.</li>
             </ul>
 
             <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">2. Kelengkapan dan Kualitas Dataset</h2>
-            <p>Dataset yang digunakan dalam penelitian ini adalah “Bakery.csv”. Dataset tersebut memiliki karakteristik sebagai berikut:</p>
+            <p class="text-justify">Dataset yang digunakan dalam penelitian ini adalah “Bakery.csv”. Dataset tersebut memiliki karakteristik sebagai berikut:</p>
             <ul>
                 <li>Tidak terdapat nilai kosong (missing value) pada setiap kolom, sehingga mempermudah proses analisis data tanpa memerlukan banyak tahap penanganan data yang hilang.</li>
             </ul>
-            <h3>Alasan Pemilihan Dataset</h3>
+            <h3><strong>Alasan Pemilihan Dataset</strong></h3>
             <h4>Kesesuaian dengan Teknik Data Mining</h4>
-            <p>Dataset Bakery sesuai untuk diterapkan pada metode CRISP-DM, karena mendukung fase utama seperti pemahaman data, pemrosesan, hingga pemodelan.</p>
-            <h4>Relevansi terhadap Tujuan Bisnis</h4>
-            <p>Dataset ini berisi data yang relevan untuk mencapai tujuan bisnis yang telah ditentukan, antara lain:</p>
+            <p class="text-justify">Dataset Bakery sesuai untuk diterapkan pada metode CRISP-DM, karena mendukung fase utama seperti pemahaman data, pemrosesan, hingga pemodelan.</p>
+            <h4><strong>Relevansi terhadap Tujuan Bisnis</strong></h4>
+            <p class="text-justify">Dataset ini berisi data yang relevan untuk mencapai tujuan bisnis yang telah ditentukan, antara lain:</p>
             <ul>
                 <li>Mengoptimalkan proses produksi.</li>
                 <li>Memahami preferensi pelanggan.</li>
@@ -64,11 +68,11 @@
             </ul>
 
             <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">3. Association Rule</h2>
-            <p>Metode yang digunakan dalam penelitian ini adalah Association Rule dengan algoritma Apriori.</p>
-            <h3>Fungsi Association Rule</h3>
-            <p>Metode Association Rule digunakan untuk menemukan hubungan atau pola tersembunyi dalam data transaksi, khususnya pada data berbasis basket analysis.</p>
-            <h3>Fungsi Algoritma Apriori</h3>
-            <p>Algoritma Apriori berfungsi untuk mengidentifikasi frequent itemsets (kumpulan item yang sering muncul bersama), yang kemudian digunakan untuk menghasilkan association rules sebagai dasar pengambilan keputusan.</p>
+            <p class="text-justify">Metode yang digunakan dalam penelitian ini adalah Association Rule dengan algoritma Apriori.</p>
+            <h3><strong>Fungsi Association Rule</strong></h3>
+            <p class="text-justify">Metode Association Rule digunakan untuk menemukan hubungan atau pola tersembunyi dalam data transaksi, khususnya pada data berbasis basket analysis.</p>
+            <h3><strong>Fungsi Algoritma Apriori</strong></h3>
+            <p class="text-justify">Algoritma Apriori berfungsi untuk mengidentifikasi frequent itemsets (kumpulan item yang sering muncul bersama), yang kemudian digunakan untuk menghasilkan association rules sebagai dasar pengambilan keputusan.</p>
         </div>
     </main>
 
