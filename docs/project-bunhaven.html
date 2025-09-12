@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Proyek | Bun Haven</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Boxicons CDN (untuk ikon) -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            @apply bg-neutral-100 text-neutral-800;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== Header ==================== -->
+    <header class="bg-neutral-200 py-12 px-6">
+        <div class="container mx-auto max-w-4xl text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-teal-600 mb-2">Strategi Wirausaha Toko Roti Bun Haven</h1>
+            <p class="text-lg text-neutral-600">Dibuat oleh: Muhammad Zidan</p>
+        </div>
+    </header>
+
+    <!-- ==================== Konten Artikel ==================== -->
+    <main class="py-16 px-6">
+        <div class="container mx-auto max-w-4xl prose prose-neutral">
+            <!-- Teks Laporan -->
+            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">1. Tujuan dan Manfaat</h2>
+            <p>Penerapan metode Association Rules dengan algoritma Apriori pada Toko Bun Haven memiliki tujuan dan manfaat sebagai berikut:</p>
+            <h3>Tujuan</h3>
+            <ul>
+                <li>Mengetahui pola penjualan pada Toko Bun Haven dengan melihat produk yang sering atau laris terjual pada periode tahun 2016–2017.</li>
+                <li>Memberikan rekomendasi strategi untuk optimasi penjualan melalui temuan pola pembelian antar produk.</li>
+                <li>Mendukung pengelolaan stok produksi yang lebih baik berdasarkan hasil analisis data.</li>
+            </ul>
+            <h3>Manfaat</h3>
+            <ul>
+                <li>Mengoptimalkan stok produksi dengan menyesuaikan pola permintaan yang ditemukan pada data penjualan.</li>
+                <li>Meningkatkan pendapatan melalui strategi promosi bundling produk yang didasarkan pada temuan pola penjualan tahun 2016–2017.</li>
+            </ul>
+
+            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">2. Kelengkapan dan Kualitas Dataset</h2>
+            <p>Dataset yang digunakan dalam penelitian ini adalah “Bakery.csv”. Dataset tersebut memiliki karakteristik sebagai berikut:</p>
+            <ul>
+                <li>Tidak terdapat nilai kosong (missing value) pada setiap kolom, sehingga mempermudah proses analisis data tanpa memerlukan banyak tahap penanganan data yang hilang.</li>
+            </ul>
+            <h3>Alasan Pemilihan Dataset</h3>
+            <h4>Kesesuaian dengan Teknik Data Mining</h4>
+            <p>Dataset Bakery sesuai untuk diterapkan pada metode CRISP-DM, karena mendukung fase utama seperti pemahaman data, pemrosesan, hingga pemodelan.</p>
+            <h4>Relevansi terhadap Tujuan Bisnis</h4>
+            <p>Dataset ini berisi data yang relevan untuk mencapai tujuan bisnis yang telah ditentukan, antara lain:</p>
+            <ul>
+                <li>Mengoptimalkan proses produksi.</li>
+                <li>Memahami preferensi pelanggan.</li>
+                <li>Meningkatkan penjualan melalui strategi yang berbasis data.</li>
+            </ul>
+
+            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">3. Association Rule</h2>
+            <p>Metode yang digunakan dalam penelitian ini adalah Association Rule dengan algoritma Apriori.</p>
+            <h3>Fungsi Association Rule</h3>
+            <p>Metode Association Rule digunakan untuk menemukan hubungan atau pola tersembunyi dalam data transaksi, khususnya pada data berbasis basket analysis.</p>
+            <h3>Fungsi Algoritma Apriori</h3>
+            <p>Algoritma Apriori berfungsi untuk mengidentifikasi frequent itemsets (kumpulan item yang sering muncul bersama), yang kemudian digunakan untuk menghasilkan association rules sebagai dasar pengambilan keputusan.</p>
+        </div>
+    </main>
+
+    <!-- ==================== Footer ==================== -->
+    <footer class="py-6 bg-neutral-900 text-center text-neutral-400 text-sm">
+        &copy; 2025 Muhammad Zidan. All Rights Reserved.
+    </footer>
+
+</body>
+</html>
