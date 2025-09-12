@@ -21,6 +21,48 @@
             text-align: justify;
             line-height: 1.5;
         }
+        /* Style untuk modal (overlay) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 700px;
+        }
+        .modal-content, .caption {
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+        @keyframes zoom {
+            from {transform: scale(0)}
+            to {transform: scale(1)}
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -136,57 +178,57 @@
                 <h2 class="text-2xl font-bold text-teal-600 mb-6 text-center">Dokumentasi Proyek</h2>
                 <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
                     <!-- Foto 1 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_d698d6.png')">
                         <img src="/artifacts/image_d698d6.png" alt="KNIME Workflow" class="rounded-lg mb-2">
                         <p class="text-sm text-neutral-600 text-center">Diagram alur kerja (workflow) KNIME yang digunakan untuk analisis data.</p>
                     </div>
                     <!-- Foto 2 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_d69916.png')">
                         <img src="/artifacts/image_d69916.png" alt="Data Cleaning" class="rounded-lg mb-2">
                         <p class="text-sm text-neutral-600 text-center">Tampilan KNIME saat proses pembersihan data dilakukan.</p>
                     </div>
                     <!-- Foto 3 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_fe9cdf.png')">
                         <img src="/artifacts/image_fe9cdf.png" alt="Association Rule Learner" class="rounded-lg mb-2">
                         <p class="text-sm text-neutral-600 text-center">Tampilan node "Association Rule Learner" yang digunakan untuk memodelkan hubungan antar produk.</p>
                     </div>
                     <!-- Foto 4 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_0bc87c.png')">
                         <img src="/artifacts/image_0bc87c.png" alt="Result Table" class="rounded-lg mb-2">
                         <p class="text-sm text-neutral-600 text-center">Tampilan hasil analisis yang menunjukkan frequent itemsets dengan nilai support.</p>
                     </div>
                     <!-- Foto 5 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_0c2a39.png')">
                         <img src="/artifacts/image_0c2a39.png" alt="Lift and Confidence Scatter Plot" class="rounded-lg mb-2">
                         <p class="text-sm text-neutral-600 text-center">Visualisasi sebaran hubungan antar produk berdasarkan nilai "lift" dan "confidence".</p>
                     </div>
                     <!-- Foto 6 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_0b443d.png')">
                         <img src="/artifacts/image_0b443d.png" alt="Lift, Confidence, and Support" class="rounded-lg mb-2">
                         <p class="text-sm text-neutral-600 text-center">Grafik yang menunjukkan distribusi nilai lift, confidence, dan support untuk setiap aturan.</p>
                     </div>
                     <!-- Foto 7 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_0bc4fe.png')">
                         <img src="/artifacts/image_0bc4fe.png" alt="Bar Chart Items" class="rounded-lg mb-2">
                         <p class="text-sm text-neutral-600 text-center">Grafik batang yang menunjukkan 10 produk dengan transaksi tertinggi.</p>
                     </div>
                     <!-- Foto 8 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_fe9cbd.png')">
                         <img src="/artifacts/image_fe9cbd.png" alt="Most Sold Items" class="rounded-lg mb-2">
                         <p class="text-sm text-neutral-600 text-center">Tampilan data KNIME yang menunjukkan produk-produk terlaris.</p>
                     </div>
                     <!-- Foto 9 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_00e6fb.png')">
                         <img src="/artifacts/image_00e6fb.png" alt="Most Sold Items" class="rounded-lg mb-2">
                         <p class="text-sm text-neutral-600 text-center">Grafik batang yang menunjukkan produk yang paling sering dibeli.</p>
                     </div>
                     <!-- Foto 10 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_00e2f9.png')">
                         <img src="/artifacts/image_00e2f9.png" alt="Most Sold Items" class="rounded-lg mb-2">
                         <p class="text-sm text-neutral-600 text-center">Tampilan hasil model pada node "Association Rule Learner" di KNIME.</p>
                     </div>
                     <!-- Foto 11 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_00dbf4.png')">
                         <img src="/artifacts/image_00dbf4.png" alt="Most Sold Items" class="rounded-lg mb-2">
                         <p class="text-sm text-neutral-600 text-center">Tampilan hasil model pada node "Association Rule Learner" yang berbeda.</p>
                     </div>
@@ -199,6 +241,27 @@
     <footer class="py-6 bg-neutral-900 text-center text-neutral-400 text-sm">
         &copy; 2025 Muhammad Zidan. All Rights Reserved.
     </footer>
+    
+    <!-- ==================== Modal (Image Popup) ==================== -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <!-- JavaScript untuk fungsi modal -->
+    <script>
+        var modal = document.getElementById("imageModal");
+        var modalImg = document.getElementById("modalImage");
+
+        function openModal(src) {
+            modal.style.display = "block";
+            modalImg.src = src;
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+    </script>
 
 </body>
 </html>
