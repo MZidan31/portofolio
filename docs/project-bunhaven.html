@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Proyek | Bun Haven</title>
+    <title>Detail Proyek | Strategi Wirausaha Toko Roti Bun Haven</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Boxicons CDN (untuk ikon) -->
@@ -35,44 +35,163 @@
 
     <!-- ==================== Konten Artikel ==================== -->
     <main class="py-16 px-6">
-        <div class="container mx-auto max-w-4xl prose prose-neutral">
+        <div class="container mx-auto max-w-4xl">
+
+            <!-- Peran dalam Proyek -->
+            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">Peran dalam Proyek</h2>
+            <p class="text-justify leading-relaxed mb-8">
+                Dalam proyek ini, saya memiliki peran kunci dalam setiap tahapan, mulai dari perancangan <b>analisis bisnis</b>, <b>pemahaman data</b>, <b>persiapan data</b>, <b>pemodelan</b>, hingga <b>evaluasi</b>. Saya bekerja sama dengan tim untuk memastikan setiap tahapan berjalan dengan lancar dan sesuai dengan tujuan bisnis yang telah ditetapkan.
+            </p>
+            
             <!-- Teks Laporan -->
-            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">1. Tujuan dan Manfaat</h2>
-            <p class="text-justify">Penerapan metode Association Rules dengan algoritma Apriori pada Toko Bun Haven memiliki tujuan dan manfaat sebagai berikut:</p>
-            <h3><strong>Tujuan</strong></h3>
-            <ul>
-                <li>Mengetahui pola penjualan pada Toko Bun Haven dengan melihat produk yang sering atau laris terjual pada periode tahun 2016–2017.</li>
-                <li>Memberikan rekomendasi strategi untuk optimasi penjualan melalui temuan pola pembelian antar produk.</li>
-                <li>Mendukung pengelolaan stok produksi yang lebih baik berdasarkan hasil analisis data.</li>
-            </ul>
-            <h3><strong>Manfaat</strong></h3>
-            <ul>
-                <li>Mengoptimalkan stok produksi dengan menyesuaikan pola permintaan yang ditemukan pada data penjualan.</li>
-                <li>Meningkatkan pendapatan melalui strategi promosi bundling produk yang didasarkan pada temuan pola penjualan tahun 2016–2017.</li>
-            </ul>
+            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">1. Business Understanding</h2>
+            <p class="text-justify leading-relaxed mb-4">
+                Toko roti Bun Haven menghadapi tantangan operasional dan penjualan, terutama dalam mengelola stok produk dan merancang strategi promosi yang efektif. Keterbatasan pemahaman tentang pola pembelian pelanggan menyebabkan inefisiensi dan potensi kerugian. Untuk mengatasi masalah ini, analisis data dengan metode Association Rules diterapkan untuk menemukan hubungan tersembunyi antar produk.
+            </p>
+            <p class="text-justify leading-relaxed mb-4">
+                Tujuan utama proyek ini adalah mengidentifikasi produk yang paling sering dibeli bersamaan. Hasilnya akan digunakan untuk merumuskan rekomendasi strategi bisnis, seperti penataan produk, kampanye promosi, dan optimasi stok, guna meningkatkan penjualan dan profitabilitas.
+            </p>
 
-            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">2. Kelengkapan dan Kualitas Dataset</h2>
-            <p class="text-justify">Dataset yang digunakan dalam penelitian ini adalah “Bakery.csv”. Dataset tersebut memiliki karakteristik sebagai berikut:</p>
-            <ul>
-                <li>Tidak terdapat nilai kosong (missing value) pada setiap kolom, sehingga mempermudah proses analisis data tanpa memerlukan banyak tahap penanganan data yang hilang.</li>
-            </ul>
-            <h3><strong>Alasan Pemilihan Dataset</strong></h3>
-            <h4>Kesesuaian dengan Teknik Data Mining</h4>
-            <p class="text-justify">Dataset Bakery sesuai untuk diterapkan pada metode CRISP-DM, karena mendukung fase utama seperti pemahaman data, pemrosesan, hingga pemodelan.</p>
-            <h4><strong>Relevansi terhadap Tujuan Bisnis</strong></h4>
-            <p class="text-justify">Dataset ini berisi data yang relevan untuk mencapai tujuan bisnis yang telah ditentukan, antara lain:</p>
-            <ul>
-                <li>Mengoptimalkan proses produksi.</li>
-                <li>Memahami preferensi pelanggan.</li>
-                <li>Meningkatkan penjualan melalui strategi yang berbasis data.</li>
-            </ul>
+            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">2. Data Understanding</h2>
+            <p class="text-justify leading-relaxed mb-4">
+                Dataset yang digunakan adalah "Bakery.csv", yang berisi data transaksi toko roti Bun Haven dari tahun 2016 hingga 2017. Dataset ini memiliki tiga kolom utama:
+            </p>
+            <table class="w-full text-left table-auto border-collapse mb-4">
+                <thead>
+                    <tr class="bg-neutral-200">
+                        <th class="py-2 px-4 border border-neutral-300">Kolom</th>
+                        <th class="py-2 px-4 border border-neutral-300">Keterangan</th>
+                        <th class="py-2 px-4 border border-neutral-300">Tipe Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-2 px-4 border border-neutral-300">Date</td>
+                        <td class="py-2 px-4 border border-neutral-300">Tanggal Transaksi</td>
+                        <td class="py-2 px-4 border border-neutral-300">Date</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border border-neutral-300">Time</td>
+                        <td class="py-2 px-4 border border-neutral-300">Waktu Transaksi</td>
+                        <td class="py-2 px-4 border border-neutral-300">Time</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 border border-neutral-300">Item</td>
+                        <td class="py-2 px-4 border border-neutral-300">Nama Produk</td>
+                        <td class="py-2 px-4 border border-neutral-300">String</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-justify leading-relaxed mb-4">
+                Dataset ini tidak memiliki nilai yang hilang (missing values) dan cocok untuk diterapkan pada teknik Association Rule.
+            </p>
 
-            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">3. Association Rule</h2>
-            <p class="text-justify">Metode yang digunakan dalam penelitian ini adalah Association Rule dengan algoritma Apriori.</p>
-            <h3><strong>Fungsi Association Rule</strong></h3>
-            <p class="text-justify">Metode Association Rule digunakan untuk menemukan hubungan atau pola tersembunyi dalam data transaksi, khususnya pada data berbasis basket analysis.</p>
-            <h3><strong>Fungsi Algoritma Apriori</strong></h3>
-            <p class="text-justify">Algoritma Apriori berfungsi untuk mengidentifikasi frequent itemsets (kumpulan item yang sering muncul bersama), yang kemudian digunakan untuk menghasilkan association rules sebagai dasar pengambilan keputusan.</p>
+            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">3. Data Preparation</h2>
+            <p class="text-justify leading-relaxed mb-4">
+                Tahapan persiapan data dilakukan menggunakan <b>KNIME Analytics Platform</b> dengan langkah-langkah berikut:
+            </p>
+            <ol class="list-decimal list-inside space-y-2 mb-4">
+                <li><b>Load Data</b>: Menggunakan node "File Reader" untuk mengimpor dataset.</li>
+                <li><b>Agregasi Data</b>: Menggunakan node "Group By" untuk mengelompokkan item ke dalam transaksi berdasarkan tanggal dan waktu.</li>
+                <li><b>Konversi Tipe Data</b>: Menggunakan node "String to Collection" untuk mengubah data transaksi menjadi format yang sesuai dengan node "Association Rule Learner".</li>
+            </ol>
+
+            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">4. Modeling dan Evaluasi</h2>
+            <p class="text-justify leading-relaxed mb-4">
+                Pemodelan dilakukan menggunakan metode <b>Association Rule</b> dengan algoritma <b>Apriori</b> untuk menemukan pola pembelian antar produk.
+            </p>
+            <h3 class="font-bold">Hasil Analisis</h3>
+            <p class="text-justify leading-relaxed mb-4">
+                Dari hasil analisis, ditemukan beberapa aturan asosiasi dengan nilai <b>support</b>, <b>confidence</b>, dan <b>lift</b> yang tinggi.
+            </p>
+            <p class="text-justify leading-relaxed mb-4">
+                <b>Aturan Paling Menarik (Contoh):</b><br/>
+                <b>Aturan 1:</b> {Toast} -> {Coffee}<br/>
+                Support: 0.033<br/>
+                Confidence: 0.704<br/>
+                Lift: 1.48
+            </p>
+            <p class="text-justify leading-relaxed mb-4">
+                Aturan ini menunjukkan bahwa 70.4% pembeli yang membeli Toast juga membeli Coffee. Nilai lift sebesar 1.48 (>1) mengindikasikan bahwa hubungan ini signifikan dan lebih dari sekadar kebetulan.
+            </p>
+
+            <h2 class="text-2xl font-bold text-teal-600 mt-8 mb-4">5. Kesimpulan dan Rekomendasi</h2>
+            <h3 class="font-bold">Kesimpulan</h3>
+            <p class="text-justify leading-relaxed mb-4">
+                Berdasarkan analisis Association Rule, ditemukan pola pembelian yang kuat antara beberapa produk. Pola ini dapat digunakan untuk mengoptimalkan strategi bisnis. Produk yang paling sering dibeli secara individu adalah Coffee, Bread, dan Tea.
+            </p>
+            <h3 class="font-bold">Rekomendasi</h3>
+            <p class="text-justify leading-relaxed mb-4">
+                Berikut beberapa rekomendasi untuk meningkatkan penjualan:
+            </p>
+            <ul class="list-disc list-inside space-y-2 mb-4">
+                <li><b>Strategi Penempatan Produk</b>: Tempatkan produk-produk yang memiliki hubungan kuat (misalnya, Toast dan Coffee) berdekatan di area toko untuk memicu pembelian tambahan.</li>
+                <li><b>Strategi Bundling</b>: Tawarkan paket promosi seperti "Toast & Coffee Special" dengan harga diskon untuk mendorong penjualan kedua produk.</li>
+                <li><b>Kampanye Promosi</b>: Rancang kampanye pemasaran yang menargetkan produk-produk terlaris yang dapat dipasangkan dengan produk lain, seperti diskon khusus untuk Tea saat pembelian Coffee.</li>
+                <li><b>Manajemen Stok</b>: Lakukan monitoring stok secara berkala untuk produk-produk yang sering dibeli bersamaan untuk memastikan ketersediaannya.</li>
+            </ul>
+            
+            <!-- ==================== Dokumentasi Proyek (Etalase Foto) ==================== -->
+            <div class="mt-16">
+                <h2 class="text-2xl font-bold text-teal-600 mb-6 text-center">Dokumentasi Proyek</h2>
+                <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+                    <!-- Foto 1 -->
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_d698d6.png" alt="KNIME Workflow" class="rounded-lg mb-2">
+                        <p class="text-sm text-neutral-600 text-center">Diagram alur kerja (workflow) KNIME yang digunakan untuk analisis data.</p>
+                    </div>
+                    <!-- Foto 2 -->
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_d69916.png" alt="Data Cleaning" class="rounded-lg mb-2">
+                        <p class="text-sm text-neutral-600 text-center">Tampilan KNIME saat proses pembersihan data dilakukan.</p>
+                    </div>
+                    <!-- Foto 3 -->
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_fe9cdf.png" alt="Association Rule Learner" class="rounded-lg mb-2">
+                        <p class="text-sm text-neutral-600 text-center">Tampilan node "Association Rule Learner" yang digunakan untuk memodelkan hubungan antar produk.</p>
+                    </div>
+                    <!-- Foto 4 -->
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_0bc87c.png" alt="Result Table" class="rounded-lg mb-2">
+                        <p class="text-sm text-neutral-600 text-center">Tampilan hasil analisis yang menunjukkan frequent itemsets dengan nilai support.</p>
+                    </div>
+                    <!-- Foto 5 -->
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_0c2a39.png" alt="Lift and Confidence Scatter Plot" class="rounded-lg mb-2">
+                        <p class="text-sm text-neutral-600 text-center">Visualisasi sebaran hubungan antar produk berdasarkan nilai "lift" dan "confidence".</p>
+                    </div>
+                    <!-- Foto 6 -->
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_0b443d.png" alt="Lift, Confidence, and Support" class="rounded-lg mb-2">
+                        <p class="text-sm text-neutral-600 text-center">Grafik yang menunjukkan distribusi nilai lift, confidence, dan support untuk setiap aturan.</p>
+                    </div>
+                    <!-- Foto 7 -->
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_0bc4fe.png" alt="Bar Chart Items" class="rounded-lg mb-2">
+                        <p class="text-sm text-neutral-600 text-center">Grafik batang yang menunjukkan 10 produk dengan transaksi tertinggi.</p>
+                    </div>
+                    <!-- Foto 8 -->
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_fe9cbd.png" alt="Most Sold Items" class="rounded-lg mb-2">
+                        <p class="text-sm text-neutral-600 text-center">Tampilan data KNIME yang menunjukkan produk-produk terlaris.</p>
+                    </div>
+                    <!-- Foto 9 -->
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_00e6fb.png" alt="Most Sold Items" class="rounded-lg mb-2">
+                        <p class="text-sm text-neutral-600 text-center">Grafik batang yang menunjukkan produk yang paling sering dibeli.</p>
+                    </div>
+                    <!-- Foto 10 -->
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_00e2f9.png" alt="Most Sold Items" class="rounded-lg mb-2">
+                        <p class="text-sm text-neutral-600 text-center">Tampilan hasil model pada node "Association Rule Learner" di KNIME.</p>
+                    </div>
+                    <!-- Foto 11 -->
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_00dbf4.png" alt="Most Sold Items" class="rounded-lg mb-2">
+                        <p class="text-sm text-neutral-600 text-center">Tampilan hasil model pada node "Association Rule Learner" yang berbeda.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
