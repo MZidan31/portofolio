@@ -21,7 +21,43 @@
             text-align: justify;
             line-height: 1.5;
         }
+        .image-collage {
+            position: relative;
+            width: 100%;
+            height: 500px; /* Sesuaikan tinggi sesuai kebutuhan */
+        }
+        .image-collage img {
+            position: absolute;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .image-collage img:hover {
+            z-index: 10;
+            transform: scale(1.1) rotate(0deg) !important;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .img-1 { top: 0; left: 0; width: 40%; height: 250px; transform: rotate(-5deg); z-index: 5;}
+        .img-2 { top: 15%; left: 35%; width: 35%; height: 200px; transform: rotate(8deg); z-index: 6;}
+        .img-3 { top: 40%; left: 10%; width: 45%; height: 280px; transform: rotate(3deg); z-index: 4;}
+        .img-4 { top: 5%; left: 65%; width: 30%; height: 180px; transform: rotate(-12deg); z-index: 3;}
+        .img-5 { top: 50%; left: 55%; width: 40%; height: 220px; transform: rotate(6deg); z-index: 7;}
+        .img-6 { top: 70%; left: 5%; width: 30%; height: 150px; transform: rotate(-2deg); z-index: 2;}
+        .img-7 { top: 60%; left: 70%; width: 25%; height: 180px; transform: rotate(10deg); z-index: 8;}
+        .img-8 { top: 25%; left: 15%; width: 30%; height: 150px; transform: rotate(15deg); z-index: 1;}
 
+        @media (max-width: 768px) {
+            .image-collage { height: auto; }
+            .image-collage img {
+                position: static;
+                width: 100% !important;
+                height: auto !important;
+                margin-bottom: 1rem;
+                transform: none !important;
+            }
+        }
+        
         /* Animasi */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
@@ -45,6 +81,7 @@
             <div class="hidden md:flex space-x-6">
                 <a href="#about" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">About</a>
                 <a href="#education" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Education</a>
+                <a href="#msib" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Recap</a>
                 <a href="#skills" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Skills</a>
                 <a href="#projects" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Projects</a>
                 <a href="#contact" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Contact</a>
@@ -58,6 +95,7 @@
         <div id="mobile-menu" class="hidden md:hidden bg-neutral-100/90 py-4 text-center space-y-4 transition-all duration-300 ease-in-out transform">
             <a href="#about" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">About</a>
             <a href="#education" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Education</a>
+            <a href="#msib" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Recap</a>
             <a href="#skills" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Skills</a>
             <a href="#projects" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Projects</a>
                 <a href="#contact" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Contact</a>
@@ -186,6 +224,23 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ==================== MSIB Experience Section ==================== -->
+    <section id="msib" class="py-20 px-6 bg-neutral-100">
+        <div class="container mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">Showcase MSIB Data Science</h2>
+            <div class="image-collage relative h-[500px] md:h-[600px] w-full max-w-4xl mx-auto">
+                <img src="/artifacts/msib-ds-1.jfif" alt="MSIB Documentation 1" class="img-1 absolute rounded-lg shadow-md">
+                <img src="/artifacts/msib-ds-2.jfif" alt="MSIB Documentation 2" class="img-2 absolute rounded-lg shadow-md">
+                <img src="/artifacts/msib-ds-3.jfif" alt="MSIB Documentation 3" class="img-3 absolute rounded-lg shadow-md">
+                <img src="/artifacts/msib-ds-4.jfif" alt="MSIB Documentation 4" class="img-4 absolute rounded-lg shadow-md">
+                <img src="/artifacts/msib-ds-5.jfif" alt="MSIB Documentation 5" class="img-5 absolute rounded-lg shadow-md">
+                <img src="/artifacts/msib-ds-6.jfif" alt="MSIB Documentation 6" class="img-6 absolute rounded-lg shadow-md">
+                <img src="/artifacts/msib-ds-7.jfif" alt="MSIB Documentation 7" class="img-7 absolute rounded-lg shadow-md">
+                <img src="/artifacts/msib-ds-8.jfif" alt="MSIB Documentation 8" class="img-8 absolute rounded-lg shadow-md">
             </div>
         </div>
     </section>
@@ -325,7 +380,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="message" class="block text-sm font-medium mb-1 text-neutral-700">Pesan</label>
-                            <textarea id="message" name="Pesan" rows="4" class="w-full p-3 bg-neutral-100 rounded-lg border border-neutral-300 focus:outline-none focus:border-teal-600 text-neutral-800 placeholder-neutral-500 transition-colors duration-300"></textarea>
+                            <textarea id="message" name="Pesan" rows="4" class="w-full p-3 bg-neutral-100 rounded-lg border border-neutral-300 focus:outline-none focus:border-border-teal-600 text-neutral-800 placeholder-neutral-500 transition-colors duration-300"></textarea>
                         </div>
                         <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 px-6 rounded-full hover:bg-teal-500 transition-colors duration-300 shadow-md">Kirim Pesan</button>
                     </form>
