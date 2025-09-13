@@ -33,12 +33,15 @@
             overflow: auto;
             background-color: rgb(0,0,0);
             background-color: rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .modal-content {
             margin: auto;
             display: block;
             width: 90%;
-            max-width: 700px;
+            max-width: 900px;
         }
         .modal-content, .caption {
             animation-name: zoom;
@@ -268,15 +271,21 @@
     <script>
         var modal = document.getElementById("imageModal");
         var modalImg = document.getElementById("modalImage");
-        var galleryImages = document.querySelectorAll(".gallery-image");
 
         function openModal(src) {
-            modal.style.display = "block";
+            modal.style.display = "flex";
             modalImg.src = src;
         }
 
         function closeModal() {
             modal.style.display = "none";
+        }
+
+        // Menutup modal jika area gelap di klik
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
         }
     </script>
 </body>
