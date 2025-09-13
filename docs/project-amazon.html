@@ -2,8 +2,8 @@
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Proyek | Analisis Laporan Penjualan Amazon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Boxicons CDN (untuk ikon) -->
@@ -20,51 +20,6 @@
         .text-justify {
             text-align: justify;
             line-height: 1.5;
-        }
-        /* Style untuk modal (overlay) */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 90%;
-            max-width: 900px;
-        }
-        .modal-content, .caption {
-            animation-name: zoom;
-            animation-duration: 0.6s;
-        }
-        @keyframes zoom {
-            from {transform: scale(0)}
-            to {transform: scale(1)}
-        }
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .close:hover,
-        .close:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -197,58 +152,58 @@
                 <h2 class="text-2xl font-bold text-teal-600 mb-6 text-center">Dokumentasi Proyek</h2>
                 <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
                     <!-- Foto 1 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/image_d3e5a3.png')">
-                        <img src="/artifacts/image_d3e5a3.png" alt="KNIME Workflow" class="rounded-lg mb-2">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/image_d3e5a3.png" alt="KNIME Workflow" class="rounded-lg mb-2 w-full">
                         <p class="text-sm text-neutral-600 text-center">Diagram alur kerja (workflow) KNIME yang digunakan untuk analisis data.</p>
                     </div>
                     <!-- Foto 2 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/Bar Chart.png')">
-                        <img src="/artifacts/Bar Chart.png" alt="Bar Chart" class="rounded-lg mb-2">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/Bar Chart.png" alt="Bar Chart" class="rounded-lg mb-2 w-full">
                         <p class="text-sm text-neutral-600 text-center">Grafik batang yang menunjukkan jumlah produk terlaris berdasarkan kategorinya.</p>
                     </div>
                     <!-- Foto 3 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/Bar Chart-status.png')">
-                        <img src="/artifacts/Bar Chart-status.png" alt="Bar Chart Status" class="rounded-lg mb-2">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/Bar Chart-status.png" alt="Bar Chart Status" class="rounded-lg mb-2 w-full">
                         <p class="text-sm text-neutral-600 text-center">Grafik batang yang menunjukkan distribusi status pesanan, seperti 'shipped' atau 'pending'.</p>
                     </div>
                     <!-- Foto 4 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/Pie Chart.png')">
-                        <img src="/artifacts/Pie Chart.png" alt="Pie Chart" class="rounded-lg mb-2">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/Pie Chart.png" alt="Pie Chart" class="rounded-lg mb-2 w-full">
                         <p class="text-sm text-neutral-600 text-center">Diagram lingkaran yang menunjukkan proporsi kategori produk yang terjual.</p>
                     </div>
                     <!-- Foto 5 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/sum-ship city.png')">
-                        <img src="/artifacts/sum-ship city.png" alt="Sum Ship City" class="rounded-lg mb-2">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/sum-ship city.png" alt="Sum Ship City" class="rounded-lg mb-2 w-full">
                         <p class="text-sm text-neutral-600 text-center">Ringkasan pengiriman berdasarkan kota tujuan.</p>
                     </div>
                     <!-- Foto 6 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/sum shipped-delivered to buyer.png')">
-                        <img src="/artifacts/sum shipped-delivered to buyer.png" alt="Shipment Status Summary" class="rounded-lg mb-2">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/sum shipped-delivered to buyer.png" alt="Shipment Status Summary" class="rounded-lg mb-2 w-full">
                         <p class="text-sm text-neutral-600 text-center">Ringkasan status pengiriman yang menunjukkan jumlah produk yang dikirimkan ke pembeli.</p>
                     </div>
                     <!-- Foto 7 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/dtl.png')">
-                        <img src="/artifacts/dtl.png" alt="Decision Tree Learner" class="rounded-lg mb-2">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/dtl.png" alt="Decision Tree Learner" class="rounded-lg mb-2 w-full">
                         <p class="text-sm text-neutral-600 text-center">Hasil dari model Decision Tree Learner.</p>
                     </div>
                     <!-- Foto 8 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/dtp.png')">
-                        <img src="/artifacts/dtp.png" alt="Decision Tree Predictor" class="rounded-lg mb-2">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/dtp.png" alt="Decision Tree Predictor" class="rounded-lg mb-2 w-full">
                         <p class="text-sm text-neutral-600 text-center">Hasil prediksi dari model Decision Tree.</p>
                     </div>
                     <!-- Foto 9 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/rfl.png')">
-                        <img src="/artifacts/rfl.png" alt="Random Forest Learner" class="rounded-lg mb-2">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/rfl.png" alt="Random Forest Learner" class="rounded-lg mb-2 w-full">
                         <p class="text-sm text-neutral-600 text-center">Hasil dari model Random Forest Learner.</p>
                     </div>
                     <!-- Foto 10 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/skorer1.png')">
-                        <img src="/artifacts/skorer1.png" alt="Skorer" class="rounded-lg mb-2">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/skorer1.png" alt="Skorer" class="rounded-lg mb-2 w-full">
                         <p class="text-sm text-neutral-600 text-center">Matriks evaluasi (Skorer) untuk salah satu model.</p>
                     </div>
                     <!-- Foto 11 -->
-                    <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer" onclick="openModal('/artifacts/skorer2.png')">
-                        <img src="/artifacts/skorer2.png" alt="Skorer 2" class="rounded-lg mb-2">
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <img src="/artifacts/skorer2.png" alt="Skorer 2" class="rounded-lg mb-2 w-full">
                         <p class="text-sm text-neutral-600 text-center">Matriks evaluasi (Skorer) untuk model lain.</p>
                     </div>
                 </div>
@@ -260,33 +215,5 @@
     <footer class="py-6 bg-neutral-900 text-center text-neutral-400 text-sm">
         &copy; 2025 Muhammad Zidan. All Rights Reserved.
     </footer>
-
-    <!-- ==================== Modal (Image Popup) ==================== -->
-    <div id="imageModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImage">
-    </div>
-
-    <!-- JavaScript untuk fungsi modal -->
-    <script>
-        var modal = document.getElementById("imageModal");
-        var modalImg = document.getElementById("modalImage");
-
-        function openModal(src) {
-            modal.style.display = "flex";
-            modalImg.src = src;
-        }
-
-        function closeModal() {
-            modal.style.display = "none";
-        }
-
-        // Menutup modal jika area gelap di klik
-        window.onclick = function(event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-          }
-        }
-    </script>
 </body>
 </html>
