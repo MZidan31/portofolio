@@ -22,98 +22,45 @@
             line-height: 1.5;
         }
         
-        .image-collage-ds {
-            position: relative;
-            width: 100%;
-            height: 500px;
-        }
-        .image-collage-ds .tablet-frame {
-            position: absolute;
-            background-color: #000;
-            border: 10px solid #222;
-            border-radius: 2rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        .carousel-container {
             overflow: hidden;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            cursor: pointer;
-        }
-        .image-collage-ds .tablet-frame:hover {
-            z-index: 10;
-            transform: scale(1.1) rotate(0deg) !important;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.5);
-        }
-        .image-collage-ds .tablet-frame img {
-            object-fit: cover;
             width: 100%;
-            height: 100%;
+        }
+        .carousel-track {
+            display: flex;
+            animation: scroll-x 30s linear infinite;
+        }
+        .carousel-item {
+            flex-shrink: 0;
+            width: 300px;
+            margin-right: 2rem;
+        }
+        .carousel-item img {
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+        .carousel-item:hover img {
+            transform: scale(1.05);
         }
 
-        .ds-frame-1 { top: 0; left: 0; width: 45%; height: 280px; transform: rotate(-5deg); z-index: 5;}
-        .ds-frame-2 { top: 10%; left: 45%; width: 50%; height: 220px; transform: rotate(8deg); z-index: 6;}
-        .ds-frame-3 { top: 40%; left: 20%; width: 40%; height: 250px; transform: rotate(3deg); z-index: 4;}
-        .ds-frame-4 { top: 60%; left: 60%; width: 35%; height: 200px; transform: rotate(-12deg); z-index: 3;}
-        .ds-frame-5 { top: 65%; left: 0; width: 40%; height: 220px; transform: rotate(6deg); z-index: 7;}
-
-        .image-collage-doe {
-            position: relative;
-            width: 100%;
-            height: 500px;
-        }
-        .image-collage-doe .phone-frame {
-            position: absolute;
-            width: 150px;
-            height: 300px;
-            background-color: #000;
+        .phone-frame {
             border: 10px solid #222;
             border-radius: 25px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             overflow: hidden;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            cursor: pointer;
-        }
-        .image-collage-doe .phone-frame:hover {
-            z-index: 10;
-            transform: scale(1.1) rotate(0deg) !important;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.5);
-        }
-        .image-collage-doe .phone-frame img {
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
+            width: 150px;
+            height: 300px;
+            margin: 0 auto;
         }
 
-        .doe-frame-1 { top: 0; left: 10%; transform: rotate(-8deg); z-index: 5; }
-        .doe-frame-2 { top: 10%; left: 50%; transform: rotate(5deg); z-index: 6; }
-        .doe-frame-3 { top: 35%; left: 30%; transform: rotate(-3deg); z-index: 4; }
-        .doe-frame-4 { top: 50%; left: 60%; transform: rotate(10deg); z-index: 7; }
-        .doe-frame-5 { top: 65%; left: 5%; transform: rotate(-15deg); z-index: 3; }
+        @keyframes scroll-x {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
+        }
 
         @media (max-width: 1024px) {
-            .msib-container {
-                display: flex;
-                flex-direction: column;
-                gap: 4rem;
-            }
-            .msib-content {
-                width: 100%;
-            }
-        }
-        @media (max-width: 768px) {
-            .image-collage-ds, .image-collage-doe { height: auto; }
-            .image-collage-ds .tablet-frame, .image-collage-doe .phone-frame {
-                position: static;
-                width: 90% !important;
-                height: auto !important;
-                margin-bottom: 1rem;
-                transform: none !important;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .image-collage-ds .tablet-frame {
-                padding: 1rem;
-            }
-            .image-collage-doe .phone-frame {
-                width: 60% !important;
+            .carousel-track {
+                animation-duration: 20s;
             }
         }
         
@@ -273,7 +220,7 @@
                         </div>
                          <div class="flex flex-col sm:flex-row items-center space-x-4 p-4 bg-neutral-100 rounded-lg shadow-md">
                             <div class="flex-shrink-0 flex items-center justify-center w-12 h-12">
-                                <i class="bx bx-bar-chart-alt-2 text-3xl text-teal-600"></i>
+                                <i class='bx bx-bar-chart-alt-2 text-3xl text-teal-600'></i>
                             </div>
                             <div class="flex-grow text-center sm:text-left">
                                 <h4 class="font-bold text-neutral-800">Basic Proficiency in KNIME Analytics Platform</h4>
@@ -290,47 +237,70 @@
     <!-- ==================== MSIB Experience Section ==================== -->
     <section id="msib" class="py-20 px-6 bg-neutral-100">
         <div class="container mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">MSIB Recap</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 msib-container">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">Etalase MSIB</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Data Science Showcase -->
-                <div class="msib-content">
+                <div>
                     <h3 class="text-2xl font-semibold text-center text-neutral-800 mb-6">Data Science</h3>
-                    <div class="image-collage-ds relative h-[500px] md:h-[600px] w-full max-w-xl mx-auto">
-                        <div class="tablet-frame ds-frame-1">
-                             <img src="/artifacts/msib-ds-1.jfif" alt="MSIB Documentation 1" class="w-full h-full object-cover">
-                        </div>
-                        <div class="tablet-frame ds-frame-2">
-                             <img src="/artifacts/msib-ds-2.jfif" alt="MSIB Documentation 2" class="w-full h-full object-cover">
-                        </div>
-                        <div class="tablet-frame ds-frame-3">
-                             <img src="/artifacts/msib-ds-3.jfif" alt="MSIB Documentation 3" class="w-full h-full object-cover">
-                        </div>
-                        <div class="tablet-frame ds-frame-4">
-                             <img src="/artifacts/msib-ds-4.jfif" alt="MSIB Documentation 4" class="w-full h-full object-cover">
-                        </div>
-                        <div class="tablet-frame ds-frame-5">
-                             <img src="/artifacts/msib-ds-5.jfif" alt="MSIB Documentation 5" class="w-full h-full object-cover">
+                    <div class="carousel-container overflow-hidden rounded-xl shadow-2xl">
+                        <div class="carousel-track flex">
+                            <div class="carousel-item p-4">
+                                <img src="/artifacts/msib-ds-1.jfif" alt="MSIB Data Science 1" class="w-full h-auto">
+                            </div>
+                            <div class="carousel-item p-4">
+                                <img src="/artifacts/msib-ds-2.jfif" alt="MSIB Data Science 2" class="w-full h-auto">
+                            </div>
+                            <div class="carousel-item p-4">
+                                <img src="/artifacts/msib-ds-3.jfif" alt="MSIB Data Science 3" class="w-full h-auto">
+                            </div>
+                            <div class="carousel-item p-4">
+                                <img src="/artifacts/msib-ds-4.jfif" alt="MSIB Data Science 4" class="w-full h-auto">
+                            </div>
+                            <div class="carousel-item p-4">
+                                <img src="/artifacts/msib-ds-5.jfif" alt="MSIB Data Science 5" class="w-full h-auto">
+                            </div>
+                            <div class="carousel-item p-4">
+                                <img src="/artifacts/msib-ds-6.jfif" alt="MSIB Data Science 6" class="w-full h-auto">
+                            </div>
+                            <div class="carousel-item p-4">
+                                <img src="/artifacts/msib-ds-7.jfif" alt="MSIB Data Science 7" class="w-full h-auto">
+                            </div>
+                            <div class="carousel-item p-4">
+                                <img src="/artifacts/msib-ds-8.jfif" alt="MSIB Data Science 8" class="w-full h-auto">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- DevOps Engineer Showcase -->
-                <div class="msib-content">
+                <div>
                     <h3 class="text-2xl font-semibold text-center text-neutral-800 mb-6">DevOps Engineer</h3>
-                    <div class="image-collage-doe relative h-[500px] md:h-[600px] w-full max-w-xl mx-auto">
-                        <div class="phone-frame doe-frame-1">
-                            <img src="/artifacts/msib-doe-1.jfif" alt="DevOps Documentation 1" class="w-full h-full">
-                        </div>
-                        <div class="phone-frame doe-frame-2">
-                            <img src="/artifacts/msib-doe-2.jfif" alt="DevOps Documentation 2" class="w-full h-full">
-                        </div>
-                        <div class="phone-frame doe-frame-3">
-                            <img src="/artifacts/msib-doe-3.jfif" alt="DevOps Documentation 3" class="w-full h-full">
-                        </div>
-                        <div class="phone-frame doe-frame-4">
-                            <img src="/artifacts/msib-doe-4.jfif" alt="DevOps Documentation 4" class="w-full h-full">
-                        </div>
-                        <div class="phone-frame doe-frame-5">
-                            <img src="/artifacts/msib-doe-5.jfif" alt="DevOps Documentation 5" class="w-full h-full">
+                    <div class="carousel-container overflow-hidden rounded-xl shadow-2xl">
+                         <div class="carousel-track flex">
+                            <div class="carousel-item p-4">
+                                <div class="phone-frame">
+                                    <img src="/artifacts/msib-doe-1.jfif" alt="DevOps Documentation 1" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <div class="carousel-item p-4">
+                                <div class="phone-frame">
+                                    <img src="/artifacts/msib-doe-2.jfif" alt="DevOps Documentation 2" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <div class="carousel-item p-4">
+                                <div class="phone-frame">
+                                    <img src="/artifacts/msib-doe-3.jfif" alt="DevOps Documentation 3" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <div class="carousel-item p-4">
+                                <div class="phone-frame">
+                                    <img src="/artifacts/msib-doe-4.jfif" alt="DevOps Documentation 4" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <div class="carousel-item p-4">
+                                <div class="phone-frame">
+                                    <img src="/artifacts/msib-doe-5.jfif" alt="DevOps Documentation 5" class="w-full h-full object-cover">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
