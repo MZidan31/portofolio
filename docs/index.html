@@ -68,19 +68,21 @@
         /* Responsif untuk Kolase */
         @media (max-width: 768px) {
             .image-collage-ds, .image-collage-doe {
-                height: auto;
-                display: flex;
-                flex-direction: column;
-                position: static;
-                gap: 1rem;
+                height: 800px; /* Tinggi kolase disesuaikan untuk mobile */
             }
-            .collage-frame {
-                position: static;
-                width: 90% !important;
-                height: auto !important;
-                transform: none !important;
-                margin: 0 auto;
-            }
+            .ds-frame-1 { top: 0; left: 5%; width: 60%; height: 150px; transform: rotate(-5deg);}
+            .ds-frame-2 { top: 10%; left: 35%; width: 60%; height: 120px; transform: rotate(8deg);}
+            .ds-frame-3 { top: 30%; left: 5%; width: 50%; height: 180px; transform: rotate(-3deg);}
+            .ds-frame-4 { top: 40%; left: 55%; width: 40%; height: 140px; transform: rotate(10deg);}
+            .ds-frame-5 { top: 65%; left: 15%; width: 70%; height: 160px; transform: rotate(5deg);}
+            .ds-frame-6 { top: 20%; left: 0%; width: 40%; height: 100px; transform: rotate(-10deg);}
+            .ds-frame-7 { top: 5%; left: 60%; width: 30%; height: 80px; transform: rotate(15deg);}
+
+            .doe-frame-1 { top: 0; left: 5%; width: 60%; height: 150px; transform: rotate(8deg); }
+            .doe-frame-2 { top: 10%; left: 35%; width: 60%; height: 120px; transform: rotate(-6deg); }
+            .doe-frame-3 { top: 30%; left: 5%; width: 50%; height: 180px; transform: rotate(3deg); }
+            .doe-frame-4 { top: 40%; left: 55%; width: 40%; height: 140px; transform: rotate(-10deg); }
+            .doe-frame-5 { top: 65%; left: 15%; width: 70%; height: 160px; transform: rotate(12deg); }
         }
         
         /* Animasi */
