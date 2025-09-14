@@ -22,62 +22,68 @@
             line-height: 1.5;
         }
         
-        /* Gaya Carousel */
-        .carousel-container {
-            overflow: hidden;
-            width: 100%;
+        .image-collage-ds, .image-collage-doe {
             position: relative;
+            width: 100%;
+            height: 550px; /* Tinggi disesuaikan untuk tampilan kolase */
+            margin-bottom: 2rem;
         }
-        .carousel-track {
-            display: flex;
-            width: max-content;
-            animation: scroll-x 30s linear infinite;
-        }
-        .carousel-item {
-            flex-shrink: 0;
-            width: 300px;
-            margin-right: 2rem;
-        }
-        .carousel-item img {
-            border-radius: 1rem;
+        .collage-frame {
+            position: absolute;
+            background-color: #f8f8f8;
+            padding: 0.5rem;
+            border-radius: 0.75rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
         }
-        .carousel-item:hover img {
-            transform: scale(1.05);
+        .collage-frame:hover {
+            z-index: 10;
+            transform: scale(1.1) rotate(0deg) !important;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.5);
         }
-
-        .phone-frame {
-            border: 10px solid #222;
-            border-radius: 25px;
-            overflow: hidden;
-            width: 150px;
-            height: 300px;
-            margin: 0 auto;
-        }
-        
-        .image-container {
-            overflow: hidden;
-            border-radius: 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease-in-out;
-        }
-        .image-container:hover {
-            transform: scale(1.05);
+        .collage-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0.5rem;
         }
 
-        /* Animasi */
-        @keyframes scroll-x {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* Mengubah persentase untuk looping mulus */
-        }
+        /* Posisi dan rotasi gambar untuk Data Science */
+        .ds-frame-1 { top: 0; left: 5%; width: 45%; height: 250px; transform: rotate(-5deg); z-index: 5;}
+        .ds-frame-2 { top: 10%; left: 50%; width: 45%; height: 200px; transform: rotate(8deg); z-index: 6;}
+        .ds-frame-3 { top: 45%; left: 25%; width: 40%; height: 220px; transform: rotate(-3deg); z-index: 7;}
+        .ds-frame-4 { top: 60%; left: 60%; width: 30%; height: 180px; transform: rotate(10deg); z-index: 4;}
+        .ds-frame-5 { top: 70%; left: 0%; width: 40%; height: 200px; transform: rotate(5deg); z-index: 8;}
+        .ds-frame-6 { top: 30%; left: 0%; width: 25%; height: 150px; transform: rotate(-10deg); z-index: 3;}
+        .ds-frame-7 { top: 25%; left: 70%; width: 20%; height: 120px; transform: rotate(15deg); z-index: 2;}
 
-        @media (max-width: 1024px) {
-            .carousel-track {
-                animation-duration: 20s;
+        /* Posisi dan rotasi gambar untuk DevOps Engineer */
+        .doe-frame-1 { top: 0; left: 5%; width: 40%; height: 220px; transform: rotate(8deg); z-index: 5;}
+        .doe-frame-2 { top: 10%; left: 45%; width: 50%; height: 250px; transform: rotate(-6deg); z-index: 6;}
+        .doe-frame-3 { top: 40%; left: 0; width: 45%; height: 200px; transform: rotate(3deg); z-index: 7;}
+        .doe-frame-4 { top: 55%; left: 40%; width: 35%; height: 220px; transform: rotate(-10deg); z-index: 4;}
+        .doe-frame-5 { top: 70%; left: 70%; width: 25%; height: 150px; transform: rotate(12deg); z-index: 3;}
+
+        /* Responsif untuk Kolase */
+        @media (max-width: 768px) {
+            .image-collage-ds, .image-collage-doe {
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                position: static;
+                gap: 1rem;
+            }
+            .collage-frame {
+                position: static;
+                width: 90% !important;
+                height: auto !important;
+                transform: none !important;
+                margin: 0 auto;
             }
         }
         
+        /* Animasi */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -255,118 +261,48 @@
                 <!-- Data Science Showcase -->
                 <div>
                     <h3 class="text-2xl font-semibold text-center text-neutral-800 mb-6">Data Science</h3>
-                    <div class="carousel-container overflow-hidden rounded-xl shadow-2xl">
-                        <div class="carousel-track flex">
-                            <!-- Duplikasi gambar untuk loop -->
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-1.jfif" alt="MSIB Data Science 1" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-2.jfif" alt="MSIB Data Science 2" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-3.jfif" alt="MSIB Data Science 3" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-4.jfif" alt="MSIB Data Science 4" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-5.jfif" alt="MSIB Data Science 5" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-6.jfif" alt="MSIB Data Science 6" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-7.jfif" alt="MSIB Data Science 7" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-8.jfif" alt="MSIB Data Science 8" class="w-full h-auto">
-                            </div>
-                            <!-- Akhir duplikasi -->
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-1.jfif" alt="MSIB Data Science 1" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-2.jfif" alt="MSIB Data Science 2" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-3.jfif" alt="MSIB Data Science 3" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-4.jfif" alt="MSIB Data Science 4" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-5.jfif" alt="MSIB Data Science 5" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-6.jfif" alt="MSIB Data Science 6" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-7.jfif" alt="MSIB Data Science 7" class="w-full h-auto">
-                            </div>
-                            <div class="carousel-item p-4">
-                                <img src="/artifacts/msib-ds-8.jfif" alt="MSIB Data Science 8" class="w-full h-auto">
-                            </div>
+                    <div class="image-collage-ds relative h-[550px] w-full max-w-xl mx-auto">
+                        <div class="collage-frame ds-frame-1">
+                             <img src="/artifacts/msib-ds-1.jfif" alt="MSIB Documentation 1" class="w-full h-full">
+                        </div>
+                        <div class="collage-frame ds-frame-2">
+                             <img src="/artifacts/msib-ds-2.jfif" alt="MSIB Documentation 2" class="w-full h-full">
+                        </div>
+                        <div class="collage-frame ds-frame-3">
+                             <img src="/artifacts/msib-ds-3.jfif" alt="MSIB Documentation 3" class="w-full h-full">
+                        </div>
+                        <div class="collage-frame ds-frame-4">
+                             <img src="/artifacts/msib-ds-4.jfif" alt="MSIB Documentation 4" class="w-full h-full">
+                        </div>
+                        <div class="collage-frame ds-frame-5">
+                             <img src="/artifacts/msib-ds-5.jfif" alt="MSIB Documentation 5" class="w-full h-full">
+                        </div>
+                        <div class="collage-frame ds-frame-6">
+                             <img src="/artifacts/msib-ds-6.jfif" alt="MSIB Documentation 6" class="w-full h-full">
+                        </div>
+                        <div class="collage-frame ds-frame-7">
+                             <img src="/artifacts/msib-ds-7.jfif" alt="MSIB Documentation 7" class="w-full h-full">
                         </div>
                     </div>
                 </div>
                 <!-- DevOps Engineer Showcase -->
                 <div>
                     <h3 class="text-2xl font-semibold text-center text-neutral-800 mb-6">DevOps Engineer</h3>
-                    <div class="carousel-container overflow-hidden rounded-xl shadow-2xl">
-                         <div class="carousel-track flex">
-                            <!-- Duplikasi gambar untuk loop -->
-                            <div class="carousel-item p-4">
-                                <div class="phone-frame">
-                                    <img src="/artifacts/msib-doe-1.jfif" alt="DevOps Documentation 1" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <div class="phone-frame">
-                                    <img src="/artifacts/msib-doe-2.jfif" alt="DevOps Documentation 2" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <div class="phone-frame">
-                                    <img src="/artifacts/msib-doe-3.jfif" alt="DevOps Documentation 3" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <div class="phone-frame">
-                                    <img src="/artifacts/msib-doe-4.jfif" alt="DevOps Documentation 4" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <div class="phone-frame">
-                                    <img src="/artifacts/msib-doe-5.jfif" alt="DevOps Documentation 5" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            <!-- Akhir duplikasi -->
-                            <div class="carousel-item p-4">
-                                <div class="phone-frame">
-                                    <img src="/artifacts/msib-doe-1.jfif" alt="DevOps Documentation 1" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <div class="phone-frame">
-                                    <img src="/artifacts/msib-doe-2.jfif" alt="DevOps Documentation 2" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <div class="phone-frame">
-                                    <img src="/artifacts/msib-doe-3.jfif" alt="DevOps Documentation 3" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <div class="phone-frame">
-                                    <img src="/artifacts/msib-doe-4.jfif" alt="DevOps Documentation 4" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            <div class="carousel-item p-4">
-                                <div class="phone-frame">
-                                    <img src="/artifacts/msib-doe-5.jfif" alt="DevOps Documentation 5" class="w-full h-full object-cover">
-                                </div>
-                            </div>
+                    <div class="image-collage-doe relative h-[550px] w-full max-w-xl mx-auto">
+                        <div class="collage-frame doe-frame-1">
+                            <img src="/artifacts/msib-doe-1.jfif" alt="DevOps Documentation 1" class="w-full h-full">
+                        </div>
+                        <div class="collage-frame doe-frame-2">
+                            <img src="/artifacts/msib-doe-2.jfif" alt="DevOps Documentation 2" class="w-full h-full">
+                        </div>
+                        <div class="collage-frame doe-frame-3">
+                            <img src="/artifacts/msib-doe-3.jfif" alt="DevOps Documentation 3" class="w-full h-full">
+                        </div>
+                        <div class="collage-frame doe-frame-4">
+                            <img src="/artifacts/msib-doe-4.jfif" alt="DevOps Documentation 4" class="w-full h-full">
+                        </div>
+                        <div class="collage-frame doe-frame-5">
+                            <img src="/artifacts/msib-doe-5.jfif" alt="DevOps Documentation 5" class="w-full h-full">
                         </div>
                     </div>
                 </div>
