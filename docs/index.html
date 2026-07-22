@@ -3,486 +3,359 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio | Muhammad Zidan</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Muhammad Zidan | Portfolio</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Boxicons CDN (untuk ikon) -->
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
+    
+    <!-- Konfigurasi Tema Warna Psikologis (Trust & Growth) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#2563EB', // Trust & Logic
+                            emerald: '#10B981', // Innovation & Clarity
+                            dark: '#0F172A', // Professionalism
+                            light: '#F8FAFC' // Low Cognitive Load
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts: Inter (Clean, Modern Tech Font) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            @apply bg-neutral-100 text-neutral-800;
-        }
-        .text-justify {
-            text-align: justify;
-            line-height: 1.5;
-        }
-        
-        .image-collage-ds, .image-collage-doe {
-            position: relative;
-            width: 100%;
-            height: 550px;
-            margin-bottom: 2rem;
-        }
-        .collage-frame {
-            position: absolute;
-            background-color: #f8f8f8;
-            padding: 0.5rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            cursor: pointer;
-        }
-        .collage-frame:hover {
-            z-index: 10;
-            transform: scale(1.1) rotate(0deg) !important;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.5);
-        }
-        .collage-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
         }
 
-        /* Posisi dan rotasi gambar untuk Data Science */
-        .ds-frame-1 { top: 0; left: 5%; width: 45%; height: 250px; transform: rotate(-5deg); z-index: 5;}
-        .ds-frame-2 { top: 10%; left: 50%; width: 45%; height: 200px; transform: rotate(8deg); z-index: 6;}
-        .ds-frame-3 { top: 45%; left: 25%; width: 40%; height: 220px; transform: rotate(-3deg); z-index: 7;}
-        .ds-frame-4 { top: 60%; left: 60%; width: 30%; height: 180px; transform: rotate(10deg); z-index: 4;}
-        .ds-frame-5 { top: 70%; left: 0%; width: 40%; height: 200px; transform: rotate(5deg); z-index: 8;}
-        .ds-frame-6 { top: 30%; left: 0%; width: 25%; height: 150px; transform: rotate(-10deg); z-index: 3;}
-        .ds-frame-7 { top: 25%; left: 70%; width: 20%; height: 120px; transform: rotate(15deg); z-index: 2;}
-
-        /* Posisi dan rotasi gambar untuk DevOps Engineer */
-        .doe-frame-1 { top: 0; left: 5%; width: 40%; height: 220px; transform: rotate(8deg); z-index: 5;}
-        .doe-frame-2 { top: 10%; left: 45%; width: 50%; height: 250px; transform: rotate(-6deg); z-index: 6;}
-        .doe-frame-3 { top: 40%; left: 0; width: 45%; height: 200px; transform: rotate(3deg); z-index: 7;}
-        .doe-frame-4 { top: 55%; left: 40%; width: 35%; height: 220px; transform: rotate(-10deg); z-index: 4;}
-        .doe-frame-5 { top: 70%; left: 70%; width: 25%; height: 150px; transform: rotate(12deg); z-index: 3;}
-
-        /* Responsif untuk Kolase */
-        @media (max-width: 768px) {
-            .image-collage-ds, .image-collage-doe {
-                height: 800px; /* Tinggi kolase disesuaikan untuk mobile */
-            }
-            .ds-frame-1 { top: 0; left: 5%; width: 60%; height: 150px; transform: rotate(-5deg);}
-            .ds-frame-2 { top: 10%; left: 35%; width: 60%; height: 120px; transform: rotate(8deg);}
-            .ds-frame-3 { top: 30%; left: 5%; width: 50%; height: 180px; transform: rotate(-3deg);}
-            .ds-frame-4 { top: 40%; left: 55%; width: 40%; height: 140px; transform: rotate(10deg);}
-            .ds-frame-5 { top: 65%; left: 15%; width: 70%; height: 160px; transform: rotate(5deg);}
-            .ds-frame-6 { top: 20%; left: 0%; width: 40%; height: 100px; transform: rotate(-10deg);}
-            .ds-frame-7 { top: 5%; left: 60%; width: 30%; height: 80px; transform: rotate(15deg);}
-
-            .doe-frame-1 { top: 0; left: 5%; width: 60%; height: 150px; transform: rotate(8deg); }
-            .doe-frame-2 { top: 10%; left: 35%; width: 60%; height: 120px; transform: rotate(-6deg); }
-            .doe-frame-3 { top: 30%; left: 5%; width: 50%; height: 180px; transform: rotate(3deg); }
-            .doe-frame-4 { top: 40%; left: 55%; width: 40%; height: 140px; transform: rotate(-10deg); }
-            .doe-frame-5 { top: 65%; left: 15%; width: 70%; height: 160px; transform: rotate(12deg); }
+        /* Floating Navbar Glassmorphism */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        
-        /* Animasi */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-down { animation: fadeInDown 1s ease-out; }
-        .animate-fade-in-up { animation: fadeInUp 1s ease-out; }
 
+        /* Abstract Blob Profile Frame */
+        .blob-profile {
+            background-size: cover;
+            background-position: center center;
+            border: 4px solid transparent;
+            background-image: linear-gradient(white, white), linear-gradient(to right, #2563EB, #10B981);
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.2);
+            animation: morph 8s ease-in-out infinite;
+        }
+
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 70% 70% 30% / 30% 60% 40% 70%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+
+        /* Bento Box Hover Effect */
+        .bento-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
     </style>
 </head>
-<body>
+<body class="antialiased selection:bg-brand-blue selection:text-white">
 
-    <!-- ==================== Navbar ==================== -->
-    <nav id="main-navbar" class="fixed top-0 left-0 w-full z-50 bg-neutral-100/80 backdrop-blur-md transition-all duration-300 shadow-md">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#hero" class="text-2xl font-bold text-teal-600 hover:text-teal-400 transition-colors duration-300">Muhammad Zidan</a>
-            <div class="hidden md:flex space-x-6">
-                <a href="#about" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">About</a>
-                <a href="#education" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Education</a>
-                <a href="#msib" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Recap</a>
-                <a href="#skills" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Skills</a>
-                <a href="#projects" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Projects</a>
-                <a href="#contact" class="text-neutral-800 hover:text-teal-600 transition-colors duration-300">Contact</a>
+    <!-- ==================== Floating Navbar (Top Center) ==================== -->
+    <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[90%] md:w-[70%] max-w-4xl z-50 glass-nav shadow-lg rounded-full px-6 py-3 transition-all duration-300">
+        <div class="flex justify-between items-center">
+            <a href="#hero" class="text-lg font-bold tracking-tight text-brand-dark hover:text-brand-blue transition-colors">
+                MZ.
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                <a href="#about" class="hover:text-brand-blue transition-colors">About</a>
+                <a href="#skills" class="hover:text-brand-blue transition-colors">Expertise</a>
+                <a href="#projects" class="hover:text-brand-blue transition-colors">Projects</a>
             </div>
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-2xl text-neutral-800 hover:text-teal-600 transition-colors duration-300">
+
+            <a href="#contact" class="hidden md:block bg-brand-dark text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-brand-blue transition-colors">
+                Let's Talk
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-brand-dark">
                 <i class="bx bx-menu"></i>
             </button>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-neutral-100/90 py-4 text-center space-y-4 transition-all duration-300 ease-in-out transform">
-            <a href="#about" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">About</a>
-            <a href="#education" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Education</a>
-            <a href="#msib" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Recap</a>
-            <a href="#skills" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Skills</a>
-            <a href="#projects" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Projects</a>
-                <a href="#contact" class="block py-2 text-neutral-800 hover:text-teal-600 transition-colors duration-300">Contact</a>
+
+        <!-- Mobile Menu (Dropdown) -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 mt-3 w-full bg-white rounded-2xl shadow-xl border border-slate-100 p-4 flex flex-col space-y-4 text-center">
+            <a href="#about" class="text-slate-600 font-medium hover:text-brand-blue">About</a>
+            <a href="#skills" class="text-slate-600 font-medium hover:text-brand-blue">Expertise</a>
+            <a href="#projects" class="text-slate-600 font-medium hover:text-brand-blue">Projects</a>
+            <a href="#contact" class="bg-brand-dark text-white font-medium py-2 rounded-xl">Let's Talk</a>
         </div>
     </nav>
 
-    <!-- ==================== Hero Section ==================== -->
-    <header id="hero" class="relative min-h-screen flex items-center justify-center text-center p-6 bg-neutral-200 overflow-hidden">
-        <!-- Teks dan Tombol -->
-        <div class="relative z-20 flex flex-col items-center justify-center w-full max-w-2xl px-4">
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-neutral-800 mb-4 animate-fade-in-down">Hai, saya <span class="text-teal-600">Muhammad Zidan</span></h1>
-            <p class="text-lg sm:text-xl md:text-2xl text-neutral-600 mb-8 animate-fade-in-up">Data Scientist | Analytics | DevOps</p>
-            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="#projects" class="bg-teal-600 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-500 transition-transform duration-300 hover:scale-105 shadow-lg">View Projects</a>
-                <a href="/artifacts/CV_ATS_ZIDAN-ENGLISH.pdf" target="_blank" class="border border-teal-600 text-teal-600 font-bold py-3 px-8 rounded-full hover:bg-teal-600 hover:text-white transition-colors duration-300 hover:scale-105 shadow-lg">Download CV</a>
-                <a href="#contact" class="border border-teal-600 text-teal-600 font-bold py-3 px-8 rounded-full hover:bg-teal-600 hover:text-white transition-colors duration-300 hover:scale-105 shadow-lg">Contact Me</a>
-            </div>
-        </div>
-    </header>
+    <!-- Content Wrapper -->
+    <main class="pt-32 pb-20 px-6 sm:px-8 max-w-6xl mx-auto space-y-32">
 
-    <!-- ==================== About Me Section ==================== -->
-    <section id="about" class="py-20 px-6 bg-neutral-100">
-        <div class="container mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">About Me</h2>
-            <div class="flex flex-col md:flex-row items-center justify-center gap-12">
-                <!-- Foto Profil -->
-                <div class="w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden border-4 border-teal-600 shadow-2xl">
-                    <img src="/artifacts/uploaded_image_0cb081.png" alt="Foto Profil" class="w-full h-full object-cover object-top">
+        <!-- ==================== Hero Section ==================== -->
+        <section id="hero" class="flex flex-col-reverse md:flex-row items-center justify-between gap-12 mt-10">
+            <div class="flex-1 space-y-6 text-center md:text-left">
+                <div class="inline-block px-4 py-1.5 rounded-full bg-blue-50 text-brand-blue text-xs font-semibold tracking-wide uppercase border border-blue-100">
+                    Active Student & Tech Enthusiast
                 </div>
-                <!-- Deskripsi singkat dengan kata-kata tebal -->
-                <div class="max-w-xl text-center md:text-left">
-                    <p class="text-justify leading-relaxed text-lg text-neutral-600">
-                        Halo, saya <b>Muhammad Zidan</b>, mahasiswa undergraduate <b>Teknik Informatika</b> dengan minat utama di bidang <b>Data Science</b>, <b>Analytics</b>, dan <b>DevOps Engineering</b>. Saya memiliki <b>semangat</b> untuk terus <b>belajar</b> dan <b>mengeksplorasi</b> bagaimana <b>teknologi</b> dapat digunakan untuk <b>menyelesaikan masalah</b> nyata, meningkatkan <b>efisiensi</b>, serta membuka <b>peluang</b> baru dalam dunia <b>bisnis</b> maupun <b>akademik</b>.
+                <h1 class="text-4xl md:text-6xl font-extrabold text-brand-dark leading-tight tracking-tight">
+                    Translating Data into <br class="hidden md:block"/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-emerald">Actionable Impact.</span>
+                </h1>
+                <p class="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto md:mx-0">
+                    Hi, I'm <b>Muhammad Zidan</b>. An Informatics Engineering student focused on Data Science, Analytics, and infrastructure. I build robust data models and hardware-software integrations to solve real-world problems.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4">
+                    <a href="#projects" class="w-full sm:w-auto bg-brand-dark text-white px-8 py-3.5 rounded-full font-medium hover:bg-brand-blue transition-colors shadow-lg hover:shadow-blue-500/30">
+                        Explore My Work
+                    </a>
+                    <a href="/artifacts/CV_ATS_ZIDAN-ENGLISH.pdf" target="_blank" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-brand-dark border border-slate-200 px-8 py-3.5 rounded-full font-medium hover:border-slate-300 hover:bg-slate-50 transition-colors">
+                        <i class='bx bx-download text-lg'></i> Resume
+                    </a>
+                </div>
+            </div>
+
+            <!-- Abstract Blob Profile -->
+            <div class="flex-shrink-0 relative w-64 h-64 md:w-80 md:h-80 xl:w-96 xl:h-96 mx-auto">
+                <div class="absolute inset-0 bg-gradient-to-r from-brand-blue to-brand-emerald blur-2xl opacity-20 rounded-full"></div>
+                <!-- EDIT: Pastikan path gambar Anda benar -->
+                <img src="/artifacts/uploaded_image_0cb081.png" alt="Muhammad Zidan" class="relative w-full h-full object-cover object-top blob-profile p-1 bg-white z-10">
+            </div>
+        </section>
+
+        <!-- ==================== Expertise / Skills (Bento Box Design) ==================== -->
+        <section id="skills" class="space-y-10">
+            <div class="text-center space-y-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-brand-dark">Technical Arsenal</h2>
+                <p class="text-slate-500 max-w-xl mx-auto">A blend of analytical mindset and engineering capabilities.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Data & Analytics -->
+                <div class="bento-card bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-brand-blue text-2xl mb-6">
+                        <i class='bx bx-data'></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-dark mb-3">Data & Analytics</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Extracting patterns from raw data using statistical methods and machine learning algorithms.
                     </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== Education Section ==================== -->
-    <section id="education" class="py-20 px-6 bg-neutral-200">
-        <div class="container mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">Education & Certifications</h2>
-            <div class="flex flex-col lg:flex-row items-start justify-center gap-8">
-                <!-- Education -->
-                <div class="w-full lg:w-1/2 bg-white p-8 rounded-lg shadow-xl">
-                    <h3 class="text-2xl font-semibold text-neutral-800 mb-4 text-center">Formal Education</h3>
-                    <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-                        <!-- Logo STT-NF -->
-                        <div class="w-24 h-24 md:w-32 md:h-32">
-                            <img src="/artifacts/uploaded_image_0c2a39.png" alt="Logo STT-NF" class="w-full h-full object-contain">
-                        </div>
-                        <div class="text-center md:text-left">
-                            <h4 class="text-2xl font-semibold text-neutral-800">Sekolah Tinggi Teknologi Terpadu Nurul Fikri</h4>
-                            <p class="text-lg text-neutral-600">Informatics Engineering</p>
-                            <p class="text-md text-neutral-500">Focus: Data Science, Analytics, and DevOps Engineering</p>
-                        </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-slate-50 text-slate-700 text-xs rounded-lg border border-slate-100">KNIME Analytics</span>
+                        <span class="px-3 py-1 bg-slate-50 text-slate-700 text-xs rounded-lg border border-slate-100">Python</span>
+                        <span class="px-3 py-1 bg-slate-50 text-slate-700 text-xs rounded-lg border border-slate-100">SQL</span>
                     </div>
                 </div>
-                <!-- Certifications -->
-                <div class="w-full lg:w-1/2 bg-white p-8 rounded-lg shadow-xl">
-                    <h3 class="text-2xl font-semibold text-neutral-800 mb-4 text-center">Certifications</h3>
-                    <div class="grid grid-cols-1 gap-6">
-                        <!-- Sertifikasi Studi Independen NF Academy -->
-                        <div class="flex flex-col sm:flex-row items-center space-x-4 p-4 bg-neutral-100 rounded-lg shadow-md">
-                            <div class="flex-shrink-0 flex items-center justify-center w-12 h-12">
-                                <img src="/artifacts/image_c87d19.png" alt="NF Academy Logo" class="w-full h-full object-contain">
-                            </div>
-                            <div class="flex-grow text-center sm:text-left">
-                                <h4 class="font-bold text-neutral-800">Codeless Data Science</h4>
-                                <p class="text-sm text-neutral-600">NURUL FIKRI ACADEMY</p>
-                            </div>
-                            <a href="/artifacts/Sertifikat Muhammad Zidan - SIB  Codeless Data Science - NF Academy.pdf" target="_blank" class="mt-2 sm:mt-0 bg-teal-600 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-500 transition-colors duration-300">Lihat</a>
-                        </div>
-                        <div class="flex flex-col sm:flex-row items-center space-x-4 p-4 bg-neutral-100 rounded-lg shadow-md">
-                            <div class="flex-shrink-0 flex items-center justify-center w-12 h-12">
-                                <img src="/artifacts/image_c87d19.png" alt="NF Academy Logo" class="w-full h-full object-contain">
-                            </div>
-                            <div class="flex-grow text-center sm:text-left">
-                                <h4 class="font-bold text-neutral-800">DevOps Engineer</h4>
-                                <p class="text-sm text-neutral-600">NURUL FIKRI ACADEMY</p>
-                            </div>
-                            <a href="/artifacts/Sertifikat Muhammad Zidan - SIB  DevOps Engineer - NF Academy.pdf" target="_blank" class="mt-2 sm:mt-0 bg-teal-600 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-500 transition-colors duration-300">Lihat</a>
-                        </div>
-                         <!-- Sertifikasi Dicoding -->
-                         <div class="flex flex-col sm:flex-row items-center space-x-4 p-4 bg-neutral-100 rounded-lg shadow-md">
-                            <div class="flex-shrink-0 flex items-center justify-center w-12 h-12">
-                                <i class="bx bxs-check-circle text-3xl text-teal-600"></i>
-                            </div>
-                            <div class="flex-grow text-center sm:text-left">
-                                <h4 class="font-bold text-neutral-800">Belajar Dasar Visualisasi Data</h4>
-                                <p class="text-sm text-neutral-600">Dicoding</p>
-                            </div>
-                            <a href="/artifacts/sertifikat_course_177_3926793_240624194735.pdf" target="_blank" class="mt-2 sm:mt-0 bg-teal-600 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-500 transition-colors duration-300">Lihat</a>
-                        </div>
-                         <!-- Sertifikasi lainnya -->
-                        <div class="flex flex-col sm:flex-row items-center space-x-4 p-4 bg-neutral-100 rounded-lg shadow-md">
-                            <div class="flex-shrink-0 flex items-center justify-center w-12 h-12">
-                                <i class="bx bxs-server text-3xl text-teal-600"></i>
-                            </div>
-                            <div class="flex-grow text-center sm:text-left">
-                                <h4 class="font-bold text-neutral-800">Webinar: Full Stack Developer</h4>
-                                <p class="text-sm text-neutral-600">Staditek</p>
-                            </div>
-                            <a href="/artifacts/Muhammad Zidan.pdf" target="_blank" class="mt-2 sm:mt-0 bg-teal-600 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-500 transition-colors duration-300">Lihat</a>
-                        </div>
-                        <div class="flex flex-col sm:flex-row items-center space-x-4 p-4 bg-neutral-100 rounded-lg shadow-md">
-                            <div class="flex-shrink-0 flex items-center justify-center w-12 h-12">
-                                <i class="bx bx-trending-up text-3xl text-teal-600"></i>
-                            </div>
-                            <div class="flex-grow text-center sm:text-left">
-                                <h4 class="font-bold text-neutral-800">Intro to Digital Marketing</h4>
-                                <p class="text-sm text-neutral-600">RevoU</p>
-                            </div>
-                            <a href="/artifacts/muhammad-zidan-certificate-completion-dmmc22.pdf" target="_blank" class="mt-2 sm:mt-0 bg-teal-600 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-500 transition-colors duration-300">Lihat</a>
-                        </div>
-                         <div class="flex flex-col sm:flex-row items-center space-x-4 p-4 bg-neutral-100 rounded-lg shadow-md">
-                            <div class="flex-shrink-0 flex items-center justify-center w-12 h-12">
-                                <i class='bx bx-bar-chart-alt-2 text-3xl text-teal-600'></i>
-                            </div>
-                            <div class="flex-grow text-center sm:text-left">
-                                <h4 class="font-bold text-neutral-800">Basic Proficiency in KNIME Analytics Platform</h4>
-                                <p class="text-sm text-neutral-600">KNIME</p>
-                            </div>
-                            <a href="/artifacts/Basic_Proficiency_in_KNIME_Analytics_Platform_Badge20241108-26-ju8365.pdf" target="_blank" class="mt-2 sm:mt-0 bg-teal-600 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-500 transition-colors duration-300">Lihat</a>
-                        </div>
+
+                <!-- Engineering & IoT -->
+                <div class="bento-card bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-brand-emerald text-2xl mb-6">
+                        <i class='bx bx-chip'></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-dark mb-3">Engineering & IoT</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Bridging hardware and software. Developing responsive dashboards and microcontroller systems.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-slate-50 text-slate-700 text-xs rounded-lg border border-slate-100">NodeMCU</span>
+                        <span class="px-3 py-1 bg-slate-50 text-slate-700 text-xs rounded-lg border border-slate-100">Web Dashboard</span>
+                        <span class="px-3 py-1 bg-slate-50 text-slate-700 text-xs rounded-lg border border-slate-100">Automation</span>
+                    </div>
+                </div>
+
+                <!-- Infrastructure & Operations -->
+                <div class="bento-card bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+                    <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-800 text-2xl mb-6">
+                        <i class='bx bx-server'></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-brand-dark mb-3">DevOps & Cloud</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Understanding modern deployment pipelines, cloud environments, and scalable architecture.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-slate-50 text-slate-700 text-xs rounded-lg border border-slate-100">DevOps Principles</span>
+                        <span class="px-3 py-1 bg-slate-50 text-slate-700 text-xs rounded-lg border border-slate-100">Cloud Computing</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- ==================== MSIB Experience Section ==================== -->
-    <section id="msib" class="py-20 px-6 bg-neutral-100">
-        <div class="container mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">Etalase MSIB</h2>
-            <div class="image-collage-ds">
-                <div class="collage-frame ds-frame-1">
-                     <img src="/artifacts/msib-ds-1.jfif" alt="MSIB Documentation 1" class="w-full h-full">
-                </div>
-                <div class="collage-frame ds-frame-2">
-                     <img src="/artifacts/msib-ds-2.jfif" alt="MSIB Documentation 2" class="w-full h-full">
-                </div>
-                <div class="collage-frame ds-frame-3">
-                     <img src="/artifacts/msib-ds-3.jfif" alt="MSIB Documentation 3" class="w-full h-full">
-                </div>
-                <div class="collage-frame ds-frame-4">
-                     <img src="/artifacts/msib-ds-4.jfif" alt="MSIB Documentation 4" class="w-full h-full">
-                </div>
-                <div class="collage-frame ds-frame-5">
-                     <img src="/artifacts/msib-ds-5.jfif" alt="MSIB Documentation 5" class="w-full h-full">
-                </div>
-                <div class="collage-frame ds-frame-6">
-                     <img src="/artifacts/msib-ds-6.jfif" alt="MSIB Documentation 6" class="w-full h-full">
-                </div>
-                <div class="collage-frame ds-frame-7">
-                     <img src="/artifacts/msib-ds-7.jfif" alt="MSIB Documentation 7" class="w-full h-full">
-                </div>
-            </div>
-            <div class="image-collage-doe">
-                <div class="collage-frame doe-frame-1">
-                    <img src="/artifacts/msib-doe-1.jfif" alt="DevOps Documentation 1" class="w-full h-full">
-                </div>
-                <div class="collage-frame doe-frame-2">
-                    <img src="/artifacts/msib-doe-2.jfif" alt="DevOps Documentation 2" class="w-full h-full">
-                </div>
-                <div class="collage-frame doe-frame-3">
-                    <img src="/artifacts/msib-doe-3.jfif" alt="DevOps Documentation 3" class="w-full h-full">
-                </div>
-                <div class="collage-frame doe-frame-4">
-                    <img src="/artifacts/msib-doe-4.jfif" alt="DevOps Documentation 4" class="w-full h-full">
-                </div>
-                <div class="collage-frame doe-frame-5">
-                    <img src="/artifacts/msib-doe-5.jfif" alt="DevOps Documentation 5" class="w-full h-full">
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ==================== Skills Section ==================== -->
-    <section id="skills" class="py-20 px-6 bg-neutral-100">
-        <div class="container mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">My Skills</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-12">
-                <!-- Technical Skills -->
+        <!-- ==================== Featured Projects ==================== -->
+        <section id="projects" class="space-y-10">
+            <div class="flex flex-col sm:flex-row justify-between items-end gap-4 border-b border-slate-200 pb-6">
                 <div>
-                    <h3 class="text-2xl font-semibold mb-6 text-center text-neutral-800">Technical Skills</h3>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                        <!-- EDIT: Tambahkan atau ubah Technical Skills Anda -->
-                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                            <i class='bx bxl-python text-5xl text-teal-600 mb-2'></i>
-                            <span class="text-sm text-neutral-700">Python</span>
-                        </div>
-                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                            <i class='bx bxs-bar-chart-alt-2 text-5xl text-teal-600 mb-2'></i>
-                            <span class="text-sm text-neutral-700 text-center">Data Visualization</span>
-                        </div>
-                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                            <i class='bx bx-data text-5xl text-teal-600 mb-2'></i>
-                            <span class="text-sm text-neutral-700">SQL</span>
-                        </div>
-                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                            <i class='bx bxs-cloud-upload text-5xl text-teal-600 mb-2'></i>
-                            <span class="text-sm text-neutral-700">Cloud Computing</span>
-                        </div>
-                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                            <i class='bx bxs-analyse text-5xl text-teal-600 mb-2'></i>
-                            <span class="text-sm text-neutral-700">Machine Learning</span>
-                        </div>
-                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                            <i class='bx bxs-spreadsheet text-5xl text-teal-600 mb-2'></i>
-                            <span class="text-sm text-neutral-700">Big Data</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Personal Skills -->
-                <div>
-                    <h3 class="text-2xl font-semibold mb-6 text-center text-neutral-800">Personal Skills</h3>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                        <!-- EDIT: Tambahkan atau ubah Personal Skills Anda -->
-                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                            <i class='bx bx-analyse text-5xl text-teal-600 mb-2'></i>
-                            <span class="text-sm text-neutral-700 text-center">Problem Solving</span>
-                        </div>
-                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                            <i class='bx bxs-group text-5xl text-teal-600 mb-2'></i>
-                            <span class="text-sm text-neutral-700">Teamwork</span>
-                        </div>
-                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                            <i class='bx bx-brain text-5xl text-teal-600 mb-2'></i>
-                            <span class="text-sm text-neutral-700">Critical Thinking</span>
-                        </div>
-                        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                            <i class='bx bx-book-open text-5xl text-teal-600 mb-2'></i>
-                            <span class="text-sm text-neutral-700">Fast Learner</span>
-                        </div>
-                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-dark">Featured Case Studies</h2>
+                    <p class="text-slate-500 mt-2">Real-world problem solving and implementations.</p>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- ==================== Projects Section ==================== -->
-    <section id="projects" class="py-20 px-6 bg-neutral-200">
-        <div class="container mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">My Projects</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Project 1: Bun Haven -->
-                <div class="bg-white rounded-lg p-6 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-transform duration-300">
-                    <h3 class="text-xl font-bold mb-2 text-teal-600">Strategi Wirausaha Toko Roti Bun Haven untuk Optimasi Penjualan dengan Metode Association dan Algoritma A-priori</h3>
-                    <p class="text-sm font-semibold text-neutral-500 mb-4">Tools: KNIME Analytics Platform</p>
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <img src="/artifacts/image_d69916.png" alt="Bun Haven Project Image 1" class="rounded-lg shadow-md w-full">
-                        <img src="/artifacts/image_d698d6.png" alt="Bun Haven Project Image 2" class="rounded-lg shadow-md w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Project 1 -->
+                <div class="group bento-card bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm flex flex-col">
+                    <div class="h-56 bg-slate-100 overflow-hidden relative">
+                        <!-- Ganti src dengan gambar aktual dari artifacts Anda -->
+                        <img src="/artifacts/image_d69916.png" alt="Bun Haven Analytics" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
-                    <div class="flex gap-4">
-                        <a href="project-bunhaven.html" class="bg-neutral-800 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-600 hover:text-white transition-colors duration-300">
-                            <i class='bx bx-detail mr-2'></i>Detail
-                        </a>
-                        <a href="https://www.canva.com/design/DAGaHk3gOHE/tyTtoFILBHLljz7mRhCPEw/edit?success=true&continue_in_browser=true" target="_blank" class="bg-neutral-800 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-600 hover:text-white transition-colors duration-300">
-                            <i class="bx bx-link-external mr-2"></i>Demo
-                        </a>
-                    </div>
-                </div>
-                <!-- Project 2: Analisis Penjualan Amazon -->
-                <div class="bg-white rounded-lg p-6 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-transform duration-300">
-                    <h3 class="text-xl font-bold mb-2 text-teal-600">Analisis Laporan Penjualan Amazon</h3>
-                    <p class="text-sm font-semibold text-neutral-500 mb-4">Tools: KNIME Analytics Platform</p>
-                    <div class="grid grid-cols-1 gap-4 mb-4">
-                        <img src="/artifacts/image_d3e5a3.png" alt="Amazon Project Image" class="rounded-lg shadow-md w-full">
-                    </div>
-                    <div class="flex gap-4">
-                        <a href="project-amazon.html" class="bg-neutral-800 text-white py-2 px-4 rounded-full text-sm hover:bg-teal-600 hover:text-white transition-colors duration-300">
-                            <i class='bx bx-detail mr-2'></i>Detail
+                    <div class="p-8 flex flex-col flex-grow">
+                        <div class="flex gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-50 text-brand-blue text-xs font-semibold rounded-full">Data Mining</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full">KNIME</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-brand-dark mb-3">Bun Haven Bakery Sales Optimization</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
+                            Designed a business strategy utilizing Association Rules and the Apriori algorithm to identify purchasing patterns, resulting in data-driven recommendations for product bundling and store layout optimization.
+                        </p>
+                        <a href="project-bunhaven.html" class="inline-flex items-center text-brand-blue font-semibold hover:text-brand-dark transition-colors">
+                            Read Case Study <i class='bx bx-right-arrow-alt ml-2 text-xl'></i>
                         </a>
                     </div>
                 </div>
-                <!-- Project 3 -->
-                <div class="bg-white rounded-lg p-6 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-transform duration-300">
-                    <div class="h-40 flex flex-col items-center justify-center text-center">
-                        <i class='bx bx-loader-alt bx-spin text-5xl text-teal-600 mb-4'></i>
-                        <h3 class="text-xl font-bold text-neutral-800">Project Sedang Dikerjakan...</h3>
-                        <p class="text-sm text-neutral-600 mt-2">Nantikan proyek menarik lainnya dari saya!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- ==================== Contact Section ==================== -->
-    <section id="contact" class="py-20 px-6 bg-neutral-100">
-        <div class="container mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-bold text-center text-teal-600 mb-12">Get In Touch</h2>
-            <div class="flex flex-col md:flex-row items-start justify-center gap-12">
-                <!-- Contact Form -->
-                <div class="w-full max-w-lg bg-white p-8 rounded-lg shadow-xl">
-                    <h3 class="text-xl font-semibold mb-6 text-neutral-800">Send me a message</h3>
-                    <!-- Form ini sekarang mengarahkan ke email Anda -->
-                    <form action="mailto:jidan1307@gmail.com" method="POST" enctype="text/plain">
-                        <div class="mb-4">
-                            <label for="name" class="block text-sm font-medium mb-1 text-neutral-700">Nama Lengkap</label>
-                            <input type="text" id="name" name="Nama" class="w-full p-3 bg-neutral-100 rounded-lg border border-neutral-300 focus:outline-none focus:border-teal-600 text-neutral-800 placeholder-neutral-500 transition-colors duration-300">
+                <!-- Project 2 -->
+                <div class="group bento-card bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm flex flex-col">
+                    <div class="h-56 bg-slate-100 overflow-hidden relative">
+                        <img src="/artifacts/image_d3e5a3.png" alt="Amazon Sales Analysis" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <div class="flex gap-2 mb-4">
+                            <span class="px-3 py-1 bg-emerald-50 text-brand-emerald text-xs font-semibold rounded-full">Machine Learning</span>
+                            <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full">KNIME</span>
                         </div>
-                        <div class="mb-4">
-                            <label for="email" class="block text-sm font-medium mb-1 text-neutral-700">Email</label>
-                            <input type="email" id="email" name="Email" class="w-full p-3 bg-neutral-100 rounded-lg border border-neutral-300 focus:outline-none focus:border-teal-600 text-neutral-800 placeholder-neutral-500 transition-colors duration-300">
-                        </div>
-                        <div class="mb-4">
-                            <label for="message" class="block text-sm font-medium mb-1 text-neutral-700">Pesan</label>
-                            <textarea id="message" name="Pesan" rows="4" class="w-full p-3 bg-neutral-100 rounded-lg border border-neutral-300 focus:outline-none focus:border-border-teal-600 text-neutral-800 placeholder-neutral-500 transition-colors duration-300"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 px-6 rounded-full hover:bg-teal-500 transition-colors duration-300 shadow-md">Kirim Pesan</button>
-                    </form>
-                </div>
-                <!-- Social Links -->
-                <div class="w-full max-w-sm">
-                    <h3 class="text-xl font-semibold mb-6 text-neutral-800">Find me on</h3>
-                    <div class="flex flex-col space-y-4">
-                        <!-- EDIT: Ganti tautan sosial media Anda -->
-                        <a href="https://www.linkedin.com/in/muhammad-zidan-849a1a251/" target="_blank" class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md hover:bg-teal-600 hover:text-white transition-colors duration-300">
-                            <i class='bx bxl-linkedin-square text-3xl'></i>
-                            <span class="font-medium">LinkedIn</span>
-                        </a>
-                        <a href="https://www.instagram.com/zdn2231/?__pwa=1" target="_blank" class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md hover:bg-teal-600 hover:text-white transition-colors duration-300">
-                            <i class='bx bxl-instagram text-3xl'></i>
-                            <span class="font-medium">Instagram</span>
-                        </a>
-                        <a href="https://wa.me/6285711457917" target="_blank" class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md hover:bg-teal-600 hover:text-white transition-colors duration-300">
-                            <i class='bx bxl-whatsapp text-3xl'></i>
-                            <span class="font-medium">WhatsApp</span>
-                        </a>
-                        <a href="mailto:jidan1307@gmail.com" target="_blank" class="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md hover:bg-teal-600 hover:text-white transition-colors duration-300">
-                            <i class='bx bx-envelope text-3xl'></i>
-                            <span class="font-medium">Email</span>
+                        <h3 class="text-2xl font-bold text-brand-dark mb-3">Amazon Sales Report Analysis</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
+                            Structured raw sales data and developed predictive models using Random Forest (99.78% accuracy) and Decision Tree algorithms to forecast delivery statuses and optimize fulfillment strategies.
+                        </p>
+                        <a href="project-amazon.html" class="inline-flex items-center text-brand-blue font-semibold hover:text-brand-dark transition-colors">
+                            Read Case Study <i class='bx bx-right-arrow-alt ml-2 text-xl'></i>
                         </a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="py-6 bg-neutral-900 text-center text-neutral-400 text-sm">
-        &copy; 2025 Muhammad Zidan. All Rights Reserved.
+        <!-- ==================== Education & Certifications ==================== -->
+        <section id="education" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Education -->
+            <div class="space-y-6">
+                <h2 class="text-2xl font-bold text-brand-dark flex items-center gap-2">
+                    <i class='bx bxs-graduation text-brand-blue'></i> Academic Background
+                </h2>
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex gap-4">
+                    <div class="w-16 h-16 rounded-xl bg-slate-50 flex-shrink-0 flex items-center justify-center border border-slate-100 p-2">
+                         <img src="/artifacts/uploaded_image_0c2a39.png" alt="STT-NF" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-brand-dark text-lg">STT Terpadu Nurul Fikri</h3>
+                        <p class="text-slate-600 font-medium text-sm">Informatics Engineering</p>
+                        <p class="text-slate-400 text-sm mt-1">Expected Graduation: 2026</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="space-y-6">
+                <h2 class="text-2xl font-bold text-brand-dark flex items-center gap-2">
+                    <i class='bx bx-certification text-brand-emerald'></i> Certifications
+                </h2>
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex justify-between items-center group hover:border-brand-blue transition-colors">
+                        <div>
+                            <h4 class="font-bold text-brand-dark text-sm">Codeless Data Science</h4>
+                            <p class="text-xs text-slate-500">Nurul Fikri Academy, 2024</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex justify-between items-center group hover:border-brand-blue transition-colors">
+                        <div>
+                            <h4 class="font-bold text-brand-dark text-sm">DevOps Engineer</h4>
+                            <p class="text-xs text-slate-500">Nurul Fikri Academy, 2025</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex justify-between items-center group hover:border-brand-blue transition-colors">
+                        <div>
+                            <h4 class="font-bold text-brand-dark text-sm">Basic Proficiency in KNIME</h4>
+                            <p class="text-xs text-slate-500">KNIME, 2024</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== Contact / Footer CTA ==================== -->
+        <section id="contact" class="bg-brand-dark rounded-3xl p-10 md:p-16 text-center space-y-6 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-brand-blue rounded-full blur-3xl opacity-30"></div>
+            <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-brand-emerald rounded-full blur-3xl opacity-20"></div>
+            
+            <div class="relative z-10 space-y-6 max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight">Ready to build something impactful?</h2>
+                <p class="text-slate-300 text-lg">
+                    I am actively seeking collaboration, apprenticeship, and professional opportunities where tech meets business logic.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 pt-4">
+                    <a href="https://wa.me/6285711457917" target="_blank" class="bg-brand-emerald text-white px-8 py-3 rounded-full font-medium hover:bg-emerald-400 transition-colors shadow-lg flex items-center gap-2">
+                        <i class='bx bxl-whatsapp text-xl'></i> WhatsApp
+                    </a>
+                    <a href="https://www.linkedin.com/in/muhammad-zidan-849a1a251/" target="_blank" class="bg-[#0A66C2] text-white px-8 py-3 rounded-full font-medium hover:bg-blue-600 transition-colors shadow-lg flex items-center gap-2">
+                        <i class='bx bxl-linkedin text-xl'></i> LinkedIn
+                    </a>
+                </div>
+                <div class="pt-8">
+                     <p class="text-slate-400 text-sm">Alternatively, drop an email to: <a href="mailto:jidan1307@gmail.com" class="text-white hover:underline">jidan1307@gmail.com</a></p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 text-slate-400 text-sm font-medium">
+        &copy; 2026 Muhammad Zidan. Engineered for clarity.
     </footer>
 
+    <!-- Script for Mobile Menu -->
     <script>
-        // JavaScript untuk mobile menu
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            const icon = this.querySelector('i');
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = btn.querySelector('i');
+
+        btn.addEventListener('click', () => {
             menu.classList.toggle('hidden');
-            icon.classList.toggle('bx-menu');
-            icon.classList.toggle('bx-x');
+            if(menu.classList.contains('hidden')) {
+                icon.classList.replace('bx-x', 'bx-menu');
+            } else {
+                icon.classList.replace('bx-menu', 'bx-x');
+            }
         });
+
+        // Close menu on link click
         document.querySelectorAll('#mobile-menu a').forEach(link => {
             link.addEventListener('click', () => {
-                document.getElementById('mobile-menu').classList.add('hidden');
-                document.getElementById('mobile-menu-btn').querySelector('i').classList.remove('bx-x');
-                document.getElementById('mobile-menu-btn').querySelector('i').classList.add('bx-menu');
+                menu.classList.add('hidden');
+                icon.classList.replace('bx-x', 'bx-menu');
             });
         });
     </script>
