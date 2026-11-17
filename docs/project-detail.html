@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Proyek - MZ.</title>
+    <!-- Gunakan Tailwind CDN untuk kemudahan styling halaman dinamis -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Styling khusus agar output dari CKEditor (Tabel, Heading, List) tampil rapi */
+        .rich-text h1, .rich-text h2, .rich-text h3 { color: #0f766e; font-weight: bold; margin-top: 1.5em; margin-bottom: 0.5em; }
+        .rich-text h2 { font-size: 1.5rem; }
+        .rich-text h3 { font-size: 1.25rem; }
+        .rich-text p { margin-bottom: 1em; line-height: 1.7; color: #334155; }
+        .rich-text ul { list-style-type: disc; margin-left: 1.5em; margin-bottom: 1em; }
+        .rich-text ol { list-style-type: decimal; margin-left: 1.5em; margin-bottom: 1em; }
+        .rich-text table { width: 100%; border-collapse: collapse; margin-bottom: 1.5em; font-size: 0.9rem; }
+        .rich-text th, .rich-text td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
+        .rich-text th { background-color: #f1f5f9; font-weight: bold; color: #1e293b; }
+        .rich-text strong { font-weight: 600; color: #0f172a; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Header Judul -->
+    <header class="bg-slate-100 py-16 border-b border-slate-200 text-center px-4">
+        <div class="max-w-4xl mx-auto">
+            <h1 id="page-title" class="text-3xl md:text-5xl font-bold text-teal-600 mb-4">Memuat Judul...</h1>
+            <p class="text-slate-500">Dibuat oleh: Muhammad Zidan</p>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <main class="max-w-4xl mx-auto py-12 px-6 bg-white shadow-sm min-h-screen">
+        
+        <!-- Area Konten Artikel (Dari CKEditor) -->
+        <div id="page-content" class="rich-text mb-16">
+            <p class="text-center text-slate-400">Sedang memuat konten studi kasus...</p>
+        </div>
+
+        <!-- Area Galeri Dokumentasi -->
+        <div id="gallery-section" class="hidden">
+            <h2 class="text-2xl font-bold text-teal-600 text-center mb-8">Dokumentasi Proyek</h2>
+            <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Gambar galeri akan dimuat di sini -->
+            </div>
+        </div>
+
+        <!-- Tombol PDF & Kembali -->
+        <div class="mt-16 pt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <a href="index.html" class="text-slate-500 hover:text-teal-600 transition-colors font-medium">&larr; Kembali ke Beranda</a>
+            <div id="action-buttons" class="flex gap-4">
+                <!-- Tombol PDF akan muncul di sini jika ada -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Script Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
+        const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function loadProjectDetails() {
+            // 1. Ambil ID dari URL (contoh: project-detail.html?id=123)
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('id');
+
+            if (!projectId) {
+                document.getElementById('page-title').innerText = "Proyek Tidak Ditemukan";
+                document.getElementById('page-content').innerHTML = "<p>URL tidak valid.</p>";
+                return;
+            }
+
+            // 2. Tarik data dari database berdasarkan ID
+            const { data, error } = await supabaseClient.from('projects').select('*').eq('id', projectId).single();
+
+            if (error || !data) {
+                document.getElementById('page-title').innerText = "Gagal Memuat Proyek";
+                document.getElementById('page-content').innerHTML = `<p>${error?.message || 'Data kosong'}</p>`;
+                return;
+            }
+
+            // 3. Render Judul & Konten Teks
+            document.getElementById('page-title').innerText = data.title;
+            document.getElementById('page-content').innerHTML = data.content || "<p>Belum ada detail untuk proyek ini.</p>";
+
+            // 4. Render Tombol Eksternal / PDF
+            const actionContainer = document.getElementById('action-buttons');
+            if (data.pdf_url) {
+                actionContainer.innerHTML += `<a href="${data.pdf_url}" target="_blank" class="px-6 py-2 bg-teal-600 text-white rounded-full font-medium hover:bg-teal-700 transition-colors">Buka PDF</a>`;
+            }
+            if (data.link) {
+                let finalUrl = data.link.startsWith('http') ? data.link : 'https://' + data.link;
+                actionContainer.innerHTML += `<a href="${finalUrl}" target="_blank" class="px-6 py-2 border border-slate-300 text-slate-700 rounded-full font-medium hover:bg-slate-50 transition-colors">Kunjungi Link</a>`;
+            }
+
+            // 5. Render Galeri Gambar
+            if (data.gallery && data.gallery.length > 0) {
+                document.getElementById('gallery-section').classList.remove('hidden');
+                const grid = document.getElementById('gallery-grid');
+                
+                data.gallery.forEach(item => {
+                    grid.innerHTML += `
+                        <div class="bg-white rounded-xl overflow-hidden border border-slate-100 shadow-sm flex flex-col">
+                            <div class="h-64 bg-slate-50 overflow-hidden flex items-center justify-center p-4">
+                                <img src="${item.image_url}" alt="Dokumentasi" class="max-w-full max-h-full object-contain">
+                            </div>
+                            <div class="p-4 text-center border-t border-slate-50">
+                                <p class="text-sm text-slate-600">${item.caption || 'Tanpa keterangan'}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProjectDetails);
+    </script>
+</body>
+</html>

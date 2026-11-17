@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MZ.</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 900px; margin: auto; background: #f9fafb; }
+        .hidden { display: none !important; }
+        input, textarea, button { display: block; width: 100%; margin-bottom: 15px; padding: 10px; box-sizing: border-box; font-family: inherit; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #111; color: #fff; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.2s; }
+        button:hover { background: #333; }
+        .btn-danger { background: #dc2626; }
+        .btn-danger:hover { background: #b91c1c; }
+        .btn-edit { background: #f59e0b; color: #111; }
+        .btn-edit:hover { background: #d97706; }
+        .btn-outline { background: transparent; color: #111; border: 2px dashed #ccc; }
+        .btn-outline:hover { background: #f1f5f9; border-color: #111; }
+        .card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .list-item { border-bottom: 1px solid #eee; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; }
+        .list-item:last-child { border-bottom: none; }
+        .list-info h4 { margin: 0 0 5px 0; color: #111; }
+        .list-info p { margin: 0; font-size: 14px; color: #666; }
+        .section-title { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; color: #0f766e; }
+        
+        #crop-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .modal-content { background: #fff; padding: 20px; border-radius: 8px; max-width: 90%; max-height: 90%; text-align: center; }
+        .img-container { width: 100%; max-width: 400px; max-height: 400px; margin: 0 auto 20px auto; }
+        .img-container img { max-width: 100%; display: block; }
+        .ck-editor__editable_inline { min-height: 250px; margin-bottom: 15px; border-radius: 0 0 4px 4px !important; }
+        .gallery-item { border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; margin-bottom: 10px; background: #f8fafc; }
+    </style>
+</head>
+<body>
+
+    <!-- Modal Crop -->
+    <div id="crop-modal" class="hidden">
+        <div class="modal-content">
+            <h3>Sesuaikan Posisi Foto</h3>
+            <div class="img-container"><img id="image-to-crop" src=""></div>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button onclick="cancelCrop()" class="btn-danger" style="width: auto;">Batal</button>
+                <button onclick="applyCrop()" style="width: auto; background: #059669;">Terapkan Crop</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Section -->
+    <div id="login-section" class="card">
+        <h2 style="color: #0f766e;">Login Admin MZ.</h2>
+        <input type="email" id="email" placeholder="Email Admin">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="handleLogin()">Login</button>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard-section" class="hidden">
+        <div class="card" style="display: flex; justify-content: space-between; align-items: center; background: #0f766e; color: white;">
+            <h2 style="margin: 0;">Dashboard Portofolio</h2>
+            <button onclick="handleLogout()" class="btn-danger" style="width: auto; margin: 0;">Logout</button>
+        </div>
+        
+        <!-- PROFIL -->
+        <div class="card">
+            <h3 class="section-title">Edit Identitas Utama (Hero Section)</h3>
+            
+            <label style="font-size: 14px; font-weight: bold;">Badge Text:</label>
+            <input type="text" id="profile-badge" placeholder="Contoh: ACTIVE STUDENT & TECH ENTHUSIAST">
+            
+            <label style="font-size: 14px; font-weight: bold;">Headline Utama (Bisa pakai kode HTML untuk warna/baris baru):</label>
+            <textarea id="profile-headline" placeholder='Translating Data into <span class="text-blue-600">Actionable Impact.</span>' rows="2"></textarea>
+            
+            <label style="font-size: 14px; font-weight: bold;">Professional Summary:</label>
+            <textarea id="profile-summary" placeholder="Deskripsi di bawah headline..." rows="4"></textarea>
+            
+            <label style="font-size: 14px; font-weight: bold;">Foto Profil Baru:</label>
+            <input type="file" id="profile-photo" accept="image/*">
+            <p id="crop-status" style="font-size: 13px; color: #059669; font-weight: bold; margin-top: -10px; display: none;">✓ Foto siap disimpan!</p>
+            
+            <label style="font-size: 14px; font-weight: bold;">File CV/Resume Baru:</label>
+            <input type="file" id="profile-cv" accept=".pdf">
+            
+<h4 style="margin-top:20px; border-bottom:1px solid #eee; padding-bottom:5px;">Pengaturan Footer / Kontak</h4>
+            <input type="text" id="footer-title" placeholder="Headline: Ready to build something impactful?">
+            <textarea id="footer-sub" placeholder="Sub-headline: I am actively seeking collaboration..." rows="2"></textarea>
+            <input type="text" id="footer-wa" placeholder="Link WhatsApp (Cth: https://wa.me/628...)">
+            <input type="text" id="footer-linkedin" placeholder="Link LinkedIn">
+            <input type="text" id="footer-email" placeholder="Alamat Email (Cth: jidan1307@gmail.com)">
+
+            <button id="btn-update-profile" onclick="updateProfile()" style="margin-top: 15px;">Update Profil Lengkap</button>
+        </div>
+
+        <!-- MANAJEMEN PROYEK (CREATE & UPDATE) -->
+        <div class="card" id="form-proyek">
+            <h3 class="section-title" id="form-project-title">Tambah Proyek & Studi Kasus Baru</h3>
+            
+            <label style="font-size: 14px; font-weight: bold;">Judul Proyek:</label>
+            <input type="text" id="project-title" placeholder="Contoh: Amazon Sales Report Analysis">
+            
+            <label style="font-size: 14px; font-weight: bold;">Deskripsi Singkat:</label>
+            <textarea id="project-desc" placeholder="Contoh: Mengolah data penjualan Amazon..." rows="2"></textarea>
+            
+            <label style="font-size: 14px; font-weight: bold;">Gambar Utama (Isi jika ingin ganti baru):</label>
+            <input type="file" id="project-image" accept="image/*">
+            <p id="existing-cover-info" class="hidden" style="font-size:12px; color:#666; margin-top:-10px;">Menggunakan gambar lama. Upload file baru jika ingin mengganti.</p>
+            
+            <label style="font-size: 14px; font-weight: bold;">Konten Studi Kasus:</label>
+            <textarea id="project-content"></textarea>
+            
+            <label style="font-size: 14px; font-weight: bold; margin-top:15px;">Galeri Dokumentasi:</label>
+            <div id="gallery-container"></div>
+            <button type="button" onclick="addGalleryItem()" class="btn-outline">+ Tambah Gambar Galeri</button>
+
+            <label style="font-size: 14px; font-weight: bold; margin-top:15px;">File PDF (Isi jika ingin ganti baru):</label>
+            <input type="file" id="project-pdf" accept=".pdf">
+            
+            <label style="font-size: 14px; font-weight: bold;">Link External:</label>
+            <input type="text" id="project-link" placeholder="Contoh: https://github.com/MZidan31/...">
+            
+            <div style="display:flex; gap:10px; margin-top: 20px;">
+                <button id="btn-cancel-project" onclick="cancelEditProject()" class="btn-danger hidden" style="width:auto;">Batal Edit</button>
+                <button id="btn-submit" onclick="saveProject()" style="flex:1;">Simpan Proyek Studi Kasus</button>
+            </div>
+            
+            <h4 style="margin-top:30px; border-bottom:1px solid #eee; padding-bottom:5px; font-weight:bold;">Daftar Proyek (Dinamis)</h4>
+            <div id="project-list"><p>Memuat data...</p></div>
+        </div>
+
+        <!-- EDUKASI & SERTIFIKASI -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="card" id="form-edukasi">
+                <h3 class="section-title">Edukasi</h3>
+                <input type="text" id="edu-degree" placeholder="Gelar/Jurusan">
+                <input type="text" id="edu-inst" placeholder="Institusi">
+                <input type="text" id="edu-period" placeholder="Periode">
+                <div style="display:flex; gap:10px;">
+                    <button id="btn-cancel-edu" onclick="cancelEditEdu()" class="btn-danger hidden" style="width:auto;">Batal</button>
+                    <button id="btn-submit-edu" onclick="saveEdu()" style="flex:1;">Simpan Edukasi</button>
+                </div>
+                <div id="edu-list" style="margin-top:15px;"></div>
+            </div>
+            <div class="card" id="form-sertifikasi">
+                <h3 class="section-title">Sertifikasi</h3>
+                <input type="text" id="cert-title" placeholder="Nama Sertifikat">
+                <input type="text" id="cert-issuer" placeholder="Penerbit">
+                <input type="text" id="cert-year" placeholder="Tahun (Cth: 2024)">
+                
+                <label style="font-size: 14px; font-weight: bold;">Upload Sertifikat (PDF/JPG/PNG):</label>
+                <input type="file" id="cert-file" accept=".pdf, image/*">
+                <p id="existing-cert-info" class="hidden" style="font-size:12px; color:#666; margin-top:-10px;">Menggunakan file lama. Upload baru untuk mengganti.</p>
+                
+                <div style="display:flex; gap:10px; margin-top: 15px;">
+                    <button id="btn-cancel-cert" onclick="cancelEditCert()" class="btn-danger hidden" style="width:auto;">Batal</button>
+                    <button id="btn-submit-cert" onclick="saveCert()" style="flex:1;">Simpan Sertifikasi</button>
+                </div>
+                <div id="cert-list" style="margin-top:15px;"></div>
+            </div>
+        </div>
+    </div>
+<!-- TECHNICAL ARSENAL -->
+        <div class="card" id="form-arsenal" style="margin-top: 20px;">
+            <h3 class="section-title">Technical Arsenal (Skill & Tools)</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <input type="text" id="arsenal-name" placeholder="Nama Skill (Cth: Python)">
+                <select id="arsenal-category" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="Data & Analytics">Masuk ke Kotak: Data & Analytics</option>
+                    <option value="Engineering & IoT">Masuk ke Kotak: Engineering & IoT</option>
+                    <option value="DevOps & Cloud">Masuk ke Kotak: DevOps & Cloud</option>
+                </select>
+            </div>
+            <div style="display:flex; gap:10px; margin-top: 15px;">
+                <button id="btn-cancel-arsenal" onclick="cancelEditArsenal()" class="btn-danger hidden" style="width:auto;">Batal Edit</button>
+                <button id="btn-submit-arsenal" onclick="saveArsenal()" style="flex:1;">Simpan Skill</button>
+            </div>
+            <div id="arsenal-list" style="margin-top:20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"></div>
+        </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    
+    <script>
+        const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
+        const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // --- EDITOR ---
+        let editorInstance;
+        ClassicEditor.create(document.querySelector('#project-content'), {
+            toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'insertTable', 'undo', 'redo']
+        }).then(editor => { editorInstance = editor; }).catch(err => console.error(err));
+
+        let projectsData = []; let editingProjectId = null; let existingCoverUrl = null; let existingPdfUrl = null;
+        let eduData = []; let editingEduId = null;
+        let certData = []; let editingCertId = null;
+
+        // --- AUTH ---
+        async function checkSession() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) {
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('dashboard-section').classList.remove('hidden');
+                fetchProfile(); fetchEdu(); fetchCert(); fetchProjects(); fetchArsenal();
+            } else {
+                document.getElementById('login-section').classList.remove('hidden');
+                document.getElementById('dashboard-section').classList.add('hidden');
+            }
+        }
+        async function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            if (error) alert('Gagal login: ' + error.message); else checkSession();
+        }
+        async function handleLogout() { await supabaseClient.auth.signOut(); checkSession(); }
+
+        // --- PROFIL ---
+        let cropper = null; let croppedPhotoBlob = null;
+        document.getElementById('profile-photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('image-to-crop').src = event.target.result;
+                    document.getElementById('crop-modal').classList.remove('hidden');
+                    if (cropper) cropper.destroy();
+                    cropper = new Cropper(document.getElementById('image-to-crop'), { aspectRatio: 1, viewMode: 1 });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        function cancelCrop() {
+            document.getElementById('crop-modal').classList.add('hidden');
+            document.getElementById('profile-photo').value = ''; 
+            if (cropper) cropper.destroy(); croppedPhotoBlob = null;
+            document.getElementById('crop-status').style.display = 'none';
+        }
+        function applyCrop() {
+            if (!cropper) return;
+            cropper.getCroppedCanvas({ width: 800, height: 800 }).toBlob(function(blob) {
+                croppedPhotoBlob = blob;
+                document.getElementById('crop-modal').classList.add('hidden');
+                if (cropper) cropper.destroy(); document.getElementById('crop-status').style.display = 'block';
+            }, 'image/jpeg', 0.9);
+        }
+       // PROFIL & FOOTER
+        async function fetchProfile() {
+            const { data } = await supabaseClient.from('profile').select('*').eq('id', 1).single();
+            if (data) {
+                document.getElementById('profile-badge').value = data.badge || '';
+                document.getElementById('profile-headline').value = data.headline || '';
+                document.getElementById('profile-summary').value = data.summary || '';
+                // Load data footer
+                document.getElementById('footer-title').value = data.footer_title || '';
+                document.getElementById('footer-sub').value = data.footer_sub || '';
+                document.getElementById('footer-wa').value = data.wa_link || '';
+                document.getElementById('footer-linkedin').value = data.linkedin_link || '';
+                document.getElementById('footer-email').value = data.email || '';
+            }
+        }
+        
+        async function updateProfile() {
+            const btn = document.getElementById('btn-update-profile');
+            btn.innerText = 'Menyimpan...'; btn.disabled = true;
+            try {
+                let updateData = { 
+                    badge: document.getElementById('profile-badge').value, 
+                    headline: document.getElementById('profile-headline').value, 
+                    summary: document.getElementById('profile-summary').value,
+                    footer_title: document.getElementById('footer-title').value,
+                    footer_sub: document.getElementById('footer-sub').value,
+                    wa_link: document.getElementById('footer-wa').value,
+                    linkedin_link: document.getElementById('footer-linkedin').value,
+                    email: document.getElementById('footer-email').value
+                };
+                if (croppedPhotoBlob) {
+                    const photoName = `profile-${Date.now()}.jpg`;
+                    await supabaseClient.storage.from('portfolio_images').upload(photoName, croppedPhotoBlob);
+                    updateData.photo_url = supabaseClient.storage.from('portfolio_images').getPublicUrl(photoName).data.publicUrl;
+                }
+                if (document.getElementById('profile-cv').files[0]) {
+                    const cvFile = document.getElementById('profile-cv').files[0];
+                    const cvName = `cv-${Date.now()}-${cvFile.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
+                    await supabaseClient.storage.from('portfolio_images').upload(cvName, cvFile);
+                    updateData.cv_url = supabaseClient.storage.from('portfolio_images').getPublicUrl(cvName).data.publicUrl;
+                }
+                await supabaseClient.from('profile').update(updateData).eq('id', 1);
+                alert('Profil & Footer diperbarui!'); 
+                document.getElementById('crop-status').style.display = 'none'; croppedPhotoBlob = null;
+            } catch (err) { alert('Gagal: ' + err.message); } 
+            finally { btn.innerText = 'Update Profil Lengkap'; btn.disabled = false; }
+        }
+
+        // SERTIFIKASI DENGAN UPLOAD FILE
+        let existingCertUrl = null;
+        function editCert(id) {
+            const item = certData.find(x => x.id == id); editingCertId = id;
+            existingCertUrl = item.file_url;
+            document.getElementById('cert-title').value = item.title; 
+            document.getElementById('cert-issuer').value = item.issuer;
+            document.getElementById('cert-year').value = item.year || ''; 
+            document.getElementById('existing-cert-info').classList.remove('hidden');
+            document.getElementById('btn-submit-cert').innerText = 'Update Sertifikasi'; 
+            document.getElementById('btn-cancel-cert').classList.remove('hidden');
+            document.getElementById('form-sertifikasi').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function cancelEditCert() {
+            editingCertId = null; existingCertUrl = null;
+            document.getElementById('cert-title').value = ''; document.getElementById('cert-issuer').value = '';
+            document.getElementById('cert-year').value = ''; document.getElementById('cert-file').value = '';
+            document.getElementById('existing-cert-info').classList.add('hidden');
+            document.getElementById('btn-submit-cert').innerText = 'Simpan Sertifikasi'; 
+            document.getElementById('btn-cancel-cert').classList.add('hidden');
+        }
+
+        async function saveCert() {
+            const title = document.getElementById('cert-title').value;
+            const certFile = document.getElementById('cert-file').files[0];
+            if(!title) return alert('Nama sertifikat wajib diisi!');
+            document.getElementById('btn-submit-cert').innerText = 'Menyimpan...';
+            
+            try {
+                let fileUrl = existingCertUrl;
+                if (certFile) {
+                    const fileName = `cert-${Date.now()}-${certFile.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
+                    const { error } = await supabaseClient.storage.from('portfolio_images').upload(fileName, certFile);
+                    if (error) throw error;
+                    fileUrl = supabaseClient.storage.from('portfolio_images').getPublicUrl(fileName).data.publicUrl;
+                }
+                const payload = { 
+                    title, 
+                    issuer: document.getElementById('cert-issuer').value, 
+                    year: document.getElementById('cert-year').value, 
+                    file_url: fileUrl 
+                };
+                if(editingCertId) await supabaseClient.from('certifications').update(payload).eq('id', editingCertId);
+                else await supabaseClient.from('certifications').insert([payload]); 
+                cancelEditCert(); fetchCert();
+            } catch(err) { alert('Error: ' + err.message); }
+            finally { document.getElementById('btn-submit-cert').innerText = 'Simpan Sertifikasi'; }
+        }
+
+        // --- PROYEK ---
+        function addGalleryItem(existingUrl = '', existingCaption = '') {
+            const container = document.getElementById('gallery-container');
+            const id = Date.now() + Math.random().toString(36).substr(2, 5);
+            const div = document.createElement('div'); div.className = 'gallery-item'; div.id = `gal-${id}`; div.dataset.oldUrl = existingUrl;
+            div.innerHTML = `
+                ${existingUrl ? `<div style="margin-bottom:10px;"><img src="${existingUrl}" style="height:80px; border-radius:4px; object-fit:cover;"></div>` : ''}
+                <input type="file" class="gallery-file" accept="image/*" style="margin-bottom: 10px;">
+                <input type="text" class="gallery-caption" placeholder="Tulis caption..." value="${existingCaption}" style="margin-bottom: 10px;">
+                <button type="button" onclick="document.getElementById('gal-${id}').remove()" class="btn-danger" style="width: auto; padding: 5px 15px; font-size: 12px;">Hapus Item Ini</button>
+            `;
+            container.appendChild(div);
+        }
+        async function fetchProjects() {
+            const { data } = await supabaseClient.from('projects').select('*').order('created_at', { ascending: false });
+            const list = document.getElementById('project-list');
+            if (!data) return; projectsData = data;
+            list.innerHTML = data.length ? '' : '<p>Belum ada proyek.</p>';
+            data.forEach(proj => {
+                const div = document.createElement('div'); div.className = 'list-item';
+                div.innerHTML = `
+                    <div class="list-info"><h4>${proj.title}</h4><p>${proj.description ? proj.description.substring(0, 50) + '...' : ''}</p></div>
+                    <div style="display:flex; gap:10px;">
+                        <button onclick="editProject('${proj.id}')" class="btn-edit" style="width: auto; padding: 5px 15px;">Edit</button>
+                        <button onclick="deleteProject('${proj.id}')" class="btn-danger" style="width: auto; padding: 5px 15px;">Hapus</button>
+                    </div>`;
+                list.appendChild(div);
+            });
+        }
+        function editProject(id) {
+            const proj = projectsData.find(p => p.id == id); if(!proj) return;
+            editingProjectId = id; existingCoverUrl = proj.image_url; existingPdfUrl = proj.pdf_url;
+            document.getElementById('form-project-title').innerText = 'Edit Proyek: ' + proj.title;
+            document.getElementById('btn-submit').innerText = 'Update Proyek';
+            document.getElementById('btn-cancel-project').classList.remove('hidden');
+            document.getElementById('existing-cover-info').classList.remove('hidden');
+            
+            document.getElementById('project-title').value = proj.title;
+            document.getElementById('project-desc').value = proj.description || '';
+            document.getElementById('project-link').value = proj.link || '';
+            editorInstance.setData(proj.content || '');
+            
+            document.getElementById('gallery-container').innerHTML = '';
+            if (proj.gallery && proj.gallery.length > 0) { proj.gallery.forEach(item => addGalleryItem(item.image_url, item.caption)); }
+            document.getElementById('form-proyek').scrollIntoView({ behavior: 'smooth' });
+        }
+        function cancelEditProject() {
+            editingProjectId = null; existingCoverUrl = null; existingPdfUrl = null;
+            document.getElementById('form-project-title').innerText = 'Tambah Proyek & Studi Kasus Baru';
+            document.getElementById('btn-submit').innerText = 'Simpan Proyek Studi Kasus';
+            document.getElementById('btn-cancel-project').classList.add('hidden');
+            document.getElementById('existing-cover-info').classList.add('hidden');
+            document.getElementById('project-title').value = ''; document.getElementById('project-desc').value = '';
+            document.getElementById('project-link').value = ''; document.getElementById('project-image').value = '';
+            document.getElementById('project-pdf').value = ''; editorInstance.setData('');
+            document.getElementById('gallery-container').innerHTML = '';
+        }
+        async function saveProject() {
+            const btn = document.getElementById('btn-submit');
+            const title = document.getElementById('project-title').value;
+            if (!title) return alert('Judul wajib diisi!');
+            btn.innerText = 'Menyimpan Semua Data...'; btn.disabled = true;
+
+            try {
+                // 1. Upload Cover (Pakai lama jika tidak ada file baru)
+                let coverUrl = existingCoverUrl; 
+                const imageFile = document.getElementById('project-image').files[0];
+                if (imageFile) {
+                    const imgName = `cover-${Date.now()}-${imageFile.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
+                    const { error: err1 } = await supabaseClient.storage.from('portfolio_images').upload(imgName, imageFile);
+                    if (err1) throw err1; // Lempar error jika gagal upload
+                    coverUrl = supabaseClient.storage.from('portfolio_images').getPublicUrl(imgName).data.publicUrl;
+                }
+
+                // 2. Upload PDF
+                let pdfUrl = existingPdfUrl; 
+                const pdfFile = document.getElementById('project-pdf').files[0];
+                if (pdfFile) {
+                    const pdfName = `pdf-${Date.now()}-${pdfFile.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
+                    const { error: err2 } = await supabaseClient.storage.from('portfolio_images').upload(pdfName, pdfFile);
+                    if (err2) throw err2;
+                    pdfUrl = supabaseClient.storage.from('portfolio_images').getPublicUrl(pdfName).data.publicUrl;
+                }
+
+                // 3. Proses Galeri
+                const galleryItems = document.querySelectorAll('.gallery-item'); 
+                let galleryDataArray = [];
+                
+                for (let item of galleryItems) {
+                    const fileInput = item.querySelector('.gallery-file').files[0];
+                    let finalGUrl = item.dataset.oldUrl;
+                    
+                    // Bersihkan jika dataset membaca 'undefined'
+                    if (!finalGUrl || finalGUrl === 'undefined' || finalGUrl === 'null') {
+                        finalGUrl = '';
+                    }
+                    
+                    if (fileInput) {
+                        const gName = `gal-${Date.now()}-${fileInput.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
+                        const { error: err3 } = await supabaseClient.storage.from('portfolio_images').upload(gName, fileInput);
+                        if (err3) throw err3;
+                        finalGUrl = supabaseClient.storage.from('portfolio_images').getPublicUrl(gName).data.publicUrl;
+                    }
+                    
+                    if(finalGUrl) {
+                        galleryDataArray.push({ 
+                            image_url: finalGUrl, 
+                            caption: item.querySelector('.gallery-caption').value 
+                        });
+                    }
+                }
+
+                const payload = { 
+                    title, 
+                    description: document.getElementById('project-desc').value, 
+                    link: document.getElementById('project-link').value, 
+                    image_url: coverUrl, 
+                    pdf_url: pdfUrl, 
+                    content: editorInstance.getData(), 
+                    gallery: galleryDataArray 
+                };
+
+                // 4. Update atau Insert
+                if (editingProjectId) {
+                    const { error: dbErr } = await supabaseClient.from('projects').update(payload).eq('id', editingProjectId);
+                    if (dbErr) throw dbErr;
+                    alert('Proyek berhasil diupdate!');
+                } else {
+                    const { error: dbErr } = await supabaseClient.from('projects').insert([payload]);
+                    if (dbErr) throw dbErr;
+                    alert('Proyek baru berhasil disimpan!');
+                }
+                
+                cancelEditProject(); 
+                fetchProjects();
+
+            } catch (err) { 
+                console.error("Terjadi Kesalahan:", err);
+                alert('Gagal Menyimpan: ' + err.message); 
+            } finally { 
+                btn.innerText = editingProjectId ? 'Update Proyek' : 'Simpan Proyek Studi Kasus'; 
+                btn.disabled = false; 
+            }
+        }
+        async function deleteProject(id) { if (confirm('Yakin hapus proyek ini?')) { await supabaseClient.from('projects').delete().eq('id', id); fetchProjects(); } }
+
+        // --- EDUKASI ---
+        async function fetchEdu() {
+            const { data } = await supabaseClient.from('education').select('*').order('id', { ascending: false });
+            if(data) { eduData = data; const list = document.getElementById('edu-list'); list.innerHTML = '';
+            eduData.forEach(item => {
+                const div = document.createElement('div'); div.className = 'list-item';
+                div.innerHTML = `<div class="list-info"><h4>${item.degree}</h4><p>${item.institution}</p></div>
+                <div style="display:flex; gap:10px;"><button onclick="editEdu(${item.id})" class="btn-edit" style="width:auto; padding:5px 15px;">Edit</button>
+                <button onclick="deleteEdu(${item.id})" class="btn-danger" style="width:auto; padding:5px 15px;">Hapus</button></div>`;
+                list.appendChild(div);
+            });}
+        }
+        function editEdu(id) {
+            const item = eduData.find(x => x.id === id); editingEduId = id;
+            document.getElementById('edu-degree').value = item.degree; document.getElementById('edu-inst').value = item.institution;
+            document.getElementById('edu-period').value = item.period || '';
+            document.getElementById('btn-submit-edu').innerText = 'Update Edukasi'; document.getElementById('btn-cancel-edu').classList.remove('hidden');
+            document.getElementById('form-edukasi').scrollIntoView({ behavior: 'smooth' });
+        }
+        function cancelEditEdu() {
+            editingEduId = null; document.getElementById('edu-degree').value = ''; document.getElementById('edu-inst').value = '';
+            document.getElementById('edu-period').value = '';
+            document.getElementById('btn-submit-edu').innerText = 'Simpan Edukasi'; document.getElementById('btn-cancel-edu').classList.add('hidden');
+        }
+        async function saveEdu() {
+            const payload = { degree: document.getElementById('edu-degree').value, institution: document.getElementById('edu-inst').value, period: document.getElementById('edu-period').value };
+            if(editingEduId) await supabaseClient.from('education').update(payload).eq('id', editingEduId);
+            else await supabaseClient.from('education').insert([payload]); cancelEditEdu(); fetchEdu();
+        }
+        async function deleteEdu(id) { if(confirm('Hapus?')) { await supabaseClient.from('education').delete().eq('id', id); fetchEdu(); } }
+
+        // --- SERTIFIKASI ---
+        async function fetchCert() {
+            const { data } = await supabaseClient.from('certifications').select('*').order('id', { ascending: false });
+            if(data) { certData = data; const list = document.getElementById('cert-list'); list.innerHTML = '';
+            certData.forEach(item => {
+                const div = document.createElement('div'); div.className = 'list-item';
+                div.innerHTML = `<div class="list-info"><h4>${item.title}</h4><p>${item.issuer}</p></div>
+                <div style="display:flex; gap:10px;"><button onclick="editCert(${item.id})" class="btn-edit" style="width:auto; padding:5px 15px;">Edit</button>
+                <button onclick="deleteCert(${item.id})" class="btn-danger" style="width:auto; padding:5px 15px;">Hapus</button></div>`;
+                list.appendChild(div);
+            });}
+        }
+        function editCert(id) {
+            const item = certData.find(x => x.id === id); editingCertId = id;
+            document.getElementById('cert-title').value = item.title; document.getElementById('cert-issuer').value = item.issuer;
+            document.getElementById('cert-year').value = item.year || ''; document.getElementById('cert-link').value = item.link || '';
+            document.getElementById('btn-submit-cert').innerText = 'Update Sertifikasi'; document.getElementById('btn-cancel-cert').classList.remove('hidden');
+            document.getElementById('form-sertifikasi').scrollIntoView({ behavior: 'smooth' });
+        }
+        function cancelEditCert() {
+            editingCertId = null; document.getElementById('cert-title').value = ''; document.getElementById('cert-issuer').value = '';
+            document.getElementById('cert-year').value = ''; document.getElementById('cert-link').value = '';
+            document.getElementById('btn-submit-cert').innerText = 'Simpan Sertifikasi'; document.getElementById('btn-cancel-cert').classList.add('hidden');
+        }
+        async function saveCert() {
+            const payload = { title: document.getElementById('cert-title').value, issuer: document.getElementById('cert-issuer').value, year: document.getElementById('cert-year').value, link: document.getElementById('cert-link').value };
+            if(editingCertId) await supabaseClient.from('certifications').update(payload).eq('id', editingCertId);
+            else await supabaseClient.from('certifications').insert([payload]); cancelEditCert(); fetchCert();
+        }
+        async function deleteCert(id) { if(confirm('Hapus?')) { await supabaseClient.from('certifications').delete().eq('id', id); fetchCert(); } }
+// --- TECHNICAL ARSENAL ---
+        let arsenalData = []; 
+        let editingArsenalId = null;
+
+        async function fetchArsenal() {
+            const { data } = await supabaseClient.from('arsenal').select('*').order('id', { ascending: false });
+            if(data) { 
+                arsenalData = data; 
+                const list = document.getElementById('arsenal-list'); 
+                list.innerHTML = '';
+                arsenalData.forEach(item => {
+                    const div = document.createElement('div'); div.className = 'list-item'; style="padding: 10px; border: 1px solid #eee; border-radius: 6px;";
+                    div.innerHTML = `
+                        <div class="list-info">
+                            <h4 style="margin-bottom: 2px;">${item.name}</h4>
+                            <p style="font-size: 12px; color: #0f766e; font-weight: bold;">${item.category || 'Uncategorized'}</p>
+                        </div>
+                        <div style="display:flex; gap:5px;">
+                            <button onclick="editArsenal(${item.id})" class="btn-edit" style="width:auto; padding:4px 10px; font-size:12px;">Edit</button>
+                            <button onclick="deleteArsenal(${item.id})" class="btn-danger" style="width:auto; padding:4px 10px; font-size:12px;">Hapus</button>
+                        </div>
+                    `;
+                    list.appendChild(div);
+                });
+            }
+        }
+
+        function editArsenal(id) {
+            const item = arsenalData.find(x => x.id === id); 
+            editingArsenalId = id;
+            document.getElementById('arsenal-name').value = item.name; 
+            document.getElementById('arsenal-category').value = item.category || '';
+            document.getElementById('arsenal-icon').value = item.icon || '';
+            document.getElementById('btn-submit-arsenal').innerText = 'Update Skill'; 
+            document.getElementById('btn-cancel-arsenal').classList.remove('hidden');
+            document.getElementById('form-arsenal').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function cancelEditArsenal() {
+            editingArsenalId = null; 
+            document.getElementById('arsenal-name').value = ''; 
+            document.getElementById('arsenal-category').value = '';
+            document.getElementById('arsenal-icon').value = '';
+            document.getElementById('btn-submit-arsenal').innerText = 'Simpan Skill'; 
+            document.getElementById('btn-cancel-arsenal').classList.add('hidden');
+        }
+
+        async function saveArsenal() {
+            const payload = { 
+                name: document.getElementById('arsenal-name').value, 
+                category: document.getElementById('arsenal-category').value,
+                icon: document.getElementById('arsenal-icon').value
+            };
+            if(!payload.name) return alert('Nama skill wajib diisi!');
+            
+            document.getElementById('btn-submit-arsenal').innerText = 'Menyimpan...';
+            try {
+                if(editingArsenalId) {
+                    await supabaseClient.from('arsenal').update(payload).eq('id', editingArsenalId);
+                } else {
+                    await supabaseClient.from('arsenal').insert([payload]);
+                }
+                cancelEditArsenal(); 
+                fetchArsenal();
+            } catch(err) {
+                alert('Gagal menyimpan: ' + err.message);
+            }
+        }
+
+        async function deleteArsenal(id) { 
+            if(confirm('Yakin ingin menghapus skill ini?')) { 
+                await supabaseClient.from('arsenal').delete().eq('id', id); 
+                fetchArsenal(); 
+            } 
+        }
+
+        checkSession();
+    </script>
+</body>
+</html>
