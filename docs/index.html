@@ -8,21 +8,32 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Konfigurasi Tema Warna Psikologis (Trust & Growth) -->
+    <!-- Konfigurasi Tema Warna Apple Vibrant + Backward Compatibility -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
+                        apple: {
+                            bg: '#F8F9FC',
+                            surface: '#FFFFFF',
+                            gray: '#F2F4F8',
+                            text: '#1D1D1F',
+                            secondary: '#515154',
+                            blue: '#0071E3',
+                            blueHover: '#0077ED',
+                            emerald: '#10B981'
+                        },
+                        /* Menjaga warna HTML yang tersimpan di database Supabase */
                         brand: {
-                            blue: '#2563EB', // Trust & Logic
-                            emerald: '#10B981', // Innovation & Clarity
-                            dark: '#0F172A', // Professionalism
-                            light: '#F8FAFC' // Low Cognitive Load
+                            blue: '#0071E3',
+                            emerald: '#10B981',
+                            dark: '#1D1D1F',
+                            light: '#F8F9FC'
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Inter', 'sans-serif'],
                     }
                 }
             }
@@ -39,175 +50,230 @@
 
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8FAFC;
-            color: #0F172A;
-            opacity: 0; 
-            transition: opacity 0.4s ease-in-out;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+            background-color: #F8F9FC;
+            color: #1D1D1F;
+            opacity: 0;
+            transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Floating Navbar Glassmorphism */
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        /* Apple Ambient Mesh Aura (Biar tidak pucat!) */
+        .ambient-bg {
+            background-image: 
+                radial-gradient(at 15% 8%, rgba(0, 113, 227, 0.08) 0px, transparent 50%),
+                radial-gradient(at 85% 15%, rgba(16, 185, 129, 0.09) 0px, transparent 50%),
+                radial-gradient(at 50% 60%, rgba(99, 102, 241, 0.04) 0px, transparent 60%);
         }
 
-        /* Abstract Blob Profile Frame */
-        .blob-profile {
-            background-size: cover;
-            background-position: center center;
-            border: 4px solid transparent;
-            background-image: linear-gradient(white, white), linear-gradient(to right, #2563EB, #10B981);
-            background-origin: border-box;
-            background-clip: content-box, border-box;
-            box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.2);
-            animation: morph 8s ease-in-out infinite;
+        /* Apple Frosted Glass Navbar */
+        .apple-nav {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
         }
 
-        @keyframes morph {
-            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-            50% { border-radius: 30% 70% 70% 30% / 30% 60% 40% 70%; }
-            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        /* Apple Profile Frame dengan Vibrant Rim & Depth */
+        .apple-profile-wrapper {
+            position: relative;
+            border-radius: 36px;
+            padding: 5px;
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.35), rgba(16, 185, 129, 0.35));
+            box-shadow: 0 25px 50px -12px rgba(0, 113, 227, 0.18);
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .apple-profile-wrapper:hover {
+            transform: translateY(-4px) scale(1.015);
+        }
+        .apple-profile-frame {
+            border-radius: 31px;
         }
 
-        /* Bento Box Hover Effect */
-        .bento-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* Apple Editorial Card & Spring Hover */
+        .apple-card {
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 6px 24px rgba(15, 23, 42, 0.035);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
         }
-        .bento-card:hover {
+        .apple-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border-color: rgba(0, 113, 227, 0.22);
+            box-shadow: 0 22px 44px -12px rgba(0, 113, 227, 0.10);
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Quick Look Modal Backdrop */
+        #quicklook-modal {
+            background: rgba(29, 29, 31, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
     </style>
 </head>
-<body class="antialiased selection:bg-brand-blue selection:text-white">
+<body class="antialiased ambient-bg selection:bg-apple-blue selection:text-white">
 
-    <!-- ==================== Floating Navbar ==================== -->
-    <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[90%] md:w-[70%] max-w-4xl z-50 glass-nav shadow-lg rounded-full px-6 py-3 transition-all duration-300">
+    <!-- ==================== iOS Quick Look Modal ==================== -->
+    <div id="quicklook-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" onclick="closeQuickLook()">
+        <div class="bg-white rounded-[28px] w-full max-w-4xl overflow-hidden shadow-2xl border border-black/10 flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
+            <div class="px-6 py-4 bg-[#F5F5F7] border-b border-black/5 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <button onclick="closeQuickLook()" class="w-3.5 h-3.5 rounded-full bg-[#FF5F56] hover:opacity-80 transition" title="Tutup"></button>
+                    <span class="w-3.5 h-3.5 rounded-full bg-[#FFBD2E]"></span>
+                    <span class="w-3.5 h-3.5 rounded-full bg-[#27C93F]"></span>
+                    <span id="ql-title" class="ml-3 text-sm font-semibold text-apple-text truncate max-w-[200px] sm:max-w-md">Credential Preview</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a id="ql-external" href="#" target="_blank" class="text-xs font-semibold text-apple-blue hover:underline inline-flex items-center gap-1">
+                        Buka Penuh <i class='bx bx-link-external'></i>
+                    </a>
+                    <button onclick="closeQuickLook()" class="text-apple-secondary hover:text-apple-text text-xl leading-none">&times;</button>
+                </div>
+            </div>
+            <div id="ql-body" class="flex-1 bg-[#FBFBFD] overflow-auto flex items-center justify-center min-h-[60vh]"></div>
+        </div>
+    </div>
+
+    <!-- ==================== Floating Apple Navbar ==================== -->
+    <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[92%] md:w-[72%] max-w-4xl z-50 apple-nav rounded-full px-6 py-3 transition-all duration-300">
         <div class="flex justify-between items-center">
-            <a href="#hero" class="text-lg font-bold tracking-tight text-brand-dark hover:text-brand-blue transition-colors">
+            <a href="#hero" class="text-base font-bold tracking-tight text-apple-text hover:text-apple-blue transition-colors flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-apple-blue to-apple-emerald inline-block"></span>
                 MUHAMMAD ZIDAN
             </a>
             
-            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
-                <a href="#arsenal" class="hover:text-brand-blue transition-colors">Expertise</a>
-                <a href="#projects" class="hover:text-brand-blue transition-colors">Projects</a>
-                <a href="#education" class="hover:text-brand-blue transition-colors">Credentials</a>
+            <div class="hidden md:flex space-x-8 text-[13px] font-medium text-apple-secondary">
+                <a href="#arsenal" class="hover:text-apple-blue transition-colors">Expertise</a>
+                <a href="#projects" class="hover:text-apple-blue transition-colors">Projects</a>
+                <a href="#education" class="hover:text-apple-blue transition-colors">Credentials</a>
             </div>
 
-            <a href="#contact" class="hidden md:block bg-brand-dark text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-brand-blue transition-colors">
+            <a href="#contact" class="hidden md:inline-flex items-center bg-apple-text text-white text-[13px] font-medium px-4 py-1.5 rounded-full hover:bg-apple-blue transition-colors shadow-sm">
                 Let's Talk
             </a>
 
-            <button id="mobile-menu-btn" class="md:hidden text-2xl text-brand-dark">
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-apple-text">
                 <i class="bx bx-menu"></i>
             </button>
         </div>
 
-        <div id="mobile-menu" class="hidden absolute top-full left-0 mt-3 w-full bg-white rounded-2xl shadow-xl border border-slate-100 p-4 flex flex-col space-y-4 text-center">
-            <a href="#arsenal" class="text-slate-600 font-medium hover:text-brand-blue">Expertise</a>
-            <a href="#projects" class="text-slate-600 font-medium hover:text-brand-blue">Projects</a>
-            <a href="#education" class="text-slate-600 font-medium hover:text-brand-blue">Credentials</a>
-            <a href="#contact" class="bg-brand-dark text-white font-medium py-2 rounded-xl">Let's Talk</a>
+        <div id="mobile-menu" class="hidden absolute top-full left-0 mt-3 w-full bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl border border-black/5 p-5 flex flex-col space-y-4 text-center text-sm">
+            <a href="#arsenal" class="text-apple-secondary font-medium hover:text-apple-blue">Expertise</a>
+            <a href="#projects" class="text-apple-secondary font-medium hover:text-apple-blue">Projects</a>
+            <a href="#education" class="text-apple-secondary font-medium hover:text-apple-blue">Credentials</a>
+            <a href="#contact" class="bg-apple-blue text-white font-medium py-2.5 rounded-full">Let's Talk</a>
         </div>
     </nav>
 
     <!-- Content Wrapper -->
-    <main class="pt-32 pb-20 px-6 sm:px-8 max-w-6xl mx-auto space-y-32">
+    <main class="pt-32 pb-20 px-6 sm:px-8 max-w-6xl mx-auto space-y-28">
 
         <!-- ==================== Hero Section ==================== -->
-        <section id="hero" class="flex flex-col-reverse md:flex-row items-center justify-between gap-12 mt-10">
+        <section id="hero" class="flex flex-col-reverse md:flex-row items-center justify-between gap-12 md:gap-16 pt-2">
             <div class="flex-1 space-y-6 text-center md:text-left">
-                <div id="hero-badge" class="inline-block px-4 py-1.5 rounded-full bg-blue-50 text-brand-blue text-xs font-semibold tracking-wide uppercase border border-blue-100">
+                <div id="hero-badge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50/90 text-apple-blue text-xs font-bold tracking-wide uppercase border border-blue-200/60 shadow-2xs">
                     Memuat...
                 </div>
                 
-                <h1 id="hero-headline" class="text-4xl md:text-6xl font-extrabold text-brand-dark leading-tight tracking-tight">
+                <h1 id="hero-headline" class="text-4xl sm:text-5xl md:text-[54px] font-extrabold text-apple-text leading-[1.1] tracking-[-0.025em]">
                     Memuat data...
                 </h1>
                 
-                <p id="hero-summary" class="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto md:mx-0">
+                <p id="hero-summary" class="text-apple-secondary text-base md:text-[18px] font-normal leading-relaxed max-w-2xl mx-auto md:mx-0">
                     Memuat profil...
                 </p>
                 
-                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4">
-                    <a href="#projects" class="w-full sm:w-auto bg-brand-dark text-white px-8 py-3.5 rounded-full font-medium hover:bg-brand-blue transition-colors shadow-lg hover:shadow-blue-500/30">
+                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3.5 pt-2">
+                    <a href="#projects" class="w-full sm:w-auto bg-apple-blue text-white px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-apple-blueHover transition-all shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 active:scale-[0.98]">
                         Explore My Work
                     </a>
-                    <a id="hero-cv" href="#" target="_blank" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-brand-dark border border-slate-200 px-8 py-3.5 rounded-full font-medium hover:border-slate-300 hover:bg-slate-50 transition-colors">
-                        <i class='bx bx-download text-lg'></i> Resume
+                    <a id="hero-cv" href="#" target="_blank" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-apple-text border border-black/10 px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-gray-50 transition-all shadow-2xs active:scale-[0.98]">
+                        <i class='bx bx-download text-lg text-apple-blue'></i> Download Resume
                     </a>
                 </div>
             </div>
 
-            <!-- Abstract Blob Profile -->
-            <div class="flex-shrink-0 relative w-64 h-64 md:w-80 md:h-80 xl:w-96 xl:h-96 mx-auto">
-                <div class="absolute inset-0 bg-gradient-to-r from-brand-blue to-brand-emerald blur-2xl opacity-20 rounded-full"></div>
-                <img src="" alt="Muhammad Zidan" id="hero-image" class="relative w-full h-full object-cover object-top blob-profile p-1 bg-white z-10">
+            <!-- Apple Profile Frame dengan Ambient Glow -->
+            <div class="flex-shrink-0 relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 xl:w-[340px] xl:h-[340px] mx-auto">
+                <div class="absolute -inset-3 bg-gradient-to-tr from-blue-500/20 via-emerald-400/20 to-indigo-500/20 blur-2xl rounded-full -z-10"></div>
+                <div class="apple-profile-wrapper w-full h-full">
+                    <img src="" alt="Muhammad Zidan" id="hero-image" class="w-full h-full object-cover object-top apple-profile-frame bg-white">
+                </div>
             </div>
         </section>
 
-        <!-- ==================== Technical Arsenal (100% Dinamis) ==================== -->
-        <section id="arsenal" class="mt-32">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-brand-dark mb-4">Technical Arsenal</h2>
-                <p class="text-slate-600 text-lg">A blend of analytical mindset and engineering capabilities.</p>
+        <!-- ==================== Technical Arsenal ==================== -->
+        <section id="arsenal" class="reveal">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="inline-block px-3 py-1 rounded-full bg-blue-50 text-apple-blue text-xs font-bold uppercase tracking-wider mb-3">Capabilities</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-apple-text tracking-tight mb-3">Technical Arsenal.</h2>
+                <p class="text-apple-secondary text-base md:text-lg">A blend of analytical mindset and engineering capabilities.</p>
             </div>
-            <!-- Wadah Dinamis untuk semua Kategori Skill -->
-            <div id="arsenal-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <p class="text-center text-slate-400 col-span-3">Memuat daftar keahlian...</p>
+            
+            <div id="arsenal-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <p class="text-center text-apple-secondary col-span-3 text-sm">Memuat daftar keahlian...</p>
             </div>
         </section>
 
         <!-- ==================== Featured Projects ==================== -->
-        <section id="projects" class="space-y-10">
-            <div class="flex flex-col sm:flex-row justify-between items-end gap-4 border-b border-slate-200 pb-6">
+        <section id="projects" class="space-y-10 reveal">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-black/5 pb-6">
                 <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-brand-dark">Featured Case Studies</h2>
-                    <p class="text-slate-500 mt-2">Real-world problem solving and implementations.</p>
+                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-3">Selected Works</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-apple-text tracking-tight">Featured Case Studies.</h2>
+                    <p class="text-apple-secondary mt-1.5 text-base">Real-world problem solving and data-driven implementations.</p>
                 </div>
             </div>
 
-            <!-- ID projects-grid ditambahkan agar proyek baru dari admin otomatis diselipkan di paling depan -->
-            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Project 1 (Statis Lama) -->
-                <div class="group bento-card bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm flex flex-col">
-                    <div class="h-56 bg-slate-100 overflow-hidden relative">
-                        <img src="/artifacts/image_d69916.png" alt="Bun Haven Analytics" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-7">
+                <!-- Project 1 -->
+                <div class="group apple-card rounded-[28px] overflow-hidden flex flex-col">
+                    <div class="h-60 bg-slate-100 overflow-hidden relative">
+                        <img src="/artifacts/image_d69916.png" alt="Bun Haven Analytics" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
                     </div>
                     <div class="p-8 flex flex-col flex-grow">
-                        <div class="flex gap-2 mb-4">
-                            <span class="px-3 py-1 bg-blue-50 text-brand-blue text-xs font-semibold rounded-full">Data Mining</span>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-50 text-apple-blue text-xs font-semibold rounded-full">Data Mining</span>
                             <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full">KNIME</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-brand-dark mb-3">Bun Haven Bakery Sales Optimization</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
+                        <h3 class="text-xl md:text-2xl font-bold text-apple-text tracking-tight mb-2.5">Bun Haven Bakery Sales Optimization</h3>
+                        <p class="text-apple-secondary text-sm leading-relaxed mb-6 flex-grow">
                             Designed a business strategy utilizing Association Rules and the Apriori algorithm to identify purchasing patterns, resulting in data-driven recommendations for product bundling and store layout optimization.
                         </p>
-                        <a href="project-bunhaven.html" class="inline-flex items-center text-brand-blue font-semibold hover:text-brand-dark transition-colors">
-                            Read Case Study <i class='bx bx-right-arrow-alt ml-2 text-xl'></i>
+                        <a href="project-bunhaven.html" class="inline-flex items-center text-apple-blue text-sm font-semibold hover:underline transition-all mt-auto">
+                            Read Case Study <i class='bx bx-chevron-right ml-1 text-lg'></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Project 2 (Statis Lama) -->
-                <div class="group bento-card bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm flex flex-col">
-                    <div class="h-56 bg-slate-100 overflow-hidden relative">
-                        <img src="/artifacts/image_d3e5a3.png" alt="Amazon Sales Analysis" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <!-- Project 2 -->
+                <div class="group apple-card rounded-[28px] overflow-hidden flex flex-col">
+                    <div class="h-60 bg-slate-100 overflow-hidden relative">
+                        <img src="/artifacts/image_d3e5a3.png" alt="Amazon Sales Analysis" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
                     </div>
                     <div class="p-8 flex flex-col flex-grow">
-                        <div class="flex gap-2 mb-4">
-                            <span class="px-3 py-1 bg-emerald-50 text-brand-emerald text-xs font-semibold rounded-full">Machine Learning</span>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full">Machine Learning</span>
                             <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full">KNIME</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-brand-dark mb-3">Amazon Sales Report Analysis</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
+                        <h3 class="text-xl md:text-2xl font-bold text-apple-text tracking-tight mb-2.5">Amazon Sales Report Analysis</h3>
+                        <p class="text-apple-secondary text-sm leading-relaxed mb-6 flex-grow">
                             Structured raw sales data and developed predictive models using Random Forest (99.78% accuracy) and Decision Tree algorithms to forecast delivery statuses and optimize fulfillment strategies.
                         </p>
-                        <a href="project-amazon.html" class="inline-flex items-center text-brand-blue font-semibold hover:text-brand-dark transition-colors">
-                            Read Case Study <i class='bx bx-right-arrow-alt ml-2 text-xl'></i>
+                        <a href="project-amazon.html" class="inline-flex items-center text-apple-blue text-sm font-semibold hover:underline transition-all mt-auto">
+                            Read Case Study <i class='bx bx-chevron-right ml-1 text-lg'></i>
                         </a>
                     </div>
                 </div>
@@ -215,67 +281,68 @@
         </section>
 
         <!-- ==================== Education & Certifications ==================== -->
-        <section id="education" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <!-- Education (Dinamis + Fallback Statis) -->
-            <div class="space-y-6">
-                <h2 class="text-2xl font-bold text-brand-dark flex items-center gap-2">
-                    <i class='bx bxs-graduation text-brand-blue'></i> Academic Background
-                </h2>
+        <section id="education" class="grid grid-cols-1 lg:grid-cols-2 gap-10 reveal">
+            <!-- Education -->
+            <div class="space-y-5">
+                <div>
+                    <span class="inline-block px-3 py-1 rounded-full bg-blue-50 text-apple-blue text-xs font-bold uppercase tracking-wider mb-2">Education</span>
+                    <h2 class="text-2xl font-extrabold text-apple-text tracking-tight">Academic Background</h2>
+                </div>
                 <div id="edu-container" class="space-y-4">
-                    <!-- Tampilan bawaan jika database edukasi belum diisi -->
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex gap-4">
-                        <div class="w-16 h-16 rounded-xl bg-slate-50 flex-shrink-0 flex items-center justify-center border border-slate-100 p-2">
+                    <div class="apple-card p-6 rounded-[24px] flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-50 border border-black/5 flex-shrink-0 flex items-center justify-center p-2.5">
                              <img src="/artifacts/uploaded_image_0c2a39.png" alt="STT-NF" class="w-full h-full object-contain">
                         </div>
                         <div>
-                            <h3 class="font-bold text-brand-dark text-lg">STT Terpadu Nurul Fikri</h3>
-                            <p class="text-slate-600 font-medium text-sm">Informatics Engineering</p>
-                            <p class="text-slate-400 text-sm mt-1">Graduated: 2026 &bull; GPA: 3.79 / 4.00</p>
+                            <h3 class="font-bold text-apple-text text-lg tracking-tight">STT Terpadu Nurul Fikri</h3>
+                            <p class="text-apple-secondary font-medium text-sm">Informatics Engineering</p>
+                            <p class="text-slate-400 text-xs mt-1">Graduated: 2026 &bull; GPA: 3.79 / 4.00</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Certifications (100% Dinamis dari Admin) -->
-            <div class="space-y-6">
-                <h2 class="text-2xl font-bold text-brand-dark flex items-center gap-2">
-                    <i class='bx bx-badge-check text-brand-emerald'></i> Certifications
-                </h2>
-                <div id="cert-container" class="space-y-4">
-                    <p class="text-slate-400 text-sm">Memuat sertifikasi...</p>
+            <!-- Certifications -->
+            <div class="space-y-5">
+                <div>
+                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-2">Verified Credentials</span>
+                    <h2 class="text-2xl font-extrabold text-apple-text tracking-tight">Certifications</h2>
+                </div>
+                <div id="cert-container" class="space-y-3.5">
+                    <p class="text-apple-secondary text-sm">Memuat sertifikasi...</p>
                 </div>
             </div>
         </section>
 
         <!-- ==================== Contact / Footer CTA ==================== -->
-        <section id="contact" class="bg-brand-dark rounded-3xl p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl">
-            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-brand-blue rounded-full blur-3xl opacity-30 pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-brand-emerald rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+        <section id="contact" class="bg-gradient-to-br from-[#1D1D1F] via-[#161B26] to-[#0F172A] rounded-[32px] p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl reveal">
+            <div class="absolute top-0 right-0 -mr-24 -mt-24 w-80 h-80 bg-apple-blue rounded-full blur-3xl opacity-30 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 bg-apple-emerald rounded-full blur-3xl opacity-20 pointer-events-none"></div>
             
-            <h2 id="footer-title" class="text-3xl md:text-4xl font-bold mb-4 relative z-10">Ready to build something impactful?</h2>
-            <p id="footer-sub" class="text-slate-300 max-w-2xl mx-auto mb-10 relative z-10">I am actively seeking collaboration and professional opportunities where tech meets business logic.</p>
+            <h2 id="footer-title" class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 relative z-10">Ready to build something impactful?</h2>
+            <p id="footer-sub" class="text-slate-300 text-base md:text-lg max-w-2xl mx-auto mb-10 relative z-10">I am actively seeking collaboration and professional opportunities where tech meets business logic.</p>
             
-            <div class="flex flex-wrap justify-center gap-4 relative z-10">
-                <a id="footer-wa" href="#" target="_blank" class="bg-brand-emerald text-white px-8 py-3.5 rounded-full font-medium hover:bg-emerald-600 transition flex items-center gap-2 shadow-lg">
+            <div class="flex flex-wrap justify-center gap-3.5 relative z-10">
+                <a id="footer-wa" href="#" target="_blank" class="bg-[#10B981] text-white px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-emerald-600 transition flex items-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-[0.98]">
                     <i class='bx bxl-whatsapp text-xl'></i> WhatsApp
                 </a>
-                <a id="footer-linkedin" href="#" target="_blank" class="bg-brand-blue text-white px-8 py-3.5 rounded-full font-medium hover:bg-blue-700 transition flex items-center gap-2 shadow-lg">
+                <a id="footer-linkedin" href="#" target="_blank" class="bg-apple-blue text-white px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-apple-blueHover transition flex items-center gap-2 shadow-lg shadow-blue-500/25 active:scale-[0.98]">
                     <i class='bx bxl-linkedin text-xl'></i> LinkedIn
                 </a>
             </div>
             
-            <p class="mt-12 text-sm text-slate-400 relative z-10">
+            <p class="mt-12 text-xs text-slate-400 relative z-10">
                 Alternatively, drop an email to: <a id="footer-email-link" href="mailto:jidan1307@gmail.com"><span id="footer-email" class="text-white font-semibold hover:underline">jidan1307@gmail.com</span></a>
             </p>
         </section>
 
     </main>
 
-    <footer class="text-center py-8 text-slate-400 text-sm font-medium">
+    <footer class="text-center py-8 text-apple-secondary text-xs font-medium">
         &copy; 2026 Muhammad Zidan. Engineered for clarity.
     </footer>
 
-    <!-- Script for Mobile Menu -->
+    <!-- Script UI & Quick Look Modal -->
     <script>
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
@@ -283,11 +350,8 @@
 
         btn.addEventListener('click', () => {
             menu.classList.toggle('hidden');
-            if(menu.classList.contains('hidden')) {
-                icon.classList.replace('bx-x', 'bx-menu');
-            } else {
-                icon.classList.replace('bx-menu', 'bx-x');
-            }
+            if(menu.classList.contains('hidden')) icon.classList.replace('bx-x', 'bx-menu');
+            else icon.classList.replace('bx-menu', 'bx-x');
         });
 
         document.querySelectorAll('#mobile-menu a').forEach(link => {
@@ -296,6 +360,40 @@
                 icon.classList.replace('bx-x', 'bx-menu');
             });
         });
+
+        function openQuickLook(url, title) {
+            const modal = document.getElementById('quicklook-modal');
+            const body = document.getElementById('ql-body');
+            document.getElementById('ql-title').innerText = title || 'Credential Preview';
+            document.getElementById('ql-external').href = url;
+
+            const isPdf = url.toLowerCase().includes('.pdf');
+            if (isPdf) {
+                body.innerHTML = `<iframe src="${url}" class="w-full h-[70vh] border-0"></iframe>`;
+            } else {
+                body.innerHTML = `<img src="${url}" alt="${title}" class="max-h-[75vh] w-auto object-contain p-4 rounded-xl">`;
+            }
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeQuickLook() {
+            document.getElementById('quicklook-modal').classList.add('hidden');
+            document.getElementById('ql-body').innerHTML = '';
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeQuickLook();
+        });
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     </script>
 
     <!-- Script Supabase -->
@@ -326,25 +424,25 @@
                     }
                 }
 
-                // 2. LOAD PROYEK DINAMIS DARI ADMIN
+                // 2. LOAD PROYEK DINAMIS
                 const { data: projects } = await supabaseClient.from('projects').select('*').order('created_at', { ascending: true });
                 if (projects && projects.length > 0) {
                     const gridContainer = document.getElementById('projects-grid');
                     projects.forEach(project => {
                         const card = document.createElement('div');
-                        card.className = "group bento-card bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm flex flex-col";
+                        card.className = "group apple-card rounded-[28px] overflow-hidden flex flex-col";
                         card.innerHTML = `
-                            <div class="h-56 bg-slate-100 overflow-hidden relative">
-                                <img src="${project.image_url}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="h-60 bg-slate-100 overflow-hidden relative">
+                                <img src="${project.image_url}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
                             </div>
                             <div class="p-8 flex flex-col flex-grow">
                                 <div class="flex gap-2 mb-4">
-                                    <span class="px-3 py-1 bg-brand-dark text-white text-xs font-semibold rounded-full">Featured</span>
+                                    <span class="px-3 py-1 bg-blue-50 text-apple-blue text-xs font-semibold rounded-full">Featured</span>
                                 </div>
-                                <h3 class="text-2xl font-bold text-brand-dark mb-3">${project.title}</h3>
-                                <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">${project.description || ''}</p>
-                                <a href="project-detail?id=${project.id}" class="inline-flex items-center text-brand-blue font-semibold hover:text-brand-dark transition-colors mt-auto">
-                                    Read Case Study <i class='bx bx-right-arrow-alt ml-2 text-xl'></i>
+                                <h3 class="text-xl md:text-2xl font-bold text-apple-text tracking-tight mb-2.5">${project.title}</h3>
+                                <p class="text-apple-secondary text-sm leading-relaxed mb-6 flex-grow">${project.description || ''}</p>
+                                <a href="project-detail?id=${project.id}" class="inline-flex items-center text-apple-blue text-sm font-semibold hover:underline transition-all mt-auto">
+                                    Read Case Study <i class='bx bx-chevron-right ml-1 text-lg'></i>
                                 </a>
                             </div>
                         `;
@@ -352,13 +450,12 @@
                     });
                 }
 
-                // 3. LOAD TECHNICAL ARSENAL (BEBAS KATEGORI + ICON OTOMATIS)
+                // 3. LOAD TECHNICAL ARSENAL
                 const { data: arsenal } = await supabaseClient.from('arsenal').select('*').order('id', { ascending: true });
                 const arsenalContainer = document.getElementById('arsenal-container');
                 if (arsenal && arsenal.length > 0) {
                     arsenalContainer.innerHTML = '';
                     
-                    // Peta Icon Otomatis berdasarkan kata kunci kategori
                     const getSmartIcon = (catName, customIcon) => {
                         if (customIcon) return customIcon;
                         const lower = catName.toLowerCase();
@@ -367,49 +464,46 @@
                         if (lower.includes('devops') || lower.includes('cloud') || lower.includes('server')) return 'bx-server';
                         if (lower.includes('web') || lower.includes('dev') || lower.includes('code')) return 'bx-code-alt';
                         if (lower.includes('design') || lower.includes('ui')) return 'bx-palette';
-                        return 'bx-layer'; // Default icon
+                        return 'bx-layer';
                     };
 
                     const categories = {};
                     arsenal.forEach(skill => {
                         const cat = skill.category || 'General Skills';
                         if (!categories[cat]) {
-                            categories[cat] = { 
-                                icon: getSmartIcon(cat, skill.icon), 
-                                skills: [] 
-                            };
+                            categories[cat] = { icon: getSmartIcon(cat, skill.icon), skills: [] };
                         }
                         categories[cat].skills.push(skill.name);
                         if (skill.icon) categories[cat].icon = skill.icon;
                     });
 
                     const colorThemes = [
-                        { bg: 'bg-blue-50', text: 'text-brand-blue' },
-                        { bg: 'bg-emerald-50', text: 'text-brand-emerald' },
-                        { bg: 'bg-slate-100', text: 'text-brand-dark' }
+                        { bg: 'bg-blue-50', text: 'text-apple-blue', pill: 'bg-blue-50/70 text-blue-900 border-blue-100' },
+                        { bg: 'bg-emerald-50', text: 'text-emerald-600', pill: 'bg-emerald-50/70 text-emerald-900 border-emerald-100' },
+                        { bg: 'bg-indigo-50', text: 'text-indigo-600', pill: 'bg-indigo-50/70 text-indigo-900 border-indigo-100' }
                     ];
 
                     let index = 0;
                     for (const [catName, catData] of Object.entries(categories)) {
                         const theme = colorThemes[index % colorThemes.length];
                         index++;
-                        const skillsHTML = catData.skills.map(s => `<span class="px-3 py-1 bg-slate-50 text-slate-600 text-sm font-medium rounded-md border border-slate-200">${s}</span>`).join('');
+                        const skillsHTML = catData.skills.map(s => `<span class="px-3.5 py-1.5 ${theme.pill} border text-xs font-semibold rounded-full">${s}</span>`).join('');
                         
                         arsenalContainer.innerHTML += `
-                            <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition">
-                                <div class="w-12 h-12 ${theme.bg} ${theme.text} rounded-xl flex items-center justify-center text-2xl mb-6">
+                            <div class="apple-card p-8 rounded-[28px]">
+                                <div class="w-12 h-12 ${theme.bg} ${theme.text} rounded-2xl flex items-center justify-center text-2xl mb-6">
                                     <i class='bx ${catData.icon}'></i>
                                 </div>
-                                <h3 class="text-xl font-bold text-brand-dark mb-4">${catName}</h3>
+                                <h3 class="text-xl font-bold text-apple-text tracking-tight mb-4">${catName}</h3>
                                 <div class="flex flex-wrap gap-2">${skillsHTML}</div>
                             </div>
                         `;
                     }
                 } else {
-                    arsenalContainer.innerHTML = '<p class="text-center text-slate-400 col-span-3">Belum ada skill yang ditambahkan di dashboard.</p>';
+                    arsenalContainer.innerHTML = '<p class="text-center text-apple-secondary col-span-3 text-sm">Belum ada skill yang ditambahkan di dashboard.</p>';
                 }
 
-                // 4. LOAD EDUKASI DINAMIS (JIKA ADA DATA DI SUPABASE)
+                // 4. LOAD EDUKASI
                 const { data: edus } = await supabaseClient.from('education').select('*').order('id', { ascending: false });
                 if (edus && edus.length > 0) {
                     const eduContainer = document.getElementById('edu-container');
@@ -422,14 +516,14 @@
                         if (edu.gpa) metaParts.push(`GPA: ${edu.gpa}`);
                         
                         eduContainer.innerHTML += `
-                            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex gap-4">
-                                <div class="w-14 h-14 rounded-xl bg-blue-50 text-brand-blue flex-shrink-0 flex items-center justify-center text-2xl">
-                                    <i class='bx bxs-school'></i>
+                            <div class="apple-card p-6 rounded-[24px] flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-blue-50 text-apple-blue flex-shrink-0 flex items-center justify-center text-2xl">
+                                    <i class='bx bxs-graduation'></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-brand-dark text-lg">${edu.institution}</h3>
-                                    <p class="text-slate-600 font-medium text-sm">${edu.degree}</p>
-                                    <p class="text-slate-400 text-sm mt-1">${metaParts.join(' &bull; ')}</p>
+                                    <h3 class="font-bold text-apple-text text-lg tracking-tight">${edu.institution}</h3>
+                                    <p class="text-apple-secondary font-medium text-sm">${edu.degree}</p>
+                                    <p class="text-slate-400 text-xs mt-1">${metaParts.join(' &bull; ')}</p>
                                 </div>
                             </div>
                         `;
@@ -442,17 +536,25 @@
                 if (certs && certs.length > 0) {
                     certContainer.innerHTML = '';
                     certs.forEach(cert => {
-                        const viewBtn = cert.file_url ? `<a href="${cert.file_url}" target="_blank" class="mt-2 text-sm text-brand-emerald font-semibold hover:underline inline-flex items-center gap-1"><i class='bx bx-link-external'></i> View Credential</a>` : '';
+                        const safeTitle = cert.title.replace(/'/g, "\\'");
+                        const viewBtn = cert.file_url 
+                            ? `<button type="button" onclick="openQuickLook('${cert.file_url}', '${safeTitle}')" class="mt-2.5 text-xs text-apple-blue font-semibold hover:underline inline-flex items-center gap-1"><i class='bx bx-show text-sm'></i> Quick Look Credential</button>` 
+                            : '';
                         certContainer.innerHTML += `
-                            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:border-brand-blue transition-colors">
-                                <h4 class="font-bold text-brand-dark text-base">${cert.title}</h4>
-                                <p class="text-xs text-slate-500 mt-1">${cert.issuer}${cert.year ? ', ' + cert.year : ''}</p>
-                                ${viewBtn}
+                            <div class="apple-card p-5 rounded-[22px] flex items-start justify-between gap-4">
+                                <div>
+                                    <h4 class="font-bold text-apple-text text-base tracking-tight">${cert.title}</h4>
+                                    <p class="text-xs text-apple-secondary mt-0.5">${cert.issuer}${cert.year ? ' &bull; ' + cert.year : ''}</p>
+                                    ${viewBtn}
+                                </div>
+                                <div class="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 flex-shrink-0 flex items-center justify-center text-lg">
+                                    <i class='bx bx-badge-check'></i>
+                                </div>
                             </div>
                         `;
                     });
                 } else {
-                    certContainer.innerHTML = '<p class="text-slate-400 text-sm">Belum ada sertifikasi yang ditambahkan.</p>';
+                    certContainer.innerHTML = '<p class="text-apple-secondary text-sm">Belum ada sertifikasi yang ditambahkan.</p>';
                 }
 
             } catch (error) {

@@ -1,122 +1,313 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Proyek - MZ.</title>
-    <!-- Gunakan Tailwind CDN untuk kemudahan styling halaman dinamis -->
+    <title>Case Study — Muhammad Zidan</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <style>
-        /* Styling khusus agar output dari CKEditor (Tabel, Heading, List) tampil rapi */
-        .rich-text h1, .rich-text h2, .rich-text h3 { color: #0f766e; font-weight: bold; margin-top: 1.5em; margin-bottom: 0.5em; }
-        .rich-text h2 { font-size: 1.5rem; }
-        .rich-text h3 { font-size: 1.25rem; }
-        .rich-text p { margin-bottom: 1em; line-height: 1.7; color: #334155; }
-        .rich-text ul { list-style-type: disc; margin-left: 1.5em; margin-bottom: 1em; }
-        .rich-text ol { list-style-type: decimal; margin-left: 1.5em; margin-bottom: 1em; }
-        .rich-text table { width: 100%; border-collapse: collapse; margin-bottom: 1.5em; font-size: 0.9rem; }
-        .rich-text th, .rich-text td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
-        .rich-text th { background-color: #f1f5f9; font-weight: bold; color: #1e293b; }
-        .rich-text strong { font-weight: 600; color: #0f172a; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+            background-color: #F8F9FC;
+            color: #1D1D1F;
+            -webkit-font-smoothing: antialiased;
+            background-image: 
+                radial-gradient(at 15% 8%, rgba(0, 113, 227, 0.07) 0px, transparent 50%),
+                radial-gradient(at 85% 15%, rgba(16, 185, 129, 0.08) 0px, transparent 50%);
+        }
+        .apple-nav {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+        }
+        .prose-apple h2, .prose-apple h3 { font-weight: 700; color: #1D1D1F; margin-top: 2rem; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
+        .prose-apple h2 { font-size: 1.5rem; }
+        .prose-apple h3 { font-size: 1.25rem; }
+        .prose-apple p { color: #3A3A3C; line-height: 1.75; margin-bottom: 1.15rem; font-size: 1.02rem; }
+        .prose-apple ul, .prose-apple ol { margin-left: 1.5rem; margin-bottom: 1.25rem; color: #3A3A3C; line-height: 1.7; }
+        .prose-apple ul { list-style-type: disc; }
+        .prose-apple ol { list-style-type: decimal; }
+        .prose-apple table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; background: #FFF; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+        .prose-apple th { background: #F2F4F8; font-weight: 600; text-align: left; padding: 12px 16px; font-size: 0.875rem; color: #1D1D1F; border-bottom: 1px solid #E5E7EB; }
+        .prose-apple td { padding: 12px 16px; font-size: 0.9rem; border-bottom: 1px solid #F1F5F9; color: #3A3A3C; }
+        .prose-apple blockquote { border-left: 3px solid #0071E3; padding-left: 1rem; color: #515154; font-style: italic; margin: 1.5rem 0; }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="antialiased pb-24">
 
-    <!-- Header Judul -->
-    <header class="bg-slate-100 py-16 border-b border-slate-200 text-center px-4">
-        <div class="max-w-4xl mx-auto">
-            <h1 id="page-title" class="text-3xl md:text-5xl font-bold text-teal-600 mb-4">Memuat Judul...</h1>
-            <p class="text-slate-500">Dibuat oleh: Muhammad Zidan</p>
+    <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[92%] max-w-4xl z-50 apple-nav rounded-full px-5 py-3 flex justify-between items-center">
+        <a href="./#projects" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0071E3] hover:opacity-80 transition">
+            <i class='bx bx-chevron-left text-xl'></i> Back to Portfolio
+        </a>
+        <span class="text-xs font-bold tracking-wider uppercase text-slate-400">Case Study</span>
+        <a href="./#contact" class="bg-[#1D1D1F] text-white text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-[#0071E3] transition">
+            Let's Talk
+        </a>
+    </nav>
+
+    <main class="pt-28 px-5 sm:px-8 max-w-4xl mx-auto">
+        <header class="text-center max-w-3xl mx-auto mb-10">
+            <span class="inline-block px-3.5 py-1 rounded-full bg-blue-50 text-[#0071E3] text-xs font-bold uppercase tracking-wider mb-4">Project Case Study</span>
+            <h1 id="proj-title" class="text-3xl sm:text-5xl font-extrabold text-[#1D1D1F] tracking-tight leading-tight mb-4">Memuat Studi Kasus...</h1>
+            <p id="proj-desc" class="text-base sm:text-lg text-[#515154] leading-relaxed"></p>
+        </header>
+
+        <div id="cover-wrapper" class="hidden mb-12 rounded-[28px] overflow-hidden shadow-xl border border-black/5 bg-white">
+            <img id="proj-cover" src="" alt="Project Cover" class="w-full max-h-[480px] object-cover">
         </div>
-    </header>
 
-    <!-- Konten Utama -->
-    <main class="max-w-4xl mx-auto py-12 px-6 bg-white shadow-sm min-h-screen">
-        
-        <!-- Area Konten Artikel (Dari CKEditor) -->
-        <div id="page-content" class="rich-text mb-16">
-            <p class="text-center text-slate-400">Sedang memuat konten studi kasus...</p>
+        <div id="action-bar" class="hidden flex flex-wrap justify-center gap-3 mb-12">
+            <a id="proj-pdf" href="#" target="_blank" class="hidden inline-flex items-center gap-2 bg-[#0071E3] text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#0077ED] transition shadow-md shadow-blue-500/20">
+                <i class='bx bxs-file-pdf text-lg'></i> View Full Report (PDF)
+            </a>
+            <a id="proj-link" href="#" target="_blank" class="hidden inline-flex items-center gap-2 bg-white text-[#1D1D1F] border border-black/10 px-6 py-3 rounded-full text-sm font-semibold hover:bg-gray-50 transition">
+                <i class='bx bx-link-external text-lg text-[#0071E3]'></i> Open Repository / Demo
+            </a>
         </div>
 
-        <!-- Area Galeri Dokumentasi -->
-        <div id="gallery-section" class="hidden">
-            <h2 class="text-2xl font-bold text-teal-600 text-center mb-8">Dokumentasi Proyek</h2>
-            <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Gambar galeri akan dimuat di sini -->
+        <article class="bg-white rounded-[32px] p-7 sm:p-12 shadow-sm border border-black/5">
+            <div id="proj-content" class="prose-apple">
+                <p class="text-center text-slate-400">Mengambil detail studi kasus...</p>
             </div>
-        </div>
 
-        <!-- Tombol PDF & Kembali -->
-        <div class="mt-16 pt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <a href="index.html" class="text-slate-500 hover:text-teal-600 transition-colors font-medium">&larr; Kembali ke Beranda</a>
-            <div id="action-buttons" class="flex gap-4">
-                <!-- Tombol PDF akan muncul di sini jika ada -->
+            <div id="gallery-section" class="hidden mt-14 pt-10 border-t border-black/5">
+                <h3 class="text-xl font-bold text-[#1D1D1F] mb-6">Documentation & Visuals</h3>
+                <div id="proj-gallery" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
             </div>
-        </div>
+        </article>
     </main>
 
-    <!-- Script Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
         const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        async function loadProjectDetails() {
-            // 1. Ambil ID dari URL (contoh: project-detail.html?id=123)
-            const urlParams = new URLSearchParams(window.location.search);
-            const projectId = urlParams.get('id');
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
 
-            if (!projectId) {
-                document.getElementById('page-title').innerText = "Proyek Tidak Ditemukan";
-                document.getElementById('page-content').innerHTML = "<p>URL tidak valid.</p>";
-                return;
+            let query = supabaseClient.from('projects').select('*');
+            if (id) {
+                query = query.eq('id', id).single();
+            } else {
+                // Fallback jika server lokal menghapus ?id= saat redirect
+                query = query.order('created_at', { ascending: false }).limit(1).single();
             }
 
-            // 2. Tarik data dari database berdasarkan ID
-            const { data, error } = await supabaseClient.from('projects').select('*').eq('id', projectId).single();
+            const { data: proj, error } = await query;
+            if (proj) {
+                document.title = `${proj.title} — Muhammad Zidan`;
+                document.getElementById('proj-title').innerText = proj.title;
+                document.getElementById('proj-desc').innerText = proj.description || '';
+                document.getElementById('proj-content').innerHTML = proj.content || '<p>Tidak ada deskripsi detail.</p>';
 
-            if (error || !data) {
-                document.getElementById('page-title').innerText = "Gagal Memuat Proyek";
-                document.getElementById('page-content').innerHTML = `<p>${error?.message || 'Data kosong'}</p>`;
-                return;
-            }
-
-            // 3. Render Judul & Konten Teks
-            document.getElementById('page-title').innerText = data.title;
-            document.getElementById('page-content').innerHTML = data.content || "<p>Belum ada detail untuk proyek ini.</p>";
-
-            // 4. Render Tombol Eksternal / PDF
-            const actionContainer = document.getElementById('action-buttons');
-            if (data.pdf_url) {
-                actionContainer.innerHTML += `<a href="${data.pdf_url}" target="_blank" class="px-6 py-2 bg-teal-600 text-white rounded-full font-medium hover:bg-teal-700 transition-colors">Buka PDF</a>`;
-            }
-            if (data.link) {
-                let finalUrl = data.link.startsWith('http') ? data.link : 'https://' + data.link;
-                actionContainer.innerHTML += `<a href="${finalUrl}" target="_blank" class="px-6 py-2 border border-slate-300 text-slate-700 rounded-full font-medium hover:bg-slate-50 transition-colors">Kunjungi Link</a>`;
-            }
-
-            // 5. Render Galeri Gambar
-            if (data.gallery && data.gallery.length > 0) {
-                document.getElementById('gallery-section').classList.remove('hidden');
-                const grid = document.getElementById('gallery-grid');
-                
-                data.gallery.forEach(item => {
-                    grid.innerHTML += `
-                        <div class="bg-white rounded-xl overflow-hidden border border-slate-100 shadow-sm flex flex-col">
-                            <div class="h-64 bg-slate-50 overflow-hidden flex items-center justify-center p-4">
-                                <img src="${item.image_url}" alt="Dokumentasi" class="max-w-full max-h-full object-contain">
+                if (proj.image_url) {
+                    document.getElementById('proj-cover').src = proj.image_url;
+                    document.getElementById('cover-wrapper').classList.remove('hidden');
+                }
+                if (proj.pdf_url || proj.link) {
+                    document.getElementById('action-bar').classList.remove('hidden');
+                    if (proj.pdf_url) {
+                        const pdfBtn = document.getElementById('proj-pdf');
+                        pdfBtn.href = proj.pdf_url;
+                        pdfBtn.classList.remove('hidden');
+                    }
+                    if (proj.link) {
+                        const linkBtn = document.getElementById('proj-link');
+                        linkBtn.href = proj.link;
+                        linkBtn.classList.remove('hidden');
+                    }
+                }
+                if (proj.gallery && proj.gallery.length > 0) {
+                    document.getElementById('gallery-section').classList.remove('hidden');
+                    const galContainer = document.getElementById('proj-gallery');
+                    proj.gallery.forEach(item => {
+                        galContainer.innerHTML += `
+                            <div class="rounded-2xl overflow-hidden border border-black/5 bg-[#F8F9FC]">
+                                <img src="${item.image_url}" alt="${item.caption || ''}" class="w-full h-56 object-cover">
+                                ${item.caption ? `<p class="p-3.5 text-xs font-medium text-[#515154]">${item.caption}</p>` : ''}
                             </div>
-                            <div class="p-4 text-center border-t border-slate-50">
-                                <p class="text-sm text-slate-600">${item.caption || 'Tanpa keterangan'}</p>
-                            </div>
-                        </div>
-                    `;
-                });
+                        `;
+                    });
+                }
+            } else {
+                document.getElementById('proj-title').innerText = 'Proyek Tidak Ditemukan';
+                document.getElementById('proj-content').innerHTML = '<p class="text-center text-slate-500">Data proyek belum tersedia atau telah dihapus.</p>';
             }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadProjectDetails);
+        });
     </script>
+    <!-- ==================== iOS Photos / Quick Look Lightbox ==================== -->
+<style>
+    .apple-zoomable {
+        cursor: zoom-in !important;
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease !important;
+    }
+    .apple-zoomable:hover {
+        transform: scale(1.015) !important;
+        box-shadow: 0 14px 30px rgba(0, 113, 227, 0.14) !important;
+    }
+    #ios-lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: rgba(15, 15, 18, 0.82);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #ios-lightbox.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .ios-lb-toolbar {
+        position: fixed;
+        top: 20px;
+        right: 24px;
+        display: flex;
+        gap: 10px;
+        z-index: 100001;
+    }
+    .ios-lb-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(44, 44, 46, 0.72);
+        backdrop-filter: blur(12px);
+        color: #FFFFFF;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .ios-lb-btn:hover { background: rgba(72, 72, 74, 0.9); transform: scale(1.06); }
+    .ios-lb-stage {
+        max-width: 92vw;
+        max-height: 80vh;
+        overflow: auto;
+        border-radius: 22px;
+        box-shadow: 0 28px 70px rgba(0, 0, 0, 0.55);
+        background: #FFFFFF;
+        transform: scale(0.94);
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #ios-lightbox.active .ios-lb-stage { transform: scale(1); }
+    #ios-lb-img {
+        display: block;
+        max-width: 90vw;
+        max-height: 78vh;
+        width: auto;
+        height: auto;
+        margin: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        cursor: zoom-in;
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        transform-origin: center center;
+    }
+    #ios-lb-img.zoomed {
+        max-width: none;
+        max-height: none;
+        width: 145vw;
+        cursor: zoom-out;
+    }
+    .ios-lb-caption {
+        margin-top: 16px;
+        padding: 8px 18px;
+        border-radius: 999px;
+        background: rgba(44, 44, 46, 0.75);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #F5F5F7;
+        font-size: 13px;
+        font-weight: 500;
+        text-align: center;
+        max-width: 85vw;
+    }
+</style>
+
+<div id="ios-lightbox" onclick="closeIosLightbox()">
+    <div class="ios-lb-toolbar" onclick="event.stopPropagation()">
+        <button type="button" class="ios-lb-btn" onclick="toggleIosZoom()" title="Perbesar / Perkecil (Zoom)">
+            <i id="ios-lb-zoom-icon" class='bx bx-zoom-in'></i>
+        </button>
+        <button type="button" class="ios-lb-btn" onclick="closeIosLightbox()" title="Tutup (Esc)">
+            <i class='bx bx-x'></i>
+        </button>
+    </div>
+    <div class="ios-lb-stage" onclick="event.stopPropagation()">
+        <img id="ios-lb-img" src="" alt="Preview" onclick="toggleIosZoom()">
+    </div>
+    <div id="ios-lb-caption" class="ios-lb-caption hidden"></div>
+</div>
+
+<script>
+    const lbModal = document.getElementById('ios-lightbox');
+    const lbImg = document.getElementById('ios-lb-img');
+    const lbCap = document.getElementById('ios-lb-caption');
+    const lbZoomIcon = document.getElementById('ios-lb-zoom-icon');
+
+    function openIosLightbox(src, captionText) {
+        lbImg.src = src;
+        lbImg.classList.remove('zoomed');
+        lbZoomIcon.className = 'bx bx-zoom-in';
+        if (captionText && captionText.trim() !== '') {
+            lbCap.innerText = captionText.trim();
+            lbCap.classList.remove('hidden');
+        } else {
+            lbCap.classList.add('hidden');
+        }
+        lbModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeIosLightbox() {
+        lbModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function toggleIosZoom() {
+        const isZoomed = lbImg.classList.toggle('zoomed');
+        lbZoomIcon.className = isZoomed ? 'bx bx-zoom-out' : 'bx bx-zoom-in';
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeIosLightbox();
+    });
+
+    // Otomatis aktifkan klik-perbesar pada semua gambar proyek (termasuk yang dimuat dinamis dari Supabase)
+    function attachLightboxToImages() {
+        document.querySelectorAll('main img, .container img, article img, figure img').forEach(img => {
+            if (img.id === 'ios-lb-img' || img.dataset.lbBound) return;
+            img.dataset.lbBound = 'true';
+            img.classList.add('apple-zoomable');
+            img.addEventListener('click', () => {
+                // Ambil caption dari teks di bawah gambar atau atribut alt
+                const parentCard = img.closest('figure, .gallery-card, div');
+                const captionEl = parentCard ? parentCard.querySelector('figcaption, p') : null;
+                const cap = (captionEl && captionEl.innerText.length < 120) ? captionEl.innerText : (img.alt || '');
+                openIosLightbox(img.src, cap);
+            });
+        });
+    }
+
+    attachLightboxToImages();
+    const imgObserver = new MutationObserver(attachLightboxToImages);
+    imgObserver.observe(document.body, { childList: true, subtree: true });
+</script>
 </body>
 </html>

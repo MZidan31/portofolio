@@ -22,6 +22,173 @@
             line-height: 1.5;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<style>
+   * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif !important;
+    background-color: #F8F9FC !important;
+    background-image: 
+        radial-gradient(at 15% 8%, rgba(0, 113, 227, 0.07) 0px, transparent 50%),
+        radial-gradient(at 85% 15%, rgba(16, 185, 129, 0.08) 0px, transparent 50%) !important;
+    color: #1D1D1F !important;
+    margin: 0 !important;
+    padding: 110px 16px 80px 16px !important;
+    line-height: 1.75 !important;
+}
+
+/* 1. Pastikan Apple Floating Navbar selalu muncul di atas */
+.apple-top-nav {
+    position: fixed !important;
+    top: 16px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 92% !important;
+    max-width: 896px !important;
+    z-index: 9999 !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: saturate(180%) blur(20px) !important;
+    -webkit-backdrop-filter: saturate(180%) blur(20px) !important;
+    border: 1px solid rgba(0, 0, 0, 0.07) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04) !important;
+    border-radius: 999px !important;
+    padding: 12px 22px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+.apple-top-nav a.back-btn {
+    color: #0071E3 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+.apple-top-nav span.nav-label {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    color: #8E8E93 !important;
+}
+.apple-top-nav a.cta-btn {
+    background: #1D1D1F !important;
+    color: #FFFFFF !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    padding: 7px 16px !important;
+    border-radius: 999px !important;
+    text-decoration: none !important;
+}
+
+/* 2. Hilangkan kotak putih pada Header & tambahkan badge pill biru otomatis */
+header {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 10px 16px 24px 16px !important;
+    text-align: center !important;
+    max-width: 820px !important;
+    margin: 0 auto 20px auto !important;
+}
+header::before {
+    content: "PROJECT CASE STUDY";
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: #EFF6FF;
+    color: #0071E3;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    margin-bottom: 16px;
+}
+header h1 {
+    color: #1D1D1F !important;
+    font-size: clamp(30px, 4.5vw, 48px) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.15 !important;
+    margin: 0 0 12px 0 !important;
+}
+header p {
+    color: #515154 !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    margin: 0 !important;
+}
+
+/* 3. Hapus Double Card: netralkan pembungkus luar, jadikan hanya 1 kartu putih bersih */
+.container {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    max-width: 896px !important;
+    margin: 0 auto !important;
+}
+main, section.content, .card {
+    max-width: 896px !important;
+    margin: 0 auto !important;
+    background: #FFFFFF !important;
+    border-radius: 32px !important;
+    padding: clamp(28px, 5vw, 52px) !important;
+    box-shadow: 0 6px 28px rgba(15, 23, 42, 0.04) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+/* Jika ada div bertumpuk di dalam main, cegah border ganda */
+main > div, main > section {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* Tipografi & Tabel Apple Editorial */
+h2, h3 {
+    color: #1D1D1F !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+    margin-top: 32px !important;
+    margin-bottom: 12px !important;
+}
+p, li {
+    color: #3A3A3C !important;
+    font-size: 16px !important;
+}
+img {
+    border-radius: 20px !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 16px 0 !important;
+}
+table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 24px 0 !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    border: 1px solid #E5E7EB !important;
+}
+th {
+    background: #F2F4F8 !important;
+    color: #1D1D1F !important;
+    font-weight: 600 !important;
+    padding: 12px 16px !important;
+    text-align: left !important;
+    font-size: 14px !important;
+}
+td {
+    padding: 12px 16px !important;
+    border-top: 1px solid #F1F5F9 !important;
+    font-size: 14px !important;
+    color: #3A3A3C !important;
+}
+</style>
 </head>
 <body>
 
@@ -215,5 +382,185 @@
     <footer class="py-6 bg-neutral-900 text-center text-neutral-400 text-sm">
         &copy; 2025 Muhammad Zidan. All Rights Reserved.
     </footer>
+    <script>
+    if (!document.querySelector('.apple-top-nav')) {
+        const nav = document.createElement('nav');
+        nav.className = 'apple-top-nav';
+        nav.innerHTML = `
+            <a href="./#projects" class="back-btn"><i class='bx bx-chevron-left' style="font-size:20px;"></i> Back to Portfolio</a>
+            <span class="nav-label">Case Study</span>
+            <a href="./#contact" class="cta-btn">Let's Talk</a>
+        `;
+        document.body.prepend(nav);
+    }
+</script>
+<!-- ==================== iOS Photos / Quick Look Lightbox ==================== -->
+<style>
+    .apple-zoomable {
+        cursor: zoom-in !important;
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease !important;
+    }
+    .apple-zoomable:hover {
+        transform: scale(1.015) !important;
+        box-shadow: 0 14px 30px rgba(0, 113, 227, 0.14) !important;
+    }
+    #ios-lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: rgba(15, 15, 18, 0.82);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #ios-lightbox.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .ios-lb-toolbar {
+        position: fixed;
+        top: 20px;
+        right: 24px;
+        display: flex;
+        gap: 10px;
+        z-index: 100001;
+    }
+    .ios-lb-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(44, 44, 46, 0.72);
+        backdrop-filter: blur(12px);
+        color: #FFFFFF;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .ios-lb-btn:hover { background: rgba(72, 72, 74, 0.9); transform: scale(1.06); }
+    .ios-lb-stage {
+        max-width: 92vw;
+        max-height: 80vh;
+        overflow: auto;
+        border-radius: 22px;
+        box-shadow: 0 28px 70px rgba(0, 0, 0, 0.55);
+        background: #FFFFFF;
+        transform: scale(0.94);
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #ios-lightbox.active .ios-lb-stage { transform: scale(1); }
+    #ios-lb-img {
+        display: block;
+        max-width: 90vw;
+        max-height: 78vh;
+        width: auto;
+        height: auto;
+        margin: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        cursor: zoom-in;
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        transform-origin: center center;
+    }
+    #ios-lb-img.zoomed {
+        max-width: none;
+        max-height: none;
+        width: 145vw;
+        cursor: zoom-out;
+    }
+    .ios-lb-caption {
+        margin-top: 16px;
+        padding: 8px 18px;
+        border-radius: 999px;
+        background: rgba(44, 44, 46, 0.75);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #F5F5F7;
+        font-size: 13px;
+        font-weight: 500;
+        text-align: center;
+        max-width: 85vw;
+    }
+</style>
+
+<div id="ios-lightbox" onclick="closeIosLightbox()">
+    <div class="ios-lb-toolbar" onclick="event.stopPropagation()">
+        <button type="button" class="ios-lb-btn" onclick="toggleIosZoom()" title="Perbesar / Perkecil (Zoom)">
+            <i id="ios-lb-zoom-icon" class='bx bx-zoom-in'></i>
+        </button>
+        <button type="button" class="ios-lb-btn" onclick="closeIosLightbox()" title="Tutup (Esc)">
+            <i class='bx bx-x'></i>
+        </button>
+    </div>
+    <div class="ios-lb-stage" onclick="event.stopPropagation()">
+        <img id="ios-lb-img" src="" alt="Preview" onclick="toggleIosZoom()">
+    </div>
+    <div id="ios-lb-caption" class="ios-lb-caption hidden"></div>
+</div>
+
+<script>
+    const lbModal = document.getElementById('ios-lightbox');
+    const lbImg = document.getElementById('ios-lb-img');
+    const lbCap = document.getElementById('ios-lb-caption');
+    const lbZoomIcon = document.getElementById('ios-lb-zoom-icon');
+
+    function openIosLightbox(src, captionText) {
+        lbImg.src = src;
+        lbImg.classList.remove('zoomed');
+        lbZoomIcon.className = 'bx bx-zoom-in';
+        if (captionText && captionText.trim() !== '') {
+            lbCap.innerText = captionText.trim();
+            lbCap.classList.remove('hidden');
+        } else {
+            lbCap.classList.add('hidden');
+        }
+        lbModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeIosLightbox() {
+        lbModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function toggleIosZoom() {
+        const isZoomed = lbImg.classList.toggle('zoomed');
+        lbZoomIcon.className = isZoomed ? 'bx bx-zoom-out' : 'bx bx-zoom-in';
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeIosLightbox();
+    });
+
+    // Otomatis aktifkan klik-perbesar pada semua gambar proyek (termasuk yang dimuat dinamis dari Supabase)
+    function attachLightboxToImages() {
+        document.querySelectorAll('main img, .container img, article img, figure img').forEach(img => {
+            if (img.id === 'ios-lb-img' || img.dataset.lbBound) return;
+            img.dataset.lbBound = 'true';
+            img.classList.add('apple-zoomable');
+            img.addEventListener('click', () => {
+                // Ambil caption dari teks di bawah gambar atau atribut alt
+                const parentCard = img.closest('figure, .gallery-card, div');
+                const captionEl = parentCard ? parentCard.querySelector('figcaption, p') : null;
+                const cap = (captionEl && captionEl.innerText.length < 120) ? captionEl.innerText : (img.alt || '');
+                openIosLightbox(img.src, cap);
+            });
+        });
+    }
+
+    attachLightboxToImages();
+    const imgObserver = new MutationObserver(attachLightboxToImages);
+    imgObserver.observe(document.body, { childList: true, subtree: true });
+</script>
 </body>
 </html>
