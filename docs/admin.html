@@ -639,17 +639,28 @@
         </div>
 
         <!-- TAB 4: TECHNICAL ARSENAL -->
+       <!-- TAB 4: TECHNICAL ARSENAL -->
         <div class="card admin-tab" id="tab-arsenal">
             <div id="form-arsenal">
                 <div class="section-header">
                     <div class="section-icon" style="background: rgba(255,149,0,0.14); color: var(--ios-orange);"><i class='bx bxs-chip'></i></div>
                     <h3 class="section-title">Technical Arsenal (Skill & Tools)</h3>
                 </div>
-                <div class="grid-3">
+                <div class="grid-2">
                     <div>
                         <label>Nama Skill / Tool</label>
-                        <input type="text" id="arsenal-name" placeholder="Cth: Python, KNIME, Excel">
+                        <input type="text" id="arsenal-name" placeholder="Cth: KNIME Analytics Platform">
                     </div>
+                    <div>
+                        <label>Level Kemahiran</label>
+                        <select id="arsenal-level">
+                            <option value="Advanced">Advanced (Core Skill — ●●●)</option>
+                            <option value="Intermediate" selected>Intermediate (Proficient — ●●○)</option>
+                            <option value="Familiar">Familiar (Basic / Working — ●○○)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid-2">
                     <div>
                         <label>Kategori (Pilih atau ketik baru)</label>
                         <input type="text" id="arsenal-category" list="category-suggestions" placeholder="Cth: Data & Analytics">
@@ -674,8 +685,6 @@
             <div class="sub-divider">Daftar Keahlian Aktif</div>
             <div id="arsenal-list" class="grid-2" style="gap: 12px; margin-top: 12px;"></div>
         </div>
-
-    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1086,12 +1095,13 @@
                 const list = document.getElementById('arsenal-list'); 
                 list.innerHTML = '';
                 arsenalData.forEach(item => {
+                    const lvl = item.level || 'Intermediate';
                     const div = document.createElement('div'); 
                     div.style.cssText = 'padding: 12px 14px; background: var(--ios-input); border-radius: 14px; display: flex; justify-content: space-between; align-items: center;';
                     div.innerHTML = `
                         <div class="list-info">
                             <h4 style="margin-bottom: 2px;">${item.name}</h4>
-                            <p style="font-size: 12px; color: var(--ios-blue); font-weight: 600;">${item.category || 'General Skills'}</p>
+                            <p style="font-size: 12px; color: var(--ios-blue); font-weight: 600;">${item.category || 'General Skills'} <span style="color:#8E8E93; font-weight:500;">&bull; ${lvl}</span></p>
                         </div>
                         <div style="display:flex; gap:6px;">
                             <button onclick="editArsenal(${item.id})" class="btn-edit btn-pill-sm">Edit</button>
@@ -1106,6 +1116,7 @@
             const item = arsenalData.find(x => x.id === id); 
             editingArsenalId = id;
             document.getElementById('arsenal-name').value = item.name; 
+            document.getElementById('arsenal-level').value = item.level || 'Intermediate';
             document.getElementById('arsenal-category').value = item.category || '';
             document.getElementById('arsenal-icon').value = item.icon || '';
             document.getElementById('btn-submit-arsenal').innerText = 'Update Skill'; 
@@ -1115,6 +1126,7 @@
         function cancelEditArsenal() {
             editingArsenalId = null; 
             document.getElementById('arsenal-name').value = ''; 
+            document.getElementById('arsenal-level').value = 'Intermediate';
             document.getElementById('arsenal-category').value = '';
             document.getElementById('arsenal-icon').value = '';
             document.getElementById('btn-submit-arsenal').innerText = 'Simpan Skill'; 
@@ -1123,6 +1135,7 @@
         async function saveArsenal() {
             const payload = { 
                 name: document.getElementById('arsenal-name').value, 
+                level: document.getElementById('arsenal-level').value,
                 category: document.getElementById('arsenal-category').value,
                 icon: document.getElementById('arsenal-icon').value
             };
