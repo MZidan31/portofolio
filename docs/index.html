@@ -53,8 +53,6 @@
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
             background-color: #F8F9FC;
             color: #1D1D1F;
-            opacity: 0;
-            transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
             -webkit-font-smoothing: antialiased;
         }
 
@@ -464,171 +462,190 @@
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     </script>
 
-    <!-- Script Supabase -->
+   <!-- Script Supabase (Optimized: Parallel Fetch + Instant Cache) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
         const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+        // Simpan HTML proyek statis bawaan agar tidak terduplikasi saat re-render dari cache/network
+        const initialStaticProjectsHTML = document.getElementById('projects-grid').innerHTML;
+
+        function renderPortfolioData({ profile, projects, arsenal, edus, certs }) {
+            // 1. RENDER PROFIL & FOOTER
+            if (profile) {
+                if (profile.photo_url) document.getElementById('hero-image').src = profile.photo_url;
+                if (profile.badge) document.getElementById('hero-badge').innerText = profile.badge;
+                if (profile.headline) document.getElementById('hero-headline').innerHTML = profile.headline;
+                if (profile.summary) document.getElementById('hero-summary').innerHTML = profile.summary;
+                if (profile.cv_url) document.getElementById('hero-cv').href = profile.cv_url;
+                
+                if (profile.footer_title) document.getElementById('footer-title').innerText = profile.footer_title;
+                if (profile.footer_sub) document.getElementById('footer-sub').innerText = profile.footer_sub;
+                if (profile.wa_link) document.getElementById('footer-wa').href = profile.wa_link;
+                if (profile.linkedin_link) document.getElementById('footer-linkedin').href = profile.linkedin_link;
+                if (profile.email) {
+                    document.getElementById('footer-email').innerText = profile.email;
+                    document.getElementById('footer-email-link').href = `mailto:${profile.email}`;
+                }
+            }
+
+            // 2. RENDER PROYEK DINAMIS
+            if (projects && projects.length > 0) {
+                const gridContainer = document.getElementById('projects-grid');
+                gridContainer.innerHTML = initialStaticProjectsHTML;
+                projects.forEach(project => {
+                    const card = document.createElement('div');
+                    card.className = "group apple-card rounded-[28px] overflow-hidden flex flex-col";
+                    card.innerHTML = `
+                        <div class="h-60 bg-slate-100 overflow-hidden relative">
+                            <img src="${project.image_url}" alt="${project.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <div class="flex gap-2 mb-4">
+                                <span class="px-3 py-1 bg-blue-50 text-apple-blue text-xs font-semibold rounded-full">Featured</span>
+                            </div>
+                            <h3 class="text-xl md:text-2xl font-bold text-apple-text tracking-tight mb-2.5">${project.title}</h3>
+                            <p class="text-apple-secondary text-sm leading-relaxed mb-6 flex-grow">${project.description || ''}</p>
+                            <a href="project-detail?id=${project.id}" class="inline-flex items-center text-apple-blue text-sm font-semibold hover:underline transition-all mt-auto">
+                                Read Case Study <i class='bx bx-chevron-right ml-1 text-lg'></i>
+                            </a>
+                        </div>
+                    `;
+                    gridContainer.insertBefore(card, gridContainer.firstChild);
+                });
+            }
+
+            // 3. RENDER TECHNICAL ARSENAL
+            const arsenalContainer = document.getElementById('arsenal-container');
+            if (arsenal && arsenal.length > 0) {
+                arsenalContainer.innerHTML = '';
+                const getSmartIcon = (catName, customIcon) => {
+                    if (customIcon) return customIcon;
+                    const lower = catName.toLowerCase();
+                    if (lower.includes('data') || lower.includes('analytic') || lower.includes('ai')) return 'bx-coin-stack';
+                    if (lower.includes('iot') || lower.includes('eng') || lower.includes('hard')) return 'bx-chip';
+                    if (lower.includes('devops') || lower.includes('cloud') || lower.includes('server')) return 'bx-server';
+                    if (lower.includes('web') || lower.includes('dev') || lower.includes('code')) return 'bx-code-alt';
+                    if (lower.includes('design') || lower.includes('ui')) return 'bx-palette';
+                    return 'bx-layer';
+                };
+
+                const categories = {};
+                arsenal.forEach(skill => {
+                    const cat = skill.category || 'General Skills';
+                    if (!categories[cat]) categories[cat] = { icon: getSmartIcon(cat, skill.icon), skills: [] };
+                    categories[cat].skills.push(skill.name);
+                    if (skill.icon) categories[cat].icon = skill.icon;
+                });
+
+                const colorThemes = [
+                    { bg: 'bg-blue-50', text: 'text-apple-blue', pill: 'bg-blue-50/70 text-blue-900 border-blue-100' },
+                    { bg: 'bg-emerald-50', text: 'text-emerald-600', pill: 'bg-emerald-50/70 text-emerald-900 border-emerald-100' },
+                    { bg: 'bg-indigo-50', text: 'text-indigo-600', pill: 'bg-indigo-50/70 text-indigo-900 border-indigo-100' }
+                ];
+
+                let index = 0;
+                for (const [catName, catData] of Object.entries(categories)) {
+                    const theme = colorThemes[index % colorThemes.length];
+                    index++;
+                    const skillsHTML = catData.skills.map(s => `<span class="px-3.5 py-1.5 ${theme.pill} border text-xs font-semibold rounded-full">${s}</span>`).join('');
+                    arsenalContainer.innerHTML += `
+                        <div class="apple-card p-8 rounded-[28px]">
+                            <div class="w-12 h-12 ${theme.bg} ${theme.text} rounded-2xl flex items-center justify-center text-2xl mb-6">
+                                <i class='bx ${catData.icon}'></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-apple-text tracking-tight mb-4">${catName}</h3>
+                            <div class="flex flex-wrap gap-2">${skillsHTML}</div>
+                        </div>
+                    `;
+                }
+            }
+
+            // 4. RENDER EDUKASI
+            if (edus && edus.length > 0) {
+                const eduContainer = document.getElementById('edu-container');
+                eduContainer.innerHTML = '';
+                edus.forEach(edu => {
+                    let metaParts = [];
+                    if (edu.start_year || edu.grad_year) metaParts.push(`${edu.start_year || ''} - ${edu.grad_year || 'Present'}`);
+                    else if (edu.period) metaParts.push(edu.period);
+                    if (edu.expected_grad) metaParts.push(`Expected: ${edu.expected_grad}`);
+                    if (edu.gpa) metaParts.push(`GPA: ${edu.gpa}`);
+                    
+                    eduContainer.innerHTML += `
+                        <div class="apple-card p-6 rounded-[24px] flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-blue-50 text-apple-blue flex-shrink-0 flex items-center justify-center text-2xl">
+                                <i class='bx bxs-graduation'></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-apple-text text-lg tracking-tight">${edu.institution}</h3>
+                                <p class="text-apple-secondary font-medium text-sm">${edu.degree}</p>
+                                <p class="text-slate-400 text-xs mt-1">${metaParts.join(' &bull; ')}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // 5. RENDER SERTIFIKASI
+            const certContainer = document.getElementById('cert-container');
+            if (certs && certs.length > 0) {
+                certContainer.innerHTML = '';
+                certs.forEach(cert => {
+                    const safeTitle = cert.title.replace(/'/g, "\\'");
+                    const viewBtn = cert.file_url 
+                        ? `<button type="button" onclick="openQuickLook('${cert.file_url}', '${safeTitle}')" class="mt-2.5 text-xs text-apple-blue font-semibold hover:underline inline-flex items-center gap-1"><i class='bx bx-show text-sm'></i> Quick Look Credential</button>` 
+                        : '';
+                    certContainer.innerHTML += `
+                        <div class="apple-card p-5 rounded-[22px] flex items-start justify-between gap-4">
+                            <div>
+                                <h4 class="font-bold text-apple-text text-base tracking-tight">${cert.title}</h4>
+                                <p class="text-xs text-apple-secondary mt-0.5">${cert.issuer}${cert.year ? ' &bull; ' + cert.year : ''}</p>
+                                ${viewBtn}
+                            </div>
+                            <div class="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 flex-shrink-0 flex items-center justify-center text-lg">
+                                <i class='bx bx-badge-check'></i>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', async () => {
+            const CACHE_KEY = 'mz_portfolio_cache_v1';
+
+            // Tahap A: Tampilkan data dari cache instan (0ms) jika sudah pernah dibuka sebelumnya
+            const cachedRaw = localStorage.getItem(CACHE_KEY);
+            if (cachedRaw) {
+                try {
+                    renderPortfolioData(JSON.parse(cachedRaw));
+                } catch (e) { console.warn('Cache reset'); }
+            }
+
+            // Tahap B: Tembak semua 5 query Supabase secara PARALEL (bukan antre satu-satu)
             try {
-                // 1. LOAD PROFIL & FOOTER
-                const { data: profile } = await supabaseClient.from('profile').select('*').eq('id', 1).single();
-                if (profile) {
-                    if (profile.photo_url) document.getElementById('hero-image').src = profile.photo_url;
-                    if (profile.badge) document.getElementById('hero-badge').innerText = profile.badge;
-                    if (profile.headline) document.getElementById('hero-headline').innerHTML = profile.headline;
-                    if (profile.summary) document.getElementById('hero-summary').innerHTML = profile.summary;
-                    if (profile.cv_url) document.getElementById('hero-cv').href = profile.cv_url;
-                    
-                    if (profile.footer_title) document.getElementById('footer-title').innerText = profile.footer_title;
-                    if (profile.footer_sub) document.getElementById('footer-sub').innerText = profile.footer_sub;
-                    if (profile.wa_link) document.getElementById('footer-wa').href = profile.wa_link;
-                    if (profile.linkedin_link) document.getElementById('footer-linkedin').href = profile.linkedin_link;
-                    if (profile.email) {
-                        document.getElementById('footer-email').innerText = profile.email;
-                        document.getElementById('footer-email-link').href = `mailto:${profile.email}`;
-                    }
-                }
+                const [
+                    { data: profile },
+                    { data: projects },
+                    { data: arsenal },
+                    { data: edus },
+                    { data: certs }
+                ] = await Promise.all([
+                    supabaseClient.from('profile').select('*').eq('id', 1).single(),
+                    supabaseClient.from('projects').select('*').order('created_at', { ascending: true }),
+                    supabaseClient.from('arsenal').select('*').order('id', { ascending: true }),
+                    supabaseClient.from('education').select('*').order('id', { ascending: false }),
+                    supabaseClient.from('certifications').select('*').order('id', { ascending: false })
+                ]);
 
-                // 2. LOAD PROYEK DINAMIS
-                const { data: projects } = await supabaseClient.from('projects').select('*').order('created_at', { ascending: true });
-                if (projects && projects.length > 0) {
-                    const gridContainer = document.getElementById('projects-grid');
-                    projects.forEach(project => {
-                        const card = document.createElement('div');
-                        card.className = "group apple-card rounded-[28px] overflow-hidden flex flex-col";
-                        card.innerHTML = `
-                            <div class="h-60 bg-slate-100 overflow-hidden relative">
-                                <img src="${project.image_url}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
-                            </div>
-                            <div class="p-8 flex flex-col flex-grow">
-                                <div class="flex gap-2 mb-4">
-                                    <span class="px-3 py-1 bg-blue-50 text-apple-blue text-xs font-semibold rounded-full">Featured</span>
-                                </div>
-                                <h3 class="text-xl md:text-2xl font-bold text-apple-text tracking-tight mb-2.5">${project.title}</h3>
-                                <p class="text-apple-secondary text-sm leading-relaxed mb-6 flex-grow">${project.description || ''}</p>
-                                <a href="project-detail?id=${project.id}" class="inline-flex items-center text-apple-blue text-sm font-semibold hover:underline transition-all mt-auto">
-                                    Read Case Study <i class='bx bx-chevron-right ml-1 text-lg'></i>
-                                </a>
-                            </div>
-                        `;
-                        gridContainer.insertBefore(card, gridContainer.firstChild);
-                    });
-                }
-
-                // 3. LOAD TECHNICAL ARSENAL
-                const { data: arsenal } = await supabaseClient.from('arsenal').select('*').order('id', { ascending: true });
-                const arsenalContainer = document.getElementById('arsenal-container');
-                if (arsenal && arsenal.length > 0) {
-                    arsenalContainer.innerHTML = '';
-                    
-                    const getSmartIcon = (catName, customIcon) => {
-                        if (customIcon) return customIcon;
-                        const lower = catName.toLowerCase();
-                        if (lower.includes('data') || lower.includes('analytic') || lower.includes('ai')) return 'bx-coin-stack';
-                        if (lower.includes('iot') || lower.includes('eng') || lower.includes('hard')) return 'bx-chip';
-                        if (lower.includes('devops') || lower.includes('cloud') || lower.includes('server')) return 'bx-server';
-                        if (lower.includes('web') || lower.includes('dev') || lower.includes('code')) return 'bx-code-alt';
-                        if (lower.includes('design') || lower.includes('ui')) return 'bx-palette';
-                        return 'bx-layer';
-                    };
-
-                    const categories = {};
-                    arsenal.forEach(skill => {
-                        const cat = skill.category || 'General Skills';
-                        if (!categories[cat]) {
-                            categories[cat] = { icon: getSmartIcon(cat, skill.icon), skills: [] };
-                        }
-                        categories[cat].skills.push(skill.name);
-                        if (skill.icon) categories[cat].icon = skill.icon;
-                    });
-
-                    const colorThemes = [
-                        { bg: 'bg-blue-50', text: 'text-apple-blue', pill: 'bg-blue-50/70 text-blue-900 border-blue-100' },
-                        { bg: 'bg-emerald-50', text: 'text-emerald-600', pill: 'bg-emerald-50/70 text-emerald-900 border-emerald-100' },
-                        { bg: 'bg-indigo-50', text: 'text-indigo-600', pill: 'bg-indigo-50/70 text-indigo-900 border-indigo-100' }
-                    ];
-
-                    let index = 0;
-                    for (const [catName, catData] of Object.entries(categories)) {
-                        const theme = colorThemes[index % colorThemes.length];
-                        index++;
-                        const skillsHTML = catData.skills.map(s => `<span class="px-3.5 py-1.5 ${theme.pill} border text-xs font-semibold rounded-full">${s}</span>`).join('');
-                        
-                        arsenalContainer.innerHTML += `
-                            <div class="apple-card p-8 rounded-[28px]">
-                                <div class="w-12 h-12 ${theme.bg} ${theme.text} rounded-2xl flex items-center justify-center text-2xl mb-6">
-                                    <i class='bx ${catData.icon}'></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-apple-text tracking-tight mb-4">${catName}</h3>
-                                <div class="flex flex-wrap gap-2">${skillsHTML}</div>
-                            </div>
-                        `;
-                    }
-                } else {
-                    arsenalContainer.innerHTML = '<p class="text-center text-apple-secondary col-span-3 text-sm">Belum ada skill yang ditambahkan di dashboard.</p>';
-                }
-
-                // 4. LOAD EDUKASI
-                const { data: edus } = await supabaseClient.from('education').select('*').order('id', { ascending: false });
-                if (edus && edus.length > 0) {
-                    const eduContainer = document.getElementById('edu-container');
-                    eduContainer.innerHTML = '';
-                    edus.forEach(edu => {
-                        let metaParts = [];
-                        if (edu.start_year || edu.grad_year) metaParts.push(`${edu.start_year || ''} - ${edu.grad_year || 'Present'}`);
-                        else if (edu.period) metaParts.push(edu.period);
-                        if (edu.expected_grad) metaParts.push(`Expected: ${edu.expected_grad}`);
-                        if (edu.gpa) metaParts.push(`GPA: ${edu.gpa}`);
-                        
-                        eduContainer.innerHTML += `
-                            <div class="apple-card p-6 rounded-[24px] flex items-center gap-4">
-                                <div class="w-14 h-14 rounded-2xl bg-blue-50 text-apple-blue flex-shrink-0 flex items-center justify-center text-2xl">
-                                    <i class='bx bxs-graduation'></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-apple-text text-lg tracking-tight">${edu.institution}</h3>
-                                    <p class="text-apple-secondary font-medium text-sm">${edu.degree}</p>
-                                    <p class="text-slate-400 text-xs mt-1">${metaParts.join(' &bull; ')}</p>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-
-                // 5. LOAD SERTIFIKASI
-                const { data: certs } = await supabaseClient.from('certifications').select('*').order('id', { ascending: false });
-                const certContainer = document.getElementById('cert-container');
-                if (certs && certs.length > 0) {
-                    certContainer.innerHTML = '';
-                    certs.forEach(cert => {
-                        const safeTitle = cert.title.replace(/'/g, "\\'");
-                        const viewBtn = cert.file_url 
-                            ? `<button type="button" onclick="openQuickLook('${cert.file_url}', '${safeTitle}')" class="mt-2.5 text-xs text-apple-blue font-semibold hover:underline inline-flex items-center gap-1"><i class='bx bx-show text-sm'></i> Quick Look Credential</button>` 
-                            : '';
-                        certContainer.innerHTML += `
-                            <div class="apple-card p-5 rounded-[22px] flex items-start justify-between gap-4">
-                                <div>
-                                    <h4 class="font-bold text-apple-text text-base tracking-tight">${cert.title}</h4>
-                                    <p class="text-xs text-apple-secondary mt-0.5">${cert.issuer}${cert.year ? ' &bull; ' + cert.year : ''}</p>
-                                    ${viewBtn}
-                                </div>
-                                <div class="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 flex-shrink-0 flex items-center justify-center text-lg">
-                                    <i class='bx bx-badge-check'></i>
-                                </div>
-                            </div>
-                        `;
-                    });
-                } else {
-                    certContainer.innerHTML = '<p class="text-apple-secondary text-sm">Belum ada sertifikasi yang ditambahkan.</p>';
-                }
-
+                const freshPayload = { profile, projects, arsenal, edus, certs };
+                renderPortfolioData(freshPayload);
+                localStorage.setItem(CACHE_KEY, JSON.stringify(freshPayload));
             } catch (error) {
-                console.error("Gagal memuat data dari Supabase:", error);
-            } finally {
-                document.body.style.opacity = '1';
+                console.error("Gagal memperbarui data dari Supabase:", error);
             }
         });
     </script>
