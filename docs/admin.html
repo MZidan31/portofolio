@@ -9,7 +9,7 @@
     <style>
         body { font-family: sans-serif; padding: 20px; max-width: 900px; margin: auto; background: #f9fafb; }
         .hidden { display: none !important; }
-        input, textarea, button { display: block; width: 100%; margin-bottom: 15px; padding: 10px; box-sizing: border-box; font-family: inherit; border: 1px solid #ccc; border-radius: 4px; }
+        input, textarea, select, button { display: block; width: 100%; margin-bottom: 15px; padding: 10px; box-sizing: border-box; font-family: inherit; border: 1px solid #ccc; border-radius: 4px; }
         button { background: #111; color: #fff; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.2s; }
         button:hover { background: #333; }
         .btn-danger { background: #dc2626; }
@@ -51,7 +51,7 @@
     <div id="login-section" class="card">
         <h2 style="color: #0f766e;">Login Admin MZ.</h2>
         <input type="email" id="email" placeholder="Email Admin">
-        <input type="password" id="password" placeholder="Password">
+        <input type="password" id="password" placeholder="Password" onkeypress="if(event.key==='Enter') handleLogin()">
         <button onclick="handleLogin()">Login</button>
     </div>
 
@@ -62,15 +62,15 @@
             <button onclick="handleLogout()" class="btn-danger" style="width: auto; margin: 0;">Logout</button>
         </div>
         
-        <!-- PROFIL -->
+        <!-- PROFIL & FOOTER -->
         <div class="card">
             <h3 class="section-title">Edit Identitas Utama (Hero Section)</h3>
             
             <label style="font-size: 14px; font-weight: bold;">Badge Text:</label>
-            <input type="text" id="profile-badge" placeholder="Contoh: ACTIVE STUDENT & TECH ENTHUSIAST">
+            <input type="text" id="profile-badge" placeholder="Contoh: TECH-SAVVY OPERATIONS PROFESSIONAL">
             
-            <label style="font-size: 14px; font-weight: bold;">Headline Utama (Bisa pakai kode HTML untuk warna/baris baru):</label>
-            <textarea id="profile-headline" placeholder='Translating Data into <span class="text-blue-600">Actionable Impact.</span>' rows="2"></textarea>
+            <label style="font-size: 14px; font-weight: bold;">Headline Utama (Mendukung HTML):</label>
+            <textarea id="profile-headline" placeholder='Informatics Engineering Graduate...' rows="3"></textarea>
             
             <label style="font-size: 14px; font-weight: bold;">Professional Summary:</label>
             <textarea id="profile-summary" placeholder="Deskripsi di bawah headline..." rows="4"></textarea>
@@ -79,20 +79,20 @@
             <input type="file" id="profile-photo" accept="image/*">
             <p id="crop-status" style="font-size: 13px; color: #059669; font-weight: bold; margin-top: -10px; display: none;">✓ Foto siap disimpan!</p>
             
-            <label style="font-size: 14px; font-weight: bold;">File CV/Resume Baru:</label>
+            <label style="font-size: 14px; font-weight: bold;">File CV/Resume Baru (PDF):</label>
             <input type="file" id="profile-cv" accept=".pdf">
             
-<h4 style="margin-top:20px; border-bottom:1px solid #eee; padding-bottom:5px;">Pengaturan Footer / Kontak</h4>
+            <h4 style="margin-top:25px; border-bottom:1px solid #eee; padding-bottom:5px; color: #0f766e;">Pengaturan Footer / Kontak</h4>
             <input type="text" id="footer-title" placeholder="Headline: Ready to build something impactful?">
             <textarea id="footer-sub" placeholder="Sub-headline: I am actively seeking collaboration..." rows="2"></textarea>
             <input type="text" id="footer-wa" placeholder="Link WhatsApp (Cth: https://wa.me/628...)">
-            <input type="text" id="footer-linkedin" placeholder="Link LinkedIn">
+            <input type="text" id="footer-linkedin" placeholder="Link LinkedIn (Cth: https://linkedin.com/in/...)">
             <input type="text" id="footer-email" placeholder="Alamat Email (Cth: jidan1307@gmail.com)">
 
-            <button id="btn-update-profile" onclick="updateProfile()" style="margin-top: 15px;">Update Profil Lengkap</button>
+            <button id="btn-update-profile" onclick="updateProfile()" style="margin-top: 15px;">Update Profil & Footer</button>
         </div>
 
-        <!-- MANAJEMEN PROYEK (CREATE & UPDATE) -->
+        <!-- MANAJEMEN PROYEK -->
         <div class="card" id="form-proyek">
             <h3 class="section-title" id="form-project-title">Tambah Proyek & Studi Kasus Baru</h3>
             
@@ -132,15 +132,21 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
             <div class="card" id="form-edukasi">
                 <h3 class="section-title">Edukasi</h3>
-                <input type="text" id="edu-degree" placeholder="Gelar/Jurusan">
-                <input type="text" id="edu-inst" placeholder="Institusi">
-                <input type="text" id="edu-period" placeholder="Periode">
+                <input type="text" id="edu-degree" placeholder="Gelar/Jurusan (Cth: Informatics Engineering)">
+                <input type="text" id="edu-inst" placeholder="Institusi (Cth: STT Terpadu Nurul Fikri)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <input type="text" id="edu-start" placeholder="Tahun Masuk (Cth: 2022)">
+                    <input type="text" id="edu-grad" placeholder="Tahun Lulus (Cth: 2026)">
+                    <input type="text" id="edu-exp" placeholder="Ekspektasi Lulus (Opsional)">
+                    <input type="text" id="edu-gpa" placeholder="GPA / IPK (Cth: 3.79 / 4.00)">
+                </div>
                 <div style="display:flex; gap:10px;">
                     <button id="btn-cancel-edu" onclick="cancelEditEdu()" class="btn-danger hidden" style="width:auto;">Batal</button>
                     <button id="btn-submit-edu" onclick="saveEdu()" style="flex:1;">Simpan Edukasi</button>
                 </div>
                 <div id="edu-list" style="margin-top:15px;"></div>
             </div>
+
             <div class="card" id="form-sertifikasi">
                 <h3 class="section-title">Sertifikasi</h3>
                 <input type="text" id="cert-title" placeholder="Nama Sertifikat">
@@ -158,24 +164,30 @@
                 <div id="cert-list" style="margin-top:15px;"></div>
             </div>
         </div>
-    </div>
-<!-- TECHNICAL ARSENAL -->
+
+        <!-- TECHNICAL ARSENAL (SEKARANG DI DALAM DASHBOARD) -->
         <div class="card" id="form-arsenal" style="margin-top: 20px;">
             <h3 class="section-title">Technical Arsenal (Skill & Tools)</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <input type="text" id="arsenal-name" placeholder="Nama Skill (Cth: Python)">
-                <select id="arsenal-category" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-                    <option value="Data & Analytics">Masuk ke Kotak: Data & Analytics</option>
-                    <option value="Engineering & IoT">Masuk ke Kotak: Engineering & IoT</option>
-                    <option value="DevOps & Cloud">Masuk ke Kotak: DevOps & Cloud</option>
-                </select>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                <input type="text" id="arsenal-name" placeholder="Nama Skill (Cth: Python, KNIME)">
+                <div>
+                    <input type="text" id="arsenal-category" list="category-suggestions" placeholder="Kategori (Pilih atau ketik baru)">
+                    <datalist id="category-suggestions">
+                        <option value="Data & Analytics">
+                        <option value="Engineering & IoT">
+                        <option value="DevOps & Cloud">
+                        <option value="Business & Office">
+                    </datalist>
+                </div>
+                <input type="text" id="arsenal-icon" placeholder="Icon Boxicons (Opsional, cth: bx-chip)">
             </div>
-            <div style="display:flex; gap:10px; margin-top: 15px;">
+            <div style="display:flex; gap:10px;">
                 <button id="btn-cancel-arsenal" onclick="cancelEditArsenal()" class="btn-danger hidden" style="width:auto;">Batal Edit</button>
                 <button id="btn-submit-arsenal" onclick="saveArsenal()" style="flex:1;">Simpan Skill</button>
             </div>
             <div id="arsenal-list" style="margin-top:20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"></div>
         </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -194,7 +206,8 @@
 
         let projectsData = []; let editingProjectId = null; let existingCoverUrl = null; let existingPdfUrl = null;
         let eduData = []; let editingEduId = null;
-        let certData = []; let editingCertId = null;
+        let certData = []; let editingCertId = null; let existingCertUrl = null;
+        let arsenalData = []; let editingArsenalId = null;
 
         // --- AUTH ---
         async function checkSession() {
@@ -209,14 +222,14 @@
             }
         }
         async function handleLogin() {
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
             if (error) alert('Gagal login: ' + error.message); else checkSession();
         }
         async function handleLogout() { await supabaseClient.auth.signOut(); checkSession(); }
 
-        // --- PROFIL ---
+        // --- PROFIL & FOOTER ---
         let cropper = null; let croppedPhotoBlob = null;
         document.getElementById('profile-photo').addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -245,14 +258,12 @@
                 if (cropper) cropper.destroy(); document.getElementById('crop-status').style.display = 'block';
             }, 'image/jpeg', 0.9);
         }
-       // PROFIL & FOOTER
         async function fetchProfile() {
             const { data } = await supabaseClient.from('profile').select('*').eq('id', 1).single();
             if (data) {
                 document.getElementById('profile-badge').value = data.badge || '';
                 document.getElementById('profile-headline').value = data.headline || '';
                 document.getElementById('profile-summary').value = data.summary || '';
-                // Load data footer
                 document.getElementById('footer-title').value = data.footer_title || '';
                 document.getElementById('footer-sub').value = data.footer_sub || '';
                 document.getElementById('footer-wa').value = data.wa_link || '';
@@ -260,7 +271,6 @@
                 document.getElementById('footer-email').value = data.email || '';
             }
         }
-        
         async function updateProfile() {
             const btn = document.getElementById('btn-update-profile');
             btn.innerText = 'Menyimpan...'; btn.disabled = true;
@@ -277,70 +287,23 @@
                 };
                 if (croppedPhotoBlob) {
                     const photoName = `profile-${Date.now()}.jpg`;
-                    await supabaseClient.storage.from('portfolio_images').upload(photoName, croppedPhotoBlob);
+                    const { error: errP } = await supabaseClient.storage.from('portfolio_images').upload(photoName, croppedPhotoBlob);
+                    if (errP) throw errP;
                     updateData.photo_url = supabaseClient.storage.from('portfolio_images').getPublicUrl(photoName).data.publicUrl;
                 }
                 if (document.getElementById('profile-cv').files[0]) {
                     const cvFile = document.getElementById('profile-cv').files[0];
                     const cvName = `cv-${Date.now()}-${cvFile.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
-                    await supabaseClient.storage.from('portfolio_images').upload(cvName, cvFile);
+                    const { error: errC } = await supabaseClient.storage.from('portfolio_images').upload(cvName, cvFile);
+                    if (errC) throw errC;
                     updateData.cv_url = supabaseClient.storage.from('portfolio_images').getPublicUrl(cvName).data.publicUrl;
                 }
-                await supabaseClient.from('profile').update(updateData).eq('id', 1);
+                const { error } = await supabaseClient.from('profile').update(updateData).eq('id', 1);
+                if (error) throw error;
                 alert('Profil & Footer diperbarui!'); 
                 document.getElementById('crop-status').style.display = 'none'; croppedPhotoBlob = null;
             } catch (err) { alert('Gagal: ' + err.message); } 
-            finally { btn.innerText = 'Update Profil Lengkap'; btn.disabled = false; }
-        }
-
-        // SERTIFIKASI DENGAN UPLOAD FILE
-        let existingCertUrl = null;
-        function editCert(id) {
-            const item = certData.find(x => x.id == id); editingCertId = id;
-            existingCertUrl = item.file_url;
-            document.getElementById('cert-title').value = item.title; 
-            document.getElementById('cert-issuer').value = item.issuer;
-            document.getElementById('cert-year').value = item.year || ''; 
-            document.getElementById('existing-cert-info').classList.remove('hidden');
-            document.getElementById('btn-submit-cert').innerText = 'Update Sertifikasi'; 
-            document.getElementById('btn-cancel-cert').classList.remove('hidden');
-            document.getElementById('form-sertifikasi').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function cancelEditCert() {
-            editingCertId = null; existingCertUrl = null;
-            document.getElementById('cert-title').value = ''; document.getElementById('cert-issuer').value = '';
-            document.getElementById('cert-year').value = ''; document.getElementById('cert-file').value = '';
-            document.getElementById('existing-cert-info').classList.add('hidden');
-            document.getElementById('btn-submit-cert').innerText = 'Simpan Sertifikasi'; 
-            document.getElementById('btn-cancel-cert').classList.add('hidden');
-        }
-
-        async function saveCert() {
-            const title = document.getElementById('cert-title').value;
-            const certFile = document.getElementById('cert-file').files[0];
-            if(!title) return alert('Nama sertifikat wajib diisi!');
-            document.getElementById('btn-submit-cert').innerText = 'Menyimpan...';
-            
-            try {
-                let fileUrl = existingCertUrl;
-                if (certFile) {
-                    const fileName = `cert-${Date.now()}-${certFile.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
-                    const { error } = await supabaseClient.storage.from('portfolio_images').upload(fileName, certFile);
-                    if (error) throw error;
-                    fileUrl = supabaseClient.storage.from('portfolio_images').getPublicUrl(fileName).data.publicUrl;
-                }
-                const payload = { 
-                    title, 
-                    issuer: document.getElementById('cert-issuer').value, 
-                    year: document.getElementById('cert-year').value, 
-                    file_url: fileUrl 
-                };
-                if(editingCertId) await supabaseClient.from('certifications').update(payload).eq('id', editingCertId);
-                else await supabaseClient.from('certifications').insert([payload]); 
-                cancelEditCert(); fetchCert();
-            } catch(err) { alert('Error: ' + err.message); }
-            finally { document.getElementById('btn-submit-cert').innerText = 'Simpan Sertifikasi'; }
+            finally { btn.innerText = 'Update Profil & Footer'; btn.disabled = false; }
         }
 
         // --- PROYEK ---
@@ -407,17 +370,15 @@
             btn.innerText = 'Menyimpan Semua Data...'; btn.disabled = true;
 
             try {
-                // 1. Upload Cover (Pakai lama jika tidak ada file baru)
                 let coverUrl = existingCoverUrl; 
                 const imageFile = document.getElementById('project-image').files[0];
                 if (imageFile) {
                     const imgName = `cover-${Date.now()}-${imageFile.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
                     const { error: err1 } = await supabaseClient.storage.from('portfolio_images').upload(imgName, imageFile);
-                    if (err1) throw err1; // Lempar error jika gagal upload
+                    if (err1) throw err1;
                     coverUrl = supabaseClient.storage.from('portfolio_images').getPublicUrl(imgName).data.publicUrl;
                 }
 
-                // 2. Upload PDF
                 let pdfUrl = existingPdfUrl; 
                 const pdfFile = document.getElementById('project-pdf').files[0];
                 if (pdfFile) {
@@ -427,18 +388,13 @@
                     pdfUrl = supabaseClient.storage.from('portfolio_images').getPublicUrl(pdfName).data.publicUrl;
                 }
 
-                // 3. Proses Galeri
                 const galleryItems = document.querySelectorAll('.gallery-item'); 
                 let galleryDataArray = [];
                 
                 for (let item of galleryItems) {
                     const fileInput = item.querySelector('.gallery-file').files[0];
                     let finalGUrl = item.dataset.oldUrl;
-                    
-                    // Bersihkan jika dataset membaca 'undefined'
-                    if (!finalGUrl || finalGUrl === 'undefined' || finalGUrl === 'null') {
-                        finalGUrl = '';
-                    }
+                    if (!finalGUrl || finalGUrl === 'undefined' || finalGUrl === 'null') finalGUrl = '';
                     
                     if (fileInput) {
                         const gName = `gal-${Date.now()}-${fileInput.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
@@ -465,7 +421,6 @@
                     gallery: galleryDataArray 
                 };
 
-                // 4. Update atau Insert
                 if (editingProjectId) {
                     const { error: dbErr } = await supabaseClient.from('projects').update(payload).eq('id', editingProjectId);
                     if (dbErr) throw dbErr;
@@ -492,68 +447,129 @@
         // --- EDUKASI ---
         async function fetchEdu() {
             const { data } = await supabaseClient.from('education').select('*').order('id', { ascending: false });
-            if(data) { eduData = data; const list = document.getElementById('edu-list'); list.innerHTML = '';
-            eduData.forEach(item => {
-                const div = document.createElement('div'); div.className = 'list-item';
-                div.innerHTML = `<div class="list-info"><h4>${item.degree}</h4><p>${item.institution}</p></div>
-                <div style="display:flex; gap:10px;"><button onclick="editEdu(${item.id})" class="btn-edit" style="width:auto; padding:5px 15px;">Edit</button>
-                <button onclick="deleteEdu(${item.id})" class="btn-danger" style="width:auto; padding:5px 15px;">Hapus</button></div>`;
-                list.appendChild(div);
-            });}
+            if(data) { 
+                eduData = data; const list = document.getElementById('edu-list'); list.innerHTML = '';
+                eduData.forEach(item => {
+                    const sub = [item.institution, item.gpa ? `GPA: ${item.gpa}` : ''].filter(Boolean).join(' • ');
+                    const div = document.createElement('div'); div.className = 'list-item';
+                    div.innerHTML = `<div class="list-info"><h4>${item.degree}</h4><p>${sub}</p></div>
+                    <div style="display:flex; gap:10px;"><button onclick="editEdu(${item.id})" class="btn-edit" style="width:auto; padding:5px 15px;">Edit</button>
+                    <button onclick="deleteEdu(${item.id})" class="btn-danger" style="width:auto; padding:5px 15px;">Hapus</button></div>`;
+                    list.appendChild(div);
+                });
+            }
         }
         function editEdu(id) {
             const item = eduData.find(x => x.id === id); editingEduId = id;
-            document.getElementById('edu-degree').value = item.degree; document.getElementById('edu-inst').value = item.institution;
-            document.getElementById('edu-period').value = item.period || '';
-            document.getElementById('btn-submit-edu').innerText = 'Update Edukasi'; document.getElementById('btn-cancel-edu').classList.remove('hidden');
+            document.getElementById('edu-degree').value = item.degree || ''; 
+            document.getElementById('edu-inst').value = item.institution || '';
+            document.getElementById('edu-start').value = item.start_year || '';
+            document.getElementById('edu-grad').value = item.grad_year || '';
+            document.getElementById('edu-exp').value = item.expected_grad || '';
+            document.getElementById('edu-gpa').value = item.gpa || '';
+            document.getElementById('btn-submit-edu').innerText = 'Update Edukasi'; 
+            document.getElementById('btn-cancel-edu').classList.remove('hidden');
             document.getElementById('form-edukasi').scrollIntoView({ behavior: 'smooth' });
         }
         function cancelEditEdu() {
-            editingEduId = null; document.getElementById('edu-degree').value = ''; document.getElementById('edu-inst').value = '';
-            document.getElementById('edu-period').value = '';
-            document.getElementById('btn-submit-edu').innerText = 'Simpan Edukasi'; document.getElementById('btn-cancel-edu').classList.add('hidden');
+            editingEduId = null; 
+            document.getElementById('edu-degree').value = ''; document.getElementById('edu-inst').value = '';
+            document.getElementById('edu-start').value = ''; document.getElementById('edu-grad').value = '';
+            document.getElementById('edu-exp').value = ''; document.getElementById('edu-gpa').value = '';
+            document.getElementById('btn-submit-edu').innerText = 'Simpan Edukasi'; 
+            document.getElementById('btn-cancel-edu').classList.add('hidden');
         }
         async function saveEdu() {
-            const payload = { degree: document.getElementById('edu-degree').value, institution: document.getElementById('edu-inst').value, period: document.getElementById('edu-period').value };
-            if(editingEduId) await supabaseClient.from('education').update(payload).eq('id', editingEduId);
-            else await supabaseClient.from('education').insert([payload]); cancelEditEdu(); fetchEdu();
+            const payload = { 
+                degree: document.getElementById('edu-degree').value, 
+                institution: document.getElementById('edu-inst').value,
+                start_year: document.getElementById('edu-start').value,
+                grad_year: document.getElementById('edu-grad').value,
+                expected_grad: document.getElementById('edu-exp').value,
+                gpa: document.getElementById('edu-gpa').value
+            };
+            if(!payload.degree || !payload.institution) return alert('Jurusan dan Institusi wajib diisi!');
+            try {
+                if(editingEduId) {
+                    const { error } = await supabaseClient.from('education').update(payload).eq('id', editingEduId);
+                    if (error) throw error;
+                } else {
+                    const { error } = await supabaseClient.from('education').insert([payload]);
+                    if (error) throw error;
+                }
+                cancelEditEdu(); fetchEdu();
+            } catch (err) { alert('Gagal menyimpan edukasi: ' + err.message); }
         }
-        async function deleteEdu(id) { if(confirm('Hapus?')) { await supabaseClient.from('education').delete().eq('id', id); fetchEdu(); } }
+        async function deleteEdu(id) { if(confirm('Hapus edukasi ini?')) { await supabaseClient.from('education').delete().eq('id', id); fetchEdu(); } }
 
-        // --- SERTIFIKASI ---
+        // --- SERTIFIKASI (DENGAN UPLOAD FILE) ---
         async function fetchCert() {
             const { data } = await supabaseClient.from('certifications').select('*').order('id', { ascending: false });
-            if(data) { certData = data; const list = document.getElementById('cert-list'); list.innerHTML = '';
-            certData.forEach(item => {
-                const div = document.createElement('div'); div.className = 'list-item';
-                div.innerHTML = `<div class="list-info"><h4>${item.title}</h4><p>${item.issuer}</p></div>
-                <div style="display:flex; gap:10px;"><button onclick="editCert(${item.id})" class="btn-edit" style="width:auto; padding:5px 15px;">Edit</button>
-                <button onclick="deleteCert(${item.id})" class="btn-danger" style="width:auto; padding:5px 15px;">Hapus</button></div>`;
-                list.appendChild(div);
-            });}
+            if(data) { 
+                certData = data; const list = document.getElementById('cert-list'); list.innerHTML = '';
+                certData.forEach(item => {
+                    const fileBadge = item.file_url ? ' • <span style="color:#059669; font-weight:bold;">File Terlampir</span>' : '';
+                    const div = document.createElement('div'); div.className = 'list-item';
+                    div.innerHTML = `<div class="list-info"><h4>${item.title}</h4><p>${item.issuer}${item.year ? ' (' + item.year + ')' : ''}${fileBadge}</p></div>
+                    <div style="display:flex; gap:10px;"><button onclick="editCert(${item.id})" class="btn-edit" style="width:auto; padding:5px 15px;">Edit</button>
+                    <button onclick="deleteCert(${item.id})" class="btn-danger" style="width:auto; padding:5px 15px;">Hapus</button></div>`;
+                    list.appendChild(div);
+                });
+            }
         }
         function editCert(id) {
-            const item = certData.find(x => x.id === id); editingCertId = id;
-            document.getElementById('cert-title').value = item.title; document.getElementById('cert-issuer').value = item.issuer;
-            document.getElementById('cert-year').value = item.year || ''; document.getElementById('cert-link').value = item.link || '';
-            document.getElementById('btn-submit-cert').innerText = 'Update Sertifikasi'; document.getElementById('btn-cancel-cert').classList.remove('hidden');
+            const item = certData.find(x => x.id == id); editingCertId = id;
+            existingCertUrl = item.file_url;
+            document.getElementById('cert-title').value = item.title; 
+            document.getElementById('cert-issuer').value = item.issuer;
+            document.getElementById('cert-year').value = item.year || ''; 
+            if (existingCertUrl) document.getElementById('existing-cert-info').classList.remove('hidden');
+            document.getElementById('btn-submit-cert').innerText = 'Update Sertifikasi'; 
+            document.getElementById('btn-cancel-cert').classList.remove('hidden');
             document.getElementById('form-sertifikasi').scrollIntoView({ behavior: 'smooth' });
         }
         function cancelEditCert() {
-            editingCertId = null; document.getElementById('cert-title').value = ''; document.getElementById('cert-issuer').value = '';
-            document.getElementById('cert-year').value = ''; document.getElementById('cert-link').value = '';
-            document.getElementById('btn-submit-cert').innerText = 'Simpan Sertifikasi'; document.getElementById('btn-cancel-cert').classList.add('hidden');
+            editingCertId = null; existingCertUrl = null;
+            document.getElementById('cert-title').value = ''; document.getElementById('cert-issuer').value = '';
+            document.getElementById('cert-year').value = ''; document.getElementById('cert-file').value = '';
+            document.getElementById('existing-cert-info').classList.add('hidden');
+            document.getElementById('btn-submit-cert').innerText = 'Simpan Sertifikasi'; 
+            document.getElementById('btn-cancel-cert').classList.add('hidden');
         }
         async function saveCert() {
-            const payload = { title: document.getElementById('cert-title').value, issuer: document.getElementById('cert-issuer').value, year: document.getElementById('cert-year').value, link: document.getElementById('cert-link').value };
-            if(editingCertId) await supabaseClient.from('certifications').update(payload).eq('id', editingCertId);
-            else await supabaseClient.from('certifications').insert([payload]); cancelEditCert(); fetchCert();
+            const title = document.getElementById('cert-title').value;
+            const certFile = document.getElementById('cert-file').files[0];
+            if(!title) return alert('Nama sertifikat wajib diisi!');
+            document.getElementById('btn-submit-cert').innerText = 'Menyimpan...';
+            
+            try {
+                let fileUrl = existingCertUrl;
+                if (certFile) {
+                    const fileName = `cert-${Date.now()}-${certFile.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
+                    const { error } = await supabaseClient.storage.from('portfolio_images').upload(fileName, certFile);
+                    if (error) throw error;
+                    fileUrl = supabaseClient.storage.from('portfolio_images').getPublicUrl(fileName).data.publicUrl;
+                }
+                const payload = { 
+                    title, 
+                    issuer: document.getElementById('cert-issuer').value, 
+                    year: document.getElementById('cert-year').value, 
+                    file_url: fileUrl 
+                };
+                if(editingCertId) {
+                    const { error } = await supabaseClient.from('certifications').update(payload).eq('id', editingCertId);
+                    if (error) throw error;
+                } else {
+                    const { error } = await supabaseClient.from('certifications').insert([payload]); 
+                    if (error) throw error;
+                }
+                cancelEditCert(); fetchCert();
+            } catch(err) { alert('Error: ' + err.message); }
+            finally { document.getElementById('btn-submit-cert').innerText = 'Simpan Sertifikasi'; }
         }
-        async function deleteCert(id) { if(confirm('Hapus?')) { await supabaseClient.from('certifications').delete().eq('id', id); fetchCert(); } }
-// --- TECHNICAL ARSENAL ---
-        let arsenalData = []; 
-        let editingArsenalId = null;
+        async function deleteCert(id) { if(confirm('Hapus sertifikasi ini?')) { await supabaseClient.from('certifications').delete().eq('id', id); fetchCert(); } }
 
+        // --- TECHNICAL ARSENAL ---
         async function fetchArsenal() {
             const { data } = await supabaseClient.from('arsenal').select('*').order('id', { ascending: false });
             if(data) { 
@@ -561,11 +577,13 @@
                 const list = document.getElementById('arsenal-list'); 
                 list.innerHTML = '';
                 arsenalData.forEach(item => {
-                    const div = document.createElement('div'); div.className = 'list-item'; style="padding: 10px; border: 1px solid #eee; border-radius: 6px;";
+                    const div = document.createElement('div'); 
+                    div.className = 'list-item'; 
+                    div.style.cssText = 'padding: 10px; border: 1px solid #eee; border-radius: 6px;';
                     div.innerHTML = `
                         <div class="list-info">
                             <h4 style="margin-bottom: 2px;">${item.name}</h4>
-                            <p style="font-size: 12px; color: #0f766e; font-weight: bold;">${item.category || 'Uncategorized'}</p>
+                            <p style="font-size: 12px; color: #0f766e; font-weight: bold;">${item.category || 'General Skills'}</p>
                         </div>
                         <div style="display:flex; gap:5px;">
                             <button onclick="editArsenal(${item.id})" class="btn-edit" style="width:auto; padding:4px 10px; font-size:12px;">Edit</button>
@@ -576,7 +594,6 @@
                 });
             }
         }
-
         function editArsenal(id) {
             const item = arsenalData.find(x => x.id === id); 
             editingArsenalId = id;
@@ -587,7 +604,6 @@
             document.getElementById('btn-cancel-arsenal').classList.remove('hidden');
             document.getElementById('form-arsenal').scrollIntoView({ behavior: 'smooth' });
         }
-
         function cancelEditArsenal() {
             editingArsenalId = null; 
             document.getElementById('arsenal-name').value = ''; 
@@ -596,7 +612,6 @@
             document.getElementById('btn-submit-arsenal').innerText = 'Simpan Skill'; 
             document.getElementById('btn-cancel-arsenal').classList.add('hidden');
         }
-
         async function saveArsenal() {
             const payload = { 
                 name: document.getElementById('arsenal-name').value, 
@@ -608,17 +623,20 @@
             document.getElementById('btn-submit-arsenal').innerText = 'Menyimpan...';
             try {
                 if(editingArsenalId) {
-                    await supabaseClient.from('arsenal').update(payload).eq('id', editingArsenalId);
+                    const { error } = await supabaseClient.from('arsenal').update(payload).eq('id', editingArsenalId);
+                    if (error) throw error;
                 } else {
-                    await supabaseClient.from('arsenal').insert([payload]);
+                    const { error } = await supabaseClient.from('arsenal').insert([payload]);
+                    if (error) throw error;
                 }
                 cancelEditArsenal(); 
                 fetchArsenal();
             } catch(err) {
                 alert('Gagal menyimpan: ' + err.message);
+            } finally {
+                document.getElementById('btn-submit-arsenal').innerText = 'Simpan Skill';
             }
         }
-
         async function deleteArsenal(id) { 
             if(confirm('Yakin ingin menghapus skill ini?')) { 
                 await supabaseClient.from('arsenal').delete().eq('id', id); 
