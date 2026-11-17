@@ -536,5 +536,189 @@ td {
     const imgObserver = new MutationObserver(attachLightboxToImages);
     imgObserver.observe(document.body, { childList: true, subtree: true });
 </script>
+<!-- ==================== Apple Editorial PDF Export Engine ==================== -->
+<style>
+    /* Tombol Save as PDF di Navbar */
+    .apple-pdf-btn {
+        background: #0071E3 !important;
+        color: #FFFFFF !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        padding: 7px 14px !important;
+        border-radius: 999px !important;
+        border: none !important;
+        cursor: pointer !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        transition: background 0.2s ease, transform 0.15s ease !important;
+    }
+    .apple-pdf-btn:hover { background: #0077ED !important; transform: scale(1.03); }
+
+    /* Kop Dokumen Khusus Cetak PDF (Tersembunyi di Layar Web) */
+    .pdf-formal-header { display: none; }
+
+    /* ==================== ATURAN CETAK PDF RAPI (ANTI-RUSAK) ==================== */
+    @media print {
+        @page {
+            size: A4 portrait;
+            margin: 16mm 16mm 18mm 16mm;
+        }
+
+        /* Reset Latar Belakang & Efek Web */
+        html, body {
+            background: #FFFFFF !important;
+            background-image: none !important;
+            color: #1D1D1F !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            font-size: 11pt !important;
+            line-height: 1.6 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        /* Sembunyikan Elemen Interaktif Web */
+        nav, .apple-nav, .apple-top-nav, #action-bar, #ios-lightbox, button, .no-print {
+            display: none !important;
+        }
+
+        /* Tampilkan Kop Dokumen Resmi di Halaman 1 */
+        .pdf-formal-header {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px solid #E5E7EB;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 9pt;
+            color: #6E6E73;
+        }
+
+        /* Rapikan Container Utama agar Penuh ke Lebar Kertas A4 */
+        main, .container, article, section.content, .card {
+            max-width: 100% !important;
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: #FFFFFF !important;
+            box-shadow: none !important;
+            border: none !important;
+            border-radius: 0 !important;
+        }
+
+        header {
+            text-align: left !important;
+            padding: 0 0 16px 0 !important;
+            margin: 0 0 20px 0 !important;
+            border-bottom: 1px solid #F1F5F9 !important;
+            max-width: 100% !important;
+        }
+        header h1 {
+            font-size: 22pt !important;
+            line-height: 1.2 !important;
+            margin-bottom: 6px !important;
+        }
+        header p {
+            font-size: 10.5pt !important;
+            color: #515154 !important;
+        }
+
+        /* Cegah Judul Terpisah dari Paragraf di Bawahnya */
+        h1, h2, h3, h4 {
+            break-after: avoid !important;
+            page-break-after: avoid !important;
+            color: #1D1D1F !important;
+        }
+        h2 { font-size: 14pt !important; margin-top: 20px !important; }
+        h3 { font-size: 12pt !important; margin-top: 16px !important; }
+
+        /* KUNCI UTAMA ANTI-POTONG: Gambar, Tabel, & Kartu Galeri Tetap Utuh */
+        img, figure, table, tr, blockquote, #proj-gallery > div, .gallery-card {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+        }
+
+        img {
+            max-height: 290px !important;
+            width: auto !important;
+            max-width: 100% !important;
+            object-fit: contain !important;
+            margin: 10px auto !important;
+            border: 1px solid #E5E7EB !important;
+            border-radius: 10px !important;
+        }
+
+        /* Rapikan Grid Galeri jadi 2 Kolom Rapi di Kertas A4 */
+        #proj-gallery {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 12px !important;
+        }
+
+        /* Rapikan Tabel agar Header Ulang di Halaman Baru jika Panjang */
+        table {
+            width: 100% !important;
+            border: 1px solid #D1D5DB !important;
+            font-size: 9.5pt !important;
+            box-shadow: none !important;
+        }
+        thead { display: table-header-group !important; }
+        th {
+            background-color: #F3F4F6 !important;
+            color: #111827 !important;
+            padding: 8px 10px !important;
+            border-bottom: 1px solid #D1D5DB !important;
+        }
+        td {
+            padding: 7px 10px !important;
+            border-bottom: 1px solid #E5E7EB !important;
+        }
+    }
+</style>
+
+<script>
+    function exportCaseStudyPDF() {
+        // 1. Sisipkan Kop Resmi sementara sebelum cetak
+        if (!document.querySelector('.pdf-formal-header')) {
+            const pdfHeader = document.createElement('div');
+            pdfHeader.className = 'pdf-formal-header';
+            const today = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+            pdfHeader.innerHTML = `
+                <span><strong>MUHAMMAD ZIDAN</strong> &bull; Portfolio Case Study</span>
+                <span>Generated on ${today}</span>
+            `;
+            document.body.prepend(pdfHeader);
+        }
+
+        // 2. Pastikan semua gambar selesai dimuat sebelum dialog PDF muncul
+        window.print();
+    }
+
+    // Otomatis tambahkan tombol "Save PDF" ke Bar Pil Navigasi Atas
+    window.addEventListener('DOMContentLoaded', () => {
+        const topNav = document.querySelector('.apple-nav, .apple-top-nav');
+        if (topNav && !document.getElementById('nav-pdf-btn')) {
+            const ctaBtn = topNav.querySelector('a:last-child');
+            const btnWrap = document.createElement('div');
+            btnWrap.style.cssText = 'display: inline-flex; align-items: center; gap: 8px;';
+
+            const pdfBtn = document.createElement('button');
+            pdfBtn.id = 'nav-pdf-btn';
+            pdfBtn.type = 'button';
+            pdfBtn.className = 'apple-pdf-btn';
+            pdfBtn.onclick = exportCaseStudyPDF;
+            pdfBtn.innerHTML = `<i class='bx bxs-file-pdf' style="font-size:15px;"></i> Save PDF`;
+
+            if (ctaBtn) {
+                ctaBtn.parentNode.insertBefore(btnWrap, ctaBtn);
+                btnWrap.appendChild(pdfBtn);
+                btnWrap.appendChild(ctaBtn);
+            } else {
+                topNav.appendChild(pdfBtn);
+            }
+        }
+    });
+</script>
 </body>
 </html>
