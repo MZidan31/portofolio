@@ -95,7 +95,6 @@
             if (id) {
                 query = query.eq('id', id).single();
             } else {
-                // Fallback jika server lokal menghapus ?id= saat redirect
                 query = query.order('created_at', { ascending: false }).limit(1).single();
             }
 
@@ -110,42 +109,52 @@
                     document.getElementById('proj-cover').src = proj.image_url;
                     document.getElementById('cover-wrapper').classList.remove('hidden');
                 }
-                if (proj.pdf_url || proj.link) {
+
+                const repoLink = proj.repo_url || proj.link;
+                if (proj.pdf_url || repoLink) {
                     document.getElementById('action-bar').classList.remove('hidden');
                     if (proj.pdf_url) {
                         const pdfBtn = document.getElementById('proj-pdf');
                         pdfBtn.href = proj.pdf_url;
                         pdfBtn.classList.remove('hidden');
                     }
-                    if (proj.link) {
+                    if (repoLink) {
                         const linkBtn = document.getElementById('proj-link');
-                        linkBtn.href = proj.link;
+                        linkBtn.href = repoLink;
                         linkBtn.classList.remove('hidden');
                     }
                 }
-                // Render Galeri Dokumentasi & Caption
-            const gallerySection = document.getElementById('gallery-section');
-            const galleryContainer = document.getElementById('proj-gallery');
-            if (project.gallery && project.gallery.length > 0 && galleryContainer) {
-                if (gallerySection) gallerySection.classList.remove('hidden');
-                galleryContainer.innerHTML = '';
-                project.gallery.forEach((item, idx) => {
-                    const imgUrl = typeof item === 'string' ? item : item.url;
-                    const imgCaption = typeof item === 'string' ? '' : (item.caption || '');
-                    const safeCaption = imgCaption.replace(/'/g, "\\'");
 
-                    galleryContainer.innerHTML += `
-                        <figure class="gallery-card group bg-white rounded-2xl border border-black/5 overflow-hidden shadow-xs hover:shadow-md transition cursor-zoom-in flex flex-col"
-                            onclick="if(typeof openLightbox==='function') openLightbox('${imgUrl}', '${safeCaption}')">
-                            <div class="bg-slate-50 overflow-hidden">
-                                <img src="${imgUrl}" alt="${imgCaption || 'Dokumentasi ' + (idx + 1)}" loading="lazy"
-                                    class="w-full h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500">
-                            </div>
-                            ${imgCaption ? `<figcaption class="p-3.5 text-xs text-slate-600 leading-relaxed border-t border-black/5 bg-white">${imgCaption}</figcaption>` : ''}
-                        </figure>
-                    `;
-                });
-            }
+                // Render Galeri Dokumentasi & Caption (menggunakan variabel proj)
+                let rawGallery = proj.gallery;
+                if (typeof rawGallery === 'string') {
+                    try { rawGallery = JSON.parse(rawGallery); } catch (e) { rawGallery = []; }
+                }
+
+                const gallerySection = document.getElementById('gallery-section');
+                const galleryContainer = document.getElementById('proj-gallery');
+
+                if (Array.isArray(rawGallery) && rawGallery.length > 0 && galleryContainer) {
+                    if (gallerySection) gallerySection.classList.remove('hidden');
+                    galleryContainer.innerHTML = '';
+
+                    rawGallery.forEach((item, idx) => {
+                        const imgUrl = typeof item === 'string' ? item : item.url;
+                        const imgCaption = typeof item === 'string' ? '' : (item.caption || '');
+                        const safeCaption = imgCaption.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+                        galleryContainer.innerHTML += `
+                            <figure class="gallery-card group bg-white rounded-2xl border border-black/5 overflow-hidden shadow-xs hover:shadow-md transition cursor-zoom-in flex flex-col"
+                                onclick="if(typeof openLightbox==='function'){openLightbox('${imgUrl}', '${safeCaption}')}else{window.open('${imgUrl}', '_blank')}">
+                                <div class="bg-slate-50 overflow-hidden">
+                                    <img src="${imgUrl}" alt="${safeCaption || 'Dokumentasi ' + (idx + 1)}" loading="lazy"
+                                        class="w-full h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500">
+                                </div>
+                                ${imgCaption ? `<figcaption class="p-3.5 text-xs text-slate-600 leading-relaxed border-t border-black/5 bg-white">${imgCaption}</figcaption>` : ''}
+                            </figure>
+                        `;
+                    });
+                }
             } else {
                 document.getElementById('proj-title').innerText = 'Proyek Tidak Ditemukan';
                 document.getElementById('proj-content').innerHTML = '<p class="text-center text-slate-500">Data proyek belum tersedia atau telah dihapus.</p>';
