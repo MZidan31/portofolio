@@ -368,7 +368,7 @@ td {
         document.body.prepend(nav);
     }
 </script>
-<!-- ==================== iOS Photos / Quick Look Lightbox ==================== -->
+<!-- ==================== Unified iOS Photos Carousel Lightbox ==================== -->
 <style>
     .apple-zoomable {
         cursor: zoom-in !important;
@@ -378,163 +378,141 @@ td {
         transform: scale(1.015) !important;
         box-shadow: 0 14px 30px rgba(0, 113, 227, 0.14) !important;
     }
-    #ios-lightbox {
+    #ios-project-lightbox {
         position: fixed;
         inset: 0;
         z-index: 99999;
-        background: rgba(15, 15, 18, 0.82);
+        background: rgba(12, 12, 15, 0.9);
         backdrop-filter: blur(22px);
         -webkit-backdrop-filter: blur(22px);
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+        justify-content: space-between;
+        padding: 18px 24px;
+        user-select: none;
     }
-    #ios-lightbox.active {
-        opacity: 1;
-        pointer-events: auto;
-    }
-    .ios-lb-toolbar {
-        position: fixed;
-        top: 20px;
-        right: 24px;
-        display: flex;
-        gap: 10px;
-        z-index: 100001;
-    }
-    .ios-lb-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: rgba(44, 44, 46, 0.72);
-        backdrop-filter: blur(12px);
-        color: #FFFFFF;
-        font-size: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: background 0.2s ease, transform 0.15s ease;
-    }
-    .ios-lb-btn:hover { background: rgba(72, 72, 74, 0.9); transform: scale(1.06); }
-    .ios-lb-stage {
-        max-width: 92vw;
-        max-height: 80vh;
-        overflow: auto;
-        border-radius: 22px;
-        box-shadow: 0 28px 70px rgba(0, 0, 0, 0.55);
-        background: #FFFFFF;
-        transform: scale(0.94);
-        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    #ios-lightbox.active .ios-lb-stage { transform: scale(1); }
-    #ios-lb-img {
-        display: block;
-        max-width: 90vw;
-        max-height: 78vh;
-        width: auto;
-        height: auto;
-        margin: 0 !important;
-        border: none !important;
-        border-radius: 0 !important;
-        cursor: zoom-in;
-        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-        transform-origin: center center;
-    }
-    #ios-lb-img.zoomed {
-        max-width: none;
-        max-height: none;
-        width: 145vw;
-        cursor: zoom-out;
-    }
-    .ios-lb-caption {
-        margin-top: 16px;
-        padding: 8px 18px;
-        border-radius: 999px;
-        background: rgba(44, 44, 46, 0.75);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        color: #F5F5F7;
-        font-size: 13px;
-        font-weight: 500;
-        text-align: center;
-        max-width: 85vw;
-    }
+    #ios-project-lightbox.hidden { display: none !important; }
+    @media print { #ios-project-lightbox { display: none !important; } }
 </style>
 
-<div id="ios-lightbox" onclick="closeIosLightbox()">
-    <div class="ios-lb-toolbar" onclick="event.stopPropagation()">
-        <button type="button" class="ios-lb-btn" onclick="toggleIosZoom()" title="Perbesar / Perkecil (Zoom)">
-            <i id="ios-lb-zoom-icon" class='bx bx-zoom-in'></i>
+<div id="ios-project-lightbox" class="hidden" onclick="closeStaticLightbox()">
+    <!-- Top Bar -->
+    <div style="max-width: 1100px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;" onclick="event.stopPropagation()">
+        <span id="slb-counter" style="padding: 5px 14px; border-radius: 999px; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 600;"></span>
+        <button type="button" onclick="closeStaticLightbox()" style="width: 36px; height: 36px; border-radius: 999px; border: none; background: rgba(255,255,255,0.16); color: #fff; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+    </div>
+
+    <!-- Center Image Stage -->
+    <div id="slb-stage-wrap" style="position: relative; flex: 1; display: flex; align-items: center; justify-content: center; margin: 12px 0; overflow: hidden;" onclick="event.stopPropagation()">
+        <button type="button" id="slb-prev" onclick="prevStaticPhoto()" style="position: absolute; left: 8px; z-index: 10; width: 44px; height: 44px; border-radius: 999px; border: none; background: rgba(255,255,255,0.16); color: #fff; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
+            <i class='bx bx-chevron-left'></i>
         </button>
-        <button type="button" class="ios-lb-btn" onclick="closeIosLightbox()" title="Tutup (Esc)">
-            <i class='bx bx-x'></i>
+
+        <div style="max-height: 75vh; max-width: 88vw; overflow: auto; border-radius: 18px; box-shadow: 0 25px 60px rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.15); background: #fff; display: flex; align-items: center; justify-content: center;">
+            <img id="slb-img" src="" alt="Preview" onclick="toggleStaticZoom()" style="max-height: 73vh; max-width: 86vw; width: auto; height: auto; object-fit: contain; cursor: zoom-in; transition: transform 0.3s ease; margin: 0; border: none; border-radius: 0;">
+        </div>
+
+        <button type="button" id="slb-next" onclick="nextStaticPhoto()" style="position: absolute; right: 8px; z-index: 10; width: 44px; height: 44px; border-radius: 999px; border: none; background: rgba(255,255,255,0.16); color: #fff; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
+            <i class='bx bx-chevron-right'></i>
         </button>
     </div>
-    <div class="ios-lb-stage" onclick="event.stopPropagation()">
-        <img id="ios-lb-img" src="" alt="Preview" onclick="toggleIosZoom()">
+
+    <!-- Bottom Caption -->
+    <div style="max-width: 760px; width: 100%; margin: 0 auto; text-align: center;" onclick="event.stopPropagation()">
+        <p id="slb-caption" style="color: #FFFFFF !important; font-size: 15px !important; font-weight: 600 !important; line-height: 1.5 !important; margin-bottom: 6px !important;"></p>
+        <p style="color: rgba(255,255,255,0.5) !important; font-size: 11px !important; margin: 0 !important;">Klik gambar untuk Zoom &bull; Geser atau gunakan panah keyboard &larr; &rarr;</p>
     </div>
-    <div id="ios-lb-caption" class="ios-lb-caption hidden"></div>
 </div>
 
 <script>
-    const lbModal = document.getElementById('ios-lightbox');
-    const lbImg = document.getElementById('ios-lb-img');
-    const lbCap = document.getElementById('ios-lb-caption');
-    const lbZoomIcon = document.getElementById('ios-lb-zoom-icon');
+    let staticGalleryList = [];
+    let staticCurrentIdx = 0;
+    let isStaticZoomed = false;
 
-    function openIosLightbox(src, captionText) {
-        lbImg.src = src;
-        lbImg.classList.remove('zoomed');
-        lbZoomIcon.className = 'bx bx-zoom-in';
-        if (captionText && captionText.trim() !== '') {
-            lbCap.innerText = captionText.trim();
-            lbCap.classList.remove('hidden');
-        } else {
-            lbCap.classList.add('hidden');
-        }
-        lbModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
+    function initStaticCarouselLightbox() {
+        const imgs = Array.from(document.querySelectorAll('main img, article img')).filter(img => img.id !== 'slb-img');
+        staticGalleryList = imgs.map((img, idx) => {
+            const parent = img.closest('figure, .gallery-card, div');
+            const capEl = parent ? parent.querySelector('figcaption, p') : null;
+            const caption = (capEl && capEl.innerText.trim().length > 0 && capEl.innerText.trim().length < 180)
+                ? capEl.innerText.trim()
+                : (img.alt || `Visualisasi #${idx + 1}`);
 
-    function closeIosLightbox() {
-        lbModal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    function toggleIosZoom() {
-        const isZoomed = lbImg.classList.toggle('zoomed');
-        lbZoomIcon.className = isZoomed ? 'bx bx-zoom-out' : 'bx bx-zoom-in';
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeIosLightbox();
-    });
-
-    // Otomatis aktifkan klik-perbesar pada semua gambar proyek (termasuk yang dimuat dinamis dari Supabase)
-    function attachLightboxToImages() {
-        document.querySelectorAll('main img, .container img, article img, figure img').forEach(img => {
-            if (img.id === 'ios-lb-img' || img.dataset.lbBound) return;
-            img.dataset.lbBound = 'true';
             img.classList.add('apple-zoomable');
-            img.addEventListener('click', () => {
-                // Ambil caption dari teks di bawah gambar atau atribut alt
-                const parentCard = img.closest('figure, .gallery-card, div');
-                const captionEl = parentCard ? parentCard.querySelector('figcaption, p') : null;
-                const cap = (captionEl && captionEl.innerText.length < 120) ? captionEl.innerText : (img.alt || '');
-                openIosLightbox(img.src, cap);
-            });
+            img.onclick = (e) => {
+                e.stopPropagation();
+                openStaticLightbox(idx);
+            };
+            return { url: img.src, caption };
         });
     }
 
-    attachLightboxToImages();
-    const imgObserver = new MutationObserver(attachLightboxToImages);
-    imgObserver.observe(document.body, { childList: true, subtree: true });
+    function openStaticLightbox(idx) {
+        if (!staticGalleryList.length) return;
+        staticCurrentIdx = idx;
+        renderStaticStage();
+        document.getElementById('ios-project-lightbox').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeStaticLightbox() {
+        document.getElementById('ios-project-lightbox').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    function renderStaticStage() {
+        const item = staticGalleryList[staticCurrentIdx];
+        const imgEl = document.getElementById('slb-img');
+        isStaticZoomed = false;
+        imgEl.style.transform = 'scale(1)';
+        imgEl.style.cursor = 'zoom-in';
+        imgEl.src = item.url;
+
+        document.getElementById('slb-caption').innerText = item.caption;
+        document.getElementById('slb-counter').innerText = `${staticCurrentIdx + 1} / ${staticGalleryList.length}`;
+
+        const showNav = staticGalleryList.length > 1;
+        document.getElementById('slb-prev').style.display = showNav ? 'flex' : 'none';
+        document.getElementById('slb-next').style.display = showNav ? 'flex' : 'none';
+    }
+
+    function nextStaticPhoto() {
+        if (staticGalleryList.length <= 1) return;
+        staticCurrentIdx = (staticCurrentIdx + 1) % staticGalleryList.length;
+        renderStaticStage();
+    }
+
+    function prevStaticPhoto() {
+        if (staticGalleryList.length <= 1) return;
+        staticCurrentIdx = (staticCurrentIdx - 1 + staticGalleryList.length) % staticGalleryList.length;
+        renderStaticStage();
+    }
+
+    function toggleStaticZoom() {
+        const imgEl = document.getElementById('slb-img');
+        isStaticZoomed = !isStaticZoomed;
+        imgEl.style.transform = isStaticZoomed ? 'scale(1.5)' : 'scale(1)';
+        imgEl.style.cursor = isStaticZoomed ? 'zoom-out' : 'zoom-in';
+    }
+
+    // Navigasi Keyboard & Touch Swipe HP
+    document.addEventListener('keydown', (e) => {
+        const modal = document.getElementById('ios-project-lightbox');
+        if (!modal || modal.classList.contains('hidden')) return;
+        if (e.key === 'Escape') closeStaticLightbox();
+        if (e.key === 'ArrowRight') nextStaticPhoto();
+        if (e.key === 'ArrowLeft') prevStaticPhoto();
+    });
+
+    let touchStartX = 0;
+    const stageWrap = document.getElementById('slb-stage-wrap');
+    stageWrap.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    stageWrap.addEventListener('touchend', (e) => {
+        const diff = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(diff) > 45) diff < 0 ? nextStaticPhoto() : prevStaticPhoto();
+    }, { passive: true });
+
+    window.addEventListener('DOMContentLoaded', initStaticCarouselLightbox);
 </script>
 <!-- ==================== Apple Editorial PDF Export Engine ==================== -->
 <style>
