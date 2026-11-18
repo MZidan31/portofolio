@@ -35,6 +35,101 @@
         .prose-apple th { background: #F2F4F8; font-weight: 600; text-align: left; padding: 12px 16px; font-size: 0.875rem; color: #1D1D1F; border-bottom: 1px solid #E5E7EB; }
         .prose-apple td { padding: 12px 16px; font-size: 0.9rem; border-bottom: 1px solid #F1F5F9; color: #3A3A3C; }
         .prose-apple blockquote { border-left: 3px solid #0071E3; padding-left: 1rem; color: #515154; font-style: italic; margin: 1.5rem 0; }
+
+        /* Tombol Save as PDF di Navbar */
+        .apple-pdf-btn {
+            background: #0071E3 !important;
+            color: #FFFFFF !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            padding: 7px 14px !important;
+            border-radius: 999px !important;
+            border: none !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            transition: background 0.2s ease, transform 0.15s ease !important;
+        }
+        .apple-pdf-btn:hover { background: #0077ED !important; transform: scale(1.03); }
+
+        .pdf-formal-header { display: none; }
+
+        /* ==================== ATURAN CETAK PDF RAPI (ANTI-RUSAK) ==================== */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 16mm 16mm 18mm 16mm;
+            }
+            html, body {
+                background: #FFFFFF !important;
+                background-image: none !important;
+                color: #1D1D1F !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                font-size: 11pt !important;
+                line-height: 1.6 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            nav, .apple-nav, #action-bar, #ios-project-lightbox, button, .no-print {
+                display: none !important;
+            }
+            .pdf-formal-header {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1.5px solid #E5E7EB;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+                font-size: 9pt;
+                color: #6E6E73;
+            }
+            main, article {
+                max-width: 100% !important;
+                width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: #FFFFFF !important;
+                box-shadow: none !important;
+                border: none !important;
+                border-radius: 0 !important;
+            }
+            header {
+                text-align: left !important;
+                padding: 0 0 16px 0 !important;
+                margin: 0 0 20px 0 !important;
+                border-bottom: 1px solid #F1F5F9 !important;
+                max-width: 100% !important;
+            }
+            header h1 { font-size: 22pt !important; line-height: 1.2 !important; margin-bottom: 6px !important; }
+            header p { font-size: 10.5pt !important; color: #515154 !important; }
+            h1, h2, h3, h4 { break-after: avoid !important; page-break-after: avoid !important; color: #1D1D1F !important; }
+            h2 { font-size: 14pt !important; margin-top: 20px !important; }
+            h3 { font-size: 12pt !important; margin-top: 16px !important; }
+            img, figure, table, tr, blockquote, .gallery-card {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+            img {
+                max-height: 290px !important;
+                width: auto !important;
+                max-width: 100% !important;
+                object-fit: contain !important;
+                margin: 10px auto !important;
+                border: 1px solid #E5E7EB !important;
+                border-radius: 10px !important;
+            }
+            #proj-gallery {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+            }
+            table { width: 100% !important; border: 1px solid #D1D5DB !important; font-size: 9.5pt !important; box-shadow: none !important; }
+            thead { display: table-header-group !important; }
+            th { background-color: #F3F4F6 !important; color: #111827 !important; padding: 8px 10px !important; border-bottom: 1px solid #D1D5DB !important; }
+            td { padding: 7px 10px !important; border-bottom: 1px solid #E5E7EB !important; }
+        }
     </style>
 </head>
 <body class="antialiased pb-24">
@@ -43,10 +138,15 @@
         <a href="./#projects" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0071E3] hover:opacity-80 transition">
             <i class='bx bx-chevron-left text-xl'></i> Back to Portfolio
         </a>
-        <span class="text-xs font-bold tracking-wider uppercase text-slate-400">Case Study</span>
-        <a href="./#contact" class="bg-[#1D1D1F] text-white text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-[#0071E3] transition">
-            Let's Talk
-        </a>
+        <span class="hidden sm:inline text-xs font-bold tracking-wider uppercase text-slate-400">Case Study</span>
+        <div class="inline-flex items-center gap-2">
+            <button type="button" onclick="exportCaseStudyPDF()" class="apple-pdf-btn">
+                <i class='bx bxs-file-pdf' style="font-size:15px;"></i> Save PDF
+            </button>
+            <a href="./#contact" class="bg-[#1D1D1F] text-white text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-[#0071E3] transition">
+                Let's Talk
+            </a>
+        </div>
     </nav>
 
     <main class="pt-28 px-5 sm:px-8 max-w-4xl mx-auto">
@@ -56,8 +156,8 @@
             <p id="proj-desc" class="text-base sm:text-lg text-[#515154] leading-relaxed"></p>
         </header>
 
-        <div id="cover-wrapper" class="hidden mb-12 rounded-[28px] overflow-hidden shadow-xl border border-black/5 bg-white">
-            <img id="proj-cover" src="" alt="Project Cover" class="w-full max-h-[480px] object-cover">
+        <div id="cover-wrapper" class="hidden mb-12 rounded-[28px] overflow-hidden shadow-xl border border-black/5 bg-white cursor-zoom-in" onclick="window.openSingleImageLightbox(document.getElementById('proj-cover').src, document.getElementById('proj-title').innerText)">
+            <img id="proj-cover" src="" alt="Project Cover" class="w-full max-h-[480px] object-cover hover:scale-[1.01] transition-transform duration-500">
         </div>
 
         <div id="action-bar" class="hidden flex flex-wrap justify-center gap-3 mb-12">
@@ -81,12 +181,117 @@
         </article>
     </main>
 
+    <!-- ==================== Single Unified iOS Lightbox ==================== -->
+    <div id="ios-project-lightbox" class="hidden fixed inset-0 z-[9999] bg-black/90 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-6 select-none" onclick="window.closeProjectLightbox()">
+        <!-- Top Bar -->
+        <div class="max-w-6xl w-full mx-auto flex items-center justify-between gap-4" onclick="event.stopPropagation()">
+            <span id="lb-counter" class="px-3.5 py-1 rounded-full bg-white/10 text-white/80 text-xs font-semibold tracking-wide"></span>
+            <button type="button" onclick="window.closeProjectLightbox()" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-xl transition">&times;</button>
+        </div>
+
+        <!-- Center Image Stage -->
+        <div class="relative flex-1 flex items-center justify-center my-3 overflow-hidden" onclick="event.stopPropagation()">
+            <button type="button" id="lb-prev-btn" onclick="window.prevProjectPhoto()" class="absolute left-1 sm:left-4 z-10 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center text-2xl backdrop-blur-md transition">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+
+            <div class="max-h-[75vh] max-w-[90vw] overflow-auto rounded-2xl shadow-2xl border border-white/15 bg-black/40 flex items-center justify-center">
+                <img id="lb-stage-img" src="" alt="Preview" onclick="this.classList.toggle('scale-150'); this.classList.toggle('cursor-zoom-out');" class="max-h-[73vh] max-w-[88vw] object-contain cursor-zoom-in transition-transform duration-300">
+            </div>
+
+            <button type="button" id="lb-next-btn" onclick="window.nextProjectPhoto()" class="absolute right-1 sm:right-4 z-10 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center text-2xl backdrop-blur-md transition">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+        </div>
+
+        <!-- Bottom Caption -->
+        <div class="max-w-3xl w-full mx-auto text-center space-y-1" onclick="event.stopPropagation()">
+            <p id="lb-caption" class="text-white text-sm sm:text-base font-medium leading-relaxed"></p>
+            <p class="text-white/45 text-[11px]">Klik gambar untuk Zoom &bull; Gunakan panah keyboard &larr; &rarr; untuk geser</p>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
         const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+        let projectGalleryItems = [];
+        let activeLightboxList = [];
+        let currentLightboxIdx = 0;
+
+        window.openProjectLightbox = function(index) {
+            if (!projectGalleryItems.length) return;
+            activeLightboxList = projectGalleryItems;
+            currentLightboxIdx = index;
+            renderLightboxStage();
+            document.getElementById('ios-project-lightbox').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.openSingleImageLightbox = function(url, caption) {
+            if (!url) return;
+            activeLightboxList = [{ url, caption }];
+            currentLightboxIdx = 0;
+            renderLightboxStage();
+            document.getElementById('ios-project-lightbox').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeProjectLightbox = function() {
+            document.getElementById('ios-project-lightbox').classList.add('hidden');
+            document.body.style.overflow = '';
+        };
+
+        function renderLightboxStage() {
+            const item = activeLightboxList[currentLightboxIdx];
+            const img = document.getElementById('lb-stage-img');
+            img.classList.remove('scale-150', 'cursor-zoom-out');
+            img.src = item.url;
+            document.getElementById('lb-caption').innerText = item.caption || `Dokumentasi #${currentLightboxIdx + 1}`;
+            document.getElementById('lb-counter').innerText = `${currentLightboxIdx + 1} / ${activeLightboxList.length}`;
+
+            const showNav = activeLightboxList.length > 1;
+            document.getElementById('lb-prev-btn').style.display = showNav ? 'flex' : 'none';
+            document.getElementById('lb-next-btn').style.display = showNav ? 'flex' : 'none';
+        }
+
+        window.nextProjectPhoto = function() {
+            if (activeLightboxList.length <= 1) return;
+            currentLightboxIdx = (currentLightboxIdx + 1) % activeLightboxList.length;
+            renderLightboxStage();
+        };
+
+        window.prevProjectPhoto = function() {
+            if (activeLightboxList.length <= 1) return;
+            currentLightboxIdx = (currentLightboxIdx - 1 + activeLightboxList.length) % activeLightboxList.length;
+            renderLightboxStage();
+        };
+
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('ios-project-lightbox');
+            if (!modal || modal.classList.contains('hidden')) return;
+            if (e.key === 'Escape') window.closeProjectLightbox();
+            if (e.key === 'ArrowRight') window.nextProjectPhoto();
+            if (e.key === 'ArrowLeft') window.prevProjectPhoto();
+        });
+
+        function exportCaseStudyPDF() {
+            if (!document.querySelector('.pdf-formal-header')) {
+                const pdfHeader = document.createElement('div');
+                pdfHeader.className = 'pdf-formal-header';
+                const today = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+                pdfHeader.innerHTML = `
+                    <span><strong>MUHAMMAD ZIDAN</strong> &bull; Portfolio Case Study</span>
+                    <span>Generated on ${today}</span>
+                `;
+                document.body.prepend(pdfHeader);
+            }
+            window.print();
+        }
+
+        // ==================== LOAD PROJECT DATA ====================
         document.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
@@ -98,7 +303,7 @@
                 query = query.order('created_at', { ascending: false }).limit(1).single();
             }
 
-            const { data: proj, error } = await query;
+            const { data: proj } = await query;
             if (proj) {
                 document.title = `${proj.title} — Muhammad Zidan`;
                 document.getElementById('proj-title').innerText = proj.title;
@@ -125,7 +330,7 @@
                     }
                 }
 
-                // Render Galeri Dokumentasi & Caption (menggunakan variabel proj)
+                // Render Galeri Dokumentasi & Caption
                 let rawGallery = proj.gallery;
                 if (typeof rawGallery === 'string') {
                     try { rawGallery = JSON.parse(rawGallery); } catch (e) { rawGallery = []; }
@@ -135,22 +340,23 @@
                 const galleryContainer = document.getElementById('proj-gallery');
 
                 if (Array.isArray(rawGallery) && rawGallery.length > 0 && galleryContainer) {
+                    projectGalleryItems = rawGallery.map(item => ({
+                        url: typeof item === 'string' ? item : item.url,
+                        caption: typeof item === 'string' ? '' : (item.caption || '')
+                    }));
+
                     if (gallerySection) gallerySection.classList.remove('hidden');
                     galleryContainer.innerHTML = '';
 
-                    rawGallery.forEach((item, idx) => {
-                        const imgUrl = typeof item === 'string' ? item : item.url;
-                        const imgCaption = typeof item === 'string' ? '' : (item.caption || '');
-                        const safeCaption = imgCaption.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-
+                    projectGalleryItems.forEach((item, idx) => {
                         galleryContainer.innerHTML += `
                             <figure class="gallery-card group bg-white rounded-2xl border border-black/5 overflow-hidden shadow-xs hover:shadow-md transition cursor-zoom-in flex flex-col"
-                                onclick="if(typeof openLightbox==='function'){openLightbox('${imgUrl}', '${safeCaption}')}else{window.open('${imgUrl}', '_blank')}">
+                                onclick="window.openProjectLightbox(${idx})">
                                 <div class="bg-slate-50 overflow-hidden">
-                                    <img src="${imgUrl}" alt="${safeCaption || 'Dokumentasi ' + (idx + 1)}" loading="lazy"
+                                    <img src="${item.url}" alt="${item.caption || 'Dokumentasi ' + (idx + 1)}" loading="lazy"
                                         class="w-full h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500">
                                 </div>
-                                ${imgCaption ? `<figcaption class="p-3.5 text-xs text-slate-600 leading-relaxed border-t border-black/5 bg-white">${imgCaption}</figcaption>` : ''}
+                                ${item.caption ? `<figcaption class="p-3.5 text-xs text-slate-600 leading-relaxed border-t border-black/5 bg-white">${item.caption}</figcaption>` : ''}
                             </figure>
                         `;
                     });
@@ -161,357 +367,5 @@
             }
         });
     </script>
-    <!-- ==================== iOS Photos / Quick Look Lightbox ==================== -->
-<style>
-    .apple-zoomable {
-        cursor: zoom-in !important;
-        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease !important;
-    }
-    .apple-zoomable:hover {
-        transform: scale(1.015) !important;
-        box-shadow: 0 14px 30px rgba(0, 113, 227, 0.14) !important;
-    }
-    #ios-lightbox {
-        position: fixed;
-        inset: 0;
-        z-index: 99999;
-        background: rgba(15, 15, 18, 0.82);
-        backdrop-filter: blur(22px);
-        -webkit-backdrop-filter: blur(22px);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    #ios-lightbox.active {
-        opacity: 1;
-        pointer-events: auto;
-    }
-    .ios-lb-toolbar {
-        position: fixed;
-        top: 20px;
-        right: 24px;
-        display: flex;
-        gap: 10px;
-        z-index: 100001;
-    }
-    .ios-lb-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: rgba(44, 44, 46, 0.72);
-        backdrop-filter: blur(12px);
-        color: #FFFFFF;
-        font-size: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: background 0.2s ease, transform 0.15s ease;
-    }
-    .ios-lb-btn:hover { background: rgba(72, 72, 74, 0.9); transform: scale(1.06); }
-    .ios-lb-stage {
-        max-width: 92vw;
-        max-height: 80vh;
-        overflow: auto;
-        border-radius: 22px;
-        box-shadow: 0 28px 70px rgba(0, 0, 0, 0.55);
-        background: #FFFFFF;
-        transform: scale(0.94);
-        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    #ios-lightbox.active .ios-lb-stage { transform: scale(1); }
-    #ios-lb-img {
-        display: block;
-        max-width: 90vw;
-        max-height: 78vh;
-        width: auto;
-        height: auto;
-        margin: 0 !important;
-        border: none !important;
-        border-radius: 0 !important;
-        cursor: zoom-in;
-        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-        transform-origin: center center;
-    }
-    #ios-lb-img.zoomed {
-        max-width: none;
-        max-height: none;
-        width: 145vw;
-        cursor: zoom-out;
-    }
-    .ios-lb-caption {
-        margin-top: 16px;
-        padding: 8px 18px;
-        border-radius: 999px;
-        background: rgba(44, 44, 46, 0.75);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        color: #F5F5F7;
-        font-size: 13px;
-        font-weight: 500;
-        text-align: center;
-        max-width: 85vw;
-    }
-</style>
-
-<div id="ios-lightbox" onclick="closeIosLightbox()">
-    <div class="ios-lb-toolbar" onclick="event.stopPropagation()">
-        <button type="button" class="ios-lb-btn" onclick="toggleIosZoom()" title="Perbesar / Perkecil (Zoom)">
-            <i id="ios-lb-zoom-icon" class='bx bx-zoom-in'></i>
-        </button>
-        <button type="button" class="ios-lb-btn" onclick="closeIosLightbox()" title="Tutup (Esc)">
-            <i class='bx bx-x'></i>
-        </button>
-    </div>
-    <div class="ios-lb-stage" onclick="event.stopPropagation()">
-        <img id="ios-lb-img" src="" alt="Preview" onclick="toggleIosZoom()">
-    </div>
-    <div id="ios-lb-caption" class="ios-lb-caption hidden"></div>
-</div>
-
-<script>
-    const lbModal = document.getElementById('ios-lightbox');
-    const lbImg = document.getElementById('ios-lb-img');
-    const lbCap = document.getElementById('ios-lb-caption');
-    const lbZoomIcon = document.getElementById('ios-lb-zoom-icon');
-
-    function openIosLightbox(src, captionText) {
-        lbImg.src = src;
-        lbImg.classList.remove('zoomed');
-        lbZoomIcon.className = 'bx bx-zoom-in';
-        if (captionText && captionText.trim() !== '') {
-            lbCap.innerText = captionText.trim();
-            lbCap.classList.remove('hidden');
-        } else {
-            lbCap.classList.add('hidden');
-        }
-        lbModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeIosLightbox() {
-        lbModal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    function toggleIosZoom() {
-        const isZoomed = lbImg.classList.toggle('zoomed');
-        lbZoomIcon.className = isZoomed ? 'bx bx-zoom-out' : 'bx bx-zoom-in';
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeIosLightbox();
-    });
-
-    // Otomatis aktifkan klik-perbesar pada semua gambar proyek (termasuk yang dimuat dinamis dari Supabase)
-    function attachLightboxToImages() {
-        document.querySelectorAll('main img, .container img, article img, figure img').forEach(img => {
-            if (img.id === 'ios-lb-img' || img.dataset.lbBound) return;
-            img.dataset.lbBound = 'true';
-            img.classList.add('apple-zoomable');
-            img.addEventListener('click', () => {
-                // Ambil caption dari teks di bawah gambar atau atribut alt
-                const parentCard = img.closest('figure, .gallery-card, div');
-                const captionEl = parentCard ? parentCard.querySelector('figcaption, p') : null;
-                const cap = (captionEl && captionEl.innerText.length < 120) ? captionEl.innerText : (img.alt || '');
-                openIosLightbox(img.src, cap);
-            });
-        });
-    }
-
-    attachLightboxToImages();
-    const imgObserver = new MutationObserver(attachLightboxToImages);
-    imgObserver.observe(document.body, { childList: true, subtree: true });
-</script>
-<!-- ==================== Apple Editorial PDF Export Engine ==================== -->
-<style>
-    /* Tombol Save as PDF di Navbar */
-    .apple-pdf-btn {
-        background: #0071E3 !important;
-        color: #FFFFFF !important;
-        font-size: 12px !important;
-        font-weight: 600 !important;
-        padding: 7px 14px !important;
-        border-radius: 999px !important;
-        border: none !important;
-        cursor: pointer !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 5px !important;
-        transition: background 0.2s ease, transform 0.15s ease !important;
-    }
-    .apple-pdf-btn:hover { background: #0077ED !important; transform: scale(1.03); }
-
-    /* Kop Dokumen Khusus Cetak PDF (Tersembunyi di Layar Web) */
-    .pdf-formal-header { display: none; }
-
-    /* ==================== ATURAN CETAK PDF RAPI (ANTI-RUSAK) ==================== */
-    @media print {
-        @page {
-            size: A4 portrait;
-            margin: 16mm 16mm 18mm 16mm;
-        }
-
-        /* Reset Latar Belakang & Efek Web */
-        html, body {
-            background: #FFFFFF !important;
-            background-image: none !important;
-            color: #1D1D1F !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            font-size: 11pt !important;
-            line-height: 1.6 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        }
-
-        /* Sembunyikan Elemen Interaktif Web */
-        nav, .apple-nav, .apple-top-nav, #action-bar, #ios-lightbox, button, .no-print {
-            display: none !important;
-        }
-
-        /* Tampilkan Kop Dokumen Resmi di Halaman 1 */
-        .pdf-formal-header {
-            display: flex !important;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1.5px solid #E5E7EB;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-size: 9pt;
-            color: #6E6E73;
-        }
-
-        /* Rapikan Container Utama agar Penuh ke Lebar Kertas A4 */
-        main, .container, article, section.content, .card {
-            max-width: 100% !important;
-            width: 100% !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            background: #FFFFFF !important;
-            box-shadow: none !important;
-            border: none !important;
-            border-radius: 0 !important;
-        }
-
-        header {
-            text-align: left !important;
-            padding: 0 0 16px 0 !important;
-            margin: 0 0 20px 0 !important;
-            border-bottom: 1px solid #F1F5F9 !important;
-            max-width: 100% !important;
-        }
-        header h1 {
-            font-size: 22pt !important;
-            line-height: 1.2 !important;
-            margin-bottom: 6px !important;
-        }
-        header p {
-            font-size: 10.5pt !important;
-            color: #515154 !important;
-        }
-
-        /* Cegah Judul Terpisah dari Paragraf di Bawahnya */
-        h1, h2, h3, h4 {
-            break-after: avoid !important;
-            page-break-after: avoid !important;
-            color: #1D1D1F !important;
-        }
-        h2 { font-size: 14pt !important; margin-top: 20px !important; }
-        h3 { font-size: 12pt !important; margin-top: 16px !important; }
-
-        /* KUNCI UTAMA ANTI-POTONG: Gambar, Tabel, & Kartu Galeri Tetap Utuh */
-        img, figure, table, tr, blockquote, #proj-gallery > div, .gallery-card {
-            break-inside: avoid !important;
-            page-break-inside: avoid !important;
-        }
-
-        img {
-            max-height: 290px !important;
-            width: auto !important;
-            max-width: 100% !important;
-            object-fit: contain !important;
-            margin: 10px auto !important;
-            border: 1px solid #E5E7EB !important;
-            border-radius: 10px !important;
-        }
-
-        /* Rapikan Grid Galeri jadi 2 Kolom Rapi di Kertas A4 */
-        #proj-gallery {
-            display: grid !important;
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 12px !important;
-        }
-
-        /* Rapikan Tabel agar Header Ulang di Halaman Baru jika Panjang */
-        table {
-            width: 100% !important;
-            border: 1px solid #D1D5DB !important;
-            font-size: 9.5pt !important;
-            box-shadow: none !important;
-        }
-        thead { display: table-header-group !important; }
-        th {
-            background-color: #F3F4F6 !important;
-            color: #111827 !important;
-            padding: 8px 10px !important;
-            border-bottom: 1px solid #D1D5DB !important;
-        }
-        td {
-            padding: 7px 10px !important;
-            border-bottom: 1px solid #E5E7EB !important;
-        }
-    }
-</style>
-
-<script>
-    function exportCaseStudyPDF() {
-        // 1. Sisipkan Kop Resmi sementara sebelum cetak
-        if (!document.querySelector('.pdf-formal-header')) {
-            const pdfHeader = document.createElement('div');
-            pdfHeader.className = 'pdf-formal-header';
-            const today = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-            pdfHeader.innerHTML = `
-                <span><strong>MUHAMMAD ZIDAN</strong> &bull; Portfolio Case Study</span>
-                <span>Generated on ${today}</span>
-            `;
-            document.body.prepend(pdfHeader);
-        }
-
-        // 2. Pastikan semua gambar selesai dimuat sebelum dialog PDF muncul
-        window.print();
-    }
-
-    // Otomatis tambahkan tombol "Save PDF" ke Bar Pil Navigasi Atas
-    window.addEventListener('DOMContentLoaded', () => {
-        const topNav = document.querySelector('.apple-nav, .apple-top-nav');
-        if (topNav && !document.getElementById('nav-pdf-btn')) {
-            const ctaBtn = topNav.querySelector('a:last-child');
-            const btnWrap = document.createElement('div');
-            btnWrap.style.cssText = 'display: inline-flex; align-items: center; gap: 8px;';
-
-            const pdfBtn = document.createElement('button');
-            pdfBtn.id = 'nav-pdf-btn';
-            pdfBtn.type = 'button';
-            pdfBtn.className = 'apple-pdf-btn';
-            pdfBtn.onclick = exportCaseStudyPDF;
-            pdfBtn.innerHTML = `<i class='bx bxs-file-pdf' style="font-size:15px;"></i> Save PDF`;
-
-            if (ctaBtn) {
-                ctaBtn.parentNode.insertBefore(btnWrap, ctaBtn);
-                btnWrap.appendChild(pdfBtn);
-                btnWrap.appendChild(ctaBtn);
-            } else {
-                topNav.appendChild(pdfBtn);
-            }
-        }
-    });
-</script>
 </body>
 </html>
