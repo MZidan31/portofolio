@@ -123,18 +123,29 @@
                         linkBtn.classList.remove('hidden');
                     }
                 }
-                if (proj.gallery && proj.gallery.length > 0) {
-                    document.getElementById('gallery-section').classList.remove('hidden');
-                    const galContainer = document.getElementById('proj-gallery');
-                    proj.gallery.forEach(item => {
-                        galContainer.innerHTML += `
-                            <div class="rounded-2xl overflow-hidden border border-black/5 bg-[#F8F9FC]">
-                                <img src="${item.image_url}" alt="${item.caption || ''}" class="w-full h-56 object-cover">
-                                ${item.caption ? `<p class="p-3.5 text-xs font-medium text-[#515154]">${item.caption}</p>` : ''}
+                // Render Galeri Dokumentasi & Caption
+            const gallerySection = document.getElementById('gallery-section');
+            const galleryContainer = document.getElementById('proj-gallery');
+            if (project.gallery && project.gallery.length > 0 && galleryContainer) {
+                if (gallerySection) gallerySection.classList.remove('hidden');
+                galleryContainer.innerHTML = '';
+                project.gallery.forEach((item, idx) => {
+                    const imgUrl = typeof item === 'string' ? item : item.url;
+                    const imgCaption = typeof item === 'string' ? '' : (item.caption || '');
+                    const safeCaption = imgCaption.replace(/'/g, "\\'");
+
+                    galleryContainer.innerHTML += `
+                        <figure class="gallery-card group bg-white rounded-2xl border border-black/5 overflow-hidden shadow-xs hover:shadow-md transition cursor-zoom-in flex flex-col"
+                            onclick="if(typeof openLightbox==='function') openLightbox('${imgUrl}', '${safeCaption}')">
+                            <div class="bg-slate-50 overflow-hidden">
+                                <img src="${imgUrl}" alt="${imgCaption || 'Dokumentasi ' + (idx + 1)}" loading="lazy"
+                                    class="w-full h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500">
                             </div>
-                        `;
-                    });
-                }
+                            ${imgCaption ? `<figcaption class="p-3.5 text-xs text-slate-600 leading-relaxed border-t border-black/5 bg-white">${imgCaption}</figcaption>` : ''}
+                        </figure>
+                    `;
+                });
+            }
             } else {
                 document.getElementById('proj-title').innerText = 'Proyek Tidak Ditemukan';
                 document.getElementById('proj-content').innerHTML = '<p class="text-center text-slate-500">Data proyek belum tersedia atau telah dihapus.</p>';
