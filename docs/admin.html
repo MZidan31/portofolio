@@ -3,1378 +3,1344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Studio | Admin Dashboard</title>
-
-    <!-- Fonts, Icons & CKEditor -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Admin Panel — Muhammad Zidan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <!-- Quill Rich Text Editor -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         :root {
             --ios-bg: #F2F2F7;
             --ios-card: #FFFFFF;
-            --ios-input: #F2F2F7;
-            --ios-text: #1D1D1F;
-            --ios-secondary: #8E8E93;
+            --ios-input: #F2F4F8;
             --ios-blue: #0071E3;
-            --ios-blue-hover: #0077ED;
-            --ios-green: #34C759;
-            --ios-orange: #FF9500;
+            --ios-green: #10B981;
             --ios-red: #FF3B30;
-            --ios-indigo: #5856D6;
-            --ios-border: rgba(0, 0, 0, 0.08);
+            --ios-text: #1D1D1F;
+            --ios-sub: #6E6E73;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
             background-color: var(--ios-bg);
-            background-image:
-                radial-gradient(at 10% 5%, rgba(0, 113, 227, 0.06) 0px, transparent 50%),
-                radial-gradient(at 90% 10%, rgba(16, 185, 129, 0.06) 0px, transparent 50%);
             color: var(--ios-text);
-            padding: 24px 16px 80px 16px;
-            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
-
-        .hidden { display: none !important; }
-
-        .container {
-            max-width: 980px;
-            margin: 0 auto;
-        }
-
-        /* Login Screen */
-        .login-wrapper {
-            min-height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .login-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--ios-border);
-            border-radius: 28px;
-            padding: 36px 32px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
-            text-align: center;
-        }
-        .brand-badge {
-            width: 52px;
-            height: 52px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #0071E3, #10B981);
-            color: #fff;
-            font-weight: 800;
-            font-size: 18px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 14px;
-            box-shadow: 0 8px 20px rgba(0, 113, 227, 0.25);
-        }
-
-        /* Top Header Bar */
-        .top-bar {
-            background: rgba(255, 255, 255, 0.88);
-            backdrop-filter: saturate(180%) blur(20px);
-            border: 1px solid var(--ios-border);
-            border-radius: 24px;
-            padding: 16px 22px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 18px;
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.03);
-        }
-        .top-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .top-left .brand-badge {
-            width: 42px;
-            height: 42px;
-            border-radius: 13px;
-            font-size: 15px;
-            margin-bottom: 0;
-        }
-        .top-title h1 {
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-        .top-title p {
-            font-size: 12px;
-            color: var(--ios-secondary);
-        }
-        .top-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Segmented Control (iOS Tabs) */
-        .segmented-control {
-            background: #E5E5EA;
-            padding: 4px;
-            border-radius: 16px;
-            display: flex;
-            gap: 4px;
-            overflow-x: auto;
-            margin-bottom: 22px;
-        }
-        .seg-btn {
-            flex: 1;
-            min-width: max-content;
-            background: transparent;
-            color: #3A3A3C;
-            border: none;
-            padding: 9px 14px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .seg-btn:hover {
-            color: var(--ios-text);
-        }
-        .seg-btn.active {
-            background: #FFFFFF;
-            color: var(--ios-text);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        /* Cards & Sections */
-        .card {
+        .ios-card {
             background: var(--ios-card);
-            border: 1px solid var(--ios-border);
             border-radius: 26px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
             padding: 26px;
-            margin-bottom: 22px;
-            box-shadow: 0 6px 24px rgba(15, 23, 42, 0.03);
         }
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-bottom: 16px;
-            margin-bottom: 18px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-        }
-        .section-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 19px;
-        }
-        .section-title {
-            font-size: 17px;
-            font-weight: 700;
-            letter-spacing: -0.015em;
-        }
-
-        .sub-divider {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--ios-secondary);
-            margin: 22px 0 12px 0;
-            padding-bottom: 6px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        /* Forms & Inputs */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            margin-bottom: 14px;
-        }
-        @media (max-width: 680px) {
-            .grid-2 { grid-template-columns: 1fr; }
-            .top-bar { flex-direction: column; align-items: flex-start; }
-        }
-
-        label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: #3A3A3C;
-            margin-bottom: 6px;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        input[type="url"],
-        select,
-        textarea {
+        .ios-input {
             width: 100%;
             background: var(--ios-input);
             border: 1px solid transparent;
-            border-radius: 13px;
+            border-radius: 14px;
             padding: 11px 14px;
-            font-family: inherit;
-            font-size: 14px;
+            font-size: 13.5px;
             color: var(--ios-text);
             transition: all 0.2s ease;
-            margin-bottom: 12px;
         }
-        input:focus, select:focus, textarea:focus {
+        .ios-input:focus {
             outline: none;
             background: #FFFFFF;
             border-color: var(--ios-blue);
-            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.14);
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
         }
-
-        .upload-box {
-            background: #F9F9FB;
-            border: 1.5px dashed rgba(0, 113, 227, 0.35);
-            border-radius: 16px;
-            padding: 18px;
-            text-align: center;
-        }
-        .upload-icon {
-            font-size: 26px;
-            color: var(--ios-blue);
-            margin-bottom: 4px;
-        }
-
-        /* Buttons */
-        button, .btn-link {
-            font-family: inherit;
-            font-size: 13px;
+        .ios-label {
+            display: block;
+            font-size: 12px;
             font-weight: 600;
-            border: none;
-            border-radius: 13px;
-            padding: 11px 18px;
-            cursor: pointer;
+            color: var(--ios-sub);
+            margin-bottom: 6px;
+        }
+        .btn-primary {
             background: var(--ios-blue);
-            color: #FFFFFF;
-            text-decoration: none;
+            color: #FFF;
+            font-weight: 600;
+            font-size: 13.5px;
+            padding: 11px 22px;
+            border-radius: 999px;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            transition: all 0.18s ease;
+            cursor: pointer;
         }
-        button:hover, .btn-link:hover {
-            background: var(--ios-blue-hover);
-        }
-        button:active {
-            transform: scale(0.98);
-        }
-
-        .btn-soft-blue {
-            background: rgba(0, 113, 227, 0.12);
-            color: var(--ios-blue);
+        .btn-primary:hover { background: #0077ED; transform: translateY(-1px); }
+        .btn-secondary {
+            background: #E5E7EB;
+            color: var(--ios-text);
+            font-weight: 600;
+            font-size: 13px;
+            padding: 10px 18px;
             border-radius: 999px;
-            padding: 8px 14px;
-            font-size: 12px;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
-        .btn-soft-blue:hover { background: rgba(0, 113, 227, 0.2); }
-
+        .btn-secondary:hover { background: #D1D5DB; }
         .btn-danger {
             background: rgba(255, 59, 48, 0.12);
             color: var(--ios-red);
-        }
-        .btn-danger:hover { background: rgba(255, 59, 48, 0.2); }
-
-        .btn-edit {
-            background: rgba(255, 149, 0, 0.14);
-            color: #C97200;
-        }
-        .btn-edit:hover { background: rgba(255, 149, 0, 0.24); }
-
-        .btn-pill-sm {
-            border-radius: 999px;
-            padding: 6px 13px;
-            font-size: 12px;
-        }
-
-        /* List Items */
-        .list-item {
-            background: var(--ios-input);
-            border-radius: 16px;
-            padding: 14px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-        .list-info h4 {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--ios-text);
-            margin-bottom: 2px;
-        }
-        .list-info p {
-            font-size: 12px;
-            color: var(--ios-secondary);
-        }
-        .list-actions {
-            display: flex;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-
-        /* CKEditor Override */
-        .ck-editor__editable {
-            min-height: 180px;
-            border-radius: 0 0 13px 13px !important;
-        }
-
-        /* iOS Toast Notification */
-        #ios-toast {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            background: rgba(29, 29, 31, 0.92);
-            backdrop-filter: blur(12px);
-            color: #fff;
-            padding: 11px 20px;
-            border-radius: 999px;
-            font-size: 13px;
             font-weight: 600;
-            z-index: 99999;
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 999px;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
-        #ios-toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        .btn-danger:hover { background: var(--ios-red); color: #FFF; }
+        .btn-pill-sm {
+            font-size: 11.5px;
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+        .ql-toolbar.ql-snow {
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+            border-color: rgba(0,0,0,0.08);
+            background: #F8F9FC;
+        }
+        .ql-container.ql-snow {
+            border-bottom-left-radius: 14px;
+            border-bottom-right-radius: 14px;
+            border-color: rgba(0,0,0,0.08);
+            min-height: 220px;
+            font-family: inherit;
+            font-size: 14px;
+            background: #FFF;
+        }
+        .nav-pill-tab {
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .nav-pill-tab.active {
+            background: #1D1D1F;
+            color: #FFFFFF;
+        }
+        .nav-pill-tab:not(.active) {
+            background: #FFFFFF;
+            color: #515154;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .nav-pill-tab:not(.active):hover {
+            border-color: rgba(0, 113, 227, 0.35);
+            color: #0071E3;
         }
     </style>
 </head>
-<body>
-
-    <div id="ios-toast">Tersimpan</div>
+<body class="pb-24">
 
     <!-- ==================== LOGIN SCREEN ==================== -->
-    <div id="login-section" class="login-wrapper">
-        <div class="login-card">
-            <div class="brand-badge">MZ</div>
-            <h2 style="font-size:21px; font-weight:800; margin-bottom:4px;">Portfolio Studio</h2>
-            <p style="font-size:13px; color:var(--ios-secondary); margin-bottom:22px;">Masuk untuk mengelola konten portofolio</p>
-            <input type="email" id="login-email" placeholder="Email Admin">
-            <input type="password" id="login-password" placeholder="Password" onkeydown="if(event.key==='Enter') handleLogin()">
-            <button type="button" id="btn-login" onclick="handleLogin()" style="width:100%; margin-top:4px;">Masuk ke Studio</button>
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-5">
+        <div class="ios-card w-full max-w-md space-y-6 text-center">
+            <div class="w-14 h-14 rounded-2xl bg-blue-50 text-[#0071E3] flex items-center justify-center text-3xl mx-auto">
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div>
+                <h1 class="text-2xl font-extrabold tracking-tight">Portfolio Command Center</h1>
+                <p class="text-xs text-[#6E6E73] mt-1">Masuk menggunakan akun Supabase Admin untuk mengelola konten.</p>
+            </div>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="ios-label">Email Admin</label>
+                    <input type="email" id="login-email" required class="ios-input" placeholder="admin@email.com">
+                </div>
+                <div>
+                    <label class="ios-label">Password</label>
+                    <input type="password" id="login-pass" required class="ios-input" placeholder="••••••••">
+                </div>
+                <p id="login-error" class="hidden text-xs text-red-600 font-semibold"></p>
+                <button type="submit" id="btn-login" class="btn-primary w-full py-3">Masuk ke Dashboard</button>
+            </form>
+            <a href="./" class="inline-block text-xs text-[#0071E3] font-semibold hover:underline">&larr; Kembali ke Portofolio</a>
         </div>
     </div>
 
-    <!-- ==================== MAIN ADMIN STUDIO ==================== -->
-    <div id="admin-section" class="container hidden">
-        
-        <!-- Header Bar -->
-        <div class="top-bar">
-            <div class="top-left">
-                <div class="brand-badge">MZ</div>
-                <div class="top-title">
-                    <h1>Portfolio Studio</h1>
-                    <p>Connected to Supabase Cloud</p>
+    <!-- ==================== ADMIN DASHBOARD ==================== -->
+    <div id="admin-dashboard" class="hidden">
+        <!-- Sticky Top Bar -->
+        <header class="sticky top-0 z-40 bg-white/85 backdrop-blur-xl border-b border-black/5 px-5 py-3.5">
+            <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-[#10B981]"></span>
+                    <h1 class="font-extrabold text-base sm:text-lg tracking-tight">Zidan Admin CMS</h1>
                 </div>
-            </div>
-            <div class="top-actions">
-                <a href="./" target="_blank" class="btn-link btn-soft-blue"><i class='bx bx-link-external'></i> Live Site</a>
-                <button type="button" onclick="handleLogout()" class="btn-danger btn-pill-sm">Keluar</button>
-            </div>
-        </div>
-
-        <!-- iOS Segmented Control Tabs -->
-        <div class="segmented-control">
-            <button type="button" class="seg-btn active" onclick="switchTab('all', this)">Semua</button>
-            <button type="button" class="seg-btn" onclick="switchTab('profile', this)">Identitas & Footer</button>
-            <button type="button" class="seg-btn" onclick="switchTab('projects', this)">Proyek</button>
-            <button type="button" class="seg-btn" onclick="switchTab('credentials', this)">Edukasi & Sertifikat</button>
-            <button type="button" class="seg-btn" onclick="switchTab('arsenal', this)">Technical Arsenal</button>
-            <button type="button" class="seg-btn" onclick="switchTab('gallery', this)">Galeri</button>
-        </div>
-
-        <!-- ==================== TAB 1: IDENTITAS & FOOTER ==================== -->
-        <div class="card admin-tab" id="tab-profile">
-            <div class="section-header">
-                <div class="section-icon" style="background: rgba(0,113,227,0.12); color: var(--ios-blue);"><i class='bx bxs-user-detail'></i></div>
-                <h3 class="section-title">Identitas Hero & Kontak Footer</h3>
-            </div>
-
-            <div class="grid-2">
-                <div>
-                    <label>Badge Utama (Pill Atas)</label>
-                    <input type="text" id="prof-badge" placeholder="TECH-SAVVY OPERATIONS PROFESSIONAL">
-                </div>
-                <div>
-                    <label>Headline Utama</label>
-                    <input type="text" id="prof-headline" placeholder="Informatics Engineering Graduate">
+                <div class="flex items-center gap-2.5">
+                    <a href="./" target="_blank" class="btn-secondary text-xs inline-flex items-center gap-1.5">
+                        <i class='bx bx-link-external'></i> Lihat Web
+                    </a>
+                    <button type="button" onclick="handleAdminLogout()" class="btn-danger btn-pill-sm px-4 py-2">
+                        Logout
+                    </button>
                 </div>
             </div>
 
-            <label>Ringkasan Profil (Hero Summary — Boleh HTML/Pill)</label>
-            <textarea id="prof-summary" rows="4" placeholder="Deskripsi singkat tentang keahlian dan fokus karir Anda..."></textarea>
-
-            <div class="grid-2">
-                <div>
-                    <label>Foto Profil (Upload Baru atau URL)</label>
-                    <input type="text" id="prof-photo-url" placeholder="https://...">
-                    <input type="file" accept="image/*" onchange="handleSingleUpload(this, 'prof-photo-url', 'profile')">
-                </div>
-                <div>
-                    <label>File CV / Resume PDF (Upload Baru atau URL)</label>
-                    <input type="text" id="prof-cv-url" placeholder="https://...">
-                    <input type="file" accept=".pdf,image/*" onchange="handleSingleUpload(this, 'prof-cv-url', 'cv')">
-                </div>
+            <!-- Filter Navigation Pills (Specific Section vs Semua) -->
+            <div class="max-w-6xl mx-auto mt-3 flex gap-2 overflow-x-auto pb-1">
+                <button type="button" onclick="switchAdminTab('ALL')" data-target="ALL" class="nav-pill-tab active">Semua</button>
+                <button type="button" onclick="switchAdminTab('sec-inquiries')" data-target="sec-inquiries" class="nav-pill-tab" id="tab-inbox-pill">Inbox Pengajuan (<span id="unread-badge-count">0</span>)</button>
+                <button type="button" onclick="switchAdminTab('sec-status')" data-target="sec-status" class="nav-pill-tab">Status & Availability</button>
+                <button type="button" onclick="switchAdminTab('sec-services')" data-target="sec-services" class="nav-pill-tab">Services & Pricing</button>
+                <button type="button" onclick="switchAdminTab('sec-profile')" data-target="sec-profile" class="nav-pill-tab">Profil & Hero</button>
+                <button type="button" onclick="switchAdminTab('sec-projects')" data-target="sec-projects" class="nav-pill-tab">Proyek & Studi Kasus</button>
+                <button type="button" onclick="switchAdminTab('sec-arsenal')" data-target="sec-arsenal" class="nav-pill-tab">Technical Arsenal</button>
+                <button type="button" onclick="switchAdminTab('sec-edu-cert')" data-target="sec-edu-cert" class="nav-pill-tab">Pendidikan & Sertifikasi</button>
+                <button type="button" onclick="switchAdminTab('sec-gallery')" data-target="sec-gallery" class="nav-pill-tab">Galeri Album</button>
             </div>
+        </header>
 
-            <div class="sub-divider">Pengaturan Kontak & Footer</div>
-            <div class="grid-2">
-                <div>
-                    <label>Judul CTA Footer</label>
-                    <input type="text" id="prof-footer-title" placeholder="Ready to build something impactful?">
-                </div>
-                <div>
-                    <label>Subjudul CTA Footer</label>
-                    <input type="text" id="prof-footer-sub" placeholder="I am actively seeking collaboration...">
-                </div>
-            </div>
-            <div class="grid-2">
-                <div>
-                    <label>Link WhatsApp</label>
-                    <input type="url" id="prof-wa" placeholder="https://wa.me/628...">
-                </div>
-                <div>
-                    <label>Link LinkedIn</label>
-                    <input type="url" id="prof-linkedin" placeholder="https://linkedin.com/in/...">
-                </div>
-            </div>
-            <label>Email Kontak</label>
-            <input type="email" id="prof-email" placeholder="jidan1307@gmail.com">
+        <main class="max-w-6xl mx-auto px-5 pt-8 space-y-10">
 
-            <button type="button" id="btn-save-profile" onclick="saveProfile()" style="width:100%; margin-top:6px;">Simpan Perubahan Identitas</button>
-        </div>
-
-        <!-- ==================== TAB 2: PROYEK ==================== -->
-        <div class="card admin-tab" id="tab-projects">
-            <div id="form-project">
-                <div class="section-header">
-                    <div class="section-icon" style="background: rgba(52,199,89,0.14); color: var(--ios-green);"><i class='bx bxs-folder-open'></i></div>
-                    <h3 class="section-title">Studi Kasus & Proyek</h3>
+            <!-- ==================== 1. VISITOR INQUIRIES INBOX ==================== -->
+            <section id="sec-inquiries" data-admin-section class="ios-card space-y-5">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-black/5 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-[#10B981] flex items-center justify-center text-xl">
+                            <i class='bx bxs-inbox'></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold tracking-tight">Kotak Masuk Kolaborasi & Permintaan Layanan</h2>
+                            <p class="text-xs text-[#6E6E73]">Pengajuan proyek atau layanan khusus yang dikirim pengunjung dari landing page.</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="loadAllAdminData()" class="btn-secondary text-xs"><i class='bx bx-refresh'></i> Refresh</button>
                 </div>
 
-                <div class="grid-2">
-                    <div>
-                        <label>Judul Proyek</label>
-                        <input type="text" id="proj-title" placeholder="Cth: US Airlines Customer Satisfaction Analysis">
+                <div id="admin-inquiries-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <p class="text-xs text-[#6E6E73]">Memuat pesan masuk...</p>
+                </div>
+            </section>
+
+            <!-- ==================== 2. STATUS & AVAILABILITY MANAGER ==================== -->
+            <section id="sec-status" data-admin-section class="ios-card space-y-6">
+                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0071E3] flex items-center justify-center text-xl">
+                        <i class='bx bxs-badge-check'></i>
                     </div>
                     <div>
-                        <label>Link Repository / Live Demo (Opsional)</label>
-                        <input type="url" id="proj-repo" placeholder="https://github.com/...">
+                        <h2 class="text-lg font-bold tracking-tight">Status Aktif & Availability Badge (Hero Pill)</h2>
+                        <p class="text-xs text-[#6E6E73]">Tampilkan status seperti Open to Work, sedang bekerja di perusahaan, atau status akademik di bagian atas Hero.</p>
                     </div>
                 </div>
 
-                <label>Ringkasan Singkat (Tampil di Kartu Depan)</label>
-                <textarea id="proj-desc" rows="2" placeholder="Ringkasan 1-2 kalimat tentang proyek..."></textarea>
-
-                <div class="grid-2">
-                    <div>
-                        <label>Cover Image Proyek (URL atau Upload)</label>
-                        <input type="text" id="proj-image" placeholder="https://...">
-                        <input type="file" accept="image/*" onchange="handleSingleUpload(this, 'proj-image', 'projects')">
-                    </div>
-                    <div>
-                        <label>Upload Gambar Dokumentasi Tambahan (Bisa Banyak)</label>
-                        <input type="file" accept="image/*" multiple onchange="uploadProjectGallery(this)">
-                        <div id="proj-gallery-preview" style="display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;"></div>
-                    </div>
-                </div>
-
-                <label>Konten Studi Kasus Lengkap</label>
-                <div style="margin-bottom:14px;">
-                    <textarea id="proj-content"></textarea>
-                </div>
-
-                <div style="display:flex; gap:10px;">
-                    <button type="button" id="btn-cancel-proj" onclick="cancelEditProject()" class="btn-danger hidden" style="width:auto;">Batal Edit</button>
-                    <button type="button" id="btn-submit-proj" onclick="saveProject()" style="flex:1;">Simpan Proyek</button>
-                </div>
-            </div>
-
-            <div class="sub-divider">Daftar Proyek Tersimpan</div>
-            <div id="projects-list"></div>
-        </div>
-
-        <!-- ==================== TAB 3: EDUKASI & SERTIFIKAT ==================== -->
-        <div class="card admin-tab" id="tab-credentials">
-            <div class="section-header">
-                <div class="section-icon" style="background: rgba(0,113,227,0.12); color: var(--ios-blue);"><i class='bx bxs-graduation'></i></div>
-                <h3 class="section-title">Riwayat Pendidikan & Sertifikasi</h3>
-            </div>
-
-            <!-- Form Edukasi -->
-            <div id="form-edu">
-                <div class="grid-2">
-                    <div>
-                        <label>Institusi / Universitas</label>
-                        <input type="text" id="edu-institution" placeholder="STT Terpadu Nurul Fikri">
-                    </div>
-                    <div>
-                        <label>Gelar / Jurusan</label>
-                        <input type="text" id="edu-degree" placeholder="Bachelor of Computer Science (S.Kom.) - Informatics Engineering">
-                    </div>
-                </div>
-                <div class="grid-2">
-                    <div>
-                        <label>Tahun Masuk</label>
-                        <input type="text" id="edu-start" placeholder="2022">
-                    </div>
-                    <div>
-                        <label>Tahun Lulus</label>
-                        <input type="text" id="edu-grad" placeholder="2026">
-                    </div>
-                </div>
-                <div class="grid-2">
-                    <div>
-                        <label>IPK / GPA</label>
-                        <input type="text" id="edu-gpa" placeholder="3.80 / 4.00">
-                    </div>
-                    <div>
-                        <label>Ekspektasi Lulus (Kosongkan jika sudah lulus)</label>
-                        <input type="text" id="edu-expected" placeholder="">
-                    </div>
-                </div>
-                <div style="display:flex; gap:10px;">
-                    <button type="button" id="btn-cancel-edu" onclick="cancelEditEdu()" class="btn-danger hidden" style="width:auto;">Batal Edit</button>
-                    <button type="button" id="btn-submit-edu" onclick="saveEdu()" style="flex:1;">Simpan Edukasi</button>
-                </div>
-            </div>
-
-            <div class="sub-divider">Daftar Edukasi</div>
-            <div id="edu-list"></div>
-
-            <!-- Form Sertifikat -->
-            <div class="sub-divider" style="margin-top:30px;">Tambah / Edit Sertifikasi</div>
-            <div id="form-cert">
-                <div class="grid-2">
-                    <div>
-                        <label>Nama Sertifikat</label>
-                        <input type="text" id="cert-title" placeholder="Basic Proficiency in KNIME Analytics Platform">
-                    </div>
-                    <div>
-                        <label>Penerbit (Issuer)</label>
-                        <input type="text" id="cert-issuer" placeholder="KNIME / Nurul Fikri Academy / Dicoding">
-                    </div>
-                </div>
-                <div class="grid-2">
-                    <div>
-                        <label>Tahun Terbit</label>
-                        <input type="text" id="cert-year" placeholder="2024">
-                    </div>
-                    <div>
-                        <label>File Sertifikat PDF / Gambar (Upload atau URL)</label>
-                        <input type="text" id="cert-url" placeholder="https://...">
-                        <input type="file" accept=".pdf,image/*" onchange="handleSingleUpload(this, 'cert-url', 'certificates')">
-                    </div>
-                </div>
-                <div style="display:flex; gap:10px;">
-                    <button type="button" id="btn-cancel-cert" onclick="cancelEditCert()" class="btn-danger hidden" style="width:auto;">Batal Edit</button>
-                    <button type="button" id="btn-submit-cert" onclick="saveCert()" style="flex:1;">Simpan Sertifikat</button>
-                </div>
-            </div>
-
-            <div class="sub-divider">Daftar Sertifikasi</div>
-            <div id="cert-list"></div>
-        </div>
-
-        <!-- ==================== TAB 4: TECHNICAL ARSENAL ==================== -->
-        <div class="card admin-tab" id="tab-arsenal">
-            <div id="form-arsenal">
-                <div class="section-header">
-                    <div class="section-icon" style="background: rgba(255,149,0,0.14); color: var(--ios-orange);"><i class='bx bxs-chip'></i></div>
-                    <h3 class="section-title">Technical Arsenal (Skill & Tools)</h3>
-                </div>
-                <div class="grid-2">
-                    <div>
-                        <label>Nama Skill / Tool</label>
-                        <input type="text" id="arsenal-name" placeholder="Cth: KNIME Analytics Platform">
-                    </div>
-                    <div>
-                        <label>Level Kemahiran</label>
-                        <select id="arsenal-level">
-                            <option value="Advanced">Advanced (Core Skill — ●●●)</option>
-                            <option value="Intermediate" selected>Intermediate (Proficient — ●●○)</option>
-                            <option value="Familiar">Familiar (Basic / Working — ●○○)</option>
+                <form id="status-form" onsubmit="saveStatus(event)" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end bg-[#F8F9FC] p-5 rounded-2xl">
+                    <input type="hidden" id="st-id">
+                    <div class="md:col-span-3">
+                        <label class="ios-label">Tipe Badge</label>
+                        <select id="st-type" class="ios-input bg-white">
+                            <option value="open_to_work">Open to Work (Hijau Pulse)</option>
+                            <option value="working">Working / Bekerja (Koper)</option>
+                            <option value="student">Mahasiswa / Akademik (Toga)</option>
+                            <option value="freelance">Freelance / Remote (Laptop)</option>
                         </select>
                     </div>
-                </div>
-                <div class="grid-2">
-                    <div>
-                        <label>Kategori (Pilih atau ketik baru)</label>
-                        <input type="text" id="arsenal-category" list="category-suggestions" placeholder="Cth: Data & Analytics">
-                        <datalist id="category-suggestions">
-                            <option value="Data & Analytics">
-                            <option value="Engineering & IoT">
-                            <option value="DevOps & Cloud">
-                            <option value="Business & Operations">
-                        </datalist>
+                    <div class="md:col-span-4">
+                        <label class="ios-label">Label Status / Posisi *</label>
+                        <input type="text" id="st-title" required placeholder="Cth: Open to Work / Data Analyst" class="ios-input bg-white">
                     </div>
-                    <div>
-                        <label>Icon Boxicons (Opsional)</label>
-                        <input type="text" id="arsenal-icon" placeholder="Otomatis jika kosong">
+                    <div class="md:col-span-3">
+                        <label class="ios-label">Perusahaan / Kampus (Opsional)</label>
+                        <input type="text" id="st-org" placeholder="Cth: PT Astra / STT-NF" class="ios-input bg-white">
                     </div>
-                </div>
-                <div style="display:flex; gap:10px;">
-                    <button type="button" id="btn-cancel-arsenal" onclick="cancelEditArsenal()" class="btn-danger hidden" style="width:auto;">Batal Edit</button>
-                    <button type="button" id="btn-submit-arsenal" onclick="saveArsenal()" style="flex:1;">Simpan Skill</button>
-                </div>
-            </div>
+                    <div class="md:col-span-2 flex items-center gap-2">
+                        <label class="inline-flex items-center gap-2 text-xs font-semibold cursor-pointer">
+                            <input type="checkbox" id="st-active" checked class="w-4 h-4 accent-[#0071E3]"> Tampilkan
+                        </label>
+                    </div>
+                    <div class="md:col-span-12 flex gap-2">
+                        <button type="submit" id="btn-save-status" class="btn-primary">Simpan Status</button>
+                        <button type="button" id="btn-cancel-status" onclick="resetStatusForm()" class="hidden btn-secondary">Batal Edit</button>
+                    </div>
+                </form>
 
-            <div class="sub-divider">Daftar Keahlian Aktif</div>
-            <div id="arsenal-list" class="grid-2" style="gap: 12px; margin-top: 12px;"></div>
-        </div>
+                <div id="admin-status-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+            </section>
 
-        <!-- ==================== TAB 5: GALLERY / MOMENTS ==================== -->
-        <div class="card admin-tab" id="tab-gallery">
-            <div id="form-gallery">
-                <div class="section-header">
-                    <div class="section-icon" style="background: rgba(88,86,214,0.14); color: var(--ios-indigo);"><i class='bx bxs-photo-album'></i></div>
-                    <h3 class="section-title">Galeri Aktivitas & Dokumentasi</h3>
-                </div>
-                <div class="grid-2">
-                    <div>
-                        <label>Judul Album / Kegiatan</label>
-                        <input type="text" id="gal-title" placeholder="Cth: Seminar Nasional AI & Data Science">
+            <!-- ==================== 3. SERVICES & PRICING MANAGER ==================== -->
+            <section id="sec-services" data-admin-section class="ios-card space-y-6">
+                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
+                        <i class='bx bxs-briefcase-alt-2'></i>
                     </div>
                     <div>
-                        <label>Kategori Kegiatan</label>
-                        <input type="text" id="gal-category" list="gal-cat-list" placeholder="Pilih atau ketik kategori baru">
-                        <datalist id="gal-cat-list">
-                            <option value="Work & Project">
-                            <option value="Seminar & Webinar">
-                            <option value="MSIB">
-                            <option value="Community & Leadership">
-                        </datalist>
-                    </div>
-                </div>
-                <div class="grid-2">
-                    <div>
-                        <label>Tahun / Periode</label>
-                        <input type="text" id="gal-year" placeholder="Cth: 2026">
-                    </div>
-                    <div>
-                        <label>Ringkasan Singkat Kegiatan</label>
-                        <input type="text" id="gal-desc" placeholder="Deskripsi singkat 1-2 kalimat">
+                        <h2 class="text-lg font-bold tracking-tight">Layanan & Jasa (Services & Offerings)</h2>
+                        <p class="text-xs text-[#6E6E73]">Kelola kartu layanan terbuka/tertutup, opsi harga Nett/Negotiable/Contact Pricelist, serta detail deliverables.</p>
                     </div>
                 </div>
 
-                <div class="sub-divider">Foto Dokumentasi Album (Bisa Pilih Banyak Sekaligus)</div>
-                <div class="upload-box" style="margin-bottom: 14px;">
-                    <i class='bx bx-images upload-icon'></i>
-                    <p style="font-size:13px; color:#8E8E93; margin-bottom:10px;">Pilih beberapa foto kegiatan sekaligus (.jpg, .png, .webp, .jfif)</p>
-                    <input type="file" id="gal-files" accept="image/*" multiple onchange="uploadAlbumPhotos(this)">
+                <form id="service-form" onsubmit="saveService(event)" class="space-y-4 bg-[#F8F9FC] p-5 rounded-2xl">
+                    <input type="hidden" id="srv-id">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="ios-label">Nama Layanan *</label>
+                            <input type="text" id="srv-title" required placeholder="Cth: Data Cleaning & Dashboarding" class="ios-input bg-white">
+                        </div>
+                        <div>
+                            <label class="ios-label">Badge Kategori *</label>
+                            <input type="text" id="srv-badge" required placeholder="Cth: Freelance / Remote Data Entry" class="ios-input bg-white">
+                        </div>
+                        <div>
+                            <label class="ios-label">Status Ketersediaan *</label>
+                            <select id="srv-status" class="ios-input bg-white">
+                                <option value="open">OPEN (Tersedia & Bisa Dipesan)</option>
+                                <option value="closed">CLOSED (Penuh / Hubungi untuk Pricelist)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="ios-label">Skema Harga *</label>
+                            <select id="srv-pricing-type" onchange="togglePriceInput()" class="ios-input bg-white">
+                                <option value="negotiable">Negotiable (Bisa Nego)</option>
+                                <option value="nett">Nett (Harga Pas / Fixed)</option>
+                                <option value="contact">Contact for Pricelist (Harga Privat / Closed)</option>
+                            </select>
+                        </div>
+                        <div id="srv-price-label-wrap">
+                            <label class="ios-label">Nominal / Rentang Harga</label>
+                            <input type="text" id="srv-price-label" placeholder="Cth: Mulai Rp 350.000 / per proyek" class="ios-input bg-white">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="ios-label">Ringkasan Singkat (Tampil di Kartu Depan) *</label>
+                        <input type="text" id="srv-short-desc" required placeholder="Cth: Pengolahan data Excel/CSV, pembersihan anomali, dan pembuatan laporan visual interaktif." class="ios-input bg-white">
+                    </div>
+
+                    <div>
+                        <label class="ios-label">Detail Ruang Lingkup & Deliverables (Tampil saat Kartu Diklik)</label>
+                        <textarea id="srv-full-details" rows="4" placeholder="Tuliskan poin-poin apa saja yang klien dapatkan, estimasi pengerjaan, dan alur kerja..." class="ios-input bg-white"></textarea>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button type="submit" id="btn-save-service" class="btn-primary">Simpan Layanan</button>
+                        <button type="button" id="btn-cancel-service" onclick="resetServiceForm()" class="hidden btn-secondary">Batal Edit</button>
+                    </div>
+                </form>
+
+                <div id="admin-services-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </section>
+
+            <!-- ==================== 4. PROFILE & HERO ==================== -->
+            <section id="sec-profile" data-admin-section class="ios-card space-y-6">
+                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0071E3] flex items-center justify-center text-xl">
+                        <i class='bx bxs-user-detail'></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold tracking-tight">Profil Utama, Hero & Kontak Footer</h2>
+                        <p class="text-xs text-[#6E6E73]">Atur headline, foto profil, tautan CV, serta nomor WhatsApp yang terhubung ke seluruh tombol.</p>
+                    </div>
                 </div>
 
-                <div id="gal-photos-preview" class="grid-2" style="gap:10px; margin-bottom:16px;"></div>
+                <form onsubmit="saveProfile(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="ios-label">Badge Atas Hero</label>
+                            <input type="text" id="prof-badge" class="ios-input" placeholder="DATA ANALYST • INFORMATICS GRADUATE">
+                        </div>
+                        <div>
+                            <label class="ios-label">Headline Utama (Mendukung HTML &lt;span&gt;)</label>
+                            <input type="text" id="prof-headline" class="ios-input">
+                        </div>
+                    </div>
 
-                <div style="display:flex; gap:10px;">
-                    <button type="button" id="btn-cancel-gal" onclick="cancelEditAlbum()" class="btn-danger hidden" style="width:auto;">Batal Edit</button>
-                    <button type="button" id="btn-submit-gal" onclick="saveAlbum()" style="flex:1;">Simpan Album Galeri</button>
+                    <div>
+                        <label class="ios-label">Ringkasan Profil (Hero Summary)</label>
+                        <textarea id="prof-summary" rows="3" class="ios-input"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="ios-label">URL Foto Profil (atau Upload Baru)</label>
+                            <input type="text" id="prof-photo" class="ios-input mb-2">
+                            <input type="file" accept="image/*" onchange="uploadSingleAsset(this, 'prof-photo')" class="text-xs">
+                        </div>
+                        <div>
+                            <label class="ios-label">URL File CV / Resume PDF (atau Upload Baru)</label>
+                            <input type="text" id="prof-cv" class="ios-input mb-2">
+                            <input type="file" accept=".pdf,image/*" onchange="uploadSingleAsset(this, 'prof-cv')" class="text-xs">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 border-t border-black/5">
+                        <div>
+                            <label class="ios-label">Link WhatsApp (Format: https://wa.me/628xxx)</label>
+                            <input type="text" id="prof-wa" class="ios-input" placeholder="https://wa.me/62812xxxxxxx">
+                        </div>
+                        <div>
+                            <label class="ios-label">Link LinkedIn</label>
+                            <input type="text" id="prof-linkedin" class="ios-input">
+                        </div>
+                        <div>
+                            <label class="ios-label">Email Kontak</label>
+                            <input type="email" id="prof-email" class="ios-input">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="ios-label">Judul Footer CTA</label>
+                            <input type="text" id="prof-footer-title" class="ios-input">
+                        </div>
+                        <div>
+                            <label class="ios-label">Subjudul Footer CTA</label>
+                            <input type="text" id="prof-footer-sub" class="ios-input">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-save-prof" class="btn-primary">Simpan Perubahan Profil</button>
+                </form>
+            </section>
+
+            <!-- ==================== 5. PROJECTS & CASE STUDIES ==================== -->
+            <section id="sec-projects" data-admin-section class="ios-card space-y-6">
+                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-[#10B981] flex items-center justify-center text-xl">
+                        <i class='bx bxs-folder-open'></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold tracking-tight">Studi Kasus & Proyek</h2>
+                        <p class="text-xs text-[#6E6E73]">Tambah atau edit proyek lengkap dengan galeri gambar dan caption per foto.</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="sub-divider">Daftar Album Tersimpan</div>
-            <div id="gal-albums-list" style="margin-top:12px;"></div>
-        </div>
+                <form id="project-form" onsubmit="saveProject(event)" class="space-y-4 bg-[#F8F9FC] p-5 rounded-2xl">
+                    <input type="hidden" id="proj-id">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="ios-label">Judul Proyek *</label>
+                            <input type="text" id="proj-title" required class="ios-input bg-white">
+                        </div>
+                        <div>
+                            <label class="ios-label">Link Repository / Live Demo (Opsional)</label>
+                            <input type="text" id="proj-repo" class="ios-input bg-white" placeholder="https://github.com/...">
+                        </div>
+                    </div>
 
+                    <div>
+                        <label class="ios-label">Ringkasan Singkat (Tampil di Kartu Depan) *</label>
+                        <textarea id="proj-desc" rows="2" required class="ios-input bg-white"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="ios-label">Cover Image Proyek (URL atau Upload)</label>
+                            <input type="text" id="proj-cover" class="ios-input bg-white mb-2">
+                            <input type="file" accept="image/*" onchange="uploadSingleAsset(this, 'proj-cover')" class="text-xs">
+                        </div>
+                        <div>
+                            <label class="ios-label">Upload Gambar Dokumentasi Tambahan (Bisa Banyak)</label>
+                            <input type="file" accept="image/*" multiple onchange="uploadProjectGalleryFiles(this)" class="text-xs">
+                            <div id="proj-gallery-preview" class="flex flex-col gap-2 mt-2"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="ios-label">Konten Studi Kasus Lengkap</label>
+                        <div id="quill-editor"></div>
+                    </div>
+
+                    <div class="flex gap-2 pt-2">
+                        <button type="submit" id="btn-save-proj" class="btn-primary">Simpan Proyek</button>
+                        <button type="button" id="btn-cancel-proj" onclick="resetProjectForm()" class="hidden btn-secondary">Batal Edit</button>
+                    </div>
+                </form>
+
+                <div id="admin-projects-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </section>
+
+            <!-- ==================== 6. TECHNICAL ARSENAL ==================== -->
+            <section id="sec-arsenal" data-admin-section class="ios-card space-y-6">
+                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
+                        <i class='bx bx-code-block'></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold tracking-tight">Technical Arsenal & Skills</h2>
+                        <p class="text-xs text-[#6E6E73]">Kelola keahlian berdasarkan kategori dan tingkat penguasaan. Klik tombol Edit pada skill untuk mengubahnya.</p>
+                    </div>
+                </div>
+
+                <form id="skill-form" onsubmit="saveSkill(event)" class="grid grid-cols-1 md:grid-cols-4 gap-3 items-end bg-[#F8F9FC] p-4 rounded-2xl">
+                    <input type="hidden" id="skill-id">
+                    <div>
+                        <label class="ios-label">Kategori *</label>
+                        <input type="text" id="skill-cat" required placeholder="Cth: Data Analytics & BI" class="ios-input bg-white">
+                    </div>
+                    <div>
+                        <label class="ios-label">Nama Skill / Tools *</label>
+                        <input type="text" id="skill-name" required placeholder="Cth: Python (Pandas)" class="ios-input bg-white">
+                    </div>
+                    <div>
+                        <label class="ios-label">Tingkat Penguasaan</label>
+                        <select id="skill-level" class="ios-input bg-white">
+                            <option value="Advanced">Core / Advanced (3 Titik)</option>
+                            <option value="Intermediate">Proficient / Intermediate (2 Titik)</option>
+                            <option value="Familiar">Familiar (1 Titik)</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-2">
+                        <button type="submit" id="btn-save-skill" class="btn-primary flex-1">Tambah Skill</button>
+                        <button type="button" id="btn-cancel-skill" onclick="resetSkillForm()" class="hidden btn-secondary">Batal</button>
+                    </div>
+                </form>
+
+                <div id="admin-arsenal-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5"></div>
+            </section>
+
+            <!-- ==================== 7. EDUCATION & CERTIFICATIONS ==================== -->
+            <section id="sec-edu-cert" data-admin-section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Education -->
+                <div class="ios-card space-y-5">
+                    <h2 class="text-lg font-bold tracking-tight border-b border-black/5 pb-3">Riwayat Pendidikan</h2>
+                    <form id="edu-form" onsubmit="saveEdu(event)" class="space-y-3 bg-[#F8F9FC] p-4 rounded-2xl">
+                        <input type="hidden" id="edu-id">
+                        <input type="text" id="edu-inst" required placeholder="Nama Institusi / Kampus *" class="ios-input bg-white">
+                        <input type="text" id="edu-deg" required placeholder="Jurusan / Gelar *" class="ios-input bg-white">
+                        <div class="grid grid-cols-3 gap-2">
+                            <input type="text" id="edu-start" placeholder="Tahun Masuk" class="ios-input bg-white">
+                            <input type="text" id="edu-grad" placeholder="Tahun Lulus" class="ios-input bg-white">
+                            <input type="text" id="edu-gpa" placeholder="IPK (Cth: 3.80)" class="ios-input bg-white">
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="submit" id="btn-save-edu" class="btn-primary flex-1">Tambah Pendidikan</button>
+                            <button type="button" id="btn-cancel-edu" onclick="resetEduForm()" class="hidden btn-secondary">Batal Edit</button>
+                        </div>
+                    </form>
+                    <div id="admin-edu-list" class="space-y-2.5"></div>
+                </div>
+
+                <!-- Certifications -->
+                <div class="ios-card space-y-5">
+                    <h2 class="text-lg font-bold tracking-tight border-b border-black/5 pb-3">Sertifikasi & Kredensial</h2>
+                    <form id="cert-form" onsubmit="saveCert(event)" class="space-y-3 bg-[#F8F9FC] p-4 rounded-2xl">
+                        <input type="hidden" id="cert-id">
+                        <input type="text" id="cert-title" required placeholder="Judul Sertifikat *" class="ios-input bg-white">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="cert-issuer" required placeholder="Penerbit (Cth: BNSP / Dicoding) *" class="ios-input bg-white">
+                            <input type="text" id="cert-year" placeholder="Tahun (Cth: 2025)" class="ios-input bg-white">
+                        </div>
+                        <div>
+                            <input type="text" id="cert-url" placeholder="URL File Sertifikat (PDF/Gambar)" class="ios-input bg-white mb-1.5">
+                            <input type="file" accept=".pdf,image/*" onchange="uploadSingleAsset(this, 'cert-url')" class="text-xs">
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="submit" id="btn-save-cert" class="btn-primary flex-1">Tambah Sertifikat</button>
+                            <button type="button" id="btn-cancel-cert" onclick="resetCertForm()" class="hidden btn-secondary">Batal Edit</button>
+                        </div>
+                    </form>
+                    <div id="admin-cert-list" class="space-y-2.5"></div>
+                </div>
+            </section>
+
+            <!-- ==================== 8. GALLERY ALBUMS ==================== -->
+            <section id="sec-gallery" data-admin-section class="ios-card space-y-6">
+                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
+                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl">
+                        <i class='bx bxs-photo-album'></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold tracking-tight">Galeri Dokumentasi & Album Momen</h2>
+                        <p class="text-xs text-[#6E6E73]">Unggah kumpulan foto kegiatan, magang, atau seminar lengkap dengan caption masing-masing.</p>
+                    </div>
+                </div>
+
+                <form id="album-form" onsubmit="saveAlbum(event)" class="space-y-4 bg-[#F8F9FC] p-5 rounded-2xl">
+                    <input type="hidden" id="alb-id">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="ios-label">Judul Album *</label>
+                            <input type="text" id="alb-title" required placeholder="Cth: Magang Kerja Praktik" class="ios-input bg-white">
+                        </div>
+                        <div>
+                            <label class="ios-label">Kategori Filter *</label>
+                            <input type="text" id="alb-cat" required placeholder="Cth: Work / Seminar / MSIB" class="ios-input bg-white">
+                        </div>
+                        <div>
+                            <label class="ios-label">Tahun</label>
+                            <input type="text" id="alb-year" placeholder="2026" class="ios-input bg-white">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="ios-label">Deskripsi Singkat Album</label>
+                        <input type="text" id="alb-desc" class="ios-input bg-white">
+                    </div>
+                    <div>
+                        <label class="ios-label">Upload Foto-Foto Album (Bisa Pilih Banyak)</label>
+                        <input type="file" accept="image/*" multiple onchange="uploadAlbumPhotos(this)" class="text-xs">
+                        <div id="alb-photos-preview" class="flex flex-col gap-2 mt-2"></div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button type="submit" id="btn-save-alb" class="btn-primary">Simpan Album</button>
+                        <button type="button" id="btn-cancel-alb" onclick="resetAlbumForm()" class="hidden btn-secondary">Batal Edit</button>
+                    </div>
+                </form>
+
+                <div id="admin-albums-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </section>
+
+        </main>
     </div>
 
     <script>
         const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
         const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+        const STORAGE_BUCKET = 'portfolio-assets';
 
-        let projectEditor = null;
-        let projectsData = [], editingProjectId = null, tempProjectGallery = [];
-        let eduData = [], editingEduId = null;
-        let certData = [], editingCertId = null;
-        let arsenalData = [], editingArsenalId = null;
-        let albumsData = [], editingAlbumId = null, tempAlbumPhotos = [];
+        let quill;
+        let tempProjectGallery = [];
+        let tempAlbumPhotos = [];
+        let adminWaBase = 'https://wa.me/6281200000000';
 
-        // ==================== TOAST & TABS ====================
-        window.showToast = function(msg, isError = false) {
-            const toast = document.getElementById('ios-toast');
-            toast.innerText = msg;
-            toast.style.background = isError ? 'rgba(255, 59, 48, 0.94)' : 'rgba(29, 29, 31, 0.92)';
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2800);
-        };
+        function clearPublicPortfolioCache() {
+            localStorage.removeItem('mz_portfolio_cache_v3');
+        }
 
-        window.switchTab = function(tabName, btnEl) {
-            document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
-            if (btnEl) btnEl.classList.add('active');
+        // ==================== TAB NAVIGATION FILTERING ====================
+        function switchAdminTab(targetId) {
+            document.querySelectorAll('.nav-pill-tab').forEach(btn => {
+                if (btn.dataset.target === targetId) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
 
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                if (tabName === 'all' || tab.id === 'tab-' + tabName) {
-                    tab.style.display = 'block';
-                    tab.classList.remove('hidden');
+            document.querySelectorAll('[data-admin-section]').forEach(sec => {
+                if (targetId === 'ALL' || sec.id === targetId) {
+                    sec.classList.remove('hidden');
                 } else {
-                    tab.style.display = 'none';
+                    sec.classList.add('hidden');
                 }
             });
-        };
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         // ==================== AUTHENTICATION ====================
-        async function checkAuth() {
+        async function checkAuthSession() {
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
-                document.getElementById('login-section').classList.add('hidden');
-                document.getElementById('admin-section').classList.remove('hidden');
-                initEditorAndData();
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('admin-dashboard').classList.remove('hidden');
+                if (!quill) {
+                    quill = new Quill('#quill-editor', {
+                        theme: 'snow',
+                        modules: {
+                            toolbar: [
+                                [{ header: [2, 3, false] }],
+                                ['bold', 'italic', 'underline'],
+                                ['link', 'blockquote'],
+                                [{ list: 'ordered' }, { list: 'bullet' }],
+                                ['clean']
+                            ]
+                        }
+                    });
+                }
+                loadAllAdminData();
             } else {
-                document.getElementById('login-section').classList.remove('hidden');
-                document.getElementById('admin-section').classList.add('hidden');
+                document.getElementById('login-screen').classList.remove('hidden');
+                document.getElementById('admin-dashboard').classList.add('hidden');
             }
         }
 
-        window.handleLogin = async function() {
+        async function handleAdminLogin(e) {
+            e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-            if (!email || !password) return showToast('Isi email dan password!', true);
-
+            const password = document.getElementById('login-pass').value;
+            const errEl = document.getElementById('login-error');
             const btn = document.getElementById('btn-login');
-            btn.innerText = 'Memproses...';
+
+            btn.innerText = 'Memverifikasi...';
+            btn.disabled = true;
+            errEl.classList.add('hidden');
+
             const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-            btn.innerText = 'Masuk ke Studio';
+            if (error) {
+                errEl.innerText = 'Login gagal: ' + error.message;
+                errEl.classList.remove('hidden');
+            } else {
+                await checkAuthSession();
+            }
+            btn.innerText = 'Masuk ke Dashboard';
+            btn.disabled = false;
+        }
 
-            if (error) return showToast('Login gagal: ' + error.message, true);
-            checkAuth();
-        };
-
-        window.handleLogout = async function() {
+        async function handleAdminLogout() {
             await supabaseClient.auth.signOut();
-            checkAuth();
-        };
+            checkAuthSession();
+        }
 
         // ==================== STORAGE UPLOAD HELPER ====================
-        async function uploadFileToSupabase(file, folder) {
-            const ext = file.name.split('.').pop();
-            const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
-            const { error } = await supabaseClient.storage
-                .from('portfolio-assets')
-                .upload(fileName, file, { upsert: true });
-
-            if (error) {
-                showToast('Gagal upload: ' + error.message, true);
-                return null;
-            }
-            const { data } = supabaseClient.storage.from('portfolio-assets').getPublicUrl(fileName);
-            return data ? data.publicUrl : null;
+        async function uploadFileToStorage(file) {
+            const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+            const filePath = `uploads/${Date.now()}_${cleanName}`;
+            const { error } = await supabaseClient.storage.from(STORAGE_BUCKET).upload(filePath, file, { upsert: true });
+            if (error) throw error;
+            const { data } = supabaseClient.storage.from(STORAGE_BUCKET).getPublicUrl(filePath);
+            return data.publicUrl;
         }
 
-        window.handleSingleUpload = async function(input, targetInputId, folder) {
-            const file = input.files[0];
+        async function uploadSingleAsset(inputEl, targetInputId) {
+            const file = inputEl.files[0];
             if (!file) return;
-            showToast('Mengunggah file...');
-            const url = await uploadFileToSupabase(file, folder);
-            if (url) {
-                document.getElementById(targetInputId).value = url;
-                showToast('File berhasil diunggah!');
+            const target = document.getElementById(targetInputId);
+            const oldVal = target.value;
+            target.value = 'Mengunggah file...';
+            try {
+                target.value = await uploadFileToStorage(file);
+            } catch (err) {
+                alert('Gagal upload: ' + err.message);
+                target.value = oldVal;
             }
-            input.value = '';
-        };
+        }
 
-        // ==================== INIT DATA ====================
-        let initialized = false;
-        function initEditorAndData() {
-            if (!initialized) {
-                initialized = true;
-                if (window.ClassicEditor) {
-                    ClassicEditor.create(document.querySelector('#proj-content'))
-                        .then(ed => { projectEditor = ed; })
-                        .catch(err => console.warn(err));
+        // ==================== LOAD ALL DATA ====================
+        async function loadAllAdminData() {
+            const [
+                { data: profile },
+                { data: projects },
+                { data: arsenal },
+                { data: edus },
+                { data: certs },
+                { data: albums },
+                { data: statuses },
+                { data: services },
+                { data: inquiries }
+            ] = await Promise.all([
+                supabaseClient.from('profile').select('*').eq('id', 1).single(),
+                supabaseClient.from('projects').select('*').order('created_at', { ascending: false }),
+                supabaseClient.from('arsenal').select('*').order('id', { ascending: true }),
+                supabaseClient.from('education').select('*').order('id', { ascending: false }),
+                supabaseClient.from('certifications').select('*').order('id', { ascending: false }),
+                supabaseClient.from('gallery_albums').select('*').order('created_at', { ascending: false }),
+                supabaseClient.from('statuses').select('*').order('created_at', { ascending: false }),
+                supabaseClient.from('services').select('*').order('created_at', { ascending: false }),
+                supabaseClient.from('inquiries').select('*').order('created_at', { ascending: false })
+            ]);
+
+            if (profile) {
+                document.getElementById('prof-badge').value = profile.badge || '';
+                document.getElementById('prof-headline').value = profile.headline || '';
+                document.getElementById('prof-summary').value = profile.summary || '';
+                document.getElementById('prof-photo').value = profile.photo_url || '';
+                document.getElementById('prof-cv').value = profile.cv_url || '';
+                document.getElementById('prof-wa').value = profile.wa_link || '';
+                document.getElementById('prof-linkedin').value = profile.linkedin_link || '';
+                document.getElementById('prof-email').value = profile.email || '';
+                document.getElementById('prof-footer-title').value = profile.footer_title || '';
+                document.getElementById('prof-footer-sub').value = profile.footer_sub || '';
+                if (profile.wa_link) adminWaBase = profile.wa_link;
+            }
+
+            renderAdminInquiries(inquiries || []);
+            renderAdminStatuses(statuses || []);
+            renderAdminServices(services || []);
+            renderAdminProjects(projects || []);
+            renderAdminArsenal(arsenal || []);
+            renderAdminEdus(edus || []);
+            renderAdminCerts(certs || []);
+            renderAdminAlbums(albums || []);
+        }
+
+        // ==================== 1. INQUIRIES INBOX HANDLERS ====================
+        function renderAdminInquiries(list) {
+            const unreadCount = list.filter(i => !i.is_read).length;
+            document.getElementById('unread-badge-count').innerText = unreadCount;
+
+            const wrap = document.getElementById('admin-inquiries-list');
+            if (!list.length) {
+                wrap.innerHTML = `<p class="text-xs text-[#6E6E73] col-span-full">Belum ada pengajuan kolaborasi atau layanan dari pengunjung.</p>`;
+                return;
+            }
+
+            wrap.innerHTML = list.map(item => {
+                const dateStr = new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                const phoneDigits = (item.sender_contact || '').replace(/[^0-9]/g, '');
+                let waReplyUrl = '';
+                if (phoneDigits.length >= 9) {
+                    const normalized = phoneDigits.startsWith('0') ? '62' + phoneDigits.slice(1) : phoneDigits;
+                    const replyText = `Halo ${item.sender_name}, terima kasih telah mengajukan "${item.inquiry_type}" melalui website portofolio saya. Mari kita diskusikan detailnya.`;
+                    waReplyUrl = `https://wa.me/${normalized}?text=${encodeURIComponent(replyText)}`;
                 }
-            }
-            fetchProfile();
-            fetchProjects();
-            fetchEdu();
-            fetchCert();
-            fetchArsenal();
-            fetchAlbums();
+
+                return `
+                    <div class="p-5 rounded-2xl border ${item.is_read ? 'bg-[#F8F9FC] border-black/5' : 'bg-blue-50/40 border-blue-200'} flex flex-col justify-between gap-3">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white border border-black/10 text-[#0071E3]">${item.inquiry_type}</span>
+                                <span class="text-[11px] text-[#6E6E73]">${dateStr}</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-[#1D1D1F]">${item.sender_name}</h4>
+                                <p class="text-xs font-semibold text-[#0071E3]">${item.sender_contact}</p>
+                            </div>
+                            ${item.service_ref ? `<p class="text-xs text-[#515154]"><strong>Layanan:</strong> ${item.service_ref}</p>` : ''}
+                            ${item.budget_timeline ? `<p class="text-xs text-[#515154]"><strong>Budget/Waktu:</strong> ${item.budget_timeline}</p>` : ''}
+                            <p class="text-xs text-[#1D1D1F] bg-white p-3 rounded-xl border border-black/5 leading-relaxed">${item.message}</p>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-black/5">
+                            ${waReplyUrl ? `<a href="${waReplyUrl}" target="_blank" class="btn-pill-sm bg-[#10B981] text-white inline-flex items-center gap-1"><i class='bx bxl-whatsapp'></i> Balas WA</a>` : ''}
+                            <button type="button" onclick="toggleInquiryRead(${item.id}, ${!item.is_read})" class="btn-pill-sm bg-white border border-black/10 text-[#1D1D1F]">
+                                ${item.is_read ? 'Tandai Belum Dibaca' : 'Tandai Selesai / Dibaca'}
+                            </button>
+                            <button type="button" onclick="deleteRow('inquiries', ${item.id})" class="btn-danger btn-pill-sm ml-auto">Hapus</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        // ==================== 1. PROFILE ====================
-        async function fetchProfile() {
-            const { data } = await supabaseClient.from('profile').select('*').eq('id', 1).single();
-            if (data) {
-                document.getElementById('prof-badge').value = data.badge || '';
-                document.getElementById('prof-headline').value = data.headline || '';
-                document.getElementById('prof-summary').value = data.summary || '';
-                document.getElementById('prof-photo-url').value = data.photo_url || '';
-                document.getElementById('prof-cv-url').value = data.cv_url || '';
-                document.getElementById('prof-footer-title').value = data.footer_title || '';
-                document.getElementById('prof-footer-sub').value = data.footer_sub || '';
-                document.getElementById('prof-wa').value = data.wa_link || '';
-                document.getElementById('prof-linkedin').value = data.linkedin_link || '';
-                document.getElementById('prof-email').value = data.email || '';
+        async function toggleInquiryRead(id, status) {
+            await supabaseClient.from('inquiries').update({ is_read: status }).eq('id', id);
+            loadAllAdminData();
+        }
+
+        // ==================== 2. STATUS & AVAILABILITY HANDLERS ====================
+        function renderAdminStatuses(list) {
+            const wrap = document.getElementById('admin-status-list');
+            if (!list.length) {
+                wrap.innerHTML = `<p class="text-xs text-[#6E6E73] col-span-full">Belum ada status aktif ditambahkan.</p>`;
+                return;
+            }
+            wrap.innerHTML = list.map(st => `
+                <div class="p-4 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-3">
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-1.5 mb-1">
+                            <span class="w-2 h-2 rounded-full ${st.is_active ? 'bg-emerald-500' : 'bg-slate-400'}"></span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-[#6E6E73]">${st.status_type} ${st.is_active ? '(Aktif)' : '(Disembunyikan)'}</span>
+                        </div>
+                        <p class="font-bold text-sm truncate">${st.title}</p>
+                        ${st.organization ? `<p class="text-xs text-[#6E6E73] truncate">${st.organization}</p>` : ''}
+                    </div>
+                    <div class="flex gap-1.5 flex-shrink-0">
+                        <button type="button" onclick='editStatus(${JSON.stringify(st).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
+                        <button type="button" onclick="deleteRow('statuses', ${st.id})" class="btn-danger btn-pill-sm">&times;</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function saveStatus(e) {
+            e.preventDefault();
+            const id = document.getElementById('st-id').value;
+            const payload = {
+                status_type: document.getElementById('st-type').value,
+                title: document.getElementById('st-title').value.trim(),
+                organization: document.getElementById('st-org').value.trim() || null,
+                is_active: document.getElementById('st-active').checked
+            };
+            if (id) await supabaseClient.from('statuses').update(payload).eq('id', id);
+            else await supabaseClient.from('statuses').insert([payload]);
+
+            clearPublicPortfolioCache();
+            resetStatusForm();
+            loadAllAdminData();
+        }
+
+        function editStatus(st) {
+            document.getElementById('st-id').value = st.id;
+            document.getElementById('st-type').value = st.status_type;
+            document.getElementById('st-title').value = st.title;
+            document.getElementById('st-org').value = st.organization || '';
+            document.getElementById('st-active').checked = st.is_active !== false;
+            document.getElementById('btn-save-status').innerText = 'Update Status';
+            document.getElementById('btn-cancel-status').classList.remove('hidden');
+            document.getElementById('sec-status').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetStatusForm() {
+            document.getElementById('status-form').reset();
+            document.getElementById('st-id').value = '';
+            document.getElementById('st-active').checked = true;
+            document.getElementById('btn-save-status').innerText = 'Simpan Status';
+            document.getElementById('btn-cancel-status').classList.add('hidden');
+        }
+
+        // ==================== 3. SERVICES & PRICING HANDLERS ====================
+        function togglePriceInput() {
+            const pType = document.getElementById('srv-pricing-type').value;
+            const wrap = document.getElementById('srv-price-label-wrap');
+            if (pType === 'contact') {
+                wrap.style.opacity = '0.45';
+                document.getElementById('srv-price-label').disabled = true;
+            } else {
+                wrap.style.opacity = '1';
+                document.getElementById('srv-price-label').disabled = false;
             }
         }
 
-        window.saveProfile = async function() {
-            const btn = document.getElementById('btn-save-profile');
+        function renderAdminServices(list) {
+            const wrap = document.getElementById('admin-services-list');
+            if (!list.length) {
+                wrap.innerHTML = `<p class="text-xs text-[#6E6E73] col-span-full">Belum ada layanan yang ditambahkan.</p>`;
+                return;
+            }
+            wrap.innerHTML = list.map(srv => {
+                const isOpen = srv.status === 'open';
+                const priceText = srv.pricing_type === 'contact' ? 'Contact for Pricelist' : `${srv.pricing_type.toUpperCase()}: ${srv.price_label || '-'}`;
+                return `
+                    <div class="p-4 rounded-2xl bg-[#F8F9FC] border border-black/5 flex flex-col justify-between gap-3">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-2">
+                                <span class="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0071E3] text-[11px] font-bold">${srv.badge}</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${isOpen ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'}">${srv.status}</span>
+                            </div>
+                            <h4 class="font-bold text-sm text-[#1D1D1F]">${srv.title}</h4>
+                            <p class="text-xs text-[#6E6E73] mt-1 line-clamp-2">${srv.short_desc}</p>
+                            <p class="text-xs font-bold text-[#1D1D1F] mt-2">${priceText}</p>
+                        </div>
+                        <div class="flex gap-2 pt-2 border-t border-black/5">
+                            <button type="button" onclick='editService(${JSON.stringify(srv).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
+                            <button type="button" onclick="deleteRow('services', ${srv.id})" class="btn-danger btn-pill-sm ml-auto">Hapus</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function saveService(e) {
+            e.preventDefault();
+            const id = document.getElementById('srv-id').value;
+            const pricingType = document.getElementById('srv-pricing-type').value;
+            const payload = {
+                title: document.getElementById('srv-title').value.trim(),
+                badge: document.getElementById('srv-badge').value.trim(),
+                status: document.getElementById('srv-status').value,
+                pricing_type: pricingType,
+                price_label: pricingType === 'contact' ? null : (document.getElementById('srv-price-label').value.trim() || null),
+                short_desc: document.getElementById('srv-short-desc').value.trim(),
+                full_details: document.getElementById('srv-full-details').value.trim() || null
+            };
+
+            if (id) await supabaseClient.from('services').update(payload).eq('id', id);
+            else await supabaseClient.from('services').insert([payload]);
+
+            clearPublicPortfolioCache();
+            resetServiceForm();
+            loadAllAdminData();
+        }
+
+        function editService(srv) {
+            document.getElementById('srv-id').value = srv.id;
+            document.getElementById('srv-title').value = srv.title;
+            document.getElementById('srv-badge').value = srv.badge;
+            document.getElementById('srv-status').value = srv.status || 'open';
+            document.getElementById('srv-pricing-type').value = srv.pricing_type || 'negotiable';
+            document.getElementById('srv-price-label').value = srv.price_label || '';
+            document.getElementById('srv-short-desc').value = srv.short_desc || '';
+            document.getElementById('srv-full-details').value = srv.full_details || '';
+            togglePriceInput();
+            document.getElementById('btn-save-service').innerText = 'Update Layanan';
+            document.getElementById('btn-cancel-service').classList.remove('hidden');
+            document.getElementById('sec-services').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetServiceForm() {
+            document.getElementById('service-form').reset();
+            document.getElementById('srv-id').value = '';
+            togglePriceInput();
+            document.getElementById('btn-save-service').innerText = 'Simpan Layanan';
+            document.getElementById('btn-cancel-service').classList.add('hidden');
+        }
+
+        // ==================== 4. PROFILE HANDLERS ====================
+        async function saveProfile(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-save-prof');
             btn.innerText = 'Menyimpan...';
             const payload = {
                 id: 1,
                 badge: document.getElementById('prof-badge').value,
                 headline: document.getElementById('prof-headline').value,
                 summary: document.getElementById('prof-summary').value,
-                photo_url: document.getElementById('prof-photo-url').value,
-                cv_url: document.getElementById('prof-cv-url').value,
-                footer_title: document.getElementById('prof-footer-title').value,
-                footer_sub: document.getElementById('prof-footer-sub').value,
+                photo_url: document.getElementById('prof-photo').value,
+                cv_url: document.getElementById('prof-cv').value,
                 wa_link: document.getElementById('prof-wa').value,
                 linkedin_link: document.getElementById('prof-linkedin').value,
-                email: document.getElementById('prof-email').value
+                email: document.getElementById('prof-email').value,
+                footer_title: document.getElementById('prof-footer-title').value,
+                footer_sub: document.getElementById('prof-footer-sub').value
             };
-            const { error } = await supabaseClient.from('profile').upsert(payload);
-            btn.innerText = 'Simpan Perubahan Identitas';
-            if (error) return showToast('Gagal: ' + error.message, true);
-            showToast('Identitas berhasil diperbarui!');
-        };
-
-        // ==================== 2. PROJECTS ====================
-        async function fetchProjects() {
-            const { data } = await supabaseClient.from('projects').select('*').order('created_at', { ascending: false });
-            if (data) {
-                projectsData = data;
-                const list = document.getElementById('projects-list');
-                list.innerHTML = '';
-                projectsData.forEach(p => {
-                    const div = document.createElement('div');
-                    div.className = 'list-item';
-                    div.innerHTML = `
-                        <div class="list-info">
-                            <h4>${p.title}</h4>
-                            <p>${(p.description || '').substring(0, 85)}...</p>
-                        </div>
-                        <div class="list-actions">
-                            <button type="button" onclick="editProject(${p.id})" class="btn-edit btn-pill-sm">Edit</button>
-                            <button type="button" onclick="deleteProject(${p.id})" class="btn-danger btn-pill-sm">Hapus</button>
-                        </div>
-                    `;
-                    list.appendChild(div);
-                });
+            const { error } = await supabaseClient.from('profile').upsert([payload]);
+            if (error) alert('Error: ' + error.message);
+            else {
+                clearPublicPortfolioCache();
+                alert('Profil berhasil diperbarui!');
             }
+            btn.innerText = 'Simpan Perubahan Profil';
         }
 
-        window.uploadProjectGallery = async function(input) {
-            const files = Array.from(input.files);
+        // ==================== 5. PROJECTS & GALLERY CAPTION HANDLERS ====================
+        async function uploadProjectGalleryFiles(inputEl) {
+            const files = Array.from(inputEl.files);
             if (!files.length) return;
-            showToast(`Mengunggah ${files.length} gambar...`);
             for (const f of files) {
-                const url = await uploadFileToSupabase(f, 'projects');
-                if (url) tempProjectGallery.push({ url, caption: '' });
+                try {
+                    const url = await uploadFileToStorage(f);
+                    tempProjectGallery.push({ url, caption: '' });
+                } catch (err) {
+                    alert('Gagal upload gambar: ' + err.message);
+                }
             }
-            input.value = '';
+            inputEl.value = '';
             renderProjectGalleryPreview();
-            showToast('Gambar dokumentasi ditambahkan');
-        };
+        }
 
         function renderProjectGalleryPreview() {
             const wrap = document.getElementById('proj-gallery-preview');
-            wrap.style.cssText = 'display: flex; flex-direction: column; gap: 8px; margin-top: 10px;';
             wrap.innerHTML = tempProjectGallery.map((g, i) => {
                 const imgUrl = typeof g === 'string' ? g : g.url;
                 const imgCap = typeof g === 'string' ? '' : (g.caption || '');
                 return `
-                    <div style="background: var(--ios-input); padding: 8px 10px; border-radius: 12px; display: flex; gap: 10px; align-items: center;">
+                    <div style="background: #FFFFFF; padding: 8px 10px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); display: flex; gap: 10px; align-items: center;">
                         <img src="${imgUrl}" style="width: 52px; height: 52px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
-                        <input type="text" value="${imgCap}"
+                        <input type="text" value="${imgCap.replace(/"/g, '&quot;')}"
                             onchange="tempProjectGallery[${i}] = { url: '${imgUrl}', caption: this.value }"
                             placeholder="Tulis caption gambar ke-${i + 1}..."
-                            style="margin: 0; font-size: 12px; padding: 8px 10px; background: #fff;">
+                            class="ios-input" style="margin: 0; font-size: 12px; padding: 8px 10px;">
                         <button type="button" onclick="tempProjectGallery.splice(${i},1); renderProjectGalleryPreview()" class="btn-danger btn-pill-sm" style="padding: 6px 10px;">&times;</button>
                     </div>
                 `;
             }).join('');
         }
 
-        window.editProject = function(id) {
-            const p = projectsData.find(x => x.id === id);
-            if (!p) return;
-            editingProjectId = id;
-            document.getElementById('proj-title').value = p.title || '';
-            document.getElementById('proj-repo').value = p.repo_url || p.demo_url || '';
-            document.getElementById('proj-desc').value = p.description || '';
-            document.getElementById('proj-image').value = p.image_url || '';
-            tempProjectGallery = Array.isArray(p.gallery) ? [...p.gallery] : [];
-            renderProjectGalleryPreview();
-            if (projectEditor) projectEditor.setData(p.content || '');
-            else document.getElementById('proj-content').value = p.content || '';
-            document.getElementById('btn-submit-proj').innerText = 'Update Proyek';
-            document.getElementById('btn-cancel-proj').classList.remove('hidden');
-            document.getElementById('form-project').scrollIntoView({ behavior: 'smooth' });
-        };
+        function renderAdminProjects(list) {
+            const wrap = document.getElementById('admin-projects-list');
+            wrap.innerHTML = list.map(p => `
+                <div class="p-4 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <img src="${p.image_url || ''}" class="w-14 h-14 rounded-xl object-cover bg-slate-200 flex-shrink-0">
+                        <div class="min-w-0">
+                            <h4 class="font-bold text-sm truncate">${p.title}</h4>
+                            <p class="text-xs text-[#6E6E73] truncate">${p.description || ''}</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-1.5 flex-shrink-0">
+                        <button type="button" onclick='editProject(${JSON.stringify(p).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
+                        <button type="button" onclick="deleteRow('projects', ${p.id})" class="btn-danger btn-pill-sm">&times;</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-        window.cancelEditProject = function() {
-            editingProjectId = null;
-            document.getElementById('proj-title').value = '';
-            document.getElementById('proj-repo').value = '';
-            document.getElementById('proj-desc').value = '';
-            document.getElementById('proj-image').value = '';
-            tempProjectGallery = [];
-            renderProjectGalleryPreview();
-            if (projectEditor) projectEditor.setData('');
-            else document.getElementById('proj-content').value = '';
-            document.getElementById('btn-submit-proj').innerText = 'Simpan Proyek';
-            document.getElementById('btn-cancel-proj').classList.add('hidden');
-        };
-
-        window.saveProject = async function() {
-            const contentVal = projectEditor ? projectEditor.getData() : document.getElementById('proj-content').value;
+        async function saveProject(e) {
+            e.preventDefault();
+            const id = document.getElementById('proj-id').value;
             const payload = {
                 title: document.getElementById('proj-title').value.trim(),
-                repo_url: document.getElementById('proj-repo').value.trim(),
+                repo_url: document.getElementById('proj-repo').value.trim() || null,
                 description: document.getElementById('proj-desc').value.trim(),
-                image_url: document.getElementById('proj-image').value.trim(),
+                image_url: document.getElementById('proj-cover').value.trim() || null,
                 gallery: tempProjectGallery,
-                content: contentVal
+                content: quill.root.innerHTML
             };
-            if (!payload.title) return showToast('Judul proyek wajib diisi!', true);
+            if (id) await supabaseClient.from('projects').update(payload).eq('id', id);
+            else await supabaseClient.from('projects').insert([payload]);
 
-            const btn = document.getElementById('btn-submit-proj');
-            btn.innerText = 'Menyimpan...';
-            try {
-                if (editingProjectId) {
-                    const { error } = await supabaseClient.from('projects').update(payload).eq('id', editingProjectId);
-                    if (error) throw error;
-                } else {
-                    const { error } = await supabaseClient.from('projects').insert([payload]);
-                    if (error) throw error;
-                }
-                cancelEditProject();
-                fetchProjects();
-                showToast('Proyek berhasil disimpan!');
-            } catch (err) {
-                showToast('Gagal: ' + err.message, true);
-            } finally {
-                btn.innerText = 'Simpan Proyek';
-            }
-        };
-
-        window.deleteProject = async function(id) {
-            if (!confirm('Hapus proyek ini?')) return;
-            await supabaseClient.from('projects').delete().eq('id', id);
-            fetchProjects();
-            showToast('Proyek dihapus');
-        };
-
-        // ==================== 3. EDUCATION & CERTIFICATIONS ====================
-        async function fetchEdu() {
-            const { data } = await supabaseClient.from('education').select('*').order('id', { ascending: false });
-            if (data) {
-                eduData = data;
-                const list = document.getElementById('edu-list');
-                list.innerHTML = '';
-                eduData.forEach(e => {
-                    const div = document.createElement('div');
-                    div.className = 'list-item';
-                    div.innerHTML = `
-                        <div class="list-info">
-                            <h4>${e.institution}</h4>
-                            <p>${e.degree} ${e.gpa ? '&bull; GPA: ' + e.gpa : ''}</p>
-                        </div>
-                        <div class="list-actions">
-                            <button type="button" onclick="editEdu(${e.id})" class="btn-edit btn-pill-sm">Edit</button>
-                            <button type="button" onclick="deleteEdu(${e.id})" class="btn-danger btn-pill-sm">Hapus</button>
-                        </div>
-                    `;
-                    list.appendChild(div);
-                });
-            }
+            clearPublicPortfolioCache();
+            resetProjectForm();
+            loadAllAdminData();
         }
 
-        window.editEdu = function(id) {
-            const e = eduData.find(x => x.id === id);
-            if (!e) return;
-            editingEduId = id;
-            document.getElementById('edu-institution').value = e.institution || '';
-            document.getElementById('edu-degree').value = e.degree || '';
-            document.getElementById('edu-start').value = e.start_year || '';
-            document.getElementById('edu-grad').value = e.grad_year || '';
-            document.getElementById('edu-gpa').value = e.gpa || '';
-            document.getElementById('edu-expected').value = e.expected_grad || '';
-            document.getElementById('btn-submit-edu').innerText = 'Update Edukasi';
-            document.getElementById('btn-cancel-edu').classList.remove('hidden');
-            document.getElementById('form-edu').scrollIntoView({ behavior: 'smooth' });
-        };
+        function editProject(p) {
+            document.getElementById('proj-id').value = p.id;
+            document.getElementById('proj-title').value = p.title;
+            document.getElementById('proj-repo').value = p.repo_url || p.link || '';
+            document.getElementById('proj-desc').value = p.description || '';
+            document.getElementById('proj-cover').value = p.image_url || '';
+            quill.root.innerHTML = p.content || '';
+            tempProjectGallery = Array.isArray(p.gallery) ? p.gallery : [];
+            renderProjectGalleryPreview();
+            document.getElementById('btn-save-proj').innerText = 'Update Proyek';
+            document.getElementById('btn-cancel-proj').classList.remove('hidden');
+            document.getElementById('sec-projects').scrollIntoView({ behavior: 'smooth' });
+        }
 
-        window.cancelEditEdu = function() {
-            editingEduId = null;
-            ['edu-institution', 'edu-degree', 'edu-start', 'edu-grad', 'edu-gpa', 'edu-expected'].forEach(id => document.getElementById(id).value = '');
-            document.getElementById('btn-submit-edu').innerText = 'Simpan Edukasi';
-            document.getElementById('btn-cancel-edu').classList.add('hidden');
-        };
+        function resetProjectForm() {
+            document.getElementById('project-form').reset();
+            document.getElementById('proj-id').value = '';
+            if (quill) quill.root.innerHTML = '';
+            tempProjectGallery = [];
+            renderProjectGalleryPreview();
+            document.getElementById('btn-save-proj').innerText = 'Simpan Proyek';
+            document.getElementById('btn-cancel-proj').classList.add('hidden');
+        }
 
-        window.saveEdu = async function() {
+        // ==================== 6. ARSENAL HANDLERS (ADD + EDIT + DELETE) ====================
+        function renderAdminArsenal(list) {
+            const wrap = document.getElementById('admin-arsenal-list');
+            if (!list.length) {
+                wrap.innerHTML = `<p class="text-xs text-[#6E6E73] col-span-full">Belum ada skill ditambahkan.</p>`;
+                return;
+            }
+            wrap.innerHTML = list.map(s => `
+                <div class="p-3 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-2 text-xs">
+                    <div class="min-w-0">
+                        <span class="text-[10px] font-bold uppercase text-[#0071E3] block truncate">${s.category}</span>
+                        <span class="font-bold text-sm text-[#1D1D1F] truncate block">${s.name}</span>
+                        <span class="text-[11px] text-[#6E6E73]">${s.level || 'Intermediate'}</span>
+                    </div>
+                    <div class="flex gap-1.5 flex-shrink-0">
+                        <button type="button" onclick='editSkill(${JSON.stringify(s).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
+                        <button type="button" onclick="deleteRow('arsenal', ${s.id})" class="btn-danger btn-pill-sm">&times;</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function saveSkill(e) {
+            e.preventDefault();
+            const id = document.getElementById('skill-id').value;
             const payload = {
-                institution: document.getElementById('edu-institution').value.trim(),
-                degree: document.getElementById('edu-degree').value.trim(),
+                category: document.getElementById('skill-cat').value.trim(),
+                name: document.getElementById('skill-name').value.trim(),
+                level: document.getElementById('skill-level').value
+            };
+            if (id) await supabaseClient.from('arsenal').update(payload).eq('id', id);
+            else await supabaseClient.from('arsenal').insert([payload]);
+
+            resetSkillForm();
+            clearPublicPortfolioCache();
+            loadAllAdminData();
+        }
+
+        function editSkill(s) {
+            document.getElementById('skill-id').value = s.id;
+            document.getElementById('skill-cat').value = s.category || '';
+            document.getElementById('skill-name').value = s.name || '';
+            document.getElementById('skill-level').value = s.level || 'Intermediate';
+            document.getElementById('btn-save-skill').innerText = 'Update Skill';
+            document.getElementById('btn-cancel-skill').classList.remove('hidden');
+            document.getElementById('sec-arsenal').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetSkillForm() {
+            document.getElementById('skill-form').reset();
+            document.getElementById('skill-id').value = '';
+            document.getElementById('btn-save-skill').innerText = 'Tambah Skill';
+            document.getElementById('btn-cancel-skill').classList.add('hidden');
+        }
+
+        // ==================== 7. EDU & CERT HANDLERS (ADD + EDIT + DELETE) ====================
+        function renderAdminEdus(list) {
+            const wrap = document.getElementById('admin-edu-list');
+            if (!list.length) {
+                wrap.innerHTML = `<p class="text-xs text-[#6E6E73]">Belum ada riwayat pendidikan ditambahkan.</p>`;
+                return;
+            }
+            wrap.innerHTML = list.map(ed => `
+                <div class="p-3.5 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-2 text-xs">
+                    <div class="min-w-0">
+                        <p class="font-bold text-sm truncate">${ed.institution}</p>
+                        <p class="text-[#6E6E73] truncate">${ed.degree} &bull; ${ed.start_year || ''}-${ed.grad_year || 'Present'} &bull; GPA: ${ed.gpa || '-'}</p>
+                    </div>
+                    <div class="flex gap-1.5 flex-shrink-0">
+                        <button type="button" onclick='editEdu(${JSON.stringify(ed).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
+                        <button type="button" onclick="deleteRow('education', ${ed.id})" class="btn-danger btn-pill-sm">&times;</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function saveEdu(e) {
+            e.preventDefault();
+            const id = document.getElementById('edu-id').value;
+            const payload = {
+                institution: document.getElementById('edu-inst').value.trim(),
+                degree: document.getElementById('edu-deg').value.trim(),
                 start_year: document.getElementById('edu-start').value.trim(),
                 grad_year: document.getElementById('edu-grad').value.trim(),
-                gpa: document.getElementById('edu-gpa').value.trim(),
-                expected_grad: document.getElementById('edu-expected').value.trim()
+                gpa: document.getElementById('edu-gpa').value.trim()
             };
-            if (!payload.institution || !payload.degree) return showToast('Institusi dan gelar wajib diisi!', true);
+            if (id) await supabaseClient.from('education').update(payload).eq('id', id);
+            else await supabaseClient.from('education').insert([payload]);
 
-            const btn = document.getElementById('btn-submit-edu');
-            btn.innerText = 'Menyimpan...';
-            try {
-                if (editingEduId) {
-                    const { error } = await supabaseClient.from('education').update(payload).eq('id', editingEduId);
-                    if (error) throw error;
-                } else {
-                    const { error } = await supabaseClient.from('education').insert([payload]);
-                    if (error) throw error;
-                }
-                cancelEditEdu();
-                fetchEdu();
-                showToast('Data edukasi tersimpan!');
-            } catch (err) {
-                showToast('Gagal: ' + err.message, true);
-            } finally {
-                btn.innerText = 'Simpan Edukasi';
-            }
-        };
-
-        window.deleteEdu = async function(id) {
-            if (!confirm('Hapus data edukasi ini?')) return;
-            await supabaseClient.from('education').delete().eq('id', id);
-            fetchEdu();
-            showToast('Edukasi dihapus');
-        };
-
-        async function fetchCert() {
-            const { data } = await supabaseClient.from('certifications').select('*').order('id', { ascending: false });
-            if (data) {
-                certData = data;
-                const list = document.getElementById('cert-list');
-                list.innerHTML = '';
-                certData.forEach(c => {
-                    const div = document.createElement('div');
-                    div.className = 'list-item';
-                    div.innerHTML = `
-                        <div class="list-info">
-                            <h4>${c.title}</h4>
-                            <p>${c.issuer} ${c.year ? '&bull; ' + c.year : ''}</p>
-                        </div>
-                        <div class="list-actions">
-                            <button type="button" onclick="editCert(${c.id})" class="btn-edit btn-pill-sm">Edit</button>
-                            <button type="button" onclick="deleteCert(${c.id})" class="btn-danger btn-pill-sm">Hapus</button>
-                        </div>
-                    `;
-                    list.appendChild(div);
-                });
-            }
+            resetEduForm();
+            clearPublicPortfolioCache();
+            loadAllAdminData();
         }
 
-        window.editCert = function(id) {
-            const c = certData.find(x => x.id === id);
-            if (!c) return;
-            editingCertId = id;
-            document.getElementById('cert-title').value = c.title || '';
-            document.getElementById('cert-issuer').value = c.issuer || '';
-            document.getElementById('cert-year').value = c.year || '';
-            document.getElementById('cert-url').value = c.file_url || '';
-            document.getElementById('btn-submit-cert').innerText = 'Update Sertifikat';
-            document.getElementById('btn-cancel-cert').classList.remove('hidden');
-            document.getElementById('form-cert').scrollIntoView({ behavior: 'smooth' });
-        };
+        function editEdu(ed) {
+            document.getElementById('edu-id').value = ed.id;
+            document.getElementById('edu-inst').value = ed.institution || '';
+            document.getElementById('edu-deg').value = ed.degree || '';
+            document.getElementById('edu-start').value = ed.start_year || '';
+            document.getElementById('edu-grad').value = ed.grad_year || '';
+            document.getElementById('edu-gpa').value = ed.gpa || '';
+            document.getElementById('btn-save-edu').innerText = 'Update Pendidikan';
+            document.getElementById('btn-cancel-edu').classList.remove('hidden');
+            document.getElementById('edu-form').scrollIntoView({ behavior: 'smooth' });
+        }
 
-        window.cancelEditCert = function() {
-            editingCertId = null;
-            ['cert-title', 'cert-issuer', 'cert-year', 'cert-url'].forEach(id => document.getElementById(id).value = '');
-            document.getElementById('btn-submit-cert').innerText = 'Simpan Sertifikat';
-            document.getElementById('btn-cancel-cert').classList.add('hidden');
-        };
+        function resetEduForm() {
+            document.getElementById('edu-form').reset();
+            document.getElementById('edu-id').value = '';
+            document.getElementById('btn-save-edu').innerText = 'Tambah Pendidikan';
+            document.getElementById('btn-cancel-edu').classList.add('hidden');
+        }
 
-        window.saveCert = async function() {
+        function renderAdminCerts(list) {
+            const wrap = document.getElementById('admin-cert-list');
+            if (!list.length) {
+                wrap.innerHTML = `<p class="text-xs text-[#6E6E73]">Belum ada sertifikasi ditambahkan.</p>`;
+                return;
+            }
+            wrap.innerHTML = list.map(c => `
+                <div class="p-3.5 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-2 text-xs">
+                    <div class="min-w-0">
+                        <p class="font-bold text-sm truncate">${c.title}</p>
+                        <p class="text-[#6E6E73] truncate">${c.issuer} (${c.year || '-'})</p>
+                    </div>
+                    <div class="flex gap-1.5 flex-shrink-0">
+                        <button type="button" onclick='editCert(${JSON.stringify(c).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
+                        <button type="button" onclick="deleteRow('certifications', ${c.id})" class="btn-danger btn-pill-sm">&times;</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function saveCert(e) {
+            e.preventDefault();
+            const id = document.getElementById('cert-id').value;
             const payload = {
                 title: document.getElementById('cert-title').value.trim(),
                 issuer: document.getElementById('cert-issuer').value.trim(),
                 year: document.getElementById('cert-year').value.trim(),
-                file_url: document.getElementById('cert-url').value.trim()
+                file_url: document.getElementById('cert-url').value.trim() || null
             };
-            if (!payload.title) return showToast('Nama sertifikat wajib diisi!', true);
+            if (id) await supabaseClient.from('certifications').update(payload).eq('id', id);
+            else await supabaseClient.from('certifications').insert([payload]);
 
-            const btn = document.getElementById('btn-submit-cert');
-            btn.innerText = 'Menyimpan...';
-            try {
-                if (editingCertId) {
-                    const { error } = await supabaseClient.from('certifications').update(payload).eq('id', editingCertId);
-                    if (error) throw error;
-                } else {
-                    const { error } = await supabaseClient.from('certifications').insert([payload]);
-                    if (error) throw error;
-                }
-                cancelEditCert();
-                fetchCert();
-                showToast('Sertifikat tersimpan!');
-            } catch (err) {
-                showToast('Gagal: ' + err.message, true);
-            } finally {
-                btn.innerText = 'Simpan Sertifikat';
-            }
-        };
-
-        window.deleteCert = async function(id) {
-            if (!confirm('Hapus sertifikat ini?')) return;
-            await supabaseClient.from('certifications').delete().eq('id', id);
-            fetchCert();
-            showToast('Sertifikat dihapus');
-        };
-
-        // ==================== 4. TECHNICAL ARSENAL ====================
-        async function fetchArsenal() {
-            const { data } = await supabaseClient.from('arsenal').select('*').order('id', { ascending: false });
-            if (data) {
-                arsenalData = data;
-                const list = document.getElementById('arsenal-list');
-                list.innerHTML = '';
-                arsenalData.forEach(item => {
-                    const lvl = item.level || 'Intermediate';
-                    const div = document.createElement('div');
-                    div.style.cssText = 'padding: 12px 14px; background: var(--ios-input); border-radius: 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px;';
-                    div.innerHTML = `
-                        <div class="list-info">
-                            <h4>${item.name}</h4>
-                            <p style="color: var(--ios-blue); font-weight: 600;">${item.category || 'General Skills'} <span style="color:#8E8E93; font-weight:500;">&bull; ${lvl}</span></p>
-                        </div>
-                        <div class="list-actions">
-                            <button type="button" onclick="editArsenal(${item.id})" class="btn-edit btn-pill-sm">Edit</button>
-                            <button type="button" onclick="deleteArsenal(${item.id})" class="btn-danger btn-pill-sm">Hapus</button>
-                        </div>
-                    `;
-                    list.appendChild(div);
-                });
-            }
+            resetCertForm();
+            clearPublicPortfolioCache();
+            loadAllAdminData();
         }
 
-        window.editArsenal = function(id) {
-            const item = arsenalData.find(x => x.id === id);
-            if (!item) return;
-            editingArsenalId = id;
-            document.getElementById('arsenal-name').value = item.name || '';
-            document.getElementById('arsenal-level').value = item.level || 'Intermediate';
-            document.getElementById('arsenal-category').value = item.category || '';
-            document.getElementById('arsenal-icon').value = item.icon || '';
-            document.getElementById('btn-submit-arsenal').innerText = 'Update Skill';
-            document.getElementById('btn-cancel-arsenal').classList.remove('hidden');
-            document.getElementById('form-arsenal').scrollIntoView({ behavior: 'smooth' });
-        };
-
-        window.cancelEditArsenal = function() {
-            editingArsenalId = null;
-            document.getElementById('arsenal-name').value = '';
-            document.getElementById('arsenal-level').value = 'Intermediate';
-            document.getElementById('arsenal-category').value = '';
-            document.getElementById('arsenal-icon').value = '';
-            document.getElementById('btn-submit-arsenal').innerText = 'Simpan Skill';
-            document.getElementById('btn-cancel-arsenal').classList.add('hidden');
-        };
-
-        window.saveArsenal = async function() {
-            const payload = {
-                name: document.getElementById('arsenal-name').value.trim(),
-                level: document.getElementById('arsenal-level').value,
-                category: document.getElementById('arsenal-category').value.trim(),
-                icon: document.getElementById('arsenal-icon').value.trim()
-            };
-            if (!payload.name) return showToast('Nama skill wajib diisi!', true);
-
-            const btn = document.getElementById('btn-submit-arsenal');
-            btn.innerText = 'Menyimpan...';
-            try {
-                if (editingArsenalId) {
-                    const { error } = await supabaseClient.from('arsenal').update(payload).eq('id', editingArsenalId);
-                    if (error) throw error;
-                } else {
-                    const { error } = await supabaseClient.from('arsenal').insert([payload]);
-                    if (error) throw error;
-                }
-                cancelEditArsenal();
-                fetchArsenal();
-                showToast('Skill berhasil disimpan!');
-            } catch (err) {
-                showToast('Gagal: ' + err.message, true);
-            } finally {
-                btn.innerText = 'Simpan Skill';
-            }
-        };
-
-        window.deleteArsenal = async function(id) {
-            if (!confirm('Hapus skill ini?')) return;
-            await supabaseClient.from('arsenal').delete().eq('id', id);
-            fetchArsenal();
-            showToast('Skill dihapus');
-        };
-
-        // ==================== 5. GALLERY ALBUMS ====================
-        async function fetchAlbums() {
-            const list = document.getElementById('gal-albums-list');
-            if (!list) return;
-            const { data, error } = await supabaseClient
-                .from('gallery_albums')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                list.innerHTML = `<p style="font-size:13px; color:#FF3B30;">Gagal memuat album: ${error.message}</p>`;
-                return;
-            }
-
-            albumsData = data || [];
-            list.innerHTML = albumsData.length === 0
-                ? '<p style="font-size:13px; color:#8E8E93;">Belum ada album kustom tersimpan (2 album MSIB bawaan tetap aktif di landing page).</p>'
-                : '';
-
-            albumsData.forEach(alb => {
-                const count = (alb.photos || []).length;
-                const div = document.createElement('div');
-                div.className = 'list-item';
-                div.innerHTML = `
-                    <div class="list-info">
-                        <h4>${alb.title}</h4>
-                        <p>${alb.category} &bull; ${count} Foto ${alb.year ? '&bull; ' + alb.year : ''}</p>
-                    </div>
-                    <div class="list-actions">
-                        <button type="button" onclick="editAlbum(${alb.id})" class="btn-edit btn-pill-sm">Edit</button>
-                        <button type="button" onclick="deleteAlbum(${alb.id})" class="btn-danger btn-pill-sm">Hapus</button>
-                    </div>
-                `;
-                list.appendChild(div);
-            });
+        function editCert(c) {
+            document.getElementById('cert-id').value = c.id;
+            document.getElementById('cert-title').value = c.title || '';
+            document.getElementById('cert-issuer').value = c.issuer || '';
+            document.getElementById('cert-year').value = c.year || '';
+            document.getElementById('cert-url').value = c.file_url || '';
+            document.getElementById('btn-save-cert').innerText = 'Update Sertifikat';
+            document.getElementById('btn-cancel-cert').classList.remove('hidden');
+            document.getElementById('cert-form').scrollIntoView({ behavior: 'smooth' });
         }
 
-        window.uploadAlbumPhotos = async function(input) {
-            const files = Array.from(input.files);
+        function resetCertForm() {
+            document.getElementById('cert-form').reset();
+            document.getElementById('cert-id').value = '';
+            document.getElementById('btn-save-cert').innerText = 'Tambah Sertifikat';
+            document.getElementById('btn-cancel-cert').classList.add('hidden');
+        }
+
+        // ==================== 8. GALLERY ALBUMS HANDLERS ====================
+        async function uploadAlbumPhotos(inputEl) {
+            const files = Array.from(inputEl.files);
             if (!files.length) return;
-            showToast(`Mengunggah ${files.length} foto...`);
-
-            for (const file of files) {
-                const url = await uploadFileToSupabase(file, 'gallery');
-                if (url) {
+            for (const f of files) {
+                try {
+                    const url = await uploadFileToStorage(f);
                     tempAlbumPhotos.push({ url, caption: '' });
+                } catch (err) {
+                    alert('Gagal upload foto album: ' + err.message);
                 }
             }
+            inputEl.value = '';
+            renderAlbumPhotosPreview();
+        }
 
-            input.value = '';
-            renderTempAlbumPhotos();
-            showToast('Foto siap disimpan ke album!');
-        };
+        function renderAlbumPhotosPreview() {
+            const wrap = document.getElementById('alb-photos-preview');
+            wrap.innerHTML = tempAlbumPhotos.map((p, i) => `
+                <div style="background: #FFFFFF; padding: 8px 10px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); display: flex; gap: 10px; align-items: center;">
+                    <img src="${p.url}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
+                    <input type="text" value="${(p.caption || '').replace(/"/g, '&quot;')}"
+                        onchange="tempAlbumPhotos[${i}].caption = this.value"
+                        placeholder="Caption foto #${i + 1}..."
+                        class="ios-input" style="margin: 0; font-size: 12px; padding: 8px 10px;">
+                    <button type="button" onclick="tempAlbumPhotos.splice(${i},1); renderAlbumPhotosPreview()" class="btn-danger btn-pill-sm" style="padding: 6px 10px;">&times;</button>
+                </div>
+            `).join('');
+        }
 
-        window.renderTempAlbumPhotos = function() {
-            const wrap = document.getElementById('gal-photos-preview');
-            if (!wrap) return;
-            wrap.innerHTML = '';
-            tempAlbumPhotos.forEach((p, idx) => {
-                wrap.innerHTML += `
-                    <div style="background: var(--ios-input); padding:10px; border-radius:12px; display:flex; gap:10px; align-items:center;">
-                        <img src="${p.url}" style="width:54px; height:54px; object-fit:cover; border-radius:8px; flex-shrink:0;">
-                        <input type="text" value="${p.caption || ''}" onchange="tempAlbumPhotos[${idx}].caption = this.value" placeholder="Caption foto (opsional)" style="margin:0; font-size:12px; padding:8px 10px;">
-                        <button type="button" onclick="tempAlbumPhotos.splice(${idx}, 1); renderTempAlbumPhotos();" class="btn-danger btn-pill-sm" style="padding:6px 10px;">&times;</button>
+        function renderAdminAlbums(list) {
+            document.getElementById('admin-albums-list').innerHTML = list.map(a => `
+                <div class="p-4 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-3">
+                    <div>
+                        <span class="text-[10px] font-bold uppercase text-[#0071E3]">${a.category} &bull; ${(a.photos || []).length} Foto</span>
+                        <h4 class="font-bold text-sm">${a.title}</h4>
                     </div>
-                `;
-            });
-        };
+                    <div class="flex gap-1.5">
+                        <button type="button" onclick='editAlbum(${JSON.stringify(a).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
+                        <button type="button" onclick="deleteRow('gallery_albums', ${a.id})" class="btn-danger btn-pill-sm">&times;</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-        window.editAlbum = function(id) {
-            const alb = albumsData.find(x => x.id === id);
-            if (!alb) return;
-            editingAlbumId = id;
-            document.getElementById('gal-title').value = alb.title || '';
-            document.getElementById('gal-category').value = alb.category || '';
-            document.getElementById('gal-year').value = alb.year || '';
-            document.getElementById('gal-desc').value = alb.description || '';
-            tempAlbumPhotos = JSON.parse(JSON.stringify(alb.photos || []));
-            renderTempAlbumPhotos();
-            document.getElementById('btn-submit-gal').innerText = 'Update Album Galeri';
-            document.getElementById('btn-cancel-gal').classList.remove('hidden');
-            document.getElementById('form-gallery').scrollIntoView({ behavior: 'smooth' });
-        };
-
-        window.cancelEditAlbum = function() {
-            editingAlbumId = null;
-            document.getElementById('gal-title').value = '';
-            document.getElementById('gal-category').value = '';
-            document.getElementById('gal-year').value = '';
-            document.getElementById('gal-desc').value = '';
-            tempAlbumPhotos = [];
-            renderTempAlbumPhotos();
-            document.getElementById('btn-submit-gal').innerText = 'Simpan Album Galeri';
-            document.getElementById('btn-cancel-gal').classList.add('hidden');
-        };
-
-        window.saveAlbum = async function() {
+        async function saveAlbum(e) {
+            e.preventDefault();
+            const id = document.getElementById('alb-id').value;
             const payload = {
-                title: document.getElementById('gal-title').value.trim(),
-                category: document.getElementById('gal-category').value.trim() || 'Activity',
-                year: document.getElementById('gal-year').value.trim(),
-                description: document.getElementById('gal-desc').value.trim(),
+                title: document.getElementById('alb-title').value.trim(),
+                category: document.getElementById('alb-cat').value.trim(),
+                year: document.getElementById('alb-year').value.trim(),
+                description: document.getElementById('alb-desc').value.trim(),
                 photos: tempAlbumPhotos
             };
+            if (id) await supabaseClient.from('gallery_albums').update(payload).eq('id', id);
+            else await supabaseClient.from('gallery_albums').insert([payload]);
 
-            if (!payload.title || tempAlbumPhotos.length === 0) {
-                return showToast('Judul album dan minimal 1 foto wajib diisi!', true);
-            }
+            clearPublicPortfolioCache();
+            resetAlbumForm();
+            loadAllAdminData();
+        }
 
-            const btn = document.getElementById('btn-submit-gal');
-            btn.innerText = 'Menyimpan...';
-            try {
-                if (editingAlbumId) {
-                    const { error } = await supabaseClient.from('gallery_albums').update(payload).eq('id', editingAlbumId);
-                    if (error) throw error;
-                } else {
-                    const { error } = await supabaseClient.from('gallery_albums').insert([payload]);
-                    if (error) throw error;
-                }
-                cancelEditAlbum();
-                await fetchAlbums();
-                showToast('Album galeri berhasil disimpan!');
-            } catch (err) {
-                showToast('Gagal: ' + err.message, true);
-            } finally {
-                btn.innerText = 'Simpan Album Galeri';
-            }
-        };
+        function editAlbum(a) {
+            document.getElementById('alb-id').value = a.id;
+            document.getElementById('alb-title').value = a.title;
+            document.getElementById('alb-cat').value = a.category;
+            document.getElementById('alb-year').value = a.year || '';
+            document.getElementById('alb-desc').value = a.description || '';
+            tempAlbumPhotos = Array.isArray(a.photos) ? a.photos : [];
+            renderAlbumPhotosPreview();
+            document.getElementById('btn-save-alb').innerText = 'Update Album';
+            document.getElementById('btn-cancel-alb').classList.remove('hidden');
+            document.getElementById('sec-gallery').scrollIntoView({ behavior: 'smooth' });
+        }
 
-        window.deleteAlbum = async function(id) {
-            if (!confirm('Hapus album dokumentasi ini?')) return;
-            await supabaseClient.from('gallery_albums').delete().eq('id', id);
-            fetchAlbums();
-            showToast('Album dihapus');
-        };
+        function resetAlbumForm() {
+            document.getElementById('album-form').reset();
+            document.getElementById('alb-id').value = '';
+            tempAlbumPhotos = [];
+            renderAlbumPhotosPreview();
+            document.getElementById('btn-save-alb').innerText = 'Simpan Album';
+            document.getElementById('btn-cancel-alb').classList.add('hidden');
+        }
 
-        // Start Auth Check
-        checkAuth();
+        // ==================== GENERIC DELETE ====================
+        async function deleteRow(table, id) {
+            if (!confirm('Yakin ingin menghapus data ini?')) return;
+            await supabaseClient.from(table).delete().eq('id', id);
+            clearPublicPortfolioCache();
+            loadAllAdminData();
+        }
+
+        document.addEventListener('DOMContentLoaded', checkAuthSession);
     </script>
 </body>
 </html>

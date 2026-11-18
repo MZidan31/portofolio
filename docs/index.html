@@ -103,17 +103,17 @@
             transform: translateY(0);
         }
 
-        #quicklook-modal {
-            background: rgba(29, 29, 31, 0.55);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+        .apple-backdrop {
+            background: rgba(29, 29, 31, 0.58);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
         }
     </style>
 </head>
 <body class="antialiased ambient-bg selection:bg-apple-blue selection:text-white">
 
     <!-- ==================== iOS Quick Look Modal (Sertifikat) ==================== -->
-    <div id="quicklook-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" onclick="closeQuickLook()">
+    <div id="quicklook-modal" class="hidden fixed inset-0 z-[100] apple-backdrop flex items-center justify-center p-4 sm:p-6" onclick="closeQuickLook()">
         <div class="bg-white rounded-[28px] w-full max-w-4xl overflow-hidden shadow-2xl border border-black/10 flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
             <div class="px-6 py-4 bg-[#F5F5F7] border-b border-black/5 flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
@@ -133,17 +133,52 @@
         </div>
     </div>
 
+    <!-- ==================== Service Detail Modal ==================== -->
+    <div id="service-detail-modal" class="hidden fixed inset-0 z-[105] apple-backdrop flex items-center justify-center p-4 sm:p-6" onclick="closeServiceModal()">
+        <div class="bg-white rounded-[30px] w-full max-w-2xl overflow-hidden shadow-2xl border border-black/10 flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
+            <div class="px-6 py-4 bg-[#F5F5F7] border-b border-black/5 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span id="srv-modal-badge" class="px-3 py-1 rounded-full bg-blue-50 text-apple-blue text-xs font-bold"></span>
+                    <span id="srv-modal-status"></span>
+                </div>
+                <button type="button" onclick="closeServiceModal()" class="w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 text-apple-text flex items-center justify-center text-lg transition">&times;</button>
+            </div>
+            
+            <div class="p-6 sm:p-8 overflow-y-auto space-y-5">
+                <div>
+                    <h3 id="srv-modal-title" class="text-2xl sm:text-3xl font-extrabold text-apple-text tracking-tight"></h3>
+                    <div id="srv-modal-price-box" class="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#F8F9FC] border border-black/5"></div>
+                </div>
+
+                <div class="border-t border-black/5 pt-4">
+                    <p class="text-xs font-bold uppercase tracking-wider text-apple-secondary mb-2">Scope & Deliverables</p>
+                    <div id="srv-modal-details" class="text-sm sm:text-[15px] text-apple-secondary leading-relaxed whitespace-pre-line"></div>
+                </div>
+            </div>
+
+            <div class="px-6 py-4 bg-[#F8F9FC] border-t border-black/5 flex flex-col sm:flex-row gap-3">
+                <a id="srv-modal-wa-btn" href="#" target="_blank" class="flex-1 bg-[#10B981] hover:bg-emerald-600 text-white py-3 px-5 rounded-full text-sm font-semibold inline-flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20 transition">
+                    <i class='bx bxl-whatsapp text-xl'></i> <span id="srv-modal-wa-text">Diskusi via WhatsApp</span>
+                </a>
+                <button type="button" id="srv-modal-form-btn" class="flex-1 bg-white hover:bg-gray-50 text-apple-text border border-black/10 py-3 px-5 rounded-full text-sm font-semibold inline-flex items-center justify-center gap-2 transition">
+                    <i class='bx bx-edit-alt text-lg text-apple-blue'></i> Ajukan via Form
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- ==================== Floating Apple Navbar ==================== -->
-    <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[92%] md:w-[76%] max-w-4xl z-50 apple-nav rounded-full px-6 py-3 transition-all duration-300">
+    <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[92%] md:w-[80%] max-w-5xl z-50 apple-nav rounded-full px-6 py-3 transition-all duration-300">
         <div class="flex justify-between items-center">
             <a href="#hero" class="text-base font-bold tracking-tight text-apple-text hover:text-apple-blue transition-colors flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-apple-blue to-apple-emerald inline-block"></span>
                 MUHAMMAD ZIDAN
             </a>
             
-            <div class="hidden md:flex space-x-7 text-[13px] font-medium text-apple-secondary">
+            <div class="hidden md:flex space-x-6 text-[13px] font-medium text-apple-secondary">
                 <a href="#arsenal" class="hover:text-apple-blue transition-colors">Expertise</a>
                 <a href="#projects" class="hover:text-apple-blue transition-colors">Projects</a>
+                <a href="#services" class="hover:text-apple-blue transition-colors">Services</a>
                 <a href="#education" class="hover:text-apple-blue transition-colors">Credentials</a>
                 <a href="#gallery" class="hover:text-apple-blue transition-colors">Gallery</a>
             </div>
@@ -160,6 +195,7 @@
         <div id="mobile-menu" class="hidden absolute top-full left-0 mt-3 w-full bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl border border-black/5 p-5 flex flex-col space-y-4 text-center text-sm">
             <a href="#arsenal" class="text-apple-secondary font-medium hover:text-apple-blue">Expertise</a>
             <a href="#projects" class="text-apple-secondary font-medium hover:text-apple-blue">Projects</a>
+            <a href="#services" class="text-apple-secondary font-medium hover:text-apple-blue">Services</a>
             <a href="#education" class="text-apple-secondary font-medium hover:text-apple-blue">Credentials</a>
             <a href="#gallery" class="text-apple-secondary font-medium hover:text-apple-blue">Gallery</a>
             <a href="#contact" class="bg-apple-blue text-white font-medium py-2.5 rounded-full">Let's Talk</a>
@@ -172,9 +208,14 @@
         <!-- ==================== Hero Section ==================== -->
         <section id="hero" class="flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-16 pt-2">
             <div class="flex-1 space-y-5 md:space-y-6 text-center md:text-left">
-                <div id="hero-badge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50/90 text-apple-blue text-[11px] md:text-xs font-bold tracking-wide uppercase border border-blue-200/60 shadow-2xs">
-                    Memuat...
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                    <div id="hero-badge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50/90 text-apple-blue text-[11px] md:text-xs font-bold tracking-wide uppercase border border-blue-200/60 shadow-2xs">
+                        Memuat...
+                    </div>
                 </div>
+
+                <!-- Dynamic Status / Availability Pills -->
+                <div id="hero-status-container" class="flex flex-wrap items-center justify-center md:justify-start gap-2"></div>
                 
                 <h1 id="hero-headline" class="text-[34px] sm:text-5xl md:text-[54px] font-extrabold text-apple-text leading-[1.12] tracking-[-0.025em]">
                     Memuat data...
@@ -269,6 +310,24 @@
             </div>
         </section>
 
+        <!-- ==================== Services & Offerings ==================== -->
+        <section id="services" class="space-y-8 reveal">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-black/5 pb-6">
+                <div>
+                    <span class="inline-block px-3 py-1 rounded-full bg-blue-50 text-apple-blue text-xs font-bold uppercase tracking-wider mb-3">Services & Availability</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-apple-text tracking-tight">Professional Services.</h2>
+                    <p class="text-apple-secondary mt-1.5 text-base">Click any service card to inspect deliverables, pricing terms, or start a direct WhatsApp discussion.</p>
+                </div>
+                <a href="#inquiry-box" class="inline-flex items-center gap-2 bg-white text-apple-text border border-black/10 px-5 py-2.5 rounded-full text-xs font-semibold hover:bg-gray-50 transition shadow-2xs">
+                    <i class='bx bx-customize text-base text-apple-blue'></i> Request Custom Service
+                </a>
+            </div>
+
+            <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <p class="text-apple-secondary text-sm col-span-full">Memuat daftar layanan...</p>
+            </div>
+        </section>
+
         <!-- ==================== Education & Certifications ==================== -->
         <section id="education" class="grid grid-cols-1 lg:grid-cols-2 gap-10 reveal">
             <!-- Education -->
@@ -315,6 +374,80 @@
             </div>
 
             <div id="gallery-albums-grid" class="grid grid-cols-1 md:grid-cols-2 gap-7"></div>
+        </section>
+
+        <!-- ==================== Collaboration & Service Request Form ==================== -->
+        <section id="inquiry-box" class="apple-card rounded-[32px] p-8 sm:p-12 reveal">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
+                <div class="lg:col-span-2 space-y-4">
+                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider">Collaboration & Requests</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-apple-text tracking-tight">Propose a Project or Custom Service.</h2>
+                    <p class="text-apple-secondary text-sm leading-relaxed">
+                        Punya kebutuhan pengolahan data, proyek pengembangan web, kolaborasi riset, atau ingin meminta penawaran layanan khusus? Kirim detail singkat di samping—pesan akan langsung masuk ke sistem saya.
+                    </p>
+                    <div class="pt-2 space-y-2.5 text-xs text-apple-secondary">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-full bg-blue-50 text-apple-blue flex items-center justify-center"><i class='bx bx-check-shield text-base'></i></span>
+                            <span>Respon cepat untuk kebutuhan *remote* maupun *project-based*.</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class='bx bxl-whatsapp text-base'></i></span>
+                            <span>Bisa langsung dilanjutkan ke diskusi WhatsApp setelah mengirim form.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="visitor-inquiry-form" onsubmit="submitVisitorInquiry(event)" class="lg:col-span-3 space-y-4 bg-[#F8F9FC] p-6 sm:p-7 rounded-[24px] border border-black/5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-apple-text mb-1.5">Nama Lengkap / Instansi *</label>
+                            <input type="text" id="inq-name" required placeholder="Cth: Budi Santoso / PT Maju Jaya" class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-apple-text mb-1.5">Kontak (WhatsApp / Email) *</label>
+                            <input type="text" id="inq-contact" required placeholder="Cth: 0812xxxx / email@domain.com" class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-apple-text mb-1.5">Jenis Pengajuan *</label>
+                            <select id="inq-type" class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue">
+                                <option value="Custom Service">Permintaan Layanan Khusus</option>
+                                <option value="Project Collaboration">Kolaborasi Proyek / Riset</option>
+                                <option value="Recruitment / Hiring">Tawaran Kerja / Magang</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-apple-text mb-1.5">Layanan Terkait (Opsional)</label>
+                            <select id="inq-service-ref" class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue">
+                                <option value="">— Umum / Lainnya —</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-apple-text mb-1.5">Estimasi Budget / Target Waktu (Opsional)</label>
+                        <input type="text" id="inq-budget" placeholder="Cth: Fleksibel / Target selesai 2 minggu" class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-apple-text mb-1.5">Detail Kebutuhan atau Ide Kolaborasi *</label>
+                        <textarea id="inq-message" rows="3" required placeholder="Jelaskan singkat ruang lingkup pekerjaan atau kolaborasi yang diharapkan..." class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue"></textarea>
+                    </div>
+
+                    <div id="inq-feedback" class="hidden text-xs font-semibold px-4 py-3 rounded-xl"></div>
+
+                    <div class="flex flex-col sm:flex-row gap-3 pt-1">
+                        <button type="submit" id="btn-submit-inq" class="flex-1 bg-apple-blue hover:bg-apple-blueHover text-white font-semibold py-3 px-6 rounded-full text-sm transition shadow-md shadow-blue-500/20">
+                            Kirim Pengajuan
+                        </button>
+                        <button type="button" onclick="sendInquiryViaWa()" class="bg-white hover:bg-gray-50 text-apple-text border border-black/10 font-semibold py-3 px-5 rounded-full text-sm inline-flex items-center justify-center gap-2 transition">
+                            <i class='bx bxl-whatsapp text-lg text-[#10B981]'></i> Kirim via WhatsApp
+                        </button>
+                    </div>
+                </form>
+            </div>
         </section>
 
         <!-- ==================== Contact / Footer CTA ==================== -->
@@ -364,7 +497,6 @@
             });
         });
 
-        // Quick Look Sertifikat
         window.openQuickLook = function(url, title) {
             const modal = document.getElementById('quicklook-modal');
             const body = document.getElementById('ql-body');
@@ -387,7 +519,6 @@
             document.body.style.overflow = '';
         };
 
-        // Scroll Reveal
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -581,6 +712,7 @@
             if (e.key === 'Escape') {
                 window.closeQuickLook();
                 window.closeIosAlbum();
+                window.closeServiceModal();
             }
             const modal = document.getElementById('ios-album-modal');
             if (modal && !modal.classList.contains('hidden')) {
@@ -592,7 +724,7 @@
         window.renderGallerySection([]);
     </script>
 
-    <!-- Script Supabase (Parallel Fetch + Instant Cache) -->
+    <!-- Script Supabase (Parallel Fetch + Instant Cache + Status, Services & Inquiries) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
@@ -600,9 +732,210 @@
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         const initialStaticProjectsHTML = document.getElementById('projects-grid').innerHTML;
+        let globalWaLink = 'https://wa.me/6281200000000';
+        let globalServicesList = [];
 
-        function renderPortfolioData({ profile, projects, arsenal, edus, certs, albums }) {
-            // 1. PROFIL & FOOTER
+        function buildWaUrl(baseUrl, messageText) {
+            const cleanBase = (baseUrl && baseUrl.startsWith('http')) ? baseUrl : 'https://wa.me/6281200000000';
+            const sep = cleanBase.includes('?') ? '&' : '?';
+            return `${cleanBase}${sep}text=${encodeURIComponent(messageText)}`;
+        }
+
+        // ==================== RENDER STATUS / AVAILABILITY PILLS ====================
+        function renderStatusPills(statuses = []) {
+            const container = document.getElementById('hero-status-container');
+            if (!container) return;
+            const activeList = (statuses || []).filter(s => s.is_active !== false);
+
+            if (activeList.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = activeList.map(st => {
+                const type = (st.status_type || '').toLowerCase();
+                let iconHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>`;
+                let styleClass = 'bg-emerald-50/90 text-emerald-800 border-emerald-200/80';
+
+                if (type === 'working') {
+                    iconHTML = `<i class='bx bxs-briefcase text-apple-blue text-sm'></i>`;
+                    styleClass = 'bg-white text-apple-text border-black/10';
+                } else if (type === 'student') {
+                    iconHTML = `<i class='bx bxs-graduation text-indigo-600 text-sm'></i>`;
+                    styleClass = 'bg-indigo-50/80 text-indigo-900 border-indigo-200/70';
+                } else if (type === 'freelance') {
+                    iconHTML = `<i class='bx bx-laptop text-amber-600 text-sm'></i>`;
+                    styleClass = 'bg-amber-50/80 text-amber-900 border-amber-200/70';
+                }
+
+                const orgText = st.organization ? ` <span class="opacity-60 font-normal">&bull;</span> <span class="font-bold">${st.organization}</span>` : '';
+                return `
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold border shadow-2xs ${styleClass}">
+                        ${iconHTML}
+                        <span>${st.title}${orgText}</span>
+                    </span>
+                `;
+            }).join('');
+        }
+
+        // ==================== RENDER SERVICES & MODAL ====================
+        function formatPricingDisplay(srv) {
+            if (srv.pricing_type === 'contact') {
+                return { label: 'Contact for Pricelist', tag: 'Private Rate', icon: 'bx-lock-alt' };
+            }
+            if (srv.pricing_type === 'nett') {
+                return { label: srv.price_label || 'Fixed Rate', tag: 'Nett', icon: 'bx-purchase-tag-alt' };
+            }
+            return { label: srv.price_label || 'Custom Quote', tag: 'Negotiable', icon: 'bx-conversation' };
+        }
+
+        function renderServicesSection(services = []) {
+            globalServicesList = services || [];
+            const grid = document.getElementById('services-grid');
+            const selectRef = document.getElementById('inq-service-ref');
+            if (!grid) return;
+
+            if (selectRef) {
+                selectRef.innerHTML = `<option value="">— Umum / Kolaborasi Kustom —</option>` +
+                    globalServicesList.map(s => `<option value="${s.title}">${s.title} (${s.status === 'open' ? 'Open' : 'Closed'})</option>`).join('');
+            }
+
+            if (globalServicesList.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full apple-card rounded-[28px] p-8 text-center">
+                        <p class="text-apple-secondary text-sm">Belum ada layanan yang dipublikasikan. Gunakan formulir di bawah untuk mengajukan kolaborasi khusus.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = globalServicesList.map((srv, idx) => {
+                const isOpen = (srv.status || 'open').toLowerCase() === 'open';
+                const statusBadge = isOpen
+                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold uppercase tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Open</span>`
+                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-slate-500 text-[11px] font-bold uppercase tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>Closed</span>`;
+
+                const priceInfo = formatPricingDisplay(srv);
+
+                return `
+                    <div onclick="openServiceModal(${idx})" class="group apple-card rounded-[28px] p-7 cursor-pointer flex flex-col justify-between ${!isOpen ? 'opacity-85' : ''}">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-4">
+                                <span class="px-3 py-1 bg-blue-50 text-apple-blue text-xs font-semibold rounded-full">${srv.badge}</span>
+                                ${statusBadge}
+                            </div>
+                            <h3 class="text-xl font-bold text-apple-text tracking-tight mb-2 group-hover:text-apple-blue transition-colors">${srv.title}</h3>
+                            <p class="text-apple-secondary text-sm leading-relaxed mb-5">${srv.short_desc}</p>
+                        </div>
+
+                        <div class="pt-4 border-t border-black/5 flex items-center justify-between gap-2">
+                            <div>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">${priceInfo.tag}</span>
+                                <span class="text-sm font-bold text-apple-text">${priceInfo.label}</span>
+                            </div>
+                            <span class="w-9 h-9 rounded-full bg-[#F2F4F8] group-hover:bg-apple-blue group-hover:text-white text-apple-text flex items-center justify-center transition">
+                                <i class='bx bx-right-arrow-alt text-xl'></i>
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.openServiceModal = function(idx) {
+            const srv = globalServicesList[idx];
+            if (!srv) return;
+
+            const isOpen = (srv.status || 'open').toLowerCase() === 'open';
+            const priceInfo = formatPricingDisplay(srv);
+
+            document.getElementById('srv-modal-badge').innerText = srv.badge;
+            document.getElementById('srv-modal-status').innerHTML = isOpen
+                ? `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Open for Slot</span>`
+                : `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-bold uppercase"><span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>Currently Closed</span>`;
+
+            document.getElementById('srv-modal-title').innerText = srv.title;
+            document.getElementById('srv-modal-price-box').innerHTML = `
+                <i class='bx ${priceInfo.icon} text-apple-blue text-lg'></i>
+                <span class="text-xs font-bold uppercase tracking-wider text-apple-secondary">${priceInfo.tag}:</span>
+                <span class="text-sm font-extrabold text-apple-text">${priceInfo.label}</span>
+            `;
+
+            document.getElementById('srv-modal-details').innerText = srv.full_details || srv.short_desc;
+
+            const waMessage = isOpen
+                ? `Halo Zidan, saya tertarik dengan layanan "${srv.title}" (${srv.badge}) yang ada di portofolio Anda. Boleh kita diskusikan detailnya?`
+                : `Halo Zidan, saya melihat layanan "${srv.title}" (${srv.badge}) sedang berstatus Closed. Boleh minta informasi pricelist atau jadwal ketersediaan slot berikutnya?`;
+
+            document.getElementById('srv-modal-wa-btn').href = buildWaUrl(globalWaLink, waMessage);
+            document.getElementById('srv-modal-wa-text').innerText = isOpen ? 'Diskusikan Layanan via WA' : 'Tanya Pricelist & Slot via WA';
+
+            document.getElementById('srv-modal-form-btn').onclick = () => {
+                closeServiceModal();
+                const refSelect = document.getElementById('inq-service-ref');
+                if (refSelect) refSelect.value = srv.title;
+                document.getElementById('inquiry-box').scrollIntoView({ behavior: 'smooth' });
+            };
+
+            document.getElementById('service-detail-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeServiceModal = function() {
+            const modal = document.getElementById('service-detail-modal');
+            if (modal) modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        };
+
+        // ==================== VISITOR INQUIRY SUBMIT ====================
+        window.submitVisitorInquiry = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-inq');
+            const fb = document.getElementById('inq-feedback');
+
+            const payload = {
+                sender_name: document.getElementById('inq-name').value.trim(),
+                sender_contact: document.getElementById('inq-contact').value.trim(),
+                inquiry_type: document.getElementById('inq-type').value,
+                service_ref: document.getElementById('inq-service-ref').value || null,
+                budget_timeline: document.getElementById('inq-budget').value.trim() || null,
+                message: document.getElementById('inq-message').value.trim()
+            };
+
+            btn.innerText = 'Mengirim...';
+            btn.disabled = true;
+
+            try {
+                const { error } = await supabaseClient.from('inquiries').insert([payload]);
+                if (error) throw error;
+
+                fb.className = 'text-xs font-semibold px-4 py-3 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200';
+                fb.innerText = 'Pengajuan berhasil terkirim! Saya akan segera meninjau dan menghubungi Anda kembali.';
+                fb.classList.remove('hidden');
+                document.getElementById('visitor-inquiry-form').reset();
+            } catch (err) {
+                fb.className = 'text-xs font-semibold px-4 py-3 rounded-xl bg-red-50 text-red-700 border border-red-200';
+                fb.innerText = 'Gagal mengirim pengajuan: ' + err.message;
+                fb.classList.remove('hidden');
+            } finally {
+                btn.innerText = 'Kirim Pengajuan';
+                btn.disabled = false;
+            }
+        };
+
+        window.sendInquiryViaWa = function() {
+            const name = document.getElementById('inq-name').value.trim() || 'Calon Klien';
+            const type = document.getElementById('inq-type').value;
+            const ref = document.getElementById('inq-service-ref').value;
+            const budget = document.getElementById('inq-budget').value.trim();
+            const msg = document.getElementById('inq-message').value.trim() || 'Ingin berdiskusi mengenai proyek/layanan.';
+
+            const text = `Halo Zidan, saya *${name}*.\n• *Kategori:* ${type}${ref ? `\n• *Layanan:* ${ref}` : ''}${budget ? `\n• *Budget/Timeline:* ${budget}` : ''}\n• *Detail:* ${msg}`;
+            window.open(buildWaUrl(globalWaLink, text), '_blank');
+        };
+
+        // ==================== MASTER RENDER PORTFOLIO ====================
+        function renderPortfolioData({ profile, projects, arsenal, edus, certs, albums, statuses, services }) {
             if (profile) {
                 if (profile.photo_url) document.getElementById('hero-image').src = profile.photo_url;
                 if (profile.badge) document.getElementById('hero-badge').innerText = profile.badge;
@@ -612,7 +945,10 @@
                 
                 if (profile.footer_title) document.getElementById('footer-title').innerText = profile.footer_title;
                 if (profile.footer_sub) document.getElementById('footer-sub').innerText = profile.footer_sub;
-                if (profile.wa_link) document.getElementById('footer-wa').href = profile.wa_link;
+                if (profile.wa_link) {
+                    globalWaLink = profile.wa_link;
+                    document.getElementById('footer-wa').href = profile.wa_link;
+                }
                 if (profile.linkedin_link) document.getElementById('footer-linkedin').href = profile.linkedin_link;
                 if (profile.email) {
                     document.getElementById('footer-email').innerText = profile.email;
@@ -620,7 +956,9 @@
                 }
             }
 
-            // 2. PROYEK DINAMIS
+            renderStatusPills(statuses || []);
+            renderServicesSection(services || []);
+
             if (projects && projects.length > 0) {
                 const gridContainer = document.getElementById('projects-grid');
                 gridContainer.innerHTML = initialStaticProjectsHTML;
@@ -646,7 +984,6 @@
                 });
             }
 
-            // 3. TECHNICAL ARSENAL (DENGAN INDIKATOR LEVEL)
             const arsenalContainer = document.getElementById('arsenal-container');
             if (arsenal && arsenal.length > 0) {
                 arsenalContainer.innerHTML = '';
@@ -718,7 +1055,6 @@
                 }
             }
 
-            // 4. EDUKASI
             if (edus && edus.length > 0) {
                 const eduContainer = document.getElementById('edu-container');
                 eduContainer.innerHTML = '';
@@ -744,7 +1080,6 @@
                 });
             }
 
-            // 5. SERTIFIKASI
             const certContainer = document.getElementById('cert-container');
             if (certs && certs.length > 0) {
                 certContainer.innerHTML = '';
@@ -768,12 +1103,11 @@
                 });
             }
 
-            // 6. GALLERY ALBUMS
             window.renderGallerySection(albums || []);
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
-            const CACHE_KEY = 'mz_portfolio_cache_v2';
+            const CACHE_KEY = 'mz_portfolio_cache_v3';
             const cachedRaw = localStorage.getItem(CACHE_KEY);
             if (cachedRaw) {
                 try { renderPortfolioData(JSON.parse(cachedRaw)); } catch (e) {}
@@ -786,17 +1120,21 @@
                     { data: arsenal },
                     { data: edus },
                     { data: certs },
-                    { data: albums }
+                    { data: albums },
+                    { data: statuses },
+                    { data: services }
                 ] = await Promise.all([
                     supabaseClient.from('profile').select('*').eq('id', 1).single(),
                     supabaseClient.from('projects').select('*').order('created_at', { ascending: true }),
                     supabaseClient.from('arsenal').select('*').order('id', { ascending: true }),
                     supabaseClient.from('education').select('*').order('id', { ascending: false }),
                     supabaseClient.from('certifications').select('*').order('id', { ascending: false }),
-                    supabaseClient.from('gallery_albums').select('*').order('created_at', { ascending: false })
+                    supabaseClient.from('gallery_albums').select('*').order('created_at', { ascending: false }),
+                    supabaseClient.from('statuses').select('*').order('created_at', { ascending: false }),
+                    supabaseClient.from('services').select('*').order('created_at', { ascending: false })
                 ]);
 
-                const freshPayload = { profile, projects, arsenal, edus, certs, albums };
+                const freshPayload = { profile, projects, arsenal, edus, certs, albums, statuses, services };
                 renderPortfolioData(freshPayload);
                 localStorage.setItem(CACHE_KEY, JSON.stringify(freshPayload));
             } catch (error) {
