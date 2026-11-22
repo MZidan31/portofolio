@@ -1,5 +1,14 @@
 {
+  "name": "portofolio-main",
+  "private": true,
+  "scripts": {
+    "dev": "serve docs -p 3000",
+    "start": "serve docs -p 3000"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
   }
 }

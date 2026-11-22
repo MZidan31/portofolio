@@ -2,69 +2,158 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel — Muhammad Zidan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Command Center — Muhammad Zidan</title>
+
+    <!-- PWA & Apple Native Meta -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0071E3" id="meta-theme-color">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MZ Admin">
+
+    <!-- Prevent Theme Flash Before Render -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('mz_spatial_theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = saved || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            if (theme === 'dark') document.documentElement.classList.add('dark');
+        })();
+    </script>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fonts, Icons, Quill & Supabase -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <!-- Quill Rich Text Editor -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
+        /* ==================== SPATIAL DESIGN TOKENS (LIGHT & OLED DARK) ==================== */
         :root {
-            --ios-bg: #F2F2F7;
-            --ios-card: #FFFFFF;
-            --ios-input: #F2F4F8;
-            --ios-blue: #0071E3;
-            --ios-green: #10B981;
-            --ios-red: #FF3B30;
-            --ios-text: #1D1D1F;
-            --ios-sub: #6E6E73;
+            --bg-canvas: #EEF1F6;
+            --surface-glass: rgba(255, 255, 255, 0.84);
+            --surface-solid: #FFFFFF;
+            --surface-elevated: #F4F6FA;
+            --text-primary: #111318;
+            --text-secondary: #4A4D55;
+            --text-muted: #7C808B;
+            --border-hairline: rgba(15, 23, 42, 0.08);
+            --accent-blue: #0071E3;
+            --accent-emerald: #10B981;
+            --accent-red: #FF3B30;
+            --card-shadow: 0 12px 32px -12px rgba(15, 23, 42, 0.07), 0 1px 2px rgba(15, 23, 42, 0.03);
         }
+
+        [data-theme="dark"] {
+            --bg-canvas: #06070A;
+            --surface-glass: rgba(18, 20, 27, 0.82);
+            --surface-solid: #101218;
+            --surface-elevated: #181B24;
+            --text-primary: #F5F5F7;
+            --text-secondary: #A1A1AA;
+            --text-muted: #71717A;
+            --border-hairline: rgba(255, 255, 255, 0.09);
+            --accent-blue: #2997FF;
+            --accent-emerald: #34D399;
+            --accent-red: #FF453A;
+            --card-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
-            background-color: var(--ios-bg);
-            color: var(--ios-text);
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
             -webkit-font-smoothing: antialiased;
+            transition: background-color 0.35s ease, color 0.35s ease;
         }
-        .ios-card {
-            background: var(--ios-card);
+
+        .spatial-mesh {
+            background-image:
+                linear-gradient(to right, rgba(120, 130, 155, 0.045) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(120, 130, 155, 0.045) 1px, transparent 1px),
+                radial-gradient(at 10% 4%, rgba(0, 113, 227, 0.10) 0px, transparent 48%),
+                radial-gradient(at 90% 12%, rgba(16, 185, 129, 0.09) 0px, transparent 48%);
+            background-size: 44px 44px, 44px 44px, 100% 100%, 100% 100%;
+        }
+        [data-theme="dark"] .spatial-mesh {
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                radial-gradient(at 12% 4%, rgba(41, 151, 255, 0.16) 0px, transparent 50%),
+                radial-gradient(at 88% 14%, rgba(52, 211, 153, 0.11) 0px, transparent 50%);
+            background-size: 44px 44px, 44px 44px, 100% 100%, 100% 100%;
+        }
+
+        .spatial-glass {
+            background: var(--surface-glass);
+            backdrop-filter: saturate(190%) blur(24px);
+            -webkit-backdrop-filter: saturate(190%) blur(24px);
+            border-color: var(--border-hairline);
+        }
+
+        .bento-card {
+            background: var(--surface-solid);
             border-radius: 26px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-            padding: 26px;
+            border: 1px solid var(--border-hairline);
+            box-shadow: var(--card-shadow);
+            padding: 24px;
+            transition: background-color 0.35s ease, border-color 0.3s ease;
         }
-        .ios-input {
+
+        .sub-panel {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border-hairline);
+            border-radius: 18px;
+        }
+
+        .spatial-input {
             width: 100%;
-            background: var(--ios-input);
-            border: 1px solid transparent;
-            border-radius: 14px;
-            padding: 11px 14px;
+            background: var(--surface-solid);
+            color: var(--text-primary);
+            border: 1px solid var(--border-hairline);
+            border-radius: 13px;
+            padding: 10px 13px;
             font-size: 13.5px;
-            color: var(--ios-text);
             transition: all 0.2s ease;
         }
-        .ios-input:focus {
+        .spatial-input:focus {
             outline: none;
-            background: #FFFFFF;
-            border-color: var(--ios-blue);
-            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.16);
         }
+
         .ios-label {
             display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--ios-sub);
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-secondary);
             margin-bottom: 6px;
         }
+
         .btn-primary {
-            background: var(--ios-blue);
+            background: var(--accent-blue);
             color: #FFF;
             font-weight: 600;
-            font-size: 13.5px;
-            padding: 11px 22px;
+            font-size: 13px;
+            padding: 10px 18px;
             border-radius: 999px;
             transition: all 0.2s ease;
             display: inline-flex;
@@ -73,525 +162,700 @@
             gap: 6px;
             cursor: pointer;
         }
-        .btn-primary:hover { background: #0077ED; transform: translateY(-1px); }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
         .btn-secondary {
-            background: #E5E7EB;
-            color: var(--ios-text);
+            background: var(--surface-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border-hairline);
             font-weight: 600;
-            font-size: 13px;
-            padding: 10px 18px;
+            font-size: 12.5px;
+            padding: 9px 15px;
             border-radius: 999px;
             transition: all 0.2s ease;
             cursor: pointer;
         }
-        .btn-secondary:hover { background: #D1D5DB; }
+        .btn-secondary:hover { border-color: var(--accent-blue); }
+
         .btn-danger {
-            background: rgba(255, 59, 48, 0.12);
-            color: var(--ios-red);
+            background: rgba(255, 59, 48, 0.14);
+            color: var(--accent-red);
             font-weight: 600;
             border-radius: 999px;
             transition: all 0.2s ease;
             cursor: pointer;
         }
-        .btn-danger:hover { background: var(--ios-red); color: #FFF; }
+        .btn-danger:hover { background: var(--accent-red); color: #FFF; }
+
         .btn-pill-sm {
             font-size: 11.5px;
             padding: 5px 12px;
             border-radius: 999px;
             font-weight: 600;
         }
-        .ql-toolbar.ql-snow {
-            border-top-left-radius: 14px;
-            border-top-right-radius: 14px;
-            border-color: rgba(0,0,0,0.08);
-            background: #F8F9FC;
+
+        /* Sidebar Navigation Items */
+        .sidebar-nav-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-align: left;
         }
-        .ql-container.ql-snow {
-            border-bottom-left-radius: 14px;
-            border-bottom-right-radius: 14px;
-            border-color: rgba(0,0,0,0.08);
-            min-height: 220px;
-            font-family: inherit;
-            font-size: 14px;
-            background: #FFF;
+        .sidebar-nav-btn:hover {
+            background: var(--surface-elevated);
+            color: var(--text-primary);
         }
-        .nav-pill-tab {
-            padding: 8px 16px;
+        .sidebar-nav-btn.active {
+            background: var(--accent-blue);
+            color: #FFFFFF;
+            box-shadow: 0 6px 18px rgba(0, 113, 227, 0.28);
+        }
+
+        /* Mobile Filter Pill */
+        .mobile-pill-tab {
+            padding: 7px 14px;
             border-radius: 999px;
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 600;
             white-space: nowrap;
             transition: all 0.2s ease;
             cursor: pointer;
         }
-        .nav-pill-tab.active {
-            background: #1D1D1F;
+        .mobile-pill-tab.active {
+            background: var(--accent-blue);
             color: #FFFFFF;
         }
-        .nav-pill-tab:not(.active) {
-            background: #FFFFFF;
-            color: #515154;
-            border: 1px solid rgba(0,0,0,0.06);
+        .mobile-pill-tab:not(.active) {
+            background: var(--surface-solid);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-hairline);
         }
-        .nav-pill-tab:not(.active):hover {
-            border-color: rgba(0, 113, 227, 0.35);
-            color: #0071E3;
+
+        /* Quill Dark & Light Adaptation */
+        .ql-toolbar.ql-snow {
+            border-top-left-radius: 13px;
+            border-top-right-radius: 13px;
+            border-color: var(--border-hairline) !important;
+            background: var(--surface-elevated);
+        }
+        .ql-container.ql-snow {
+            border-bottom-left-radius: 13px;
+            border-bottom-right-radius: 13px;
+            border-color: var(--border-hairline) !important;
+            min-height: 210px;
+            font-family: inherit;
+            font-size: 14px;
+            background: var(--surface-solid);
+            color: var(--text-primary);
+        }
+        [data-theme="dark"] .ql-snow .ql-stroke { stroke: #A1A1AA; }
+        [data-theme="dark"] .ql-snow .ql-fill { fill: #A1A1AA; }
+        [data-theme="dark"] .ql-snow .ql-picker { color: #A1A1AA; }
+        [data-theme="dark"] .ql-snow .ql-picker-options {
+            background-color: #181B24;
+            border-color: rgba(255,255,255,0.12);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* iOS Toast */
+        #ios-toast {
+            transform: translate(-50%, -120%);
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+        }
+        #ios-toast.show {
+            transform: translate(-50%, 0);
         }
     </style>
 </head>
-<body class="pb-24">
+<body class="spatial-mesh selection:bg-[#0071E3] selection:text-white">
+
+    <!-- ==================== iOS Dynamic Toast ==================== -->
+    <div id="ios-toast" class="fixed top-5 left-1/2 z-[200] opacity-0 pointer-events-none">
+        <div class="spatial-glass rounded-full px-5 py-2.5 flex items-center gap-2.5 shadow-2xl border">
+            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-sm"><i class='bx bx-check'></i></span>
+            <span id="toast-msg" class="text-xs font-semibold tracking-tight">Perubahan disimpan</span>
+        </div>
+    </div>
 
     <!-- ==================== LOGIN SCREEN ==================== -->
     <div id="login-screen" class="min-h-screen flex items-center justify-center p-5">
-        <div class="ios-card w-full max-w-md space-y-6 text-center">
-            <div class="w-14 h-14 rounded-2xl bg-blue-50 text-[#0071E3] flex items-center justify-center text-3xl mx-auto">
+        <div class="bento-card w-full max-w-md space-y-6 text-center">
+            <div class="flex justify-end">
+                <button type="button" onclick="toggleSpatialTheme()" title="Ganti Tema Terang / Gelap" class="w-9 h-9 rounded-full border flex items-center justify-center text-base transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                    <i id="login-theme-icon" class='bx bx-moon'></i>
+                </button>
+            </div>
+            <div class="w-14 h-14 rounded-2xl bg-blue-500/12 text-[#0071E3] dark:text-[#2997FF] flex items-center justify-center text-3xl mx-auto">
                 <i class='bx bxs-lock-alt'></i>
             </div>
             <div>
-                <h1 class="text-2xl font-extrabold tracking-tight">Portfolio Command Center</h1>
-                <p class="text-xs text-[#6E6E73] mt-1">Masuk menggunakan akun Supabase Admin untuk mengelola konten.</p>
+                <h1 class="text-2xl font-extrabold tracking-tight">Spatial Command Center</h1>
+                <p class="text-xs mt-1" style="color: var(--text-secondary);">Masuk menggunakan akun Supabase Admin untuk mengelola portofolio.</p>
             </div>
             <form onsubmit="handleAdminLogin(event)" class="space-y-4 text-left">
                 <div>
                     <label class="ios-label">Email Admin</label>
-                    <input type="email" id="login-email" required class="ios-input" placeholder="admin@email.com">
+                    <input type="email" id="login-email" required class="spatial-input" placeholder="admin@email.com">
                 </div>
                 <div>
                     <label class="ios-label">Password</label>
-                    <input type="password" id="login-pass" required class="ios-input" placeholder="••••••••">
+                    <input type="password" id="login-pass" required class="spatial-input" placeholder="••••••••">
                 </div>
-                <p id="login-error" class="hidden text-xs text-red-600 font-semibold"></p>
-                <button type="submit" id="btn-login" class="btn-primary w-full py-3">Masuk ke Dashboard</button>
+                <p id="login-error" class="hidden text-xs text-red-500 font-semibold"></p>
+                <button type="submit" id="btn-login" class="btn-primary w-full py-3">Masuk ke Workspace</button>
             </form>
-            <a href="./" class="inline-block text-xs text-[#0071E3] font-semibold hover:underline">&larr; Kembali ke Portofolio</a>
+            <a href="./" class="inline-block text-xs text-[#0071E3] dark:text-[#2997FF] font-semibold hover:underline">&larr; Kembali ke Portofolio</a>
         </div>
     </div>
 
-    <!-- ==================== ADMIN DASHBOARD ==================== -->
-    <div id="admin-dashboard" class="hidden">
-        <!-- Sticky Top Bar -->
-        <header class="sticky top-0 z-40 bg-white/85 backdrop-blur-xl border-b border-black/5 px-5 py-3.5">
-            <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                    <span class="w-3 h-3 rounded-full bg-[#10B981]"></span>
-                    <h1 class="font-extrabold text-base sm:text-lg tracking-tight">Zidan Admin CMS</h1>
+    <!-- ==================== SPLIT-SIDEBAR COMMAND CENTER ==================== -->
+    <div id="admin-dashboard" class="hidden min-h-screen flex flex-col lg:flex-row">
+
+        <!-- FIXED LEFT SIDEBAR (DESKTOP) -->
+        <aside class="hidden lg:flex lg:w-72 lg:flex-col lg:fixed lg:inset-y-0 border-r spatial-glass z-40 p-5 justify-between">
+            <div class="space-y-6 overflow-y-auto no-scrollbar">
+                <!-- Brand Header -->
+                <div class="flex items-center justify-between px-2 pt-1">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-3 h-3 rounded-full bg-gradient-to-tr from-[#0071E3] to-[#10B981] shadow-sm"></span>
+                        <div>
+                            <h1 class="font-extrabold text-sm tracking-tight leading-none">Zidan Spatial CMS</h1>
+                            <span class="text-[10px] font-mono opacity-60">COMMAND CENTER v2.0</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2.5">
-                    <a href="./" target="_blank" class="btn-secondary text-xs inline-flex items-center gap-1.5">
-                        <i class='bx bx-link-external'></i> Lihat Web
-                    </a>
-                    <button type="button" onclick="handleAdminLogout()" class="btn-danger btn-pill-sm px-4 py-2">
-                        Logout
+
+                <!-- Navigation Menu -->
+                <nav class="space-y-1">
+                    <p class="px-3 text-[10px] font-bold uppercase tracking-wider mb-2" style="color: var(--text-muted);">Workspace Modules</p>
+
+                    <button type="button" onclick="switchAdminTab('ALL')" data-target="ALL" class="sidebar-nav-btn active">
+                        <span class="flex items-center gap-2.5"><i class='bx bxs-grid-alt text-lg'></i> Semua Modul</span>
                     </button>
+
+                    <button type="button" onclick="switchAdminTab('sec-inquiries')" data-target="sec-inquiries" class="sidebar-nav-btn">
+                        <span class="flex items-center gap-2.5"><i class='bx bxs-inbox text-lg'></i> Inbox Pengajuan</span>
+                        <span id="sidebar-unread-badge" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/20 text-emerald-600 dark:text-emerald-300">0</span>
+                    </button>
+
+                    <button type="button" onclick="switchAdminTab('sec-status')" data-target="sec-status" class="sidebar-nav-btn">
+                        <span class="flex items-center gap-2.5"><i class='bx bxs-badge-check text-lg'></i> Status &amp; Badge</span>
+                    </button>
+
+                    <button type="button" onclick="switchAdminTab('sec-services')" data-target="sec-services" class="sidebar-nav-btn">
+                        <span class="flex items-center gap-2.5"><i class='bx bxs-briefcase-alt-2 text-lg'></i> Services &amp; Pricing</span>
+                    </button>
+
+                    <button type="button" onclick="switchAdminTab('sec-profile')" data-target="sec-profile" class="sidebar-nav-btn">
+                        <span class="flex items-center gap-2.5"><i class='bx bxs-user-detail text-lg'></i> Profil &amp; Hero</span>
+                    </button>
+
+                    <button type="button" onclick="switchAdminTab('sec-projects')" data-target="sec-projects" class="sidebar-nav-btn">
+                        <span class="flex items-center gap-2.5"><i class='bx bxs-folder-open text-lg'></i> Proyek &amp; Studi Kasus</span>
+                    </button>
+
+                    <button type="button" onclick="switchAdminTab('sec-arsenal')" data-target="sec-arsenal" class="sidebar-nav-btn">
+                        <span class="flex items-center gap-2.5"><i class='bx bx-code-block text-lg'></i> Technical Arsenal</span>
+                    </button>
+
+                    <button type="button" onclick="switchAdminTab('sec-edu-cert')" data-target="sec-edu-cert" class="sidebar-nav-btn">
+                        <span class="flex items-center gap-2.5"><i class='bx bxs-graduation text-lg'></i> Pendidikan &amp; Sertifikasi</span>
+                    </button>
+
+                    <button type="button" onclick="switchAdminTab('sec-gallery')" data-target="sec-gallery" class="sidebar-nav-btn">
+                        <span class="flex items-center gap-2.5"><i class='bx bxs-photo-album text-lg'></i> Galeri Album</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Sidebar Bottom Utilities -->
+            <div class="pt-4 border-t space-y-2.5" style="border-color: var(--border-hairline);">
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="toggleSpatialTheme()" title="Ganti Tema" class="flex-1 h-9 rounded-xl border flex items-center justify-center gap-2 text-xs font-semibold transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <i id="theme-toggle-icon" class='bx bx-moon text-base'></i> <span id="theme-toggle-label">Tema</span>
+                    </button>
+                    <a href="./" target="_blank" class="flex-1 h-9 rounded-xl border flex items-center justify-center gap-1.5 text-xs font-semibold transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <i class='bx bx-link-external text-sm'></i> Lihat Web
+                    </a>
+                </div>
+
+                <button type="button" id="pwa-install-btn" onclick="triggerPwaInstall()" class="hidden w-full h-9 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-xs font-bold items-center justify-center gap-1.5 transition hover:bg-emerald-500/25">
+                    <i class='bx bx-download text-base'></i> Install Admin App
+                </button>
+
+                <button type="button" onclick="handleAdminLogout()" class="w-full btn-danger py-2.5 text-xs flex items-center justify-center gap-1.5">
+                    <i class='bx bx-log-out text-base'></i> Logout Session
+                </button>
+            </div>
+        </aside>
+
+        <!-- MOBILE TOP HEADER + HORIZONTAL PILL TABS -->
+        <header class="lg:hidden sticky top-0 z-40 spatial-glass border-b px-4 py-3">
+            <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-[#0071E3] to-[#10B981]"></span>
+                    <h1 class="font-extrabold text-sm tracking-tight">Zidan Spatial CMS</h1>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <button type="button" onclick="toggleSpatialTheme()" class="w-8 h-8 rounded-full border flex items-center justify-center text-sm" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <i id="mobile-theme-icon" class='bx bx-moon'></i>
+                    </button>
+                    <a href="./" target="_blank" class="btn-secondary text-[11px] py-1.5 px-3">Web</a>
+                    <button type="button" onclick="handleAdminLogout()" class="btn-danger text-[11px] py-1.5 px-3">Logout</button>
                 </div>
             </div>
 
-            <!-- Filter Navigation Pills (Specific Section vs Semua) -->
-            <div class="max-w-6xl mx-auto mt-3 flex gap-2 overflow-x-auto pb-1">
-                <button type="button" onclick="switchAdminTab('ALL')" data-target="ALL" class="nav-pill-tab active">Semua</button>
-                <button type="button" onclick="switchAdminTab('sec-inquiries')" data-target="sec-inquiries" class="nav-pill-tab" id="tab-inbox-pill">Inbox Pengajuan (<span id="unread-badge-count">0</span>)</button>
-                <button type="button" onclick="switchAdminTab('sec-status')" data-target="sec-status" class="nav-pill-tab">Status & Availability</button>
-                <button type="button" onclick="switchAdminTab('sec-services')" data-target="sec-services" class="nav-pill-tab">Services & Pricing</button>
-                <button type="button" onclick="switchAdminTab('sec-profile')" data-target="sec-profile" class="nav-pill-tab">Profil & Hero</button>
-                <button type="button" onclick="switchAdminTab('sec-projects')" data-target="sec-projects" class="nav-pill-tab">Proyek & Studi Kasus</button>
-                <button type="button" onclick="switchAdminTab('sec-arsenal')" data-target="sec-arsenal" class="nav-pill-tab">Technical Arsenal</button>
-                <button type="button" onclick="switchAdminTab('sec-edu-cert')" data-target="sec-edu-cert" class="nav-pill-tab">Pendidikan & Sertifikasi</button>
-                <button type="button" onclick="switchAdminTab('sec-gallery')" data-target="sec-gallery" class="nav-pill-tab">Galeri Album</button>
+            <div class="mt-2.5 flex gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
+                <button type="button" onclick="switchAdminTab('ALL')" data-target="ALL" class="mobile-pill-tab active">Semua</button>
+                <button type="button" onclick="switchAdminTab('sec-inquiries')" data-target="sec-inquiries" class="mobile-pill-tab">Inbox (<span id="unread-badge-count">0</span>)</button>
+                <button type="button" onclick="switchAdminTab('sec-status')" data-target="sec-status" class="mobile-pill-tab">Status</button>
+                <button type="button" onclick="switchAdminTab('sec-services')" data-target="sec-services" class="mobile-pill-tab">Services</button>
+                <button type="button" onclick="switchAdminTab('sec-profile')" data-target="sec-profile" class="mobile-pill-tab">Profil</button>
+                <button type="button" onclick="switchAdminTab('sec-projects')" data-target="sec-projects" class="mobile-pill-tab">Proyek</button>
+                <button type="button" onclick="switchAdminTab('sec-arsenal')" data-target="sec-arsenal" class="mobile-pill-tab">Arsenal</button>
+                <button type="button" onclick="switchAdminTab('sec-edu-cert')" data-target="sec-edu-cert" class="mobile-pill-tab">Edu &amp; Cert</button>
+                <button type="button" onclick="switchAdminTab('sec-gallery')" data-target="sec-gallery" class="mobile-pill-tab">Galeri</button>
             </div>
         </header>
 
-        <main class="max-w-6xl mx-auto px-5 pt-8 space-y-10">
+        <!-- MAIN WORKSPACE AREA (RIGHT SIDE) -->
+        <main class="flex-1 lg:pl-72">
+            <div class="max-w-5xl mx-auto px-4 sm:px-8 pt-6 pb-24 space-y-7">
 
-            <!-- ==================== 1. VISITOR INQUIRIES INBOX ==================== -->
-            <section id="sec-inquiries" data-admin-section class="ios-card space-y-5">
-                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-black/5 pb-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-[#10B981] flex items-center justify-center text-xl">
-                            <i class='bx bxs-inbox'></i>
+                <!-- TOP LIVE TELEMETRY SUMMARY CARDS -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                    <div onclick="switchAdminTab('sec-inquiries')" class="bento-card p-4 cursor-pointer hover:border-[#0071E3] transition">
+                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Unread Inbox</span>
+                        <div class="flex items-center justify-between mt-1">
+                            <span id="stat-unread" class="text-2xl font-extrabold text-emerald-500">0</span>
+                            <i class='bx bxs-inbox text-xl text-emerald-500/70'></i>
                         </div>
-                        <div>
-                            <h2 class="text-lg font-bold tracking-tight">Kotak Masuk Kolaborasi & Permintaan Layanan</h2>
-                            <p class="text-xs text-[#6E6E73]">Pengajuan proyek atau layanan khusus yang dikirim pengunjung dari landing page.</p>
+                    </div>
+                    <div onclick="switchAdminTab('sec-projects')" class="bento-card p-4 cursor-pointer hover:border-[#0071E3] transition">
+                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">DB Projects</span>
+                        <div class="flex items-center justify-between mt-1">
+                            <span id="stat-projects" class="text-2xl font-extrabold text-[#0071E3] dark:text-[#2997FF]">0</span>
+                            <i class='bx bxs-folder-open text-xl text-[#0071E3]/70'></i>
                         </div>
                     </div>
-                    <button type="button" onclick="loadAllAdminData()" class="btn-secondary text-xs"><i class='bx bx-refresh'></i> Refresh</button>
-                </div>
-
-                <div id="admin-inquiries-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <p class="text-xs text-[#6E6E73]">Memuat pesan masuk...</p>
-                </div>
-            </section>
-
-            <!-- ==================== 2. STATUS & AVAILABILITY MANAGER ==================== -->
-            <section id="sec-status" data-admin-section class="ios-card space-y-6">
-                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
-                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0071E3] flex items-center justify-center text-xl">
-                        <i class='bx bxs-badge-check'></i>
+                    <div onclick="switchAdminTab('sec-services')" class="bento-card p-4 cursor-pointer hover:border-[#0071E3] transition">
+                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Open Services</span>
+                        <div class="flex items-center justify-between mt-1">
+                            <span id="stat-services" class="text-2xl font-extrabold">0</span>
+                            <i class='bx bxs-briefcase-alt-2 text-xl text-indigo-500/70'></i>
+                        </div>
                     </div>
-                    <div>
-                        <h2 class="text-lg font-bold tracking-tight">Status Aktif & Availability Badge (Hero Pill)</h2>
-                        <p class="text-xs text-[#6E6E73]">Tampilkan status seperti Open to Work, sedang bekerja di perusahaan, atau status akademik di bagian atas Hero.</p>
-                    </div>
-                </div>
-
-                <form id="status-form" onsubmit="saveStatus(event)" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end bg-[#F8F9FC] p-5 rounded-2xl">
-                    <input type="hidden" id="st-id">
-                    <div class="md:col-span-3">
-                        <label class="ios-label">Tipe Badge</label>
-                        <select id="st-type" class="ios-input bg-white">
-                            <option value="open_to_work">Open to Work (Hijau Pulse)</option>
-                            <option value="working">Working / Bekerja (Koper)</option>
-                            <option value="student">Mahasiswa / Akademik (Toga)</option>
-                            <option value="freelance">Freelance / Remote (Laptop)</option>
-                        </select>
-                    </div>
-                    <div class="md:col-span-4">
-                        <label class="ios-label">Label Status / Posisi *</label>
-                        <input type="text" id="st-title" required placeholder="Cth: Open to Work / Data Analyst" class="ios-input bg-white">
-                    </div>
-                    <div class="md:col-span-3">
-                        <label class="ios-label">Perusahaan / Kampus (Opsional)</label>
-                        <input type="text" id="st-org" placeholder="Cth: PT Astra / STT-NF" class="ios-input bg-white">
-                    </div>
-                    <div class="md:col-span-2 flex items-center gap-2">
-                        <label class="inline-flex items-center gap-2 text-xs font-semibold cursor-pointer">
-                            <input type="checkbox" id="st-active" checked class="w-4 h-4 accent-[#0071E3]"> Tampilkan
-                        </label>
-                    </div>
-                    <div class="md:col-span-12 flex gap-2">
-                        <button type="submit" id="btn-save-status" class="btn-primary">Simpan Status</button>
-                        <button type="button" id="btn-cancel-status" onclick="resetStatusForm()" class="hidden btn-secondary">Batal Edit</button>
-                    </div>
-                </form>
-
-                <div id="admin-status-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
-            </section>
-
-            <!-- ==================== 3. SERVICES & PRICING MANAGER ==================== -->
-            <section id="sec-services" data-admin-section class="ios-card space-y-6">
-                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
-                    <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
-                        <i class='bx bxs-briefcase-alt-2'></i>
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-bold tracking-tight">Layanan & Jasa (Services & Offerings)</h2>
-                        <p class="text-xs text-[#6E6E73]">Kelola kartu layanan terbuka/tertutup, opsi harga Nett/Negotiable/Contact Pricelist, serta detail deliverables.</p>
+                    <div onclick="switchAdminTab('sec-arsenal')" class="bento-card p-4 cursor-pointer hover:border-[#0071E3] transition">
+                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Arsenal Skills</span>
+                        <div class="flex items-center justify-between mt-1">
+                            <span id="stat-skills" class="text-2xl font-extrabold">0</span>
+                            <i class='bx bx-code-block text-xl text-amber-500/70'></i>
+                        </div>
                     </div>
                 </div>
 
-                <form id="service-form" onsubmit="saveService(event)" class="space-y-4 bg-[#F8F9FC] p-5 rounded-2xl">
-                    <input type="hidden" id="srv-id">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="ios-label">Nama Layanan *</label>
-                            <input type="text" id="srv-title" required placeholder="Cth: Data Cleaning & Dashboarding" class="ios-input bg-white">
+                <!-- ==================== 1. VISITOR INQUIRIES INBOX ==================== -->
+                <section id="sec-inquiries" data-admin-section class="bento-card space-y-5">
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b pb-4" style="border-color: var(--border-hairline);">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/12 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl">
+                                <i class='bx bxs-inbox'></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-bold tracking-tight">Kotak Masuk Kolaborasi &amp; Permintaan Layanan</h2>
+                                <p class="text-xs" style="color: var(--text-secondary);">Pengajuan proyek atau layanan khusus yang dikirim pengunjung dari landing page.</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="loadAllAdminData(true)" class="btn-secondary text-xs inline-flex items-center gap-1"><i class='bx bx-refresh text-base'></i> Refresh</button>
+                    </div>
+
+                    <div id="admin-inquiries-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <p class="text-xs" style="color: var(--text-secondary);">Memuat pesan masuk...</p>
+                    </div>
+                </section>
+
+                <!-- ==================== 2. STATUS & AVAILABILITY MANAGER ==================== -->
+                <section id="sec-status" data-admin-section class="bento-card space-y-6">
+                    <div class="flex items-center gap-3 border-b pb-4" style="border-color: var(--border-hairline);">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/12 text-[#0071E3] dark:text-[#2997FF] flex items-center justify-center text-xl">
+                            <i class='bx bxs-badge-check'></i>
                         </div>
                         <div>
-                            <label class="ios-label">Badge Kategori *</label>
-                            <input type="text" id="srv-badge" required placeholder="Cth: Freelance / Remote Data Entry" class="ios-input bg-white">
+                            <h2 class="text-lg font-bold tracking-tight">Status Aktif &amp; Availability Badge (Hero Pill)</h2>
+                            <p class="text-xs" style="color: var(--text-secondary);">Tampilkan status seperti Open to Work, sedang bekerja di perusahaan, atau status akademik di bagian atas Hero.</p>
                         </div>
-                        <div>
-                            <label class="ios-label">Status Ketersediaan *</label>
-                            <select id="srv-status" class="ios-input bg-white">
-                                <option value="open">OPEN (Tersedia & Bisa Dipesan)</option>
-                                <option value="closed">CLOSED (Penuh / Hubungi untuk Pricelist)</option>
+                    </div>
+
+                    <form id="status-form" onsubmit="saveStatus(event)" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end sub-panel p-5">
+                        <input type="hidden" id="st-id">
+                        <div class="md:col-span-3">
+                            <label class="ios-label">Tipe Badge</label>
+                            <select id="st-type" class="spatial-input">
+                                <option value="open_to_work">Open to Work (Hijau Pulse)</option>
+                                <option value="working">Working / Bekerja (Koper)</option>
+                                <option value="student">Mahasiswa / Akademik (Toga)</option>
+                                <option value="freelance">Freelance / Remote (Laptop)</option>
                             </select>
                         </div>
+                        <div class="md:col-span-4">
+                            <label class="ios-label">Label Status / Posisi *</label>
+                            <input type="text" id="st-title" required placeholder="Cth: Open to Work / Data Analyst" class="spatial-input">
+                        </div>
+                        <div class="md:col-span-3">
+                            <label class="ios-label">Perusahaan / Kampus (Opsional)</label>
+                            <input type="text" id="st-org" placeholder="Cth: PT Astra / STT-NF" class="spatial-input">
+                        </div>
+                        <div class="md:col-span-2 flex items-center gap-2 pb-2">
+                            <label class="inline-flex items-center gap-2 text-xs font-semibold cursor-pointer">
+                                <input type="checkbox" id="st-active" checked class="w-4 h-4 accent-[#0071E3]"> Tampilkan
+                            </label>
+                        </div>
+                        <div class="md:col-span-12 flex gap-2">
+                            <button type="submit" id="btn-save-status" class="btn-primary">Simpan Status</button>
+                            <button type="button" id="btn-cancel-status" onclick="resetStatusForm()" class="hidden btn-secondary">Batal Edit</button>
+                        </div>
+                    </form>
+
+                    <div id="admin-status-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+                </section>
+
+                <!-- ==================== 3. SERVICES & PRICING MANAGER ==================== -->
+                <section id="sec-services" data-admin-section class="bento-card space-y-6">
+                    <div class="flex items-center gap-3 border-b pb-4" style="border-color: var(--border-hairline);">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/12 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl">
+                            <i class='bx bxs-briefcase-alt-2'></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold tracking-tight">Layanan &amp; Jasa (Services &amp; Offerings)</h2>
+                            <p class="text-xs" style="color: var(--text-secondary);">Kelola kartu layanan terbuka/tertutup, opsi harga Nett/Negotiable/Contact Pricelist, serta detail deliverables.</p>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <form id="service-form" onsubmit="saveService(event)" class="space-y-4 sub-panel p-5">
+                        <input type="hidden" id="srv-id">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="ios-label">Nama Layanan *</label>
+                                <input type="text" id="srv-title" required placeholder="Cth: Data Cleaning & Dashboarding" class="spatial-input">
+                            </div>
+                            <div>
+                                <label class="ios-label">Badge Kategori *</label>
+                                <input type="text" id="srv-badge" required placeholder="Cth: Freelance / Remote Data Entry" class="spatial-input">
+                            </div>
+                            <div>
+                                <label class="ios-label">Status Ketersediaan *</label>
+                                <select id="srv-status" class="spatial-input">
+                                    <option value="open">OPEN (Tersedia &amp; Bisa Dipesan)</option>
+                                    <option value="closed">CLOSED (Penuh / Hubungi untuk Pricelist)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="ios-label">Skema Harga *</label>
+                                <select id="srv-pricing-type" onchange="togglePriceInput()" class="spatial-input">
+                                    <option value="negotiable">Negotiable (Bisa Nego)</option>
+                                    <option value="nett">Nett (Harga Pas / Fixed)</option>
+                                    <option value="contact">Contact for Pricelist (Harga Privat / Closed)</option>
+                                </select>
+                            </div>
+                            <div id="srv-price-label-wrap">
+                                <label class="ios-label">Nominal / Rentang Harga</label>
+                                <input type="text" id="srv-price-label" placeholder="Cth: Mulai Rp 350.000 / per proyek" class="spatial-input">
+                            </div>
+                        </div>
+
                         <div>
-                            <label class="ios-label">Skema Harga *</label>
-                            <select id="srv-pricing-type" onchange="togglePriceInput()" class="ios-input bg-white">
-                                <option value="negotiable">Negotiable (Bisa Nego)</option>
-                                <option value="nett">Nett (Harga Pas / Fixed)</option>
-                                <option value="contact">Contact for Pricelist (Harga Privat / Closed)</option>
+                            <label class="ios-label">Ringkasan Singkat (Tampil di Kartu Depan) *</label>
+                            <input type="text" id="srv-short-desc" required placeholder="Cth: Pengolahan data Excel/CSV, pembersihan anomali, dan pembuatan laporan visual interaktif." class="spatial-input">
+                        </div>
+
+                        <div>
+                            <label class="ios-label">Detail Ruang Lingkup &amp; Deliverables (Tampil saat Kartu Diklik)</label>
+                            <textarea id="srv-full-details" rows="4" placeholder="Tuliskan poin-poin apa saja yang klien dapatkan, estimasi pengerjaan, dan alur kerja..." class="spatial-input"></textarea>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button type="submit" id="btn-save-service" class="btn-primary">Simpan Layanan</button>
+                            <button type="button" id="btn-cancel-service" onclick="resetServiceForm()" class="hidden btn-secondary">Batal Edit</button>
+                        </div>
+                    </form>
+
+                    <div id="admin-services-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                </section>
+
+                <!-- ==================== 4. PROFILE & HERO ==================== -->
+                <section id="sec-profile" data-admin-section class="bento-card space-y-6">
+                    <div class="flex items-center gap-3 border-b pb-4" style="border-color: var(--border-hairline);">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/12 text-[#0071E3] dark:text-[#2997FF] flex items-center justify-center text-xl">
+                            <i class='bx bxs-user-detail'></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold tracking-tight">Profil Utama, Hero &amp; Kontak Footer</h2>
+                            <p class="text-xs" style="color: var(--text-secondary);">Atur headline, foto profil, tautan CV, serta nomor WhatsApp yang terhubung ke seluruh tombol.</p>
+                        </div>
+                    </div>
+
+                    <form onsubmit="saveProfile(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="ios-label">Badge Atas Hero</label>
+                                <input type="text" id="prof-badge" class="spatial-input" placeholder="DATA ANALYST • INFORMATICS GRADUATE">
+                            </div>
+                            <div>
+                                <label class="ios-label">Headline Utama (Mendukung HTML &lt;span&gt;)</label>
+                                <input type="text" id="prof-headline" class="spatial-input">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="ios-label">Ringkasan Profil (Hero Summary)</label>
+                            <textarea id="prof-summary" rows="3" class="spatial-input"></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="ios-label">URL Foto Profil (atau Upload Baru)</label>
+                                <input type="text" id="prof-photo" class="spatial-input mb-2">
+                                <input type="file" accept="image/*" onchange="uploadSingleAsset(this, 'prof-photo')" class="text-xs">
+                            </div>
+                            <div>
+                                <label class="ios-label">URL File CV / Resume PDF (atau Upload Baru)</label>
+                                <input type="text" id="prof-cv" class="spatial-input mb-2">
+                                <input type="file" accept=".pdf,image/*" onchange="uploadSingleAsset(this, 'prof-cv')" class="text-xs">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-3 border-t" style="border-color: var(--border-hairline);">
+                            <div>
+                                <label class="ios-label">Link WhatsApp (Format: https://wa.me/628xxx)</label>
+                                <input type="text" id="prof-wa" class="spatial-input" placeholder="https://wa.me/62812xxxxxxx">
+                            </div>
+                            <div>
+                                <label class="ios-label">Link LinkedIn</label>
+                                <input type="text" id="prof-linkedin" class="spatial-input">
+                            </div>
+                            <div>
+                                <label class="ios-label">Email Kontak</label>
+                                <input type="email" id="prof-email" class="spatial-input">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="ios-label">Judul Footer CTA</label>
+                                <input type="text" id="prof-footer-title" class="spatial-input">
+                            </div>
+                            <div>
+                                <label class="ios-label">Subjudul Footer CTA</label>
+                                <input type="text" id="prof-footer-sub" class="spatial-input">
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btn-save-prof" class="btn-primary">Simpan Perubahan Profil</button>
+                    </form>
+                </section>
+
+                <!-- ==================== 5. PROJECTS & CASE STUDIES ==================== -->
+                <section id="sec-projects" data-admin-section class="bento-card space-y-6">
+                    <div class="flex items-center gap-3 border-b pb-4" style="border-color: var(--border-hairline);">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/12 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl">
+                            <i class='bx bxs-folder-open'></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold tracking-tight">Studi Kasus &amp; Proyek</h2>
+                            <p class="text-xs" style="color: var(--text-secondary);">Tambah atau edit proyek lengkap dengan galeri gambar dan caption per foto.</p>
+                        </div>
+                    </div>
+
+                    <form id="project-form" onsubmit="saveProject(event)" class="space-y-4 sub-panel p-5">
+                        <input type="hidden" id="proj-id">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="ios-label">Judul Proyek *</label>
+                                <input type="text" id="proj-title" required class="spatial-input">
+                            </div>
+                            <div>
+                                <label class="ios-label">Link Repository / Live Demo (Opsional)</label>
+                                <input type="text" id="proj-repo" class="spatial-input" placeholder="https://github.com/...">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="ios-label">Ringkasan Singkat (Tampil di Kartu Depan) *</label>
+                            <textarea id="proj-desc" rows="2" required class="spatial-input"></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="ios-label">Cover Image Proyek (URL atau Upload)</label>
+                                <input type="text" id="proj-cover" class="spatial-input mb-2">
+                                <input type="file" accept="image/*" onchange="uploadSingleAsset(this, 'proj-cover')" class="text-xs">
+                            </div>
+                            <div>
+                                <label class="ios-label">Upload Gambar Dokumentasi Tambahan (Bisa Banyak)</label>
+                                <input type="file" accept="image/*" multiple onchange="uploadProjectGalleryFiles(this)" class="text-xs">
+                                <div id="proj-gallery-preview" class="flex flex-col gap-2 mt-2"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="ios-label">Konten Studi Kasus Lengkap</label>
+                            <div id="quill-editor"></div>
+                        </div>
+
+                        <div class="flex gap-2 pt-2">
+                            <button type="submit" id="btn-save-proj" class="btn-primary">Simpan Proyek</button>
+                            <button type="button" id="btn-cancel-proj" onclick="resetProjectForm()" class="hidden btn-secondary">Batal Edit</button>
+                        </div>
+                    </form>
+
+                    <div id="admin-projects-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                </section>
+
+                <!-- ==================== 6. TECHNICAL ARSENAL ==================== -->
+                <section id="sec-arsenal" data-admin-section class="bento-card space-y-6">
+                    <div class="flex items-center gap-3 border-b pb-4" style="border-color: var(--border-hairline);">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/12 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl">
+                            <i class='bx bx-code-block'></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold tracking-tight">Technical Arsenal &amp; Skills</h2>
+                            <p class="text-xs" style="color: var(--text-secondary);">Kelola keahlian berdasarkan kategori dan tingkat penguasaan. Klik tombol Edit pada skill untuk mengubahnya.</p>
+                        </div>
+                    </div>
+
+                    <form id="skill-form" onsubmit="saveSkill(event)" class="grid grid-cols-1 md:grid-cols-4 gap-3 items-end sub-panel p-4">
+                        <input type="hidden" id="skill-id">
+                        <div>
+                            <label class="ios-label">Kategori *</label>
+                            <input type="text" id="skill-cat" required placeholder="Cth: Data Analytics & BI" class="spatial-input">
+                        </div>
+                        <div>
+                            <label class="ios-label">Nama Skill / Tools *</label>
+                            <input type="text" id="skill-name" required placeholder="Cth: Python (Pandas)" class="spatial-input">
+                        </div>
+                        <div>
+                            <label class="ios-label">Tingkat Penguasaan</label>
+                            <select id="skill-level" class="spatial-input">
+                                <option value="Advanced">Core / Advanced (3 Titik)</option>
+                                <option value="Intermediate">Proficient / Intermediate (2 Titik)</option>
+                                <option value="Familiar">Familiar (1 Titik)</option>
                             </select>
                         </div>
-                        <div id="srv-price-label-wrap">
-                            <label class="ios-label">Nominal / Rentang Harga</label>
-                            <input type="text" id="srv-price-label" placeholder="Cth: Mulai Rp 350.000 / per proyek" class="ios-input bg-white">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="ios-label">Ringkasan Singkat (Tampil di Kartu Depan) *</label>
-                        <input type="text" id="srv-short-desc" required placeholder="Cth: Pengolahan data Excel/CSV, pembersihan anomali, dan pembuatan laporan visual interaktif." class="ios-input bg-white">
-                    </div>
-
-                    <div>
-                        <label class="ios-label">Detail Ruang Lingkup & Deliverables (Tampil saat Kartu Diklik)</label>
-                        <textarea id="srv-full-details" rows="4" placeholder="Tuliskan poin-poin apa saja yang klien dapatkan, estimasi pengerjaan, dan alur kerja..." class="ios-input bg-white"></textarea>
-                    </div>
-
-                    <div class="flex gap-2">
-                        <button type="submit" id="btn-save-service" class="btn-primary">Simpan Layanan</button>
-                        <button type="button" id="btn-cancel-service" onclick="resetServiceForm()" class="hidden btn-secondary">Batal Edit</button>
-                    </div>
-                </form>
-
-                <div id="admin-services-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            </section>
-
-            <!-- ==================== 4. PROFILE & HERO ==================== -->
-            <section id="sec-profile" data-admin-section class="ios-card space-y-6">
-                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
-                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#0071E3] flex items-center justify-center text-xl">
-                        <i class='bx bxs-user-detail'></i>
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-bold tracking-tight">Profil Utama, Hero & Kontak Footer</h2>
-                        <p class="text-xs text-[#6E6E73]">Atur headline, foto profil, tautan CV, serta nomor WhatsApp yang terhubung ke seluruh tombol.</p>
-                    </div>
-                </div>
-
-                <form onsubmit="saveProfile(event)" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="ios-label">Badge Atas Hero</label>
-                            <input type="text" id="prof-badge" class="ios-input" placeholder="DATA ANALYST • INFORMATICS GRADUATE">
-                        </div>
-                        <div>
-                            <label class="ios-label">Headline Utama (Mendukung HTML &lt;span&gt;)</label>
-                            <input type="text" id="prof-headline" class="ios-input">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="ios-label">Ringkasan Profil (Hero Summary)</label>
-                        <textarea id="prof-summary" rows="3" class="ios-input"></textarea>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="ios-label">URL Foto Profil (atau Upload Baru)</label>
-                            <input type="text" id="prof-photo" class="ios-input mb-2">
-                            <input type="file" accept="image/*" onchange="uploadSingleAsset(this, 'prof-photo')" class="text-xs">
-                        </div>
-                        <div>
-                            <label class="ios-label">URL File CV / Resume PDF (atau Upload Baru)</label>
-                            <input type="text" id="prof-cv" class="ios-input mb-2">
-                            <input type="file" accept=".pdf,image/*" onchange="uploadSingleAsset(this, 'prof-cv')" class="text-xs">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 border-t border-black/5">
-                        <div>
-                            <label class="ios-label">Link WhatsApp (Format: https://wa.me/628xxx)</label>
-                            <input type="text" id="prof-wa" class="ios-input" placeholder="https://wa.me/62812xxxxxxx">
-                        </div>
-                        <div>
-                            <label class="ios-label">Link LinkedIn</label>
-                            <input type="text" id="prof-linkedin" class="ios-input">
-                        </div>
-                        <div>
-                            <label class="ios-label">Email Kontak</label>
-                            <input type="email" id="prof-email" class="ios-input">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="ios-label">Judul Footer CTA</label>
-                            <input type="text" id="prof-footer-title" class="ios-input">
-                        </div>
-                        <div>
-                            <label class="ios-label">Subjudul Footer CTA</label>
-                            <input type="text" id="prof-footer-sub" class="ios-input">
-                        </div>
-                    </div>
-
-                    <button type="submit" id="btn-save-prof" class="btn-primary">Simpan Perubahan Profil</button>
-                </form>
-            </section>
-
-            <!-- ==================== 5. PROJECTS & CASE STUDIES ==================== -->
-            <section id="sec-projects" data-admin-section class="ios-card space-y-6">
-                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-[#10B981] flex items-center justify-center text-xl">
-                        <i class='bx bxs-folder-open'></i>
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-bold tracking-tight">Studi Kasus & Proyek</h2>
-                        <p class="text-xs text-[#6E6E73]">Tambah atau edit proyek lengkap dengan galeri gambar dan caption per foto.</p>
-                    </div>
-                </div>
-
-                <form id="project-form" onsubmit="saveProject(event)" class="space-y-4 bg-[#F8F9FC] p-5 rounded-2xl">
-                    <input type="hidden" id="proj-id">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="ios-label">Judul Proyek *</label>
-                            <input type="text" id="proj-title" required class="ios-input bg-white">
-                        </div>
-                        <div>
-                            <label class="ios-label">Link Repository / Live Demo (Opsional)</label>
-                            <input type="text" id="proj-repo" class="ios-input bg-white" placeholder="https://github.com/...">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="ios-label">Ringkasan Singkat (Tampil di Kartu Depan) *</label>
-                        <textarea id="proj-desc" rows="2" required class="ios-input bg-white"></textarea>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="ios-label">Cover Image Proyek (URL atau Upload)</label>
-                            <input type="text" id="proj-cover" class="ios-input bg-white mb-2">
-                            <input type="file" accept="image/*" onchange="uploadSingleAsset(this, 'proj-cover')" class="text-xs">
-                        </div>
-                        <div>
-                            <label class="ios-label">Upload Gambar Dokumentasi Tambahan (Bisa Banyak)</label>
-                            <input type="file" accept="image/*" multiple onchange="uploadProjectGalleryFiles(this)" class="text-xs">
-                            <div id="proj-gallery-preview" class="flex flex-col gap-2 mt-2"></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="ios-label">Konten Studi Kasus Lengkap</label>
-                        <div id="quill-editor"></div>
-                    </div>
-
-                    <div class="flex gap-2 pt-2">
-                        <button type="submit" id="btn-save-proj" class="btn-primary">Simpan Proyek</button>
-                        <button type="button" id="btn-cancel-proj" onclick="resetProjectForm()" class="hidden btn-secondary">Batal Edit</button>
-                    </div>
-                </form>
-
-                <div id="admin-projects-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            </section>
-
-            <!-- ==================== 6. TECHNICAL ARSENAL ==================== -->
-            <section id="sec-arsenal" data-admin-section class="ios-card space-y-6">
-                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
-                    <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
-                        <i class='bx bx-code-block'></i>
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-bold tracking-tight">Technical Arsenal & Skills</h2>
-                        <p class="text-xs text-[#6E6E73]">Kelola keahlian berdasarkan kategori dan tingkat penguasaan. Klik tombol Edit pada skill untuk mengubahnya.</p>
-                    </div>
-                </div>
-
-                <form id="skill-form" onsubmit="saveSkill(event)" class="grid grid-cols-1 md:grid-cols-4 gap-3 items-end bg-[#F8F9FC] p-4 rounded-2xl">
-                    <input type="hidden" id="skill-id">
-                    <div>
-                        <label class="ios-label">Kategori *</label>
-                        <input type="text" id="skill-cat" required placeholder="Cth: Data Analytics & BI" class="ios-input bg-white">
-                    </div>
-                    <div>
-                        <label class="ios-label">Nama Skill / Tools *</label>
-                        <input type="text" id="skill-name" required placeholder="Cth: Python (Pandas)" class="ios-input bg-white">
-                    </div>
-                    <div>
-                        <label class="ios-label">Tingkat Penguasaan</label>
-                        <select id="skill-level" class="ios-input bg-white">
-                            <option value="Advanced">Core / Advanced (3 Titik)</option>
-                            <option value="Intermediate">Proficient / Intermediate (2 Titik)</option>
-                            <option value="Familiar">Familiar (1 Titik)</option>
-                        </select>
-                    </div>
-                    <div class="flex gap-2">
-                        <button type="submit" id="btn-save-skill" class="btn-primary flex-1">Tambah Skill</button>
-                        <button type="button" id="btn-cancel-skill" onclick="resetSkillForm()" class="hidden btn-secondary">Batal</button>
-                    </div>
-                </form>
-
-                <div id="admin-arsenal-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5"></div>
-            </section>
-
-            <!-- ==================== 7. EDUCATION & CERTIFICATIONS ==================== -->
-            <section id="sec-edu-cert" data-admin-section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Education -->
-                <div class="ios-card space-y-5">
-                    <h2 class="text-lg font-bold tracking-tight border-b border-black/5 pb-3">Riwayat Pendidikan</h2>
-                    <form id="edu-form" onsubmit="saveEdu(event)" class="space-y-3 bg-[#F8F9FC] p-4 rounded-2xl">
-                        <input type="hidden" id="edu-id">
-                        <input type="text" id="edu-inst" required placeholder="Nama Institusi / Kampus *" class="ios-input bg-white">
-                        <input type="text" id="edu-deg" required placeholder="Jurusan / Gelar *" class="ios-input bg-white">
-                        <div class="grid grid-cols-3 gap-2">
-                            <input type="text" id="edu-start" placeholder="Tahun Masuk" class="ios-input bg-white">
-                            <input type="text" id="edu-grad" placeholder="Tahun Lulus" class="ios-input bg-white">
-                            <input type="text" id="edu-gpa" placeholder="IPK (Cth: 3.80)" class="ios-input bg-white">
-                        </div>
                         <div class="flex gap-2">
-                            <button type="submit" id="btn-save-edu" class="btn-primary flex-1">Tambah Pendidikan</button>
-                            <button type="button" id="btn-cancel-edu" onclick="resetEduForm()" class="hidden btn-secondary">Batal Edit</button>
+                            <button type="submit" id="btn-save-skill" class="btn-primary flex-1">Tambah Skill</button>
+                            <button type="button" id="btn-cancel-skill" onclick="resetSkillForm()" class="hidden btn-secondary">Batal</button>
                         </div>
                     </form>
-                    <div id="admin-edu-list" class="space-y-2.5"></div>
-                </div>
 
-                <!-- Certifications -->
-                <div class="ios-card space-y-5">
-                    <h2 class="text-lg font-bold tracking-tight border-b border-black/5 pb-3">Sertifikasi & Kredensial</h2>
-                    <form id="cert-form" onsubmit="saveCert(event)" class="space-y-3 bg-[#F8F9FC] p-4 rounded-2xl">
-                        <input type="hidden" id="cert-id">
-                        <input type="text" id="cert-title" required placeholder="Judul Sertifikat *" class="ios-input bg-white">
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="cert-issuer" required placeholder="Penerbit (Cth: BNSP / Dicoding) *" class="ios-input bg-white">
-                            <input type="text" id="cert-year" placeholder="Tahun (Cth: 2025)" class="ios-input bg-white">
+                    <div id="admin-arsenal-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5"></div>
+                </section>
+
+                <!-- ==================== 7. EDUCATION & CERTIFICATIONS ==================== -->
+                <section id="sec-edu-cert" data-admin-section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Education -->
+                    <div class="bento-card space-y-5">
+                        <h2 class="text-lg font-bold tracking-tight border-b pb-3" style="border-color: var(--border-hairline);">Riwayat Pendidikan</h2>
+                        <form id="edu-form" onsubmit="saveEdu(event)" class="space-y-3 sub-panel p-4">
+                            <input type="hidden" id="edu-id">
+                            <input type="text" id="edu-inst" required placeholder="Nama Institusi / Kampus *" class="spatial-input">
+                            <input type="text" id="edu-deg" required placeholder="Jurusan / Gelar *" class="spatial-input">
+                            <div class="grid grid-cols-3 gap-2">
+                                <input type="text" id="edu-start" placeholder="Tahun Masuk" class="spatial-input">
+                                <input type="text" id="edu-grad" placeholder="Tahun Lulus" class="spatial-input">
+                                <input type="text" id="edu-gpa" placeholder="IPK (Cth: 3.80)" class="spatial-input">
+                            </div>
+                            <div class="flex gap-2">
+                                <button type="submit" id="btn-save-edu" class="btn-primary flex-1">Tambah Pendidikan</button>
+                                <button type="button" id="btn-cancel-edu" onclick="resetEduForm()" class="hidden btn-secondary">Batal Edit</button>
+                            </div>
+                        </form>
+                        <div id="admin-edu-list" class="space-y-2.5"></div>
+                    </div>
+
+                    <!-- Certifications -->
+                    <div class="bento-card space-y-5">
+                        <h2 class="text-lg font-bold tracking-tight border-b pb-3" style="border-color: var(--border-hairline);">Sertifikasi &amp; Kredensial</h2>
+                        <form id="cert-form" onsubmit="saveCert(event)" class="space-y-3 sub-panel p-4">
+                            <input type="hidden" id="cert-id">
+                            <input type="text" id="cert-title" required placeholder="Judul Sertifikat *" class="spatial-input">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="cert-issuer" required placeholder="Penerbit (Cth: BNSP / Dicoding) *" class="spatial-input">
+                                <input type="text" id="cert-year" placeholder="Tahun (Cth: 2025)" class="spatial-input">
+                            </div>
+                            <div>
+                                <input type="text" id="cert-url" placeholder="URL File Sertifikat (PDF/Gambar)" class="spatial-input mb-1.5">
+                                <input type="file" accept=".pdf,image/*" onchange="uploadSingleAsset(this, 'cert-url')" class="text-xs">
+                            </div>
+                            <div class="flex gap-2">
+                                <button type="submit" id="btn-save-cert" class="btn-primary flex-1">Tambah Sertifikat</button>
+                                <button type="button" id="btn-cancel-cert" onclick="resetCertForm()" class="hidden btn-secondary">Batal Edit</button>
+                            </div>
+                        </form>
+                        <div id="admin-cert-list" class="space-y-2.5"></div>
+                    </div>
+                </section>
+
+                <!-- ==================== 8. GALLERY ALBUMS ==================== -->
+                <section id="sec-gallery" data-admin-section class="bento-card space-y-6">
+                    <div class="flex items-center gap-3 border-b pb-4" style="border-color: var(--border-hairline);">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/12 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl">
+                            <i class='bx bxs-photo-album'></i>
                         </div>
                         <div>
-                            <input type="text" id="cert-url" placeholder="URL File Sertifikat (PDF/Gambar)" class="ios-input bg-white mb-1.5">
-                            <input type="file" accept=".pdf,image/*" onchange="uploadSingleAsset(this, 'cert-url')" class="text-xs">
+                            <h2 class="text-lg font-bold tracking-tight">Galeri Dokumentasi &amp; Album Momen</h2>
+                            <p class="text-xs" style="color: var(--text-secondary);">Unggah kumpulan foto kegiatan, magang, atau seminar lengkap dengan caption masing-masing.</p>
+                        </div>
+                    </div>
+
+                    <form id="album-form" onsubmit="saveAlbum(event)" class="space-y-4 sub-panel p-5">
+                        <input type="hidden" id="alb-id">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="ios-label">Judul Album *</label>
+                                <input type="text" id="alb-title" required placeholder="Cth: Magang Kerja Praktik" class="spatial-input">
+                            </div>
+                            <div>
+                                <label class="ios-label">Kategori Filter *</label>
+                                <input type="text" id="alb-cat" required placeholder="Cth: Work / Seminar / MSIB" class="spatial-input">
+                            </div>
+                            <div>
+                                <label class="ios-label">Tahun</label>
+                                <input type="text" id="alb-year" placeholder="2026" class="spatial-input">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="ios-label">Deskripsi Singkat Album</label>
+                            <input type="text" id="alb-desc" class="spatial-input">
+                        </div>
+                        <div>
+                            <label class="ios-label">Upload Foto-Foto Album (Bisa Pilih Banyak)</label>
+                            <input type="file" accept="image/*" multiple onchange="uploadAlbumPhotos(this)" class="text-xs">
+                            <div id="alb-photos-preview" class="flex flex-col gap-2 mt-2"></div>
                         </div>
                         <div class="flex gap-2">
-                            <button type="submit" id="btn-save-cert" class="btn-primary flex-1">Tambah Sertifikat</button>
-                            <button type="button" id="btn-cancel-cert" onclick="resetCertForm()" class="hidden btn-secondary">Batal Edit</button>
+                            <button type="submit" id="btn-save-alb" class="btn-primary">Simpan Album</button>
+                            <button type="button" id="btn-cancel-alb" onclick="resetAlbumForm()" class="hidden btn-secondary">Batal Edit</button>
                         </div>
                     </form>
-                    <div id="admin-cert-list" class="space-y-2.5"></div>
-                </div>
-            </section>
 
-            <!-- ==================== 8. GALLERY ALBUMS ==================== -->
-            <section id="sec-gallery" data-admin-section class="ios-card space-y-6">
-                <div class="flex items-center gap-3 border-b border-black/5 pb-4">
-                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl">
-                        <i class='bx bxs-photo-album'></i>
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-bold tracking-tight">Galeri Dokumentasi & Album Momen</h2>
-                        <p class="text-xs text-[#6E6E73]">Unggah kumpulan foto kegiatan, magang, atau seminar lengkap dengan caption masing-masing.</p>
-                    </div>
-                </div>
+                    <div id="admin-albums-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                </section>
 
-                <form id="album-form" onsubmit="saveAlbum(event)" class="space-y-4 bg-[#F8F9FC] p-5 rounded-2xl">
-                    <input type="hidden" id="alb-id">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="ios-label">Judul Album *</label>
-                            <input type="text" id="alb-title" required placeholder="Cth: Magang Kerja Praktik" class="ios-input bg-white">
-                        </div>
-                        <div>
-                            <label class="ios-label">Kategori Filter *</label>
-                            <input type="text" id="alb-cat" required placeholder="Cth: Work / Seminar / MSIB" class="ios-input bg-white">
-                        </div>
-                        <div>
-                            <label class="ios-label">Tahun</label>
-                            <input type="text" id="alb-year" placeholder="2026" class="ios-input bg-white">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="ios-label">Deskripsi Singkat Album</label>
-                        <input type="text" id="alb-desc" class="ios-input bg-white">
-                    </div>
-                    <div>
-                        <label class="ios-label">Upload Foto-Foto Album (Bisa Pilih Banyak)</label>
-                        <input type="file" accept="image/*" multiple onchange="uploadAlbumPhotos(this)" class="text-xs">
-                        <div id="alb-photos-preview" class="flex flex-col gap-2 mt-2"></div>
-                    </div>
-                    <div class="flex gap-2">
-                        <button type="submit" id="btn-save-alb" class="btn-primary">Simpan Album</button>
-                        <button type="button" id="btn-cancel-alb" onclick="resetAlbumForm()" class="hidden btn-secondary">Batal Edit</button>
-                    </div>
-                </form>
-
-                <div id="admin-albums-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            </section>
-
+            </div>
         </main>
     </div>
 
@@ -606,13 +870,83 @@
         let tempAlbumPhotos = [];
         let adminWaBase = 'https://wa.me/6281200000000';
 
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(() => {});
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installBtn = document.getElementById('pwa-install-btn');
+            if (installBtn) {
+                installBtn.classList.remove('hidden');
+                installBtn.classList.add('flex');
+            }
+        });
+
+        window.triggerPwaInstall = async function() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                document.getElementById('pwa-install-btn').classList.add('hidden');
+                showIosToast('Admin App terpasang di perangkat!');
+            }
+            deferredPrompt = null;
+        };
+
+        // Dark / Light Theme Switcher
+        function syncThemeIcon() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const iconClass = isDark ? 'bx bx-sun text-amber-400' : 'bx bx-moon text-slate-700';
+            ['theme-toggle-icon', 'login-theme-icon', 'mobile-theme-icon'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.className = iconClass;
+            });
+            const lbl = document.getElementById('theme-toggle-label');
+            if (lbl) lbl.innerText = isDark ? 'Light' : 'Dark';
+            const meta = document.getElementById('meta-theme-color');
+            if (meta) meta.setAttribute('content', isDark ? '#06070A' : '#0071E3');
+        }
+        syncThemeIcon();
+
+        window.toggleSpatialTheme = function() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            if (next === 'dark') document.documentElement.classList.add('dark');
+            else document.documentElement.classList.remove('dark');
+            localStorage.setItem('mz_spatial_theme', next);
+            syncThemeIcon();
+            showIosToast(next === 'dark' ? 'Spatial Dark Mode aktif' : 'Frosted Light Mode aktif');
+        };
+
+        // iOS Dynamic Toast
+        let toastTimer;
+        function showIosToast(msg) {
+            const toast = document.getElementById('ios-toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2500);
+        }
+
         function clearPublicPortfolioCache() {
             localStorage.removeItem('mz_portfolio_cache_v3');
         }
 
-        // ==================== TAB NAVIGATION FILTERING ====================
+        // ==================== SIDEBAR & MOBILE TAB FILTERING ====================
         function switchAdminTab(targetId) {
-            document.querySelectorAll('.nav-pill-tab').forEach(btn => {
+            document.querySelectorAll('.sidebar-nav-btn, .mobile-pill-tab').forEach(btn => {
                 if (btn.dataset.target === targetId) btn.classList.add('active');
                 else btn.classList.remove('active');
             });
@@ -673,7 +1007,7 @@
             } else {
                 await checkAuthSession();
             }
-            btn.innerText = 'Masuk ke Dashboard';
+            btn.innerText = 'Masuk ke Workspace';
             btn.disabled = false;
         }
 
@@ -700,14 +1034,15 @@
             target.value = 'Mengunggah file...';
             try {
                 target.value = await uploadFileToStorage(file);
+                showIosToast('File berhasil diunggah!');
             } catch (err) {
                 alert('Gagal upload: ' + err.message);
                 target.value = oldVal;
             }
         }
 
-        // ==================== LOAD ALL DATA ====================
-        async function loadAllAdminData() {
+        // ==================== LOAD ALL DATA & TELEMETRY STATS ====================
+        async function loadAllAdminData(notify = false) {
             const [
                 { data: profile },
                 { data: projects },
@@ -744,6 +1079,16 @@
                 if (profile.wa_link) adminWaBase = profile.wa_link;
             }
 
+            const unreadCount = (inquiries || []).filter(i => !i.is_read).length;
+            const openSrvCount = (services || []).filter(s => s.status === 'open').length;
+
+            document.getElementById('stat-unread').innerText = unreadCount;
+            document.getElementById('stat-projects').innerText = (projects || []).length;
+            document.getElementById('stat-services').innerText = openSrvCount;
+            document.getElementById('stat-skills').innerText = (arsenal || []).length;
+            document.getElementById('unread-badge-count').innerText = unreadCount;
+            document.getElementById('sidebar-unread-badge').innerText = unreadCount;
+
             renderAdminInquiries(inquiries || []);
             renderAdminStatuses(statuses || []);
             renderAdminServices(services || []);
@@ -752,16 +1097,15 @@
             renderAdminEdus(edus || []);
             renderAdminCerts(certs || []);
             renderAdminAlbums(albums || []);
+
+            if (notify) showIosToast('Data terbaru dimuat');
         }
 
         // ==================== 1. INQUIRIES INBOX HANDLERS ====================
         function renderAdminInquiries(list) {
-            const unreadCount = list.filter(i => !i.is_read).length;
-            document.getElementById('unread-badge-count').innerText = unreadCount;
-
             const wrap = document.getElementById('admin-inquiries-list');
             if (!list.length) {
-                wrap.innerHTML = `<p class="text-xs text-[#6E6E73] col-span-full">Belum ada pengajuan kolaborasi atau layanan dari pengunjung.</p>`;
+                wrap.innerHTML = `<p class="text-xs col-span-full" style="color: var(--text-secondary);">Belum ada pengajuan kolaborasi atau layanan dari pengunjung.</p>`;
                 return;
             }
 
@@ -776,25 +1120,25 @@
                 }
 
                 return `
-                    <div class="p-5 rounded-2xl border ${item.is_read ? 'bg-[#F8F9FC] border-black/5' : 'bg-blue-50/40 border-blue-200'} flex flex-col justify-between gap-3">
+                    <div class="p-5 rounded-2xl border flex flex-col justify-between gap-3" style="background: var(--surface-elevated); border-color: ${item.is_read ? 'var(--border-hairline)' : 'var(--accent-blue)'};">
                         <div class="space-y-2">
                             <div class="flex items-center justify-between gap-2">
-                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white border border-black/10 text-[#0071E3]">${item.inquiry_type}</span>
-                                <span class="text-[11px] text-[#6E6E73]">${dateStr}</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-500/12 text-[#0071E3] dark:text-[#2997FF]">${item.inquiry_type}</span>
+                                <span class="text-[11px]" style="color: var(--text-muted);">${dateStr}</span>
                             </div>
                             <div>
-                                <h4 class="font-bold text-sm text-[#1D1D1F]">${item.sender_name}</h4>
-                                <p class="text-xs font-semibold text-[#0071E3]">${item.sender_contact}</p>
+                                <h4 class="font-bold text-sm">${item.sender_name}</h4>
+                                <p class="text-xs font-semibold text-[#0071E3] dark:text-[#2997FF]">${item.sender_contact}</p>
                             </div>
-                            ${item.service_ref ? `<p class="text-xs text-[#515154]"><strong>Layanan:</strong> ${item.service_ref}</p>` : ''}
-                            ${item.budget_timeline ? `<p class="text-xs text-[#515154]"><strong>Budget/Waktu:</strong> ${item.budget_timeline}</p>` : ''}
-                            <p class="text-xs text-[#1D1D1F] bg-white p-3 rounded-xl border border-black/5 leading-relaxed">${item.message}</p>
+                            ${item.service_ref ? `<p class="text-xs" style="color: var(--text-secondary);"><strong>Layanan:</strong> ${item.service_ref}</p>` : ''}
+                            ${item.budget_timeline ? `<p class="text-xs" style="color: var(--text-secondary);"><strong>Budget/Waktu:</strong> ${item.budget_timeline}</p>` : ''}
+                            <p class="text-xs p-3 rounded-xl border leading-relaxed" style="background: var(--surface-solid); border-color: var(--border-hairline);">${item.message}</p>
                         </div>
 
-                        <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-black/5">
+                        <div class="flex flex-wrap items-center gap-2 pt-2 border-t" style="border-color: var(--border-hairline);">
                             ${waReplyUrl ? `<a href="${waReplyUrl}" target="_blank" class="btn-pill-sm bg-[#10B981] text-white inline-flex items-center gap-1"><i class='bx bxl-whatsapp'></i> Balas WA</a>` : ''}
-                            <button type="button" onclick="toggleInquiryRead(${item.id}, ${!item.is_read})" class="btn-pill-sm bg-white border border-black/10 text-[#1D1D1F]">
-                                ${item.is_read ? 'Tandai Belum Dibaca' : 'Tandai Selesai / Dibaca'}
+                            <button type="button" onclick="toggleInquiryRead(${item.id}, ${!item.is_read})" class="btn-pill-sm border" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+                                ${item.is_read ? 'Tandai Belum Dibaca' : 'Tandai Dibaca'}
                             </button>
                             <button type="button" onclick="deleteRow('inquiries', ${item.id})" class="btn-danger btn-pill-sm ml-auto">Hapus</button>
                         </div>
@@ -805,6 +1149,7 @@
 
         async function toggleInquiryRead(id, status) {
             await supabaseClient.from('inquiries').update({ is_read: status }).eq('id', id);
+            showIosToast(status ? 'Ditandai sudah dibaca' : 'Ditandai belum dibaca');
             loadAllAdminData();
         }
 
@@ -812,18 +1157,18 @@
         function renderAdminStatuses(list) {
             const wrap = document.getElementById('admin-status-list');
             if (!list.length) {
-                wrap.innerHTML = `<p class="text-xs text-[#6E6E73] col-span-full">Belum ada status aktif ditambahkan.</p>`;
+                wrap.innerHTML = `<p class="text-xs col-span-full" style="color: var(--text-secondary);">Belum ada status aktif ditambahkan.</p>`;
                 return;
             }
             wrap.innerHTML = list.map(st => `
-                <div class="p-4 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-3">
+                <div class="p-4 sub-panel flex items-center justify-between gap-3">
                     <div class="min-w-0">
                         <div class="flex items-center gap-1.5 mb-1">
                             <span class="w-2 h-2 rounded-full ${st.is_active ? 'bg-emerald-500' : 'bg-slate-400'}"></span>
-                            <span class="text-[10px] font-bold uppercase tracking-wider text-[#6E6E73]">${st.status_type} ${st.is_active ? '(Aktif)' : '(Disembunyikan)'}</span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--text-muted);">${st.status_type} ${st.is_active ? '(Aktif)' : '(Hidden)'}</span>
                         </div>
                         <p class="font-bold text-sm truncate">${st.title}</p>
-                        ${st.organization ? `<p class="text-xs text-[#6E6E73] truncate">${st.organization}</p>` : ''}
+                        ${st.organization ? `<p class="text-xs truncate" style="color: var(--text-secondary);">${st.organization}</p>` : ''}
                     </div>
                     <div class="flex gap-1.5 flex-shrink-0">
                         <button type="button" onclick='editStatus(${JSON.stringify(st).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
@@ -847,6 +1192,7 @@
 
             clearPublicPortfolioCache();
             resetStatusForm();
+            showIosToast(id ? 'Status diperbarui!' : 'Status ditambahkan!');
             loadAllAdminData();
         }
 
@@ -885,24 +1231,24 @@
         function renderAdminServices(list) {
             const wrap = document.getElementById('admin-services-list');
             if (!list.length) {
-                wrap.innerHTML = `<p class="text-xs text-[#6E6E73] col-span-full">Belum ada layanan yang ditambahkan.</p>`;
+                wrap.innerHTML = `<p class="text-xs col-span-full" style="color: var(--text-secondary);">Belum ada layanan yang ditambahkan.</p>`;
                 return;
             }
             wrap.innerHTML = list.map(srv => {
                 const isOpen = srv.status === 'open';
                 const priceText = srv.pricing_type === 'contact' ? 'Contact for Pricelist' : `${srv.pricing_type.toUpperCase()}: ${srv.price_label || '-'}`;
                 return `
-                    <div class="p-4 rounded-2xl bg-[#F8F9FC] border border-black/5 flex flex-col justify-between gap-3">
+                    <div class="p-4 sub-panel flex flex-col justify-between gap-3">
                         <div>
                             <div class="flex items-center justify-between gap-2 mb-2">
-                                <span class="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0071E3] text-[11px] font-bold">${srv.badge}</span>
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${isOpen ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'}">${srv.status}</span>
+                                <span class="px-2.5 py-0.5 rounded-full bg-blue-500/12 text-[#0071E3] dark:text-[#2997FF] text-[11px] font-bold">${srv.badge}</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${isOpen ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : 'bg-slate-500/15 text-slate-500'}">${srv.status}</span>
                             </div>
-                            <h4 class="font-bold text-sm text-[#1D1D1F]">${srv.title}</h4>
-                            <p class="text-xs text-[#6E6E73] mt-1 line-clamp-2">${srv.short_desc}</p>
-                            <p class="text-xs font-bold text-[#1D1D1F] mt-2">${priceText}</p>
+                            <h4 class="font-bold text-sm">${srv.title}</h4>
+                            <p class="text-xs mt-1 line-clamp-2" style="color: var(--text-secondary);">${srv.short_desc}</p>
+                            <p class="text-xs font-bold mt-2">${priceText}</p>
                         </div>
-                        <div class="flex gap-2 pt-2 border-t border-black/5">
+                        <div class="flex gap-2 pt-2 border-t" style="border-color: var(--border-hairline);">
                             <button type="button" onclick='editService(${JSON.stringify(srv).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
                             <button type="button" onclick="deleteRow('services', ${srv.id})" class="btn-danger btn-pill-sm ml-auto">Hapus</button>
                         </div>
@@ -930,6 +1276,7 @@
 
             clearPublicPortfolioCache();
             resetServiceForm();
+            showIosToast(id ? 'Layanan diperbarui!' : 'Layanan ditambahkan!');
             loadAllAdminData();
         }
 
@@ -978,7 +1325,7 @@
             if (error) alert('Error: ' + error.message);
             else {
                 clearPublicPortfolioCache();
-                alert('Profil berhasil diperbarui!');
+                showIosToast('Profil berhasil diperbarui!');
             }
             btn.innerText = 'Simpan Perubahan Profil';
         }
@@ -997,6 +1344,7 @@
             }
             inputEl.value = '';
             renderProjectGalleryPreview();
+            showIosToast('Foto dokumentasi diunggah');
         }
 
         function renderProjectGalleryPreview() {
@@ -1005,13 +1353,13 @@
                 const imgUrl = typeof g === 'string' ? g : g.url;
                 const imgCap = typeof g === 'string' ? '' : (g.caption || '');
                 return `
-                    <div style="background: #FFFFFF; padding: 8px 10px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); display: flex; gap: 10px; align-items: center;">
-                        <img src="${imgUrl}" style="width: 52px; height: 52px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
+                    <div class="p-2.5 rounded-xl border flex gap-2.5 items-center" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+                        <img src="${imgUrl}" class="w-12 h-12 object-cover rounded-lg flex-shrink-0">
                         <input type="text" value="${imgCap.replace(/"/g, '&quot;')}"
                             onchange="tempProjectGallery[${i}] = { url: '${imgUrl}', caption: this.value }"
                             placeholder="Tulis caption gambar ke-${i + 1}..."
-                            class="ios-input" style="margin: 0; font-size: 12px; padding: 8px 10px;">
-                        <button type="button" onclick="tempProjectGallery.splice(${i},1); renderProjectGalleryPreview()" class="btn-danger btn-pill-sm" style="padding: 6px 10px;">&times;</button>
+                            class="spatial-input text-xs py-2">
+                        <button type="button" onclick="tempProjectGallery.splice(${i},1); renderProjectGalleryPreview()" class="btn-danger btn-pill-sm px-2.5 py-1.5">&times;</button>
                     </div>
                 `;
             }).join('');
@@ -1020,12 +1368,12 @@
         function renderAdminProjects(list) {
             const wrap = document.getElementById('admin-projects-list');
             wrap.innerHTML = list.map(p => `
-                <div class="p-4 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-3">
+                <div class="p-4 sub-panel flex items-center justify-between gap-3">
                     <div class="flex items-center gap-3 min-w-0">
-                        <img src="${p.image_url || ''}" class="w-14 h-14 rounded-xl object-cover bg-slate-200 flex-shrink-0">
+                        <img src="${p.image_url || ''}" class="w-14 h-14 rounded-xl object-cover bg-slate-500/20 flex-shrink-0">
                         <div class="min-w-0">
                             <h4 class="font-bold text-sm truncate">${p.title}</h4>
-                            <p class="text-xs text-[#6E6E73] truncate">${p.description || ''}</p>
+                            <p class="text-xs truncate" style="color: var(--text-secondary);">${p.description || ''}</p>
                         </div>
                     </div>
                     <div class="flex gap-1.5 flex-shrink-0">
@@ -1052,6 +1400,7 @@
 
             clearPublicPortfolioCache();
             resetProjectForm();
+            showIosToast(id ? 'Studi kasus diperbarui!' : 'Studi kasus ditambahkan!');
             loadAllAdminData();
         }
 
@@ -1083,15 +1432,15 @@
         function renderAdminArsenal(list) {
             const wrap = document.getElementById('admin-arsenal-list');
             if (!list.length) {
-                wrap.innerHTML = `<p class="text-xs text-[#6E6E73] col-span-full">Belum ada skill ditambahkan.</p>`;
+                wrap.innerHTML = `<p class="text-xs col-span-full" style="color: var(--text-secondary);">Belum ada skill ditambahkan.</p>`;
                 return;
             }
             wrap.innerHTML = list.map(s => `
-                <div class="p-3 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-2 text-xs">
+                <div class="p-3.5 sub-panel flex items-center justify-between gap-2 text-xs">
                     <div class="min-w-0">
-                        <span class="text-[10px] font-bold uppercase text-[#0071E3] block truncate">${s.category}</span>
-                        <span class="font-bold text-sm text-[#1D1D1F] truncate block">${s.name}</span>
-                        <span class="text-[11px] text-[#6E6E73]">${s.level || 'Intermediate'}</span>
+                        <span class="text-[10px] font-bold uppercase text-[#0071E3] dark:text-[#2997FF] block truncate">${s.category}</span>
+                        <span class="font-bold text-sm truncate block">${s.name}</span>
+                        <span class="text-[11px]" style="color: var(--text-muted);">${s.level || 'Intermediate'}</span>
                     </div>
                     <div class="flex gap-1.5 flex-shrink-0">
                         <button type="button" onclick='editSkill(${JSON.stringify(s).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
@@ -1114,6 +1463,7 @@
 
             resetSkillForm();
             clearPublicPortfolioCache();
+            showIosToast(id ? 'Skill diperbarui!' : 'Skill ditambahkan!');
             loadAllAdminData();
         }
 
@@ -1138,14 +1488,14 @@
         function renderAdminEdus(list) {
             const wrap = document.getElementById('admin-edu-list');
             if (!list.length) {
-                wrap.innerHTML = `<p class="text-xs text-[#6E6E73]">Belum ada riwayat pendidikan ditambahkan.</p>`;
+                wrap.innerHTML = `<p class="text-xs" style="color: var(--text-secondary);">Belum ada riwayat pendidikan ditambahkan.</p>`;
                 return;
             }
             wrap.innerHTML = list.map(ed => `
-                <div class="p-3.5 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-2 text-xs">
+                <div class="p-3.5 sub-panel flex items-center justify-between gap-2 text-xs">
                     <div class="min-w-0">
                         <p class="font-bold text-sm truncate">${ed.institution}</p>
-                        <p class="text-[#6E6E73] truncate">${ed.degree} &bull; ${ed.start_year || ''}-${ed.grad_year || 'Present'} &bull; GPA: ${ed.gpa || '-'}</p>
+                        <p class="truncate" style="color: var(--text-secondary);">${ed.degree} &bull; ${ed.start_year || ''}-${ed.grad_year || 'Present'} &bull; GPA: ${ed.gpa || '-'}</p>
                     </div>
                     <div class="flex gap-1.5 flex-shrink-0">
                         <button type="button" onclick='editEdu(${JSON.stringify(ed).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
@@ -1170,6 +1520,7 @@
 
             resetEduForm();
             clearPublicPortfolioCache();
+            showIosToast(id ? 'Pendidikan diperbarui!' : 'Pendidikan ditambahkan!');
             loadAllAdminData();
         }
 
@@ -1195,14 +1546,14 @@
         function renderAdminCerts(list) {
             const wrap = document.getElementById('admin-cert-list');
             if (!list.length) {
-                wrap.innerHTML = `<p class="text-xs text-[#6E6E73]">Belum ada sertifikasi ditambahkan.</p>`;
+                wrap.innerHTML = `<p class="text-xs" style="color: var(--text-secondary);">Belum ada sertifikasi ditambahkan.</p>`;
                 return;
             }
             wrap.innerHTML = list.map(c => `
-                <div class="p-3.5 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-2 text-xs">
+                <div class="p-3.5 sub-panel flex items-center justify-between gap-2 text-xs">
                     <div class="min-w-0">
                         <p class="font-bold text-sm truncate">${c.title}</p>
-                        <p class="text-[#6E6E73] truncate">${c.issuer} (${c.year || '-'})</p>
+                        <p class="truncate" style="color: var(--text-secondary);">${c.issuer} (${c.year || '-'})</p>
                     </div>
                     <div class="flex gap-1.5 flex-shrink-0">
                         <button type="button" onclick='editCert(${JSON.stringify(c).replace(/'/g, "&#39;")})' class="btn-secondary btn-pill-sm">Edit</button>
@@ -1226,6 +1577,7 @@
 
             resetCertForm();
             clearPublicPortfolioCache();
+            showIosToast(id ? 'Sertifikat diperbarui!' : 'Sertifikat ditambahkan!');
             loadAllAdminData();
         }
 
@@ -1261,27 +1613,28 @@
             }
             inputEl.value = '';
             renderAlbumPhotosPreview();
+            showIosToast('Foto album diunggah');
         }
 
         function renderAlbumPhotosPreview() {
             const wrap = document.getElementById('alb-photos-preview');
             wrap.innerHTML = tempAlbumPhotos.map((p, i) => `
-                <div style="background: #FFFFFF; padding: 8px 10px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); display: flex; gap: 10px; align-items: center;">
-                    <img src="${p.url}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
+                <div class="p-2.5 rounded-xl border flex gap-2.5 items-center" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+                    <img src="${p.url}" class="w-12 h-12 object-cover rounded-lg flex-shrink-0">
                     <input type="text" value="${(p.caption || '').replace(/"/g, '&quot;')}"
                         onchange="tempAlbumPhotos[${i}].caption = this.value"
                         placeholder="Caption foto #${i + 1}..."
-                        class="ios-input" style="margin: 0; font-size: 12px; padding: 8px 10px;">
-                    <button type="button" onclick="tempAlbumPhotos.splice(${i},1); renderAlbumPhotosPreview()" class="btn-danger btn-pill-sm" style="padding: 6px 10px;">&times;</button>
+                        class="spatial-input text-xs py-2">
+                    <button type="button" onclick="tempAlbumPhotos.splice(${i},1); renderAlbumPhotosPreview()" class="btn-danger btn-pill-sm px-2.5 py-1.5">&times;</button>
                 </div>
             `).join('');
         }
 
         function renderAdminAlbums(list) {
             document.getElementById('admin-albums-list').innerHTML = list.map(a => `
-                <div class="p-4 rounded-2xl bg-[#F8F9FC] border border-black/5 flex items-center justify-between gap-3">
+                <div class="p-4 sub-panel flex items-center justify-between gap-3">
                     <div>
-                        <span class="text-[10px] font-bold uppercase text-[#0071E3]">${a.category} &bull; ${(a.photos || []).length} Foto</span>
+                        <span class="text-[10px] font-bold uppercase text-[#0071E3] dark:text-[#2997FF]">${a.category} &bull; ${(a.photos || []).length} Foto</span>
                         <h4 class="font-bold text-sm">${a.title}</h4>
                     </div>
                     <div class="flex gap-1.5">
@@ -1307,6 +1660,7 @@
 
             clearPublicPortfolioCache();
             resetAlbumForm();
+            showIosToast(id ? 'Album diperbarui!' : 'Album ditambahkan!');
             loadAllAdminData();
         }
 
@@ -1337,6 +1691,7 @@
             if (!confirm('Yakin ingin menghapus data ini?')) return;
             await supabaseClient.from(table).delete().eq('id', id);
             clearPublicPortfolioCache();
+            showIosToast('Data berhasil dihapus');
             loadAllAdminData();
         }
 

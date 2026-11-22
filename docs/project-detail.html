@@ -2,239 +2,365 @@
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Case Study — Muhammad Zidan</title>
+
+    <!-- PWA & Apple Native Meta -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0071E3" id="meta-theme-color">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Prevent Theme Flash Before Render -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('mz_spatial_theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = saved || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            if (theme === 'dark') document.documentElement.classList.add('dark');
+        })();
+    </script>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Boxicons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
     <style>
+        /* ==================== SPATIAL DESIGN TOKENS ==================== */
+        :root {
+            --bg-canvas: #F5F6FA;
+            --surface-glass: rgba(255, 255, 255, 0.80);
+            --surface-solid: #FFFFFF;
+            --surface-elevated: #F0F2F7;
+            --text-primary: #1D1D1F;
+            --text-secondary: #515154;
+            --text-muted: #86868B;
+            --border-hairline: rgba(0, 0, 0, 0.07);
+            --accent-blue: #0071E3;
+            --accent-emerald: #10B981;
+            --card-shadow: 0 12px 34px -10px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+        }
+
+        [data-theme="dark"] {
+            --bg-canvas: #07080B;
+            --surface-glass: rgba(20, 22, 29, 0.78);
+            --surface-solid: #111319;
+            --surface-elevated: #191C24;
+            --text-primary: #F5F5F7;
+            --text-secondary: #A1A1A6;
+            --text-muted: #6E6E73;
+            --border-hairline: rgba(255, 255, 255, 0.09);
+            --accent-blue: #2997FF;
+            --accent-emerald: #34D399;
+            --card-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
-            background-color: #F8F9FC;
-            color: #1D1D1F;
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
             -webkit-font-smoothing: antialiased;
-            background-image: 
-                radial-gradient(at 15% 8%, rgba(0, 113, 227, 0.07) 0px, transparent 50%),
-                radial-gradient(at 85% 15%, rgba(16, 185, 129, 0.08) 0px, transparent 50%);
+            transition: background-color 0.35s ease, color 0.35s ease;
         }
-        .apple-nav {
-            background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border: 1px solid rgba(0, 0, 0, 0.07);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+
+        .spatial-mesh {
+            background-image:
+                radial-gradient(at 15% 6%, rgba(0, 113, 227, 0.10) 0px, transparent 50%),
+                radial-gradient(at 85% 15%, rgba(16, 185, 129, 0.09) 0px, transparent 50%);
         }
-        .prose-apple h2, .prose-apple h3 { font-weight: 700; color: #1D1D1F; margin-top: 2rem; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
-        .prose-apple h2 { font-size: 1.5rem; }
-        .prose-apple h3 { font-size: 1.25rem; }
-        .prose-apple p { color: #3A3A3C; line-height: 1.75; margin-bottom: 1.15rem; font-size: 1.02rem; }
-        .prose-apple ul, .prose-apple ol { margin-left: 1.5rem; margin-bottom: 1.25rem; color: #3A3A3C; line-height: 1.7; }
-        .prose-apple ul { list-style-type: disc; }
-        .prose-apple ol { list-style-type: decimal; }
-        .prose-apple table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; background: #FFF; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
-        .prose-apple th { background: #F2F4F8; font-weight: 600; text-align: left; padding: 12px 16px; font-size: 0.875rem; color: #1D1D1F; border-bottom: 1px solid #E5E7EB; }
-        .prose-apple td { padding: 12px 16px; font-size: 0.9rem; border-bottom: 1px solid #F1F5F9; color: #3A3A3C; }
-        .prose-apple blockquote { border-left: 3px solid #0071E3; padding-left: 1rem; color: #515154; font-style: italic; margin: 1.5rem 0; }
-
-        /* Tombol Save as PDF di Navbar */
-        .apple-pdf-btn {
-            background: #0071E3 !important;
-            color: #FFFFFF !important;
-            font-size: 12px !important;
-            font-weight: 600 !important;
-            padding: 7px 14px !important;
-            border-radius: 999px !important;
-            border: none !important;
-            cursor: pointer !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 5px !important;
-            transition: background 0.2s ease, transform 0.15s ease !important;
+        [data-theme="dark"] .spatial-mesh {
+            background-image:
+                radial-gradient(at 15% 5%, rgba(41, 151, 255, 0.15) 0px, transparent 50%),
+                radial-gradient(at 85% 15%, rgba(52, 211, 153, 0.10) 0px, transparent 50%);
         }
-        .apple-pdf-btn:hover { background: #0077ED !important; transform: scale(1.03); }
 
-        .pdf-formal-header { display: none; }
+        .dynamic-nav {
+            background: var(--surface-glass);
+            backdrop-filter: saturate(190%) blur(24px);
+            -webkit-backdrop-filter: saturate(190%) blur(24px);
+            border: 1px solid var(--border-hairline);
+            box-shadow: 0 10px 36px rgba(0, 0, 0, 0.08);
+        }
 
-        /* ==================== ATURAN CETAK PDF RAPI (ANTI-RUSAK) ==================== */
+        .bento-card {
+            background: var(--surface-solid);
+            border: 1px solid var(--border-hairline);
+            box-shadow: var(--card-shadow);
+            transition: background-color 0.35s ease, border-color 0.3s ease;
+        }
+
+        /* Editorial Article Typography */
+        .prose-spatial {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.78;
+        }
+        .prose-spatial h2 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        .prose-spatial h3 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .prose-spatial p {
+            margin-bottom: 1.15rem;
+        }
+        .prose-spatial ul, .prose-spatial ol {
+            margin-left: 1.4rem;
+            margin-bottom: 1.25rem;
+        }
+        .prose-spatial ul { list-style-type: disc; }
+        .prose-spatial ol { list-style-type: decimal; }
+        .prose-spatial li { margin-bottom: 0.45rem; }
+        .prose-spatial strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+        .prose-spatial a {
+            color: var(--accent-blue);
+            text-decoration: underline;
+            font-weight: 600;
+        }
+        .prose-spatial blockquote {
+            border-left: 3px solid var(--accent-blue);
+            background: var(--surface-elevated);
+            padding: 1rem 1.25rem;
+            border-radius: 0 16px 16px 0;
+            margin: 1.5rem 0;
+            font-style: italic;
+        }
+
+        /* Clean Light Print Mode for Save PDF */
         @media print {
-            @page {
-                size: A4 portrait;
-                margin: 16mm 16mm 18mm 16mm;
-            }
-            html, body {
+            body {
                 background: #FFFFFF !important;
-                background-image: none !important;
                 color: #1D1D1F !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                font-size: 11pt !important;
-                line-height: 1.6 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
             }
-            nav, .apple-nav, #action-bar, #ios-project-lightbox, button, .no-print {
+            .no-print {
                 display: none !important;
             }
-            .pdf-formal-header {
-                display: flex !important;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1.5px solid #E5E7EB;
-                padding-bottom: 10px;
-                margin-bottom: 20px;
-                font-size: 9pt;
-                color: #6E6E73;
-            }
-            main, article {
-                max-width: 100% !important;
-                width: 100% !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                background: #FFFFFF !important;
+            .bento-card {
                 box-shadow: none !important;
-                border: none !important;
-                border-radius: 0 !important;
-            }
-            header {
-                text-align: left !important;
-                padding: 0 0 16px 0 !important;
-                margin: 0 0 20px 0 !important;
-                border-bottom: 1px solid #F1F5F9 !important;
-                max-width: 100% !important;
-            }
-            header h1 { font-size: 22pt !important; line-height: 1.2 !important; margin-bottom: 6px !important; }
-            header p { font-size: 10.5pt !important; color: #515154 !important; }
-            h1, h2, h3, h4 { break-after: avoid !important; page-break-after: avoid !important; color: #1D1D1F !important; }
-            h2 { font-size: 14pt !important; margin-top: 20px !important; }
-            h3 { font-size: 12pt !important; margin-top: 16px !important; }
-            img, figure, table, tr, blockquote, .gallery-card {
-                break-inside: avoid !important;
-                page-break-inside: avoid !important;
-            }
-            img {
-                max-height: 290px !important;
-                width: auto !important;
-                max-width: 100% !important;
-                object-fit: contain !important;
-                margin: 10px auto !important;
                 border: 1px solid #E5E7EB !important;
-                border-radius: 10px !important;
+                background: #FFFFFF !important;
             }
-            #proj-gallery {
-                display: grid !important;
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 12px !important;
+            .prose-spatial, .prose-spatial h2, .prose-spatial h3, .prose-spatial strong {
+                color: #1D1D1F !important;
             }
-            table { width: 100% !important; border: 1px solid #D1D5DB !important; font-size: 9.5pt !important; box-shadow: none !important; }
-            thead { display: table-header-group !important; }
-            th { background-color: #F3F4F6 !important; color: #111827 !important; padding: 8px 10px !important; border-bottom: 1px solid #D1D5DB !important; }
-            td { padding: 7px 10px !important; border-bottom: 1px solid #E5E7EB !important; }
         }
     </style>
 </head>
-<body class="antialiased pb-24">
+<body class="antialiased spatial-mesh selection:bg-[#0071E3] selection:text-white pb-20">
 
-    <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[92%] max-w-4xl z-50 apple-nav rounded-full px-5 py-3 flex justify-between items-center">
-        <a href="./#projects" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0071E3] hover:opacity-80 transition">
-            <i class='bx bx-chevron-left text-xl'></i> Back to Portfolio
-        </a>
-        <span class="hidden sm:inline text-xs font-bold tracking-wider uppercase text-slate-400">Case Study</span>
-        <div class="inline-flex items-center gap-2">
-            <button type="button" onclick="exportCaseStudyPDF()" class="apple-pdf-btn">
-                <i class='bx bxs-file-pdf' style="font-size:15px;"></i> Save PDF
-            </button>
-            <a href="./#contact" class="bg-[#1D1D1F] text-white text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-[#0071E3] transition">
-                Let's Talk
+    <!-- Top Reading Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-transparent no-print">
+        <div id="read-progress-bar" class="h-full bg-gradient-to-r from-[#0071E3] to-[#10B981] w-0 transition-all duration-100"></div>
+    </div>
+
+    <!-- Floating Top Navigation -->
+    <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[92%] md:w-[86%] max-w-4xl z-50 dynamic-nav rounded-full px-5 sm:px-6 py-3 no-print">
+        <div class="flex items-center justify-between gap-3">
+            <a href="./#projects" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold hover:text-[#0071E3] dark:hover:text-[#2997FF] transition">
+                <span class="w-7 h-7 rounded-full flex items-center justify-center" style="background: var(--surface-elevated);">
+                    <i class='bx bx-chevron-left text-lg'></i>
+                </span>
+                <span>Back to Portfolio</span>
             </a>
+
+            <div class="flex items-center gap-2">
+                <!-- Dark / Light Mode Toggle -->
+                <button type="button" onclick="toggleSpatialTheme()" title="Ganti Tema Terang / Gelap" class="w-9 h-9 rounded-full border flex items-center justify-center text-base transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                    <i id="theme-toggle-icon" class='bx bx-moon'></i>
+                </button>
+
+                <!-- Save / Print PDF -->
+                <button type="button" onclick="window.print()" class="h-9 px-4 rounded-full bg-[#0071E3] dark:bg-[#2997FF] text-white text-xs font-semibold inline-flex items-center gap-1.5 hover:opacity-90 transition shadow-sm">
+                    <i class='bx bxs-file-pdf text-base'></i>
+                    <span>Save PDF</span>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <main class="pt-28 px-5 sm:px-8 max-w-4xl mx-auto">
-        <header class="text-center max-w-3xl mx-auto mb-10">
-            <span class="inline-block px-3.5 py-1 rounded-full bg-blue-50 text-[#0071E3] text-xs font-bold uppercase tracking-wider mb-4">Project Case Study</span>
-            <h1 id="proj-title" class="text-3xl sm:text-5xl font-extrabold text-[#1D1D1F] tracking-tight leading-tight mb-4">Memuat Studi Kasus...</h1>
-            <p id="proj-desc" class="text-base sm:text-lg text-[#515154] leading-relaxed"></p>
-        </header>
+    <!-- Main Case Study Container -->
+    <main class="pt-24 md:pt-32 px-5 sm:px-8 max-w-4xl mx-auto space-y-10">
 
-        <div id="cover-wrapper" class="hidden mb-12 rounded-[28px] overflow-hidden shadow-xl border border-black/5 bg-white cursor-zoom-in" onclick="window.openSingleImageLightbox(document.getElementById('proj-cover').src, document.getElementById('proj-title').innerText)">
-            <img id="proj-cover" src="" alt="Project Cover" class="w-full max-h-[480px] object-cover hover:scale-[1.01] transition-transform duration-500">
+        <!-- Loading Skeleton -->
+        <div id="project-loading" class="bento-card rounded-[32px] p-10 text-center space-y-3">
+            <div class="w-10 h-10 rounded-full border-2 border-[#0071E3] border-t-transparent animate-spin mx-auto"></div>
+            <p class="text-sm font-medium" style="color: var(--text-secondary);">Memuat detail studi kasus...</p>
         </div>
 
-        <div id="action-bar" class="hidden flex flex-wrap justify-center gap-3 mb-12">
-            <a id="proj-pdf" href="#" target="_blank" class="hidden inline-flex items-center gap-2 bg-[#0071E3] text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#0077ED] transition shadow-md shadow-blue-500/20">
-                <i class='bx bxs-file-pdf text-lg'></i> View Full Report (PDF)
-            </a>
-            <a id="proj-link" href="#" target="_blank" class="hidden inline-flex items-center gap-2 bg-white text-[#1D1D1F] border border-black/10 px-6 py-3 rounded-full text-sm font-semibold hover:bg-gray-50 transition">
-                <i class='bx bx-link-external text-lg text-[#0071E3]'></i> Open Repository / Demo
-            </a>
-        </div>
-
-        <article class="bg-white rounded-[32px] p-7 sm:p-12 shadow-sm border border-black/5">
-            <div id="proj-content" class="prose-apple">
-                <p class="text-center text-slate-400">Mengambil detail studi kasus...</p>
+        <!-- Error State -->
+        <div id="project-error" class="hidden bento-card rounded-[32px] p-10 text-center space-y-4">
+            <div class="w-14 h-14 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center text-3xl mx-auto">
+                <i class='bx bx-error-circle'></i>
             </div>
+            <h1 class="text-2xl font-extrabold">Studi Kasus Tidak Ditemukan</h1>
+            <p class="text-sm max-w-md mx-auto" style="color: var(--text-secondary);">Proyek yang Anda cari mungkin telah dipindahkan atau tautan tidak valid.</p>
+            <a href="./#projects" class="inline-flex items-center gap-2 bg-[#0071E3] text-white px-6 py-3 rounded-full text-sm font-semibold">
+                Kembali ke Daftar Proyek
+            </a>
+        </div>
 
-            <div id="gallery-section" class="hidden mt-14 pt-10 border-t border-black/5">
-                <h3 class="text-xl font-bold text-[#1D1D1F] mb-6">Documentation & Visuals</h3>
-                <div id="proj-gallery" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        <!-- Case Study Content -->
+        <article id="project-article" class="hidden space-y-8">
+            <!-- Header Card -->
+            <header class="bento-card rounded-[32px] p-7 sm:p-10 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <span class="px-3.5 py-1 rounded-full bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] text-xs font-bold uppercase tracking-wider">Case Study</span>
+                        <span id="proj-date" class="text-xs font-medium" style="color: var(--text-muted);"></span>
+                    </div>
+                    <a id="proj-repo-btn" href="#" target="_blank" class="hidden no-print inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-bold transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <i class='bx bxl-github text-base'></i>
+                        <span>Source / Live Preview</span>
+                        <i class='bx bx-link-external text-xs'></i>
+                    </a>
+                </div>
+
+                <h1 id="proj-title" class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.15]"></h1>
+                <p id="proj-summary" class="text-base sm:text-lg leading-relaxed" style="color: var(--text-secondary);"></p>
+
+                <!-- Hero Cover Image -->
+                <div id="proj-cover-wrap" class="hidden rounded-[24px] overflow-hidden border" style="border-color: var(--border-hairline); background: var(--surface-elevated);">
+                    <img id="proj-cover-img" src="" alt="Project Cover" class="w-full max-h-[480px] object-cover">
+                </div>
+            </header>
+
+            <!-- Rich Text Body -->
+            <section class="bento-card rounded-[32px] p-7 sm:p-11">
+                <div id="proj-content" class="prose-spatial"></div>
+            </section>
+
+            <!-- Documentation Gallery Grid -->
+            <section id="proj-gallery-section" class="hidden bento-card rounded-[32px] p-7 sm:p-10 space-y-6">
+                <div class="flex items-center justify-between border-b pb-4" style="border-color: var(--border-hairline);">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-[#0071E3] dark:text-[#2997FF]">Visual Artifacts</span>
+                        <h2 class="text-2xl font-extrabold tracking-tight mt-0.5">Documentation & Results</h2>
+                    </div>
+                    <span id="proj-gallery-count" class="text-xs font-semibold px-3 py-1 rounded-full" style="background: var(--surface-elevated); color: var(--text-secondary);"></span>
+                </div>
+
+                <div id="proj-gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5"></div>
+            </section>
+
+            <!-- Bottom Navigation CTA -->
+            <div class="bento-card rounded-[28px] p-7 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 no-print">
+                <div>
+                    <h3 class="font-bold text-lg tracking-tight">Tertarik mendiskusikan studi kasus ini?</h3>
+                    <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">Ajukan pertanyaan teknis, kolaborasi riset, atau kebutuhan proyek serupa.</p>
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <a href="./#inquiry-box" class="flex-1 sm:flex-initial text-center bg-[#0071E3] dark:bg-[#2997FF] text-white px-6 py-3 rounded-full text-xs sm:text-sm font-semibold hover:opacity-90 transition">
+                        Ajukan Kolaborasi
+                    </a>
+                    <a href="./#projects" class="flex-1 sm:flex-initial text-center border px-5 py-3 rounded-full text-xs sm:text-sm font-semibold transition" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        Proyek Lainnya
+                    </a>
+                </div>
             </div>
         </article>
+
     </main>
 
-    <!-- ==================== Single Unified iOS Lightbox ==================== -->
-    <div id="ios-project-lightbox" class="hidden fixed inset-0 z-[9999] bg-black/90 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-6 select-none" onclick="window.closeProjectLightbox()">
-        <!-- Top Bar -->
-        <div class="max-w-6xl w-full mx-auto flex items-center justify-between gap-4" onclick="event.stopPropagation()">
-            <span id="lb-counter" class="px-3.5 py-1 rounded-full bg-white/10 text-white/80 text-xs font-semibold tracking-wide"></span>
-            <button type="button" onclick="window.closeProjectLightbox()" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-xl transition">&times;</button>
+    <!-- ==================== Spatial Project Lightbox Modal ==================== -->
+    <div id="ios-project-lightbox" class="hidden fixed inset-0 z-[9999] bg-black/92 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-6 select-none no-print" onclick="closeProjectLightbox()">
+        <div class="max-w-5xl w-full mx-auto flex items-center justify-between gap-3" onclick="event.stopPropagation()">
+            <span id="slb-counter" class="text-xs font-bold uppercase tracking-wider text-blue-400"></span>
+            <button type="button" onclick="closeProjectLightbox()" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-xl transition">&times;</button>
         </div>
 
-        <!-- Center Image Stage -->
-        <div class="relative flex-1 flex items-center justify-center my-3 overflow-hidden" onclick="event.stopPropagation()">
-            <button type="button" id="lb-prev-btn" onclick="window.prevProjectPhoto()" class="absolute left-1 sm:left-4 z-10 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center text-2xl backdrop-blur-md transition">
+        <div class="relative flex-1 flex items-center justify-center my-4 overflow-hidden" onclick="event.stopPropagation()">
+            <button type="button" onclick="prevProjectSlide()" class="absolute left-1 sm:left-4 z-10 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center text-2xl backdrop-blur-md transition">
                 <i class='bx bx-chevron-left'></i>
             </button>
-
-            <div class="max-h-[75vh] max-w-[90vw] overflow-auto rounded-2xl shadow-2xl border border-white/15 bg-black/40 flex items-center justify-center">
-                <img id="lb-stage-img" src="" alt="Preview" onclick="this.classList.toggle('scale-150'); this.classList.toggle('cursor-zoom-out');" class="max-h-[73vh] max-w-[88vw] object-contain cursor-zoom-in transition-transform duration-300">
+            <div class="max-h-[72vh] max-w-[88vw] overflow-auto rounded-2xl shadow-2xl border border-white/15 bg-black/40 flex items-center justify-center">
+                <img id="slb-img" src="" alt="Artifact Preview" onclick="this.classList.toggle('scale-150'); this.classList.toggle('cursor-zoom-out');" class="max-h-[70vh] max-w-[85vw] object-contain cursor-zoom-in transition-transform duration-300">
             </div>
-
-            <button type="button" id="lb-next-btn" onclick="window.nextProjectPhoto()" class="absolute right-1 sm:right-4 z-10 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center text-2xl backdrop-blur-md transition">
+            <button type="button" onclick="nextProjectSlide()" class="absolute right-1 sm:right-4 z-10 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center text-2xl backdrop-blur-md transition">
                 <i class='bx bx-chevron-right'></i>
             </button>
         </div>
 
-        <!-- Bottom Caption -->
-        <div class="max-w-3xl w-full mx-auto text-center space-y-1" onclick="event.stopPropagation()">
-            <p id="lb-caption" class="text-white text-sm sm:text-base font-medium leading-relaxed"></p>
-            <p class="text-white/45 text-[11px]">Klik gambar untuk Zoom &bull; Gunakan panah keyboard &larr; &rarr; untuk geser</p>
+        <div style="max-width: 760px; width: 100%; margin: 0 auto; text-align: center;" onclick="event.stopPropagation()">
+            <p id="slb-caption" style="color: #FFFFFF !important; font-size: 15px !important; font-weight: 600 !important; line-height: 1.5 !important; margin-bottom: 6px !important;"></p>
+            <p style="color: rgba(255,255,255,0.5) !important; font-size: 11px !important; margin: 0 !important;">Klik gambar untuk Zoom &bull; Gunakan panah keyboard &larr; &rarr;</p>
         </div>
     </div>
 
+    <!-- ==================== Scripts ==================== -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
-        const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
-        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(() => {});
+            });
+        }
 
-        let projectGalleryItems = [];
-        let activeLightboxList = [];
-        let currentLightboxIdx = 0;
+        // Theme Sync
+        function syncThemeIcon() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const icon = document.getElementById('theme-toggle-icon');
+            const meta = document.getElementById('meta-theme-color');
+            if (icon) icon.className = isDark ? 'bx bx-sun text-amber-400' : 'bx bx-moon text-slate-700';
+            if (meta) meta.setAttribute('content', isDark ? '#07080B' : '#0071E3');
+        }
+        syncThemeIcon();
 
-        window.openProjectLightbox = function(index) {
-            if (!projectGalleryItems.length) return;
-            activeLightboxList = projectGalleryItems;
-            currentLightboxIdx = index;
-            renderLightboxStage();
-            document.getElementById('ios-project-lightbox').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+        window.toggleSpatialTheme = function() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            if (next === 'dark') document.documentElement.classList.add('dark');
+            else document.documentElement.classList.remove('dark');
+            localStorage.setItem('mz_spatial_theme', next);
+            syncThemeIcon();
         };
 
-        window.openSingleImageLightbox = function(url, caption) {
-            if (!url) return;
-            activeLightboxList = [{ url, caption }];
-            currentLightboxIdx = 0;
-            renderLightboxStage();
+        // Reading Progress Bar
+        window.addEventListener('scroll', () => {
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = docHeight > 0 ? Math.min(100, Math.max(0, (window.scrollY / docHeight) * 100)) : 0;
+            const bar = document.getElementById('read-progress-bar');
+            if (bar) bar.style.width = pct + '%';
+        }, { passive: true });
+
+        // Lightbox Logic
+        let projectSlides = [];
+        let currentSlideIndex = 0;
+
+        window.openProjectLightbox = function(idx) {
+            if (!projectSlides.length) return;
+            currentSlideIndex = idx;
+            renderProjectSlide();
             document.getElementById('ios-project-lightbox').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         };
@@ -244,126 +370,117 @@
             document.body.style.overflow = '';
         };
 
-        function renderLightboxStage() {
-            const item = activeLightboxList[currentLightboxIdx];
-            const img = document.getElementById('lb-stage-img');
+        function renderProjectSlide() {
+            const slide = projectSlides[currentSlideIndex];
+            const img = document.getElementById('slb-img');
             img.classList.remove('scale-150', 'cursor-zoom-out');
-            img.src = item.url;
-            document.getElementById('lb-caption').innerText = item.caption || `Dokumentasi #${currentLightboxIdx + 1}`;
-            document.getElementById('lb-counter').innerText = `${currentLightboxIdx + 1} / ${activeLightboxList.length}`;
-
-            const showNav = activeLightboxList.length > 1;
-            document.getElementById('lb-prev-btn').style.display = showNav ? 'flex' : 'none';
-            document.getElementById('lb-next-btn').style.display = showNav ? 'flex' : 'none';
+            img.src = slide.url;
+            document.getElementById('slb-caption').innerText = slide.caption || `Dokumentasi #${currentSlideIndex + 1}`;
+            document.getElementById('slb-counter').innerText = `Artifact ${currentSlideIndex + 1} of ${projectSlides.length}`;
         }
 
-        window.nextProjectPhoto = function() {
-            if (activeLightboxList.length <= 1) return;
-            currentLightboxIdx = (currentLightboxIdx + 1) % activeLightboxList.length;
-            renderLightboxStage();
+        window.nextProjectSlide = function() {
+            if (!projectSlides.length) return;
+            currentSlideIndex = (currentSlideIndex + 1) % projectSlides.length;
+            renderProjectSlide();
         };
 
-        window.prevProjectPhoto = function() {
-            if (activeLightboxList.length <= 1) return;
-            currentLightboxIdx = (currentLightboxIdx - 1 + activeLightboxList.length) % activeLightboxList.length;
-            renderLightboxStage();
+        window.prevProjectSlide = function() {
+            if (!projectSlides.length) return;
+            currentSlideIndex = (currentSlideIndex - 1 + projectSlides.length) % projectSlides.length;
+            renderProjectSlide();
         };
 
         document.addEventListener('keydown', (e) => {
-            const modal = document.getElementById('ios-project-lightbox');
-            if (!modal || modal.classList.contains('hidden')) return;
-            if (e.key === 'Escape') window.closeProjectLightbox();
-            if (e.key === 'ArrowRight') window.nextProjectPhoto();
-            if (e.key === 'ArrowLeft') window.prevProjectPhoto();
+            const lb = document.getElementById('ios-project-lightbox');
+            if (!lb || lb.classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeProjectLightbox();
+            if (e.key === 'ArrowRight') nextProjectSlide();
+            if (e.key === 'ArrowLeft') prevProjectSlide();
         });
 
-        function exportCaseStudyPDF() {
-            if (!document.querySelector('.pdf-formal-header')) {
-                const pdfHeader = document.createElement('div');
-                pdfHeader.className = 'pdf-formal-header';
-                const today = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-                pdfHeader.innerHTML = `
-                    <span><strong>MUHAMMAD ZIDAN</strong> &bull; Portfolio Case Study</span>
-                    <span>Generated on ${today}</span>
-                `;
-                document.body.prepend(pdfHeader);
-            }
-            window.print();
-        }
+        // Fetch Project Detail from Supabase
+        const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
+        const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        // ==================== LOAD PROJECT DATA ====================
         document.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
+            const projectId = params.get('id');
 
-            let query = supabaseClient.from('projects').select('*');
-            if (id) {
-                query = query.eq('id', id).single();
-            } else {
-                query = query.order('created_at', { ascending: false }).limit(1).single();
+            const loadingEl = document.getElementById('project-loading');
+            const errorEl = document.getElementById('project-error');
+            const articleEl = document.getElementById('project-article');
+
+            if (!projectId) {
+                loadingEl.classList.add('hidden');
+                errorEl.classList.remove('hidden');
+                return;
             }
 
-            const { data: proj } = await query;
-            if (proj) {
-                document.title = `${proj.title} — Muhammad Zidan`;
-                document.getElementById('proj-title').innerText = proj.title;
-                document.getElementById('proj-desc').innerText = proj.description || '';
-                document.getElementById('proj-content').innerHTML = proj.content || '<p>Tidak ada deskripsi detail.</p>';
+            try {
+                const { data: project, error } = await supabaseClient
+                    .from('projects')
+                    .select('*')
+                    .eq('id', projectId)
+                    .single();
 
-                if (proj.image_url) {
-                    document.getElementById('proj-cover').src = proj.image_url;
-                    document.getElementById('cover-wrapper').classList.remove('hidden');
+                if (error || !project) throw new Error('Not found');
+
+                document.title = `${project.title} — Muhammad Zidan`;
+                document.getElementById('proj-title').innerText = project.title;
+                document.getElementById('proj-summary').innerText = project.description || '';
+
+                if (project.created_at) {
+                    const d = new Date(project.created_at);
+                    document.getElementById('proj-date').innerText = d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
                 }
 
-                const repoLink = proj.repo_url || proj.link;
-                if (proj.pdf_url || repoLink) {
-                    document.getElementById('action-bar').classList.remove('hidden');
-                    if (proj.pdf_url) {
-                        const pdfBtn = document.getElementById('proj-pdf');
-                        pdfBtn.href = proj.pdf_url;
-                        pdfBtn.classList.remove('hidden');
-                    }
-                    if (repoLink) {
-                        const linkBtn = document.getElementById('proj-link');
-                        linkBtn.href = repoLink;
-                        linkBtn.classList.remove('hidden');
-                    }
+                const repoLink = project.repo_url || project.link;
+                if (repoLink) {
+                    const repoBtn = document.getElementById('proj-repo-btn');
+                    repoBtn.href = repoLink;
+                    repoBtn.classList.remove('hidden');
                 }
 
-                // Render Galeri Dokumentasi & Caption
-                let rawGallery = proj.gallery;
-                if (typeof rawGallery === 'string') {
-                    try { rawGallery = JSON.parse(rawGallery); } catch (e) { rawGallery = []; }
+                if (project.image_url) {
+                    document.getElementById('proj-cover-img').src = project.image_url;
+                    document.getElementById('proj-cover-wrap').classList.remove('hidden');
                 }
 
-                const gallerySection = document.getElementById('gallery-section');
-                const galleryContainer = document.getElementById('proj-gallery');
+                document.getElementById('proj-content').innerHTML = project.content || '<p>Detail studi kasus sedang diperbarui.</p>';
 
-                if (Array.isArray(rawGallery) && rawGallery.length > 0 && galleryContainer) {
-                    projectGalleryItems = rawGallery.map(item => ({
-                        url: typeof item === 'string' ? item : item.url,
-                        caption: typeof item === 'string' ? '' : (item.caption || '')
-                    }));
+                // Parse Gallery
+                const rawGallery = Array.isArray(project.gallery) ? project.gallery : [];
+                projectSlides = rawGallery.map((item, i) => {
+                    if (typeof item === 'string') return { url: item, caption: `${project.title} — Gambar #${i + 1}` };
+                    return { url: item.url, caption: item.caption || `${project.title} — Gambar #${i + 1}` };
+                }).filter(s => s.url);
 
-                    if (gallerySection) gallerySection.classList.remove('hidden');
-                    galleryContainer.innerHTML = '';
-
-                    projectGalleryItems.forEach((item, idx) => {
-                        galleryContainer.innerHTML += `
-                            <figure class="gallery-card group bg-white rounded-2xl border border-black/5 overflow-hidden shadow-xs hover:shadow-md transition cursor-zoom-in flex flex-col"
-                                onclick="window.openProjectLightbox(${idx})">
-                                <div class="bg-slate-50 overflow-hidden">
-                                    <img src="${item.url}" alt="${item.caption || 'Dokumentasi ' + (idx + 1)}" loading="lazy"
-                                        class="w-full h-auto object-contain group-hover:scale-[1.02] transition-transform duration-500">
-                                </div>
-                                ${item.caption ? `<figcaption class="p-3.5 text-xs text-slate-600 leading-relaxed border-t border-black/5 bg-white">${item.caption}</figcaption>` : ''}
-                            </figure>
-                        `;
-                    });
+                if (projectSlides.length > 0) {
+                    document.getElementById('proj-gallery-section').classList.remove('hidden');
+                    document.getElementById('proj-gallery-count').innerText = `${projectSlides.length} Artifacts`;
+                    const grid = document.getElementById('proj-gallery-grid');
+                    grid.innerHTML = projectSlides.map((slide, idx) => `
+                        <figure onclick="openProjectLightbox(${idx})" class="group cursor-pointer rounded-2xl overflow-hidden border flex flex-col transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                            <div class="h-56 overflow-hidden relative">
+                                <img src="${slide.url}" alt="${slide.caption}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center text-sm backdrop-blur-md opacity-0 group-hover:opacity-100 transition no-print">
+                                    <i class='bx bx-fullscreen'></i>
+                                </span>
+                            </div>
+                            <figcaption class="p-4 text-xs font-medium leading-relaxed" style="color: var(--text-secondary);">
+                                ${slide.caption}
+                            </figcaption>
+                        </figure>
+                    `).join('');
                 }
-            } else {
-                document.getElementById('proj-title').innerText = 'Proyek Tidak Ditemukan';
-                document.getElementById('proj-content').innerHTML = '<p class="text-center text-slate-500">Data proyek belum tersedia atau telah dihapus.</p>';
+
+                loadingEl.classList.add('hidden');
+                articleEl.classList.remove('hidden');
+            } catch (err) {
+                loadingEl.classList.add('hidden');
+                errorEl.classList.remove('hidden');
             }
         });
     </script>

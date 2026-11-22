@@ -2,33 +2,34 @@
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muhammad Zidan | Portfolio</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Muhammad Zidan | Spatial Portfolio & Studio</title>
+
+    <!-- PWA & Apple Native Meta -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0071E3" id="meta-theme-color">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MZidan">
+
+    <!-- Prevent Theme Flash Before Render -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('mz_spatial_theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = saved || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            if (theme === 'dark') document.documentElement.classList.add('dark');
+        })();
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        apple: {
-                            bg: '#F8F9FC',
-                            surface: '#FFFFFF',
-                            gray: '#F2F4F8',
-                            text: '#1D1D1F',
-                            secondary: '#515154',
-                            blue: '#0071E3',
-                            blueHover: '#0077ED',
-                            emerald: '#10B981'
-                        },
-                        brand: {
-                            blue: '#0071E3',
-                            emerald: '#10B981',
-                            dark: '#1D1D1F',
-                            light: '#F8F9FC'
-                        }
-                    },
                     fontFamily: {
                         sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Inter', 'sans-serif'],
                     }
@@ -44,58 +45,166 @@
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
     <style>
+        /* ==================== SPATIAL DESIGN TOKENS (LIGHT & OLED DARK) ==================== */
+        :root {
+            --bg-canvas: #EEF1F6;
+            --surface-glass: rgba(255, 255, 255, 0.80);
+            --surface-solid: #FFFFFF;
+            --surface-elevated: #F4F6FA;
+            --text-primary: #111318;
+            --text-secondary: #4A4D55;
+            --text-muted: #7C808B;
+            --border-hairline: rgba(15, 23, 42, 0.08);
+            --accent-blue: #0071E3;
+            --accent-emerald: #10B981;
+            --spotlight-glow: rgba(0, 113, 227, 0.10);
+            --card-shadow: 0 12px 32px -12px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+            --card-shadow-hover: 0 24px 48px -12px rgba(0, 113, 227, 0.16);
+        }
+
+        [data-theme="dark"] {
+            --bg-canvas: #06070A;
+            --surface-glass: rgba(18, 20, 27, 0.78);
+            --surface-solid: #101218;
+            --surface-elevated: #181B24;
+            --text-primary: #F5F5F7;
+            --text-secondary: #A1A1AA;
+            --text-muted: #71717A;
+            --border-hairline: rgba(255, 255, 255, 0.09);
+            --accent-blue: #2997FF;
+            --accent-emerald: #34D399;
+            --spotlight-glow: rgba(41, 151, 255, 0.16);
+            --card-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+            --card-shadow-hover: 0 26px 56px -12px rgba(41, 151, 255, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
-            background-color: #F8F9FC;
-            color: #1D1D1F;
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
             -webkit-font-smoothing: antialiased;
+            transition: background-color 0.35s ease, color 0.35s ease;
+            overflow-x: hidden;
         }
 
-        .ambient-bg {
-            background-image: 
-                radial-gradient(at 15% 8%, rgba(0, 113, 227, 0.08) 0px, transparent 50%),
-                radial-gradient(at 85% 15%, rgba(16, 185, 129, 0.09) 0px, transparent 50%),
-                radial-gradient(at 50% 60%, rgba(99, 102, 241, 0.04) 0px, transparent 60%);
+        /* Subtle Architectural Telemetry Grid + Radial Glow */
+        .spatial-mesh {
+            background-image:
+                linear-gradient(to right, rgba(120, 130, 155, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(120, 130, 155, 0.05) 1px, transparent 1px),
+                radial-gradient(at 14% 4%, rgba(0, 113, 227, 0.12) 0px, transparent 48%),
+                radial-gradient(at 88% 12%, rgba(16, 185, 129, 0.10) 0px, transparent 48%);
+            background-size: 44px 44px, 44px 44px, 100% 100%, 100% 100%;
+        }
+        [data-theme="dark"] .spatial-mesh {
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                radial-gradient(at 15% 4%, rgba(41, 151, 255, 0.18) 0px, transparent 50%),
+                radial-gradient(at 86% 14%, rgba(52, 211, 153, 0.12) 0px, transparent 50%);
+            background-size: 44px 44px, 44px 44px, 100% 100%, 100% 100%;
         }
 
-        .apple-nav {
-            background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border: 1px solid rgba(0, 0, 0, 0.07);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        /* Dynamic Island Top Floating Pill */
+        .dynamic-nav {
+            background: var(--surface-glass);
+            backdrop-filter: saturate(190%) blur(24px);
+            -webkit-backdrop-filter: saturate(190%) blur(24px);
+            border: 1px solid var(--border-hairline);
+            box-shadow: 0 10px 36px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .dynamic-nav.scrolled {
+            padding-top: 0.55rem;
+            padding-bottom: 0.55rem;
+            box-shadow: 0 14px 42px rgba(0, 0, 0, 0.15);
         }
 
-        .apple-profile-wrapper {
+        /* Spatial Bento Card + Specular Cursor Spotlight */
+        .bento-card {
             position: relative;
-            border-radius: 36px;
-            padding: 5px;
-            background: linear-gradient(135deg, rgba(0, 113, 227, 0.35), rgba(16, 185, 129, 0.35));
-            box-shadow: 0 25px 50px -12px rgba(0, 113, 227, 0.18);
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            background: var(--surface-solid);
+            border: 1px solid var(--border-hairline);
+            box-shadow: var(--card-shadow);
+            transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.3s ease,
+                        background-color 0.35s ease;
+            overflow: hidden;
         }
-        .apple-profile-wrapper:hover {
-            transform: translateY(-4px) scale(1.015);
+        .bento-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(560px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--spotlight-glow), transparent 42%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+            z-index: 1;
         }
-        .apple-profile-frame {
-            border-radius: 31px;
+        .bento-card:hover::before {
+            opacity: 1;
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(41, 151, 255, 0.34);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .bento-card:active {
+            transform: scale(0.992);
         }
 
-        .apple-card {
-            background: #FFFFFF;
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            box-shadow: 0 6px 24px rgba(15, 23, 42, 0.035);
-            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
+        /* Fix Inline Tag Pills inside #hero-headline (Prevents White-on-White Bug) */
+        #hero-headline span {
+            display: inline-flex !important;
+            align-items: center !important;
+            background: var(--surface-elevated) !important;
+            color: var(--text-primary) !important;
+            border: 1px solid var(--border-hairline) !important;
+            font-weight: 700 !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03) !important;
+            -webkit-text-fill-color: var(--text-primary) !important;
         }
-        .apple-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 113, 227, 0.22);
-            box-shadow: 0 22px 44px -12px rgba(0, 113, 227, 0.10);
+        #hero-headline span:last-of-type {
+            background: rgba(0, 113, 227, 0.11) !important;
+            color: var(--accent-blue) !important;
+            border-color: rgba(0, 113, 227, 0.25) !important;
+            -webkit-text-fill-color: var(--accent-blue) !important;
         }
 
+        /* Theme Adaptive Inputs */
+        .spatial-input {
+            width: 100%;
+            background: var(--surface-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border-hairline);
+            border-radius: 14px;
+            padding: 11px 15px;
+            font-size: 13.5px;
+            transition: all 0.2s ease;
+        }
+        .spatial-input:focus {
+            outline: none;
+            background: var(--surface-solid);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.16);
+        }
+
+        /* Mobile / PWA Floating Bottom Dock */
+        .ios-bottom-dock {
+            background: var(--surface-glass);
+            backdrop-filter: saturate(200%) blur(26px);
+            -webkit-backdrop-filter: saturate(200%) blur(26px);
+            border: 1px solid var(--border-hairline);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+            padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+        }
+
+        /* Smooth Stagger Reveal */
         .reveal {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(22px);
             transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .reveal.visible {
@@ -103,206 +212,336 @@
             transform: translateY(0);
         }
 
-        .apple-backdrop {
-            background: rgba(29, 29, 31, 0.58);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+        /* Backdrop & Modals */
+        .spatial-backdrop {
+            background: rgba(9, 10, 15, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* iOS Toast Notification */
+        #ios-toast {
+            transform: translate(-50%, -120%);
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+        }
+        #ios-toast.show {
+            transform: translate(-50%, 0);
         }
     </style>
 </head>
-<body class="antialiased ambient-bg selection:bg-apple-blue selection:text-white">
+<body class="antialiased spatial-mesh selection:bg-[#0071E3] selection:text-white pb-24 md:pb-12">
+
+    <!-- ==================== iOS Dynamic Toast ==================== -->
+    <div id="ios-toast" class="fixed top-5 left-1/2 z-[200] opacity-0 pointer-events-none">
+        <div class="dynamic-nav rounded-full px-5 py-2.5 flex items-center gap-2.5 shadow-2xl">
+            <span id="toast-icon" class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-sm"><i class='bx bx-check'></i></span>
+            <span id="toast-msg" class="text-xs font-semibold tracking-tight">Action completed</span>
+        </div>
+    </div>
+
+    <!-- ==================== Spotlight Command Palette (Ctrl + K) ==================== -->
+    <div id="spotlight-modal" class="hidden fixed inset-0 z-[150] spatial-backdrop flex items-start justify-center pt-[12vh] px-4" onclick="closeSpotlight()">
+        <div class="w-full max-w-xl rounded-[26px] overflow-hidden shadow-2xl border border-white/15" style="background: var(--surface-solid);" onclick="event.stopPropagation()">
+            <div class="px-5 py-4 border-b flex items-center gap-3" style="border-color: var(--border-hairline);">
+                <i class='bx bx-search text-xl text-[#0071E3] dark:text-[#2997FF]'></i>
+                <input type="text" id="spotlight-input" oninput="filterSpotlight(this.value)" placeholder="Cari studi kasus, layanan, keahlian, atau aksi cepat..." class="w-full bg-transparent text-sm sm:text-base focus:outline-none" style="color: var(--text-primary);">
+                <kbd class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-bold rounded-md border opacity-60" style="border-color: var(--border-hairline);">ESC</kbd>
+            </div>
+            <div id="spotlight-results" class="max-h-[55vh] overflow-y-auto p-3 space-y-1"></div>
+        </div>
+    </div>
 
     <!-- ==================== iOS Quick Look Modal (Sertifikat) ==================== -->
-    <div id="quicklook-modal" class="hidden fixed inset-0 z-[100] apple-backdrop flex items-center justify-center p-4 sm:p-6" onclick="closeQuickLook()">
-        <div class="bg-white rounded-[28px] w-full max-w-4xl overflow-hidden shadow-2xl border border-black/10 flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
-            <div class="px-6 py-4 bg-[#F5F5F7] border-b border-black/5 flex items-center justify-between">
+    <div id="quicklook-modal" class="hidden fixed inset-0 z-[120] spatial-backdrop flex items-center justify-center p-4 sm:p-6" onclick="closeQuickLook()">
+        <div class="rounded-[28px] w-full max-w-4xl overflow-hidden shadow-2xl border flex flex-col max-h-[90vh]" style="background: var(--surface-solid); border-color: var(--border-hairline);" onclick="event.stopPropagation()">
+            <div class="px-6 py-4 border-b flex items-center justify-between" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                 <div class="flex items-center gap-2.5">
                     <button onclick="closeQuickLook()" class="w-3.5 h-3.5 rounded-full bg-[#FF5F56] hover:opacity-80 transition" title="Tutup"></button>
                     <span class="w-3.5 h-3.5 rounded-full bg-[#FFBD2E]"></span>
                     <span class="w-3.5 h-3.5 rounded-full bg-[#27C93F]"></span>
-                    <span id="ql-title" class="ml-3 text-sm font-semibold text-apple-text truncate max-w-[200px] sm:max-w-md">Credential Preview</span>
+                    <span id="ql-title" class="ml-3 text-sm font-semibold truncate max-w-[200px] sm:max-w-md">Credential Preview</span>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a id="ql-external" href="#" target="_blank" class="text-xs font-semibold text-apple-blue hover:underline inline-flex items-center gap-1">
+                    <a id="ql-external" href="#" target="_blank" class="text-xs font-semibold text-[#0071E3] dark:text-[#2997FF] hover:underline inline-flex items-center gap-1">
                         Buka Penuh <i class='bx bx-link-external'></i>
                     </a>
-                    <button onclick="closeQuickLook()" class="text-apple-secondary hover:text-apple-text text-xl leading-none">&times;</button>
+                    <button onclick="closeQuickLook()" class="opacity-70 hover:opacity-100 text-xl leading-none">&times;</button>
                 </div>
             </div>
-            <div id="ql-body" class="flex-1 bg-[#FBFBFD] overflow-auto flex items-center justify-center min-h-[60vh]"></div>
+            <div id="ql-body" class="flex-1 overflow-auto flex items-center justify-center min-h-[60vh]"></div>
         </div>
     </div>
 
-    <!-- ==================== Service Detail Modal ==================== -->
-    <div id="service-detail-modal" class="hidden fixed inset-0 z-[105] apple-backdrop flex items-center justify-center p-4 sm:p-6" onclick="closeServiceModal()">
-        <div class="bg-white rounded-[30px] w-full max-w-2xl overflow-hidden shadow-2xl border border-black/10 flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
-            <div class="px-6 py-4 bg-[#F5F5F7] border-b border-black/5 flex items-center justify-between">
+    <!-- ==================== Service Detail Modal (Bottom Sheet on Mobile) ==================== -->
+    <div id="service-detail-modal" class="hidden fixed inset-0 z-[125] spatial-backdrop flex items-end sm:items-center justify-center p-0 sm:p-6" onclick="closeServiceModal()">
+        <div class="rounded-t-[32px] sm:rounded-[30px] w-full max-w-2xl overflow-hidden shadow-2xl border flex flex-col max-h-[90vh]" style="background: var(--surface-solid); border-color: var(--border-hairline);" onclick="event.stopPropagation()">
+            <div class="sm:hidden w-10 h-1.5 rounded-full bg-gray-400/40 mx-auto mt-3"></div>
+            <div class="px-6 py-4 border-b flex items-center justify-between" style="border-color: var(--border-hairline);">
                 <div class="flex items-center gap-2">
-                    <span id="srv-modal-badge" class="px-3 py-1 rounded-full bg-blue-50 text-apple-blue text-xs font-bold"></span>
+                    <span id="srv-modal-badge" class="px-3 py-1 rounded-full bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] text-xs font-bold"></span>
                     <span id="srv-modal-status"></span>
                 </div>
-                <button type="button" onclick="closeServiceModal()" class="w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 text-apple-text flex items-center justify-center text-lg transition">&times;</button>
+                <button type="button" onclick="closeServiceModal()" class="w-8 h-8 rounded-full flex items-center justify-center text-lg transition" style="background: var(--surface-elevated);">&times;</button>
             </div>
             
             <div class="p-6 sm:p-8 overflow-y-auto space-y-5">
                 <div>
-                    <h3 id="srv-modal-title" class="text-2xl sm:text-3xl font-extrabold text-apple-text tracking-tight"></h3>
-                    <div id="srv-modal-price-box" class="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#F8F9FC] border border-black/5"></div>
+                    <h3 id="srv-modal-title" class="text-2xl sm:text-3xl font-extrabold tracking-tight"></h3>
+                    <div id="srv-modal-price-box" class="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);"></div>
                 </div>
 
-                <div class="border-t border-black/5 pt-4">
-                    <p class="text-xs font-bold uppercase tracking-wider text-apple-secondary mb-2">Scope & Deliverables</p>
-                    <div id="srv-modal-details" class="text-sm sm:text-[15px] text-apple-secondary leading-relaxed whitespace-pre-line"></div>
+                <div class="border-t pt-4" style="border-color: var(--border-hairline);">
+                    <p class="text-xs font-bold uppercase tracking-wider opacity-60 mb-2">Scope & Deliverables</p>
+                    <div id="srv-modal-details" class="text-sm sm:text-[15px] leading-relaxed whitespace-pre-line" style="color: var(--text-secondary);"></div>
                 </div>
             </div>
 
-            <div class="px-6 py-4 bg-[#F8F9FC] border-t border-black/5 flex flex-col sm:flex-row gap-3">
+            <div class="px-6 py-4 border-t flex flex-col sm:flex-row gap-3 pb-7 sm:pb-4" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                 <a id="srv-modal-wa-btn" href="#" target="_blank" class="flex-1 bg-[#10B981] hover:bg-emerald-600 text-white py-3 px-5 rounded-full text-sm font-semibold inline-flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20 transition">
                     <i class='bx bxl-whatsapp text-xl'></i> <span id="srv-modal-wa-text">Diskusi via WhatsApp</span>
                 </a>
-                <button type="button" id="srv-modal-form-btn" class="flex-1 bg-white hover:bg-gray-50 text-apple-text border border-black/10 py-3 px-5 rounded-full text-sm font-semibold inline-flex items-center justify-center gap-2 transition">
-                    <i class='bx bx-edit-alt text-lg text-apple-blue'></i> Ajukan via Form
+                <button type="button" id="srv-modal-form-btn" class="flex-1 py-3 px-5 rounded-full text-sm font-semibold inline-flex items-center justify-center gap-2 border transition" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+                    <i class='bx bx-edit-alt text-lg text-[#0071E3] dark:text-[#2997FF]'></i> Ajukan via Form
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ==================== Floating Apple Navbar ==================== -->
-    <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[92%] md:w-[80%] max-w-5xl z-50 apple-nav rounded-full px-6 py-3 transition-all duration-300">
-        <div class="flex justify-between items-center">
-            <a href="#hero" class="text-base font-bold tracking-tight text-apple-text hover:text-apple-blue transition-colors flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-apple-blue to-apple-emerald inline-block"></span>
-                MUHAMMAD ZIDAN
+    <!-- ==================== Top Dynamic Island Navbar ==================== -->
+    <nav id="top-dynamic-nav" class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[92%] md:w-[88%] max-w-6xl z-50 dynamic-nav rounded-full px-5 sm:px-6 py-3">
+        <div class="flex justify-between items-center gap-3">
+            <a href="#hero" class="text-sm sm:text-base font-extrabold tracking-tight flex items-center gap-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-[#0071E3] to-[#10B981] inline-block shadow-sm"></span>
+                <span>MUHAMMAD ZIDAN</span>
             </a>
             
-            <div class="hidden md:flex space-x-6 text-[13px] font-medium text-apple-secondary">
-                <a href="#arsenal" class="hover:text-apple-blue transition-colors">Expertise</a>
-                <a href="#projects" class="hover:text-apple-blue transition-colors">Projects</a>
-                <a href="#services" class="hover:text-apple-blue transition-colors">Services</a>
-                <a href="#education" class="hover:text-apple-blue transition-colors">Credentials</a>
-                <a href="#gallery" class="hover:text-apple-blue transition-colors">Gallery</a>
+            <div class="hidden lg:flex space-x-6 text-[13px] font-medium" style="color: var(--text-secondary);">
+                <a href="#arsenal" class="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors">Expertise</a>
+                <a href="#projects" class="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors">Projects</a>
+                <a href="#services" class="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors">Services</a>
+                <a href="#education" class="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors">Credentials</a>
+                <a href="#gallery" class="hover:text-[#0071E3] dark:hover:text-[#2997FF] transition-colors">Gallery</a>
             </div>
 
-            <a href="#contact" class="hidden md:inline-flex items-center bg-apple-text text-white text-[13px] font-medium px-4 py-1.5 rounded-full hover:bg-apple-blue transition-colors shadow-sm">
-                Let's Talk
-            </a>
+            <div class="flex items-center gap-2">
+                <!-- Spotlight Search Trigger -->
+                <button type="button" onclick="openSpotlight()" title="Spotlight Search (Ctrl + K)" class="h-9 px-3 rounded-full border flex items-center gap-2 text-xs font-semibold transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline); color: var(--text-secondary);">
+                    <i class='bx bx-search text-base text-[#0071E3] dark:text-[#2997FF]'></i>
+                    <span class="hidden sm:inline">Search</span>
+                    <kbd class="hidden md:inline text-[10px] opacity-60 font-mono">⌘K</kbd>
+                </button>
 
-            <button id="mobile-menu-btn" class="md:hidden text-2xl text-apple-text">
-                <i class="bx bx-menu"></i>
-            </button>
-        </div>
+                <!-- Dark / Light Mode Switcher -->
+                <button type="button" onclick="toggleSpatialTheme()" id="theme-toggle-btn" title="Ganti Tema Terang / Gelap" class="w-9 h-9 rounded-full border flex items-center justify-center text-base transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                    <i id="theme-toggle-icon" class='bx bx-moon'></i>
+                </button>
 
-        <div id="mobile-menu" class="hidden absolute top-full left-0 mt-3 w-full bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl border border-black/5 p-5 flex flex-col space-y-4 text-center text-sm">
-            <a href="#arsenal" class="text-apple-secondary font-medium hover:text-apple-blue">Expertise</a>
-            <a href="#projects" class="text-apple-secondary font-medium hover:text-apple-blue">Projects</a>
-            <a href="#services" class="text-apple-secondary font-medium hover:text-apple-blue">Services</a>
-            <a href="#education" class="text-apple-secondary font-medium hover:text-apple-blue">Credentials</a>
-            <a href="#gallery" class="text-apple-secondary font-medium hover:text-apple-blue">Gallery</a>
-            <a href="#contact" class="bg-apple-blue text-white font-medium py-2.5 rounded-full">Let's Talk</a>
+                <!-- PWA Install Button -->
+                <button type="button" id="pwa-install-btn" onclick="triggerPwaInstall()" class="hidden h-9 px-3.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-xs font-bold items-center gap-1.5 transition hover:bg-emerald-500/25">
+                    <i class='bx bx-download text-base'></i> <span class="hidden sm:inline">Install App</span>
+                </button>
+
+                <a href="#contact" class="hidden md:inline-flex items-center bg-[#0071E3] dark:bg-[#2997FF] text-white text-[13px] font-semibold px-4 py-2 rounded-full hover:opacity-90 transition shadow-sm">
+                    Let's Talk
+                </a>
+            </div>
         </div>
     </nav>
 
-    <!-- Content Wrapper -->
-    <main class="pt-24 md:pt-32 pb-20 px-6 sm:px-8 max-w-6xl mx-auto space-y-24 md:space-y-28">
+    <!-- ==================== Mobile / PWA Floating Bottom Dock ==================== -->
+    <div class="md:hidden fixed bottom-3 left-1/2 -translate-x-1/2 w-[92%] max-w-md z-50 ios-bottom-dock rounded-full px-3 py-2">
+        <div class="grid grid-cols-5 items-center text-center">
+            <a href="#hero" class="flex flex-col items-center justify-center py-1 text-[10px] font-semibold opacity-80 hover:opacity-100 hover:text-[#0071E3] dark:hover:text-[#2997FF]">
+                <i class='bx bx-home-alt-2 text-xl mb-0.5'></i>
+                <span>Home</span>
+            </a>
+            <a href="#projects" class="flex flex-col items-center justify-center py-1 text-[10px] font-semibold opacity-80 hover:opacity-100 hover:text-[#0071E3] dark:hover:text-[#2997FF]">
+                <i class='bx bx-folder-open text-xl mb-0.5'></i>
+                <span>Works</span>
+            </a>
+            <button type="button" onclick="openSpotlight()" class="flex flex-col items-center justify-center -mt-4">
+                <span class="w-12 h-12 rounded-full bg-gradient-to-tr from-[#0071E3] to-[#10B981] text-white flex items-center justify-center text-xl shadow-lg shadow-blue-500/30 active:scale-95 transition">
+                    <i class='bx bx-search'></i>
+                </span>
+            </button>
+            <a href="#services" class="flex flex-col items-center justify-center py-1 text-[10px] font-semibold opacity-80 hover:opacity-100 hover:text-[#0071E3] dark:hover:text-[#2997FF]">
+                <i class='bx bx-briefcase-alt-2 text-xl mb-0.5'></i>
+                <span>Services</span>
+            </a>
+            <a href="#inquiry-box" class="flex flex-col items-center justify-center py-1 text-[10px] font-semibold opacity-80 hover:opacity-100 hover:text-[#0071E3] dark:hover:text-[#2997FF]">
+                <i class='bx bx-send text-xl mb-0.5'></i>
+                <span>Hire</span>
+            </a>
+        </div>
+    </div>
 
-        <!-- ==================== Hero Section ==================== -->
-        <section id="hero" class="flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-16 pt-2">
-            <div class="flex-1 space-y-5 md:space-y-6 text-center md:text-left">
-                <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                    <div id="hero-badge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50/90 text-apple-blue text-[11px] md:text-xs font-bold tracking-wide uppercase border border-blue-200/60 shadow-2xs">
-                        Memuat...
+    <!-- ==================== Main Spatial Bento Container ==================== -->
+    <main class="pt-24 md:pt-28 pb-16 px-4 sm:px-8 max-w-6xl mx-auto space-y-24 md:space-y-28">
+
+        <!-- ==================== 1. SPATIAL BENTO HERO ARCHITECTURE ==================== -->
+        <section id="hero" class="space-y-4">
+            <!-- Top Bento Row: Identity Tile (7 Cols) + Spatial Portrait & Telemetry Tile (5 Cols) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5 items-stretch">
+                
+                <!-- Tile 1: Main Identity & Narrative Card -->
+                <div class="lg:col-span-7 bento-card rounded-[32px] p-7 sm:p-10 flex flex-col justify-between">
+                    <div class="space-y-5 relative z-10">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span id="hero-badge" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/12 text-[#0071E3] dark:text-[#2997FF] text-[11px] font-extrabold tracking-wide uppercase border border-blue-500/20">
+                                Memuat...
+                            </span>
+                        </div>
+
+                        <!-- Dynamic Status / Availability Pills -->
+                        <div id="hero-status-container" class="flex flex-wrap items-center gap-2"></div>
+
+                        <h1 id="hero-headline" class="text-[30px] sm:text-4xl md:text-[44px] font-extrabold leading-[1.15] tracking-[-0.025em]">
+                            Memuat data...
+                        </h1>
+
+                        <p id="hero-summary" class="text-[14.5px] sm:text-[15.5px] leading-relaxed" style="color: var(--text-secondary);">
+                            Memuat profil...
+                        </p>
+                    </div>
+
+                    <div class="relative z-10 flex flex-col sm:flex-row items-center gap-3 pt-7 mt-6 border-t" style="border-color: var(--border-hairline);">
+                        <a href="#projects" class="w-full sm:w-auto text-center bg-[#0071E3] dark:bg-[#2997FF] text-white px-7 py-3.5 rounded-full text-sm font-semibold hover:opacity-90 transition-all shadow-md shadow-blue-500/25 active:scale-[0.98]">
+                            Explore My Work
+                        </a>
+                        <a id="hero-cv" href="#" target="_blank" class="w-full sm:w-auto flex items-center justify-center gap-2 border px-6 py-3.5 rounded-full text-sm font-semibold transition-all active:scale-[0.98]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                            <i class='bx bx-download text-lg text-[#0071E3] dark:text-[#2997FF]'></i> Download Resume
+                        </a>
                     </div>
                 </div>
 
-                <!-- Dynamic Status / Availability Pills -->
-                <div id="hero-status-container" class="flex flex-wrap items-center justify-center md:justify-start gap-2"></div>
-                
-                <h1 id="hero-headline" class="text-[34px] sm:text-5xl md:text-[54px] font-extrabold text-apple-text leading-[1.12] tracking-[-0.025em]">
-                    Memuat data...
-                </h1>
-                
-                <p id="hero-summary" class="text-apple-secondary text-[15px] md:text-[18px] font-normal leading-relaxed max-w-2xl mx-auto md:mx-0 text-left">
-                    Memuat profil...
-                </p>
-                
-                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 pt-1">
-                    <a href="#projects" class="w-full sm:w-auto bg-apple-blue text-white px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-apple-blueHover transition-all shadow-md shadow-blue-500/20 active:scale-[0.98]">
-                        Explore My Work
-                    </a>
-                    <a id="hero-cv" href="#" target="_blank" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-apple-text border border-black/10 px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-gray-50 transition-all shadow-2xs active:scale-[0.98]">
-                        <i class='bx bx-download text-lg text-apple-blue'></i> Download Resume
-                    </a>
+                <!-- Tile 2: Spatial Portrait & Live Telemetry HUD Card -->
+                <div class="lg:col-span-5 bento-card rounded-[32px] p-6 sm:p-7 flex flex-col justify-between">
+                    <div class="relative z-10 flex items-center justify-between gap-2 mb-4">
+                        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide" style="background: var(--surface-elevated); color: var(--text-secondary);">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            SPATIAL PROFILE
+                        </span>
+                        <span class="text-[11px] font-mono font-semibold opacity-60">IDN &bull; UTC+7</span>
+                    </div>
+
+                    <!-- Portrait Frame -->
+                    <div class="relative z-10 flex-1 flex items-center justify-center my-1">
+                        <div class="w-full h-64 sm:h-72 lg:h-[290px] rounded-[24px] overflow-hidden border relative" style="border-color: var(--border-hairline); background: var(--surface-elevated);">
+                            <img src="" alt="Muhammad Zidan" id="hero-image" class="w-full h-full object-cover object-top">
+                            <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent text-white">
+                                <p class="text-sm font-extrabold tracking-tight">Muhammad Zidan</p>
+                                <p class="text-[11px] text-white/80">Data Analytics &bull; Business &amp; Web Systems</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mini HUD Footer inside Portrait Tile -->
+                    <div class="relative z-10 grid grid-cols-2 gap-2.5 pt-4 mt-3 border-t" style="border-color: var(--border-hairline);">
+                        <div class="p-3 rounded-2xl" style="background: var(--surface-elevated);">
+                            <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Academic GPA</span>
+                            <span class="text-base font-extrabold text-[#0071E3] dark:text-[#2997FF]">3.79 <span class="text-xs font-medium opacity-70">/ 4.00</span></span>
+                        </div>
+                        <div class="p-3 rounded-2xl" style="background: var(--surface-elevated);">
+                            <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Focus Domain</span>
+                            <span class="text-xs font-extrabold block mt-0.5 truncate">Data &amp; IT Solutions</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Apple Profile Frame -->
-            <div class="flex-shrink-0 relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 xl:w-[340px] xl:h-[340px] mx-auto">
-                <div class="absolute -inset-3 bg-gradient-to-tr from-blue-500/20 via-emerald-400/20 to-indigo-500/20 blur-2xl rounded-full -z-10"></div>
-                <div class="apple-profile-wrapper w-full h-full">
-                    <img src="" alt="Muhammad Zidan" id="hero-image" class="w-full h-full object-cover object-top apple-profile-frame bg-white">
-                </div>
+            <!-- Bottom Bento Strip: 3 Interactive Telemetry & Quick-Action Tiles -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5">
+                <a href="#projects" class="bento-card rounded-[24px] p-5 flex items-center justify-between gap-4 group">
+                    <div class="relative z-10">
+                        <span class="text-[11px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Case Studies</span>
+                        <p class="text-xl font-extrabold mt-0.5"><span id="telemetry-proj-count">2+</span> <span class="text-xs font-semibold opacity-70">Published Works</span></p>
+                    </div>
+                    <span class="relative z-10 w-11 h-11 rounded-2xl bg-blue-500/12 text-[#0071E3] dark:text-[#2997FF] flex items-center justify-center text-xl group-hover:scale-110 transition">
+                        <i class='bx bx-bar-chart-alt-2'></i>
+                    </span>
+                </a>
+
+                <a href="#services" class="bento-card rounded-[24px] p-5 flex items-center justify-between gap-4 group">
+                    <div class="relative z-10">
+                        <span class="text-[11px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Services &amp; Slots</span>
+                        <p class="text-xl font-extrabold mt-0.5"><span id="telemetry-srv-count">Open</span> <span class="text-xs font-semibold opacity-70">For Collaboration</span></p>
+                    </div>
+                    <span class="relative z-10 w-11 h-11 rounded-2xl bg-emerald-500/12 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
+                        <i class='bx bx-briefcase-alt-2'></i>
+                    </span>
+                </a>
+
+                <button type="button" onclick="openSpotlight()" class="bento-card rounded-[24px] p-5 flex items-center justify-between gap-4 text-left group">
+                    <div class="relative z-10">
+                        <span class="text-[11px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Spotlight Navigation</span>
+                        <p class="text-sm font-extrabold mt-1">Quick Jump &amp; Actions <kbd class="ml-1 px-1.5 py-0.5 text-[10px] rounded border font-mono opacity-75" style="border-color: var(--border-hairline);">⌘K</kbd></p>
+                    </div>
+                    <span class="relative z-10 w-11 h-11 rounded-2xl bg-indigo-500/12 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
+                        <i class='bx bx-command'></i>
+                    </span>
+                </button>
             </div>
         </section>
 
-        <!-- ==================== Technical Arsenal ==================== -->
+        <!-- ==================== 2. TECHNICAL ARSENAL (BENTO) ==================== -->
         <section id="arsenal" class="reveal">
-            <div class="text-center max-w-2xl mx-auto mb-14">
-                <span class="inline-block px-3 py-1 rounded-full bg-blue-50 text-apple-blue text-xs font-bold uppercase tracking-wider mb-3">Capabilities</span>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-apple-text tracking-tight mb-3">Technical Arsenal.</h2>
-                <p class="text-apple-secondary text-base md:text-lg">A blend of analytical mindset and engineering capabilities.</p>
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="inline-block px-3 py-1 rounded-full bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] text-xs font-bold uppercase tracking-wider mb-3">Capabilities</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Technical Arsenal.</h2>
+                <p class="text-base md:text-lg" style="color: var(--text-secondary);">A blend of analytical mindset and engineering capabilities.</p>
             </div>
             
             <div id="arsenal-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <p class="text-center text-apple-secondary col-span-3 text-sm">Memuat daftar keahlian...</p>
+                <p class="text-center col-span-3 text-sm" style="color: var(--text-secondary);">Memuat daftar keahlian...</p>
             </div>
         </section>
 
-        <!-- ==================== Featured Projects ==================== -->
-        <section id="projects" class="space-y-10 reveal">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-black/5 pb-6">
+        <!-- ==================== 3. FEATURED CASE STUDIES ==================== -->
+        <section id="projects" class="space-y-8 reveal">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b pb-6" style="border-color: var(--border-hairline);">
                 <div>
-                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-3">Selected Works</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-apple-text tracking-tight">Featured Case Studies.</h2>
-                    <p class="text-apple-secondary mt-1.5 text-base">Real-world problem solving and data-driven implementations.</p>
+                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-3">Selected Works</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Featured Case Studies.</h2>
+                    <p class="mt-1.5 text-base" style="color: var(--text-secondary);">Real-world problem solving and data-driven implementations.</p>
                 </div>
             </div>
 
             <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-7">
-                <!-- Project 1 -->
-                <div class="group apple-card rounded-[28px] overflow-hidden flex flex-col">
-                    <div class="h-60 bg-slate-100 overflow-hidden relative">
+                <!-- Static Project 1 -->
+                <div class="group bento-card rounded-[28px] flex flex-col">
+                    <div class="h-60 overflow-hidden relative" style="background: var(--surface-elevated);">
                         <img src="/artifacts/image_d69916.png" alt="Bun Haven Analytics" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
                     </div>
-                    <div class="p-8 flex flex-col flex-grow">
+                    <div class="p-8 flex flex-col flex-grow relative z-10">
                         <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="px-3 py-1 bg-blue-50 text-apple-blue text-xs font-semibold rounded-full">Data Mining</span>
-                            <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full">KNIME</span>
+                            <span class="px-3 py-1 bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] text-xs font-semibold rounded-full">Data Mining</span>
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full" style="background: var(--surface-elevated); color: var(--text-secondary);">KNIME</span>
                         </div>
-                        <h3 class="text-xl md:text-2xl font-bold text-apple-text tracking-tight mb-2.5">Bun Haven Bakery Sales Optimization</h3>
-                        <p class="text-apple-secondary text-sm leading-relaxed mb-6 flex-grow">
+                        <h3 class="text-xl md:text-2xl font-bold tracking-tight mb-2.5">Bun Haven Bakery Sales Optimization</h3>
+                        <p class="text-sm leading-relaxed mb-6 flex-grow" style="color: var(--text-secondary);">
                             Designed a business strategy utilizing Association Rules and the Apriori algorithm to identify purchasing patterns, resulting in data-driven recommendations for product bundling and store layout optimization.
                         </p>
-                        <a href="project-bunhaven.html" class="inline-flex items-center text-apple-blue text-sm font-semibold hover:underline transition-all mt-auto">
+                        <a href="project-bunhaven.html" class="inline-flex items-center text-[#0071E3] dark:text-[#2997FF] text-sm font-semibold hover:underline transition-all mt-auto">
                             Read Case Study <i class='bx bx-chevron-right ml-1 text-lg'></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Project 2 -->
-                <div class="group apple-card rounded-[28px] overflow-hidden flex flex-col">
-                    <div class="h-60 bg-slate-100 overflow-hidden relative">
+                <!-- Static Project 2 -->
+                <div class="group bento-card rounded-[28px] flex flex-col">
+                    <div class="h-60 overflow-hidden relative" style="background: var(--surface-elevated);">
                         <img src="/artifacts/image_d3e5a3.png" alt="Amazon Sales Analysis" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
                     </div>
-                    <div class="p-8 flex flex-col flex-grow">
+                    <div class="p-8 flex flex-col flex-grow relative z-10">
                         <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full">Machine Learning</span>
-                            <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full">KNIME</span>
+                            <span class="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-full">Machine Learning</span>
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full" style="background: var(--surface-elevated); color: var(--text-secondary);">KNIME</span>
                         </div>
-                        <h3 class="text-xl md:text-2xl font-bold text-apple-text tracking-tight mb-2.5">Amazon Sales Report Analysis</h3>
-                        <p class="text-apple-secondary text-sm leading-relaxed mb-6 flex-grow">
+                        <h3 class="text-xl md:text-2xl font-bold tracking-tight mb-2.5">Amazon Sales Report Analysis</h3>
+                        <p class="text-sm leading-relaxed mb-6 flex-grow" style="color: var(--text-secondary);">
                             Structured raw sales data and developed predictive models using Random Forest (99.78% accuracy) and Decision Tree algorithms to forecast delivery statuses and optimize fulfillment strategies.
                         </p>
-                        <a href="project-amazon.html" class="inline-flex items-center text-apple-blue text-sm font-semibold hover:underline transition-all mt-auto">
+                        <a href="project-amazon.html" class="inline-flex items-center text-[#0071E3] dark:text-[#2997FF] text-sm font-semibold hover:underline transition-all mt-auto">
                             Read Case Study <i class='bx bx-chevron-right ml-1 text-lg'></i>
                         </a>
                     </div>
@@ -310,41 +549,41 @@
             </div>
         </section>
 
-        <!-- ==================== Services & Offerings ==================== -->
+        <!-- ==================== 4. SERVICES & OFFERINGS ==================== -->
         <section id="services" class="space-y-8 reveal">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-black/5 pb-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6" style="border-color: var(--border-hairline);">
                 <div>
-                    <span class="inline-block px-3 py-1 rounded-full bg-blue-50 text-apple-blue text-xs font-bold uppercase tracking-wider mb-3">Services & Availability</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-apple-text tracking-tight">Professional Services.</h2>
-                    <p class="text-apple-secondary mt-1.5 text-base">Click any service card to inspect deliverables, pricing terms, or start a direct WhatsApp discussion.</p>
+                    <span class="inline-block px-3 py-1 rounded-full bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] text-xs font-bold uppercase tracking-wider mb-3">Services & Availability</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Professional Services.</h2>
+                    <p class="mt-1.5 text-base" style="color: var(--text-secondary);">Click any service card to inspect deliverables, pricing terms, or start a direct WhatsApp discussion.</p>
                 </div>
-                <a href="#inquiry-box" class="inline-flex items-center gap-2 bg-white text-apple-text border border-black/10 px-5 py-2.5 rounded-full text-xs font-semibold hover:bg-gray-50 transition shadow-2xs">
-                    <i class='bx bx-customize text-base text-apple-blue'></i> Request Custom Service
+                <a href="#inquiry-box" class="inline-flex items-center gap-2 border px-5 py-2.5 rounded-full text-xs font-semibold transition" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+                    <i class='bx bx-customize text-base text-[#0071E3] dark:text-[#2997FF]'></i> Request Custom Service
                 </a>
             </div>
 
             <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <p class="text-apple-secondary text-sm col-span-full">Memuat daftar layanan...</p>
+                <p class="text-sm col-span-full" style="color: var(--text-secondary);">Memuat daftar layanan...</p>
             </div>
         </section>
 
-        <!-- ==================== Education & Certifications ==================== -->
+        <!-- ==================== 5. EDUCATION & CERTIFICATIONS ==================== -->
         <section id="education" class="grid grid-cols-1 lg:grid-cols-2 gap-10 reveal">
             <!-- Education -->
             <div class="space-y-5">
                 <div>
-                    <span class="inline-block px-3 py-1 rounded-full bg-blue-50 text-apple-blue text-xs font-bold uppercase tracking-wider mb-2">Education</span>
-                    <h2 class="text-2xl font-extrabold text-apple-text tracking-tight">Academic Background</h2>
+                    <span class="inline-block px-3 py-1 rounded-full bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] text-xs font-bold uppercase tracking-wider mb-2">Education</span>
+                    <h2 class="text-2xl font-extrabold tracking-tight">Academic Background</h2>
                 </div>
                 <div id="edu-container" class="space-y-4">
-                    <div class="apple-card p-6 rounded-[24px] flex items-center gap-4">
-                        <div class="w-16 h-16 rounded-2xl bg-slate-50 border border-black/5 flex-shrink-0 flex items-center justify-center p-2.5">
+                    <div class="bento-card p-6 rounded-[24px] flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-2xl border flex-shrink-0 flex items-center justify-center p-2.5" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                              <img src="/artifacts/uploaded_image_0c2a39.png" alt="STT-NF" class="w-full h-full object-contain">
                         </div>
-                        <div>
-                            <h3 class="font-bold text-apple-text text-lg tracking-tight">STT Terpadu Nurul Fikri</h3>
-                            <p class="text-apple-secondary font-medium text-sm">Informatics Engineering</p>
-                            <p class="text-slate-400 text-xs mt-1">Graduated: 2026 &bull; GPA: 3.80 / 4.00</p>
+                        <div class="relative z-10">
+                            <h3 class="font-bold text-lg tracking-tight">STT Terpadu Nurul Fikri</h3>
+                            <p class="font-medium text-sm" style="color: var(--text-secondary);">Informatics Engineering</p>
+                            <p class="text-xs mt-1" style="color: var(--text-muted);">Graduated: 2026 &bull; GPA: 3.79 / 4.00</p>
                         </div>
                     </div>
                 </div>
@@ -353,22 +592,22 @@
             <!-- Certifications -->
             <div class="space-y-5">
                 <div>
-                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-2">Verified Credentials</span>
-                    <h2 class="text-2xl font-extrabold text-apple-text tracking-tight">Certifications</h2>
+                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">Verified Credentials</span>
+                    <h2 class="text-2xl font-extrabold tracking-tight">Certifications</h2>
                 </div>
                 <div id="cert-container" class="space-y-3.5">
-                    <p class="text-apple-secondary text-sm">Memuat sertifikasi...</p>
+                    <p class="text-sm" style="color: var(--text-secondary);">Memuat sertifikasi...</p>
                 </div>
             </div>
         </section>
 
-        <!-- ==================== Activity & Event Gallery ==================== -->
+        <!-- ==================== 6. ACTIVITY & EVENT GALLERY ==================== -->
         <section id="gallery" class="space-y-8 reveal">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-black/5 pb-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6" style="border-color: var(--border-hairline);">
                 <div>
-                    <span class="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-3">Visual Journal</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-apple-text tracking-tight">Activity & Moments.</h2>
-                    <p class="text-apple-secondary mt-1.5 text-base">Snapshots from internships, professional work, seminars, and technical workshops.</p>
+                    <span class="inline-block px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider mb-3">Visual Journal</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Activity & Moments.</h2>
+                    <p class="mt-1.5 text-base" style="color: var(--text-secondary);">Snapshots from internships, professional work, seminars, and technical workshops.</p>
                 </div>
                 <div id="gallery-filter-pills" class="flex flex-wrap gap-2"></div>
             </div>
@@ -376,73 +615,73 @@
             <div id="gallery-albums-grid" class="grid grid-cols-1 md:grid-cols-2 gap-7"></div>
         </section>
 
-        <!-- ==================== Collaboration & Service Request Form ==================== -->
-        <section id="inquiry-box" class="apple-card rounded-[32px] p-8 sm:p-12 reveal">
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
+        <!-- ==================== 7. COLLABORATION & SERVICE REQUEST FORM ==================== -->
+        <section id="inquiry-box" class="bento-card rounded-[32px] p-8 sm:p-12 reveal">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start relative z-10">
                 <div class="lg:col-span-2 space-y-4">
-                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider">Collaboration & Requests</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-apple-text tracking-tight">Propose a Project or Custom Service.</h2>
-                    <p class="text-apple-secondary text-sm leading-relaxed">
+                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider">Collaboration & Requests</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Propose a Project or Custom Service.</h2>
+                    <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
                         Punya kebutuhan pengolahan data, proyek pengembangan web, kolaborasi riset, atau ingin meminta penawaran layanan khusus? Kirim detail singkat di samping—pesan akan langsung masuk ke sistem saya.
                     </p>
-                    <div class="pt-2 space-y-2.5 text-xs text-apple-secondary">
+                    <div class="pt-2 space-y-2.5 text-xs" style="color: var(--text-secondary);">
                         <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 rounded-full bg-blue-50 text-apple-blue flex items-center justify-center"><i class='bx bx-check-shield text-base'></i></span>
+                            <span class="w-7 h-7 rounded-full bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] flex items-center justify-center"><i class='bx bx-check-shield text-base'></i></span>
                             <span>Respon cepat untuk kebutuhan *remote* maupun *project-based*.</span>
                         </div>
                         <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class='bx bxl-whatsapp text-base'></i></span>
+                            <span class="w-7 h-7 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center"><i class='bx bxl-whatsapp text-base'></i></span>
                             <span>Bisa langsung dilanjutkan ke diskusi WhatsApp setelah mengirim form.</span>
                         </div>
                     </div>
                 </div>
 
-                <form id="visitor-inquiry-form" onsubmit="submitVisitorInquiry(event)" class="lg:col-span-3 space-y-4 bg-[#F8F9FC] p-6 sm:p-7 rounded-[24px] border border-black/5">
+                <form id="visitor-inquiry-form" onsubmit="submitVisitorInquiry(event)" class="lg:col-span-3 space-y-4 p-6 sm:p-7 rounded-[24px] border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-semibold text-apple-text mb-1.5">Nama Lengkap / Instansi *</label>
-                            <input type="text" id="inq-name" required placeholder="Cth: Budi Santoso / PT Maju Jaya" class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue">
+                            <label class="block text-xs font-semibold mb-1.5">Nama Lengkap / Instansi *</label>
+                            <input type="text" id="inq-name" required placeholder="Cth: Budi Santoso / PT Maju Jaya" class="spatial-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-apple-text mb-1.5">Kontak (WhatsApp / Email) *</label>
-                            <input type="text" id="inq-contact" required placeholder="Cth: 0812xxxx / email@domain.com" class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue">
+                            <label class="block text-xs font-semibold mb-1.5">Kontak (WhatsApp / Email) *</label>
+                            <input type="text" id="inq-contact" required placeholder="Cth: 0812xxxx / email@domain.com" class="spatial-input">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-semibold text-apple-text mb-1.5">Jenis Pengajuan *</label>
-                            <select id="inq-type" class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue">
+                            <label class="block text-xs font-semibold mb-1.5">Jenis Pengajuan *</label>
+                            <select id="inq-type" class="spatial-input">
                                 <option value="Custom Service">Permintaan Layanan Khusus</option>
                                 <option value="Project Collaboration">Kolaborasi Proyek / Riset</option>
                                 <option value="Recruitment / Hiring">Tawaran Kerja / Magang</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-apple-text mb-1.5">Layanan Terkait (Opsional)</label>
-                            <select id="inq-service-ref" class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue">
+                            <label class="block text-xs font-semibold mb-1.5">Layanan Terkait (Opsional)</label>
+                            <select id="inq-service-ref" class="spatial-input">
                                 <option value="">— Umum / Lainnya —</option>
                             </select>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-apple-text mb-1.5">Estimasi Budget / Target Waktu (Opsional)</label>
-                        <input type="text" id="inq-budget" placeholder="Cth: Fleksibel / Target selesai 2 minggu" class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue">
+                        <label class="block text-xs font-semibold mb-1.5">Estimasi Budget / Target Waktu (Opsional)</label>
+                        <input type="text" id="inq-budget" placeholder="Cth: Fleksibel / Target selesai 2 minggu" class="spatial-input">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-apple-text mb-1.5">Detail Kebutuhan atau Ide Kolaborasi *</label>
-                        <textarea id="inq-message" rows="3" required placeholder="Jelaskan singkat ruang lingkup pekerjaan atau kolaborasi yang diharapkan..." class="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-apple-blue"></textarea>
+                        <label class="block text-xs font-semibold mb-1.5">Detail Kebutuhan atau Ide Kolaborasi *</label>
+                        <textarea id="inq-message" rows="3" required placeholder="Jelaskan singkat ruang lingkup pekerjaan atau kolaborasi yang diharapkan..." class="spatial-input"></textarea>
                     </div>
 
                     <div id="inq-feedback" class="hidden text-xs font-semibold px-4 py-3 rounded-xl"></div>
 
                     <div class="flex flex-col sm:flex-row gap-3 pt-1">
-                        <button type="submit" id="btn-submit-inq" class="flex-1 bg-apple-blue hover:bg-apple-blueHover text-white font-semibold py-3 px-6 rounded-full text-sm transition shadow-md shadow-blue-500/20">
+                        <button type="submit" id="btn-submit-inq" class="flex-1 bg-[#0071E3] dark:bg-[#2997FF] text-white font-semibold py-3 px-6 rounded-full text-sm transition shadow-md shadow-blue-500/20 hover:opacity-90">
                             Kirim Pengajuan
                         </button>
-                        <button type="button" onclick="sendInquiryViaWa()" class="bg-white hover:bg-gray-50 text-apple-text border border-black/10 font-semibold py-3 px-5 rounded-full text-sm inline-flex items-center justify-center gap-2 transition">
+                        <button type="button" onclick="sendInquiryViaWa()" class="border font-semibold py-3 px-5 rounded-full text-sm inline-flex items-center justify-center gap-2 transition" style="background: var(--surface-solid); border-color: var(--border-hairline);">
                             <i class='bx bxl-whatsapp text-lg text-[#10B981]'></i> Kirim via WhatsApp
                         </button>
                     </div>
@@ -450,53 +689,181 @@
             </div>
         </section>
 
-        <!-- ==================== Contact / Footer CTA ==================== -->
-        <section id="contact" class="bg-gradient-to-br from-[#1D1D1F] via-[#161B26] to-[#0F172A] rounded-[32px] p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl reveal">
-            <div class="absolute top-0 right-0 -mr-24 -mt-24 w-80 h-80 bg-apple-blue rounded-full blur-3xl opacity-30 pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 bg-apple-emerald rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+        <!-- ==================== 8. CONTACT / FOOTER CTA ==================== -->
+        <section id="contact" class="bg-gradient-to-br from-[#14161F] via-[#0F131C] to-[#07090E] rounded-[32px] p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl border border-white/10 reveal">
+            <div class="absolute top-0 right-0 -mr-24 -mt-24 w-80 h-80 bg-[#0071E3] rounded-full blur-3xl opacity-30 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 bg-[#10B981] rounded-full blur-3xl opacity-20 pointer-events-none"></div>
             
             <h2 id="footer-title" class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 relative z-10">Ready to build something impactful?</h2>
             <p id="footer-sub" class="text-slate-300 text-base md:text-lg max-w-2xl mx-auto mb-10 relative z-10">I am actively seeking collaboration and professional opportunities where tech meets business logic.</p>
             
             <div class="grid grid-cols-2 sm:flex sm:justify-center gap-3 max-w-sm sm:max-w-none mx-auto relative z-10">
-                <a id="footer-wa" href="#" target="_blank" class="bg-[#10B981] text-white px-5 sm:px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-emerald-600 transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-[0.98]">
+                <a id="footer-wa" href="#" target="_blank" class="bg-[#10B981] text-white px-5 sm:px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-emerald-600 transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25 active:scale-[0.98]">
                     <i class='bx bxl-whatsapp text-xl'></i> WhatsApp
                 </a>
-                <a id="footer-linkedin" href="#" target="_blank" class="bg-apple-blue text-white px-5 sm:px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-apple-blueHover transition flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 active:scale-[0.98]">
+                <a id="footer-linkedin" href="#" target="_blank" class="bg-[#0071E3] text-white px-5 sm:px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-blue-600 transition flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 active:scale-[0.98]">
                     <i class='bx bxl-linkedin text-xl'></i> LinkedIn
                 </a>
             </div>
             
             <p class="mt-12 text-xs text-slate-400 relative z-10">
-                Alternatively, drop an email to: <a id="footer-email-link" href="mailto:jidan1307@gmail.com"><span id="footer-email" class="text-white font-semibold hover:underline">jidan1307@gmail.com</span></a>
+                Alternatively, drop an email to: <button type="button" onclick="copyEmailToast()" class="text-white font-semibold hover:underline"><span id="footer-email">jidan1307@gmail.com</span> <i class='bx bx-copy text-xs ml-0.5'></i></button>
             </p>
         </section>
 
     </main>
 
-    <footer class="text-center py-8 text-apple-secondary text-xs font-medium">
-        &copy; 2026 Muhammad Zidan. Engineered for clarity.
+    <footer class="text-center py-6 text-xs font-medium" style="color: var(--text-muted);">
+        &copy; 2026 Muhammad Zidan. Spatial Portfolio Architecture.
     </footer>
 
-    <!-- Script UI, Quick Look & Gallery Album Lightbox -->
+    <!-- ==================== CORE INTERACTION, SPOTLIGHT, THEME & PWA SCRIPT ==================== -->
     <script>
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        const icon = btn.querySelector('i');
-
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-            if(menu.classList.contains('hidden')) icon.classList.replace('bx-x', 'bx-menu');
-            else icon.classList.replace('bx-menu', 'bx-x');
-        });
-
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-                icon.classList.replace('bx-x', 'bx-menu');
+        // 1. Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(() => {});
             });
+        }
+
+        // PWA Install Prompt Handler
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installBtn = document.getElementById('pwa-install-btn');
+            if (installBtn) {
+                installBtn.classList.remove('hidden');
+                installBtn.classList.add('inline-flex');
+            }
         });
 
+        window.triggerPwaInstall = async function() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                document.getElementById('pwa-install-btn').classList.add('hidden');
+                showIosToast('Aplikasi berhasil ditambahkan ke perangkat!');
+            }
+            deferredPrompt = null;
+        };
+
+        // 2. Dark / Light Theme Switcher
+        function syncThemeIcon() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const icon = document.getElementById('theme-toggle-icon');
+            const meta = document.getElementById('meta-theme-color');
+            if (icon) icon.className = isDark ? 'bx bx-sun text-amber-400' : 'bx bx-moon text-slate-700';
+            if (meta) meta.setAttribute('content', isDark ? '#06070A' : '#0071E3');
+        }
+        syncThemeIcon();
+
+        window.toggleSpatialTheme = function() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            if (next === 'dark') document.documentElement.classList.add('dark');
+            else document.documentElement.classList.remove('dark');
+            localStorage.setItem('mz_spatial_theme', next);
+            syncThemeIcon();
+            showIosToast(next === 'dark' ? 'Spatial Dark Mode aktif' : 'Frosted Light Mode aktif');
+        };
+
+        // 3. iOS Dynamic Toast
+        let toastTimer;
+        window.showIosToast = function(msg) {
+            const toast = document.getElementById('ios-toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2600);
+        };
+
+        window.copyEmailToast = function() {
+            const email = document.getElementById('footer-email').innerText;
+            navigator.clipboard?.writeText(email);
+            showIosToast('Email disalin: ' + email);
+        };
+
+        // 4. Dynamic Island Navbar Morph on Scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('top-dynamic-nav');
+            if (window.scrollY > 40) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        }, { passive: true });
+
+        // 5. Cursor Specular Glow on Bento Cards
+        document.addEventListener('mousemove', (e) => {
+            const card = e.target.closest('.bento-card');
+            if (!card) return;
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+            card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        }, { passive: true });
+
+        // 6. Spotlight Command Palette (Ctrl+K / Cmd+K)
+        window.spotlightItems = [
+            { title: 'Explore Case Studies', sub: 'Lihat proyek analisis data & pengembangan sistem', icon: 'bx-folder-open', action: () => location.hash = '#projects' },
+            { title: 'Professional Services & Pricing', sub: 'Cek layanan terbuka, skema harga, & slot tersedia', icon: 'bx-briefcase-alt-2', action: () => location.hash = '#services' },
+            { title: 'Propose Project / Custom Service', sub: 'Kirim pengajuan kolaborasi atau permintaan khusus', icon: 'bx-send', action: () => location.hash = '#inquiry-box' },
+            { title: 'Toggle Dark / Light Mode', sub: 'Ubah tampilan antara Spatial Dark dan Frosted Light', icon: 'bx-adjust', action: () => toggleSpatialTheme() },
+            { title: 'Copy Email Address', sub: 'Salin alamat email langsung ke clipboard', icon: 'bx-copy', action: () => copyEmailToast() }
+        ];
+
+        window.openSpotlight = function() {
+            const modal = document.getElementById('spotlight-modal');
+            const input = document.getElementById('spotlight-input');
+            modal.classList.remove('hidden');
+            input.value = '';
+            filterSpotlight('');
+            setTimeout(() => input.focus(), 50);
+        };
+
+        window.closeSpotlight = function() {
+            document.getElementById('spotlight-modal').classList.add('hidden');
+        };
+
+        window.filterSpotlight = function(query) {
+            const q = query.toLowerCase().trim();
+            const wrap = document.getElementById('spotlight-results');
+            const matches = window.spotlightItems.filter(item =>
+                item.title.toLowerCase().includes(q) || item.sub.toLowerCase().includes(q)
+            );
+
+            if (matches.length === 0) {
+                wrap.innerHTML = `<p class="text-xs text-center py-6 opacity-60">Tidak ada hasil untuk "${query}"</p>`;
+                return;
+            }
+
+            wrap.innerHTML = matches.map((item, idx) => `
+                <button type="button" onclick="executeSpotlight(${idx}, '${q.replace(/'/g, "\\'")}')"
+                    class="w-full text-left px-4 py-3 rounded-2xl flex items-center gap-3.5 transition hover:bg-blue-500/10">
+                    <span class="w-9 h-9 rounded-xl bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] flex items-center justify-center text-lg flex-shrink-0">
+                        <i class='bx ${item.icon}'></i>
+                    </span>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-sm font-bold truncate">${item.title}</p>
+                        <p class="text-xs truncate opacity-70">${item.sub}</p>
+                    </div>
+                    <i class='bx bx-right-arrow-alt text-lg opacity-40'></i>
+                </button>
+            `).join('');
+        };
+
+        window.executeSpotlight = function(filteredIdx, q) {
+            const matches = window.spotlightItems.filter(item =>
+                item.title.toLowerCase().includes(q) || item.sub.toLowerCase().includes(q)
+            );
+            closeSpotlight();
+            if (matches[filteredIdx]) matches[filteredIdx].action();
+        };
+
+        // 7. Quick Look Modal
         window.openQuickLook = function(url, title) {
             const modal = document.getElementById('quicklook-modal');
             const body = document.getElementById('ql-body');
@@ -519,6 +886,7 @@
             document.body.style.overflow = '';
         };
 
+        // Reveal Observer
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -526,7 +894,7 @@
         }, { threshold: 0.08 });
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        // ==================== GALLERY ALBUM SYSTEM ====================
+        // 8. Gallery Album Lightbox System
         const defaultMsibAlbums = [
             {
                 id: 'default-ds',
@@ -569,7 +937,7 @@
             if (document.getElementById('ios-album-modal')) return;
             const modalDiv = document.createElement('div');
             modalDiv.id = 'ios-album-modal';
-            modalDiv.className = 'hidden fixed inset-0 z-[9999] bg-black/90 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-6 select-none';
+            modalDiv.className = 'hidden fixed inset-0 z-[9999] bg-black/92 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-6 select-none';
             modalDiv.onclick = window.closeIosAlbum;
             modalDiv.innerHTML = `
                 <div class="max-w-5xl w-full mx-auto flex items-center justify-between gap-3" onclick="event.stopPropagation()">
@@ -606,7 +974,8 @@
             const categories = ['ALL', ...new Set(window.allGalleryAlbums.map(a => a.category).filter(Boolean))];
             pillWrap.innerHTML = categories.map((cat, idx) => `
                 <button type="button" onclick="window.filterGalleryCards('${cat}')" data-cat="${cat}"
-                    class="gal-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition ${idx === 0 ? 'bg-[#1D1D1F] text-white' : 'bg-white text-apple-secondary border border-black/10 hover:text-apple-text'}">
+                    class="gal-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition ${idx === 0 ? 'bg-[#0071E3] text-white' : 'border opacity-80 hover:opacity-100'}"
+                    style="${idx === 0 ? '' : 'background: var(--surface-solid); border-color: var(--border-hairline);'}">
                     ${cat === 'ALL' ? 'All Moments' : cat}
                 </button>
             `).join('');
@@ -617,9 +986,11 @@
         window.filterGalleryCards = function(selectedCat) {
             document.querySelectorAll('.gal-filter-btn').forEach(btn => {
                 if (btn.dataset.cat === selectedCat) {
-                    btn.className = 'gal-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#1D1D1F] text-white';
+                    btn.className = 'gal-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-[#0071E3] text-white';
+                    btn.removeAttribute('style');
                 } else {
-                    btn.className = 'gal-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition bg-white text-apple-secondary border border-black/10 hover:text-apple-text';
+                    btn.className = 'gal-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition border opacity-80 hover:opacity-100';
+                    btn.setAttribute('style', 'background: var(--surface-solid); border-color: var(--border-hairline);');
                 }
             });
 
@@ -636,32 +1007,29 @@
                     const isLastMore = idx === 3 && photos.length > 4;
                     if (isLastMore) {
                         return `
-                            <div class="relative w-full h-24 overflow-hidden bg-slate-100">
+                            <div class="relative w-full h-24 overflow-hidden">
                                 <img src="${p.url}" alt="" loading="lazy" class="w-full h-full object-cover brightness-50 group-hover:scale-105 transition-transform duration-500">
                                 <span class="absolute inset-0 flex items-center justify-center text-white font-bold text-sm">+${photos.length - 3}</span>
                             </div>
                         `;
                     }
-                    return `<img src="${p.url}" alt="" loading="lazy" class="w-full h-24 object-cover bg-slate-100 group-hover:scale-105 transition-transform duration-500">`;
+                    return `<img src="${p.url}" alt="" loading="lazy" class="w-full h-24 object-cover group-hover:scale-105 transition-transform duration-500">`;
                 }).join('');
 
-                const badgeColor = album.category === 'MSIB' ? 'bg-blue-50 text-apple-blue'
-                    : (album.category.toLowerCase().includes('work') ? 'bg-emerald-50 text-emerald-700' : 'bg-indigo-50 text-indigo-600');
-
                 grid.innerHTML += `
-                    <div onclick="window.openIosAlbum('${album.id}')" class="group apple-card rounded-[28px] p-7 cursor-pointer flex flex-col justify-between">
-                        <div>
+                    <div onclick="window.openIosAlbum('${album.id}')" class="group bento-card rounded-[28px] p-7 cursor-pointer flex flex-col justify-between">
+                        <div class="relative z-10">
                             <div class="grid grid-cols-4 gap-2 mb-6 rounded-2xl overflow-hidden">
                                 ${previewThumbs}
                             </div>
                             <div class="flex items-center gap-2 mb-3">
-                                <span class="px-3 py-1 ${badgeColor} text-xs font-semibold rounded-full">${album.category}</span>
-                                <span class="text-xs text-apple-secondary font-medium">${photos.length} Photos${album.year ? ' &bull; ' + album.year : ''}</span>
+                                <span class="px-3 py-1 bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] text-xs font-semibold rounded-full">${album.category}</span>
+                                <span class="text-xs font-medium" style="color: var(--text-muted);">${photos.length} Photos${album.year ? ' &bull; ' + album.year : ''}</span>
                             </div>
-                            <h3 class="text-xl font-bold text-apple-text tracking-tight mb-2">${album.title}</h3>
-                            <p class="text-apple-secondary text-sm leading-relaxed mb-5">${album.description || ''}</p>
+                            <h3 class="text-xl font-bold tracking-tight mb-2">${album.title}</h3>
+                            <p class="text-sm leading-relaxed mb-5" style="color: var(--text-secondary);">${album.description || ''}</p>
                         </div>
-                        <span class="inline-flex items-center text-apple-blue text-sm font-semibold group-hover:underline">
+                        <span class="relative z-10 inline-flex items-center text-[#0071E3] dark:text-[#2997FF] text-sm font-semibold group-hover:underline">
                             Open Photo Album <i class='bx bx-chevron-right ml-1 text-lg'></i>
                         </span>
                     </div>
@@ -708,8 +1076,16 @@
             window.renderAlbumStage();
         };
 
+        // Global Keyboard Shortcuts (Ctrl+K / Cmd+K, Escape, Arrows)
         document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                const sp = document.getElementById('spotlight-modal');
+                if (sp.classList.contains('hidden')) openSpotlight();
+                else closeSpotlight();
+            }
             if (e.key === 'Escape') {
+                closeSpotlight();
                 window.closeQuickLook();
                 window.closeIosAlbum();
                 window.closeServiceModal();
@@ -724,7 +1100,7 @@
         window.renderGallerySection([]);
     </script>
 
-    <!-- Script Supabase (Parallel Fetch + Instant Cache + Status, Services & Inquiries) -->
+    <!-- ==================== SUPABASE DATA ENGINE ==================== -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
@@ -741,7 +1117,7 @@
             return `${cleanBase}${sep}text=${encodeURIComponent(messageText)}`;
         }
 
-        // ==================== RENDER STATUS / AVAILABILITY PILLS ====================
+        // Render Status / Availability Pills
         function renderStatusPills(statuses = []) {
             const container = document.getElementById('hero-status-container');
             if (!container) return;
@@ -755,22 +1131,22 @@
             container.innerHTML = activeList.map(st => {
                 const type = (st.status_type || '').toLowerCase();
                 let iconHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>`;
-                let styleClass = 'bg-emerald-50/90 text-emerald-800 border-emerald-200/80';
+                let badgeBg = 'bg-emerald-500/12 text-emerald-600 dark:text-emerald-400 border-emerald-500/25';
 
                 if (type === 'working') {
-                    iconHTML = `<i class='bx bxs-briefcase text-apple-blue text-sm'></i>`;
-                    styleClass = 'bg-white text-apple-text border-black/10';
+                    iconHTML = `<i class='bx bxs-briefcase text-[#0071E3] dark:text-[#2997FF] text-sm'></i>`;
+                    badgeBg = 'bg-blue-500/12 text-[#0071E3] dark:text-[#2997FF] border-blue-500/25';
                 } else if (type === 'student') {
-                    iconHTML = `<i class='bx bxs-graduation text-indigo-600 text-sm'></i>`;
-                    styleClass = 'bg-indigo-50/80 text-indigo-900 border-indigo-200/70';
+                    iconHTML = `<i class='bx bxs-graduation text-indigo-500 text-sm'></i>`;
+                    badgeBg = 'bg-indigo-500/12 text-indigo-600 dark:text-indigo-400 border-indigo-500/25';
                 } else if (type === 'freelance') {
-                    iconHTML = `<i class='bx bx-laptop text-amber-600 text-sm'></i>`;
-                    styleClass = 'bg-amber-50/80 text-amber-900 border-amber-200/70';
+                    iconHTML = `<i class='bx bx-laptop text-amber-500 text-sm'></i>`;
+                    badgeBg = 'bg-amber-500/12 text-amber-600 dark:text-amber-400 border-amber-500/25';
                 }
 
-                const orgText = st.organization ? ` <span class="opacity-60 font-normal">&bull;</span> <span class="font-bold">${st.organization}</span>` : '';
+                const orgText = st.organization ? ` <span class="opacity-50 font-normal">&bull;</span> <span class="font-bold">${st.organization}</span>` : '';
                 return `
-                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold border shadow-2xs ${styleClass}">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold border ${badgeBg}">
                         ${iconHTML}
                         <span>${st.title}${orgText}</span>
                     </span>
@@ -778,7 +1154,7 @@
             }).join('');
         }
 
-        // ==================== RENDER SERVICES & MODAL ====================
+        // Render Services & Offerings
         function formatPricingDisplay(srv) {
             if (srv.pricing_type === 'contact') {
                 return { label: 'Contact for Pricelist', tag: 'Private Rate', icon: 'bx-lock-alt' };
@@ -793,6 +1169,13 @@
             globalServicesList = services || [];
             const grid = document.getElementById('services-grid');
             const selectRef = document.getElementById('inq-service-ref');
+            const telemetrySrv = document.getElementById('telemetry-srv-count');
+
+            if (telemetrySrv) {
+                const openCount = globalServicesList.filter(s => (s.status || 'open').toLowerCase() === 'open').length;
+                telemetrySrv.innerText = openCount > 0 ? `${openCount} Active` : 'Open';
+            }
+
             if (!grid) return;
 
             if (selectRef) {
@@ -802,8 +1185,8 @@
 
             if (globalServicesList.length === 0) {
                 grid.innerHTML = `
-                    <div class="col-span-full apple-card rounded-[28px] p-8 text-center">
-                        <p class="text-apple-secondary text-sm">Belum ada layanan yang dipublikasikan. Gunakan formulir di bawah untuk mengajukan kolaborasi khusus.</p>
+                    <div class="col-span-full bento-card rounded-[28px] p-8 text-center">
+                        <p class="text-sm" style="color: var(--text-secondary);">Belum ada layanan yang dipublikasikan. Gunakan formulir di bawah untuk mengajukan kolaborasi khusus.</p>
                     </div>
                 `;
                 return;
@@ -812,28 +1195,28 @@
             grid.innerHTML = globalServicesList.map((srv, idx) => {
                 const isOpen = (srv.status || 'open').toLowerCase() === 'open';
                 const statusBadge = isOpen
-                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold uppercase tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Open</span>`
-                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-slate-500 text-[11px] font-bold uppercase tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>Closed</span>`;
+                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-[11px] font-bold uppercase tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Open</span>`
+                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-500/15 text-slate-500 dark:text-slate-400 text-[11px] font-bold uppercase tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>Closed</span>`;
 
                 const priceInfo = formatPricingDisplay(srv);
 
                 return `
-                    <div onclick="openServiceModal(${idx})" class="group apple-card rounded-[28px] p-7 cursor-pointer flex flex-col justify-between ${!isOpen ? 'opacity-85' : ''}">
-                        <div>
+                    <div onclick="openServiceModal(${idx})" class="group bento-card rounded-[28px] p-7 cursor-pointer flex flex-col justify-between ${!isOpen ? 'opacity-85' : ''}">
+                        <div class="relative z-10">
                             <div class="flex items-center justify-between gap-2 mb-4">
-                                <span class="px-3 py-1 bg-blue-50 text-apple-blue text-xs font-semibold rounded-full">${srv.badge}</span>
+                                <span class="px-3 py-1 bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] text-xs font-semibold rounded-full">${srv.badge}</span>
                                 ${statusBadge}
                             </div>
-                            <h3 class="text-xl font-bold text-apple-text tracking-tight mb-2 group-hover:text-apple-blue transition-colors">${srv.title}</h3>
-                            <p class="text-apple-secondary text-sm leading-relaxed mb-5">${srv.short_desc}</p>
+                            <h3 class="text-xl font-bold tracking-tight mb-2 group-hover:text-[#0071E3] dark:group-hover:text-[#2997FF] transition-colors">${srv.title}</h3>
+                            <p class="text-sm leading-relaxed mb-5" style="color: var(--text-secondary);">${srv.short_desc}</p>
                         </div>
 
-                        <div class="pt-4 border-t border-black/5 flex items-center justify-between gap-2">
+                        <div class="relative z-10 pt-4 border-t flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
                             <div>
-                                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">${priceInfo.tag}</span>
-                                <span class="text-sm font-bold text-apple-text">${priceInfo.label}</span>
+                                <span class="text-[11px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">${priceInfo.tag}</span>
+                                <span class="text-sm font-bold">${priceInfo.label}</span>
                             </div>
-                            <span class="w-9 h-9 rounded-full bg-[#F2F4F8] group-hover:bg-apple-blue group-hover:text-white text-apple-text flex items-center justify-center transition">
+                            <span class="w-9 h-9 rounded-full group-hover:bg-[#0071E3] group-hover:text-white flex items-center justify-center transition" style="background: var(--surface-elevated);">
                                 <i class='bx bx-right-arrow-alt text-xl'></i>
                             </span>
                         </div>
@@ -851,14 +1234,14 @@
 
             document.getElementById('srv-modal-badge').innerText = srv.badge;
             document.getElementById('srv-modal-status').innerHTML = isOpen
-                ? `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Open for Slot</span>`
-                : `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-bold uppercase"><span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>Currently Closed</span>`;
+                ? `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Open for Slot</span>`
+                : `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-500/15 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase"><span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>Currently Closed</span>`;
 
             document.getElementById('srv-modal-title').innerText = srv.title;
             document.getElementById('srv-modal-price-box').innerHTML = `
-                <i class='bx ${priceInfo.icon} text-apple-blue text-lg'></i>
-                <span class="text-xs font-bold uppercase tracking-wider text-apple-secondary">${priceInfo.tag}:</span>
-                <span class="text-sm font-extrabold text-apple-text">${priceInfo.label}</span>
+                <i class='bx ${priceInfo.icon} text-[#0071E3] dark:text-[#2997FF] text-lg'></i>
+                <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--text-secondary);">${priceInfo.tag}:</span>
+                <span class="text-sm font-extrabold">${priceInfo.label}</span>
             `;
 
             document.getElementById('srv-modal-details').innerText = srv.full_details || srv.short_desc;
@@ -887,7 +1270,7 @@
             document.body.style.overflow = '';
         };
 
-        // ==================== VISITOR INQUIRY SUBMIT ====================
+        // Visitor Inquiry Submit
         window.submitVisitorInquiry = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-submit-inq');
@@ -909,12 +1292,13 @@
                 const { error } = await supabaseClient.from('inquiries').insert([payload]);
                 if (error) throw error;
 
-                fb.className = 'text-xs font-semibold px-4 py-3 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200';
+                fb.className = 'text-xs font-semibold px-4 py-3 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25';
                 fb.innerText = 'Pengajuan berhasil terkirim! Saya akan segera meninjau dan menghubungi Anda kembali.';
                 fb.classList.remove('hidden');
+                showIosToast('Pengajuan berhasil dikirim!');
                 document.getElementById('visitor-inquiry-form').reset();
             } catch (err) {
-                fb.className = 'text-xs font-semibold px-4 py-3 rounded-xl bg-red-50 text-red-700 border border-red-200';
+                fb.className = 'text-xs font-semibold px-4 py-3 rounded-xl bg-red-500/15 text-red-600 dark:text-red-400 border border-red-500/25';
                 fb.innerText = 'Gagal mengirim pengajuan: ' + err.message;
                 fb.classList.remove('hidden');
             } finally {
@@ -934,48 +1318,77 @@
             window.open(buildWaUrl(globalWaLink, text), '_blank');
         };
 
-        // ==================== MASTER RENDER PORTFOLIO ====================
+        // Master Render Portfolio + Populate Spotlight Index
         function renderPortfolioData({ profile, projects, arsenal, edus, certs, albums, statuses, services }) {
+            const dynamicSpotlight = [
+                { title: 'Explore Case Studies', sub: 'Lihat proyek analisis data & pengembangan sistem', icon: 'bx-folder-open', action: () => location.hash = '#projects' },
+                { title: 'Professional Services & Pricing', sub: 'Cek layanan terbuka, skema harga, & slot tersedia', icon: 'bx-briefcase-alt-2', action: () => location.hash = '#services' },
+                { title: 'Propose Project / Custom Service', sub: 'Kirim pengajuan kolaborasi atau permintaan khusus', icon: 'bx-send', action: () => location.hash = '#inquiry-box' },
+                { title: 'Toggle Dark / Light Mode', sub: 'Ubah tampilan antara Spatial Dark dan Frosted Light', icon: 'bx-adjust', action: () => toggleSpatialTheme() },
+                { title: 'Copy Email Address', sub: 'Salin alamat email langsung ke clipboard', icon: 'bx-copy', action: () => copyEmailToast() }
+            ];
+
             if (profile) {
                 if (profile.photo_url) document.getElementById('hero-image').src = profile.photo_url;
                 if (profile.badge) document.getElementById('hero-badge').innerText = profile.badge;
                 if (profile.headline) document.getElementById('hero-headline').innerHTML = profile.headline;
                 if (profile.summary) document.getElementById('hero-summary').innerHTML = profile.summary;
-                if (profile.cv_url) document.getElementById('hero-cv').href = profile.cv_url;
+                if (profile.cv_url) {
+                    document.getElementById('hero-cv').href = profile.cv_url;
+                    dynamicSpotlight.unshift({ title: 'Download Resume / CV', sub: 'Unduh dokumen CV terbaru (PDF)', icon: 'bx-download', action: () => window.open(profile.cv_url, '_blank') });
+                }
                 
                 if (profile.footer_title) document.getElementById('footer-title').innerText = profile.footer_title;
                 if (profile.footer_sub) document.getElementById('footer-sub').innerText = profile.footer_sub;
                 if (profile.wa_link) {
                     globalWaLink = profile.wa_link;
                     document.getElementById('footer-wa').href = profile.wa_link;
+                    dynamicSpotlight.push({ title: 'Chat via WhatsApp', sub: 'Hubungi Muhammad Zidan secara langsung', icon: 'bxl-whatsapp', action: () => window.open(profile.wa_link, '_blank') });
                 }
                 if (profile.linkedin_link) document.getElementById('footer-linkedin').href = profile.linkedin_link;
-                if (profile.email) {
-                    document.getElementById('footer-email').innerText = profile.email;
-                    document.getElementById('footer-email-link').href = `mailto:${profile.email}`;
-                }
+                if (profile.email) document.getElementById('footer-email').innerText = profile.email;
             }
 
             renderStatusPills(statuses || []);
             renderServicesSection(services || []);
 
+            (services || []).forEach((srv, idx) => {
+                dynamicSpotlight.push({
+                    title: `Service: ${srv.title}`,
+                    sub: `${srv.badge} • ${srv.status === 'open' ? 'Open' : 'Closed'}`,
+                    icon: 'bx-customize',
+                    action: () => openServiceModal(idx)
+                });
+            });
+
+            const totalProjCount = 2 + (projects ? projects.length : 0);
+            const telemetryProj = document.getElementById('telemetry-proj-count');
+            if (telemetryProj) telemetryProj.innerText = `${totalProjCount}`;
+
             if (projects && projects.length > 0) {
                 const gridContainer = document.getElementById('projects-grid');
                 gridContainer.innerHTML = initialStaticProjectsHTML;
                 projects.forEach(project => {
+                    dynamicSpotlight.push({
+                        title: `Case Study: ${project.title}`,
+                        sub: project.description || 'Studi kasus proyek',
+                        icon: 'bx-file',
+                        action: () => location.href = `project-detail?id=${project.id}`
+                    });
+
                     const card = document.createElement('div');
-                    card.className = "group apple-card rounded-[28px] overflow-hidden flex flex-col";
+                    card.className = "group bento-card rounded-[28px] flex flex-col";
                     card.innerHTML = `
-                        <div class="h-60 bg-slate-100 overflow-hidden relative">
+                        <div class="h-60 overflow-hidden relative" style="background: var(--surface-elevated);">
                             <img src="${project.image_url}" alt="${project.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
                         </div>
-                        <div class="p-8 flex flex-col flex-grow">
+                        <div class="p-8 flex flex-col flex-grow relative z-10">
                             <div class="flex gap-2 mb-4">
-                                <span class="px-3 py-1 bg-blue-50 text-apple-blue text-xs font-semibold rounded-full">Featured</span>
+                                <span class="px-3 py-1 bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] text-xs font-semibold rounded-full">Featured</span>
                             </div>
-                            <h3 class="text-xl md:text-2xl font-bold text-apple-text tracking-tight mb-2.5">${project.title}</h3>
-                            <p class="text-apple-secondary text-sm leading-relaxed mb-6 flex-grow">${project.description || ''}</p>
-                            <a href="project-detail?id=${project.id}" class="inline-flex items-center text-apple-blue text-sm font-semibold hover:underline transition-all mt-auto">
+                            <h3 class="text-xl md:text-2xl font-bold tracking-tight mb-2.5">${project.title}</h3>
+                            <p class="text-sm leading-relaxed mb-6 flex-grow" style="color: var(--text-secondary);">${project.description || ''}</p>
+                            <a href="project-detail?id=${project.id}" class="inline-flex items-center text-[#0071E3] dark:text-[#2997FF] text-sm font-semibold hover:underline transition-all mt-auto">
                                 Read Case Study <i class='bx bx-chevron-right ml-1 text-lg'></i>
                             </a>
                         </div>
@@ -983,6 +1396,8 @@
                     gridContainer.insertBefore(card, gridContainer.firstChild);
                 });
             }
+
+            window.spotlightItems = dynamicSpotlight;
 
             const arsenalContainer = document.getElementById('arsenal-container');
             if (arsenal && arsenal.length > 0) {
@@ -1008,9 +1423,9 @@
                 });
 
                 const colorThemes = [
-                    { bg: 'bg-blue-50', text: 'text-apple-blue', pill: 'bg-blue-50/60 text-slate-800 border-blue-100', dotActive: 'bg-apple-blue', dotMuted: 'bg-blue-200/80' },
-                    { bg: 'bg-emerald-50', text: 'text-emerald-600', pill: 'bg-emerald-50/60 text-slate-800 border-emerald-100', dotActive: 'bg-emerald-500', dotMuted: 'bg-emerald-200/80' },
-                    { bg: 'bg-indigo-50', text: 'text-indigo-600', pill: 'bg-indigo-50/60 text-slate-800 border-indigo-100', dotActive: 'bg-indigo-500', dotMuted: 'bg-indigo-200/80' }
+                    { bg: 'bg-blue-500/12', text: 'text-[#0071E3] dark:text-[#2997FF]', dotActive: 'bg-[#0071E3] dark:bg-[#2997FF]', dotMuted: 'bg-blue-500/20' },
+                    { bg: 'bg-emerald-500/12', text: 'text-emerald-600 dark:text-emerald-400', dotActive: 'bg-emerald-500', dotMuted: 'bg-emerald-500/20' },
+                    { bg: 'bg-indigo-500/12', text: 'text-indigo-600 dark:text-indigo-400', dotActive: 'bg-indigo-500', dotMuted: 'bg-indigo-500/20' }
                 ];
 
                 const renderLevelDots = (level, activeClass, mutedClass) => {
@@ -1028,7 +1443,7 @@
                     catData.skills.sort((a, b) => (rank[a.level] || 2) - (rank[b.level] || 2));
 
                     const skillsHTML = catData.skills.map(s => `
-                        <span title="${s.name} — ${s.level}" class="inline-flex items-center gap-2 px-3.5 py-1.5 ${theme.pill} border text-xs font-semibold rounded-full transition hover:scale-[1.03]">
+                        <span title="${s.name} — ${s.level}" class="inline-flex items-center gap-2 px-3.5 py-1.5 border text-xs font-semibold rounded-full transition hover:scale-[1.03]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                             <span>${s.name}</span>
                             <span class="inline-flex items-center gap-0.5 ml-0.5">
                                 ${renderLevelDots(s.level, theme.dotActive, theme.dotMuted)}
@@ -1037,15 +1452,15 @@
                     `).join('');
 
                     arsenalContainer.innerHTML += `
-                        <div class="apple-card p-8 rounded-[28px] flex flex-col justify-between">
-                            <div>
+                        <div class="bento-card p-8 rounded-[28px] flex flex-col justify-between">
+                            <div class="relative z-10">
                                 <div class="w-12 h-12 ${theme.bg} ${theme.text} rounded-2xl flex items-center justify-center text-2xl mb-6">
                                     <i class='bx ${catData.icon}'></i>
                                 </div>
-                                <h3 class="text-xl font-bold text-apple-text tracking-tight mb-4">${catName}</h3>
+                                <h3 class="text-xl font-bold tracking-tight mb-4">${catName}</h3>
                                 <div class="flex flex-wrap gap-2">${skillsHTML}</div>
                             </div>
-                            <div class="mt-6 pt-4 border-t border-black/5 flex items-center justify-between text-[11px] text-slate-400 font-medium">
+                            <div class="relative z-10 mt-6 pt-4 border-t flex items-center justify-between text-[11px] font-medium" style="border-color: var(--border-hairline); color: var(--text-muted);">
                                 <span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span> Core</span>
                                 <span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotMuted}"></span> Proficient</span>
                                 <span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotMuted}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotMuted}"></span> Familiar</span>
@@ -1066,14 +1481,14 @@
                     if (edu.gpa) metaParts.push(`GPA: ${edu.gpa}`);
                     
                     eduContainer.innerHTML += `
-                        <div class="apple-card p-6 rounded-[24px] flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-blue-50 text-apple-blue flex-shrink-0 flex items-center justify-center text-2xl">
+                        <div class="bento-card p-6 rounded-[24px] flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-blue-500/12 text-[#0071E3] dark:text-[#2997FF] flex-shrink-0 flex items-center justify-center text-2xl">
                                 <i class='bx bxs-graduation'></i>
                             </div>
-                            <div>
-                                <h3 class="font-bold text-apple-text text-lg tracking-tight">${edu.institution}</h3>
-                                <p class="text-apple-secondary font-medium text-sm">${edu.degree}</p>
-                                <p class="text-slate-400 text-xs mt-1">${metaParts.join(' &bull; ')}</p>
+                            <div class="relative z-10">
+                                <h3 class="font-bold text-lg tracking-tight">${edu.institution}</h3>
+                                <p class="font-medium text-sm" style="color: var(--text-secondary);">${edu.degree}</p>
+                                <p class="text-xs mt-1" style="color: var(--text-muted);">${metaParts.join(' &bull; ')}</p>
                             </div>
                         </div>
                     `;
@@ -1086,16 +1501,16 @@
                 certs.forEach(cert => {
                     const safeTitle = cert.title.replace(/'/g, "\\'");
                     const viewBtn = cert.file_url 
-                        ? `<button type="button" onclick="window.openQuickLook('${cert.file_url}', '${safeTitle}')" class="mt-2.5 text-xs text-apple-blue font-semibold hover:underline inline-flex items-center gap-1"><i class='bx bx-show text-sm'></i> Quick Look Credential</button>` 
+                        ? `<button type="button" onclick="window.openQuickLook('${cert.file_url}', '${safeTitle}')" class="mt-2.5 text-xs text-[#0071E3] dark:text-[#2997FF] font-semibold hover:underline inline-flex items-center gap-1"><i class='bx bx-show text-sm'></i> Quick Look Credential</button>` 
                         : '';
                     certContainer.innerHTML += `
-                        <div class="apple-card p-5 rounded-[22px] flex items-start justify-between gap-4">
-                            <div>
-                                <h4 class="font-bold text-apple-text text-base tracking-tight">${cert.title}</h4>
-                                <p class="text-xs text-apple-secondary mt-0.5">${cert.issuer}${cert.year ? ' &bull; ' + cert.year : ''}</p>
+                        <div class="bento-card p-5 rounded-[22px] flex items-start justify-between gap-4">
+                            <div class="relative z-10">
+                                <h4 class="font-bold text-base tracking-tight">${cert.title}</h4>
+                                <p class="text-xs mt-0.5" style="color: var(--text-secondary);">${cert.issuer}${cert.year ? ' &bull; ' + cert.year : ''}</p>
                                 ${viewBtn}
                             </div>
-                            <div class="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 flex-shrink-0 flex items-center justify-center text-lg">
+                            <div class="w-9 h-9 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex-shrink-0 flex items-center justify-center text-lg">
                                 <i class='bx bx-badge-check'></i>
                             </div>
                         </div>
