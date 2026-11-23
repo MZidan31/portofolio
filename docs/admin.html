@@ -58,7 +58,7 @@
             --accent-wood: #10B981;
             --accent-wood-dark: #059669;
             --accent-fire: #D97706;
-            --card-shadow: 0 8px 26px -8px rgba(24, 24, 27, 0.06);
+            --card-shadow: 0 6px 22px -6px rgba(24, 24, 27, 0.06);
         }
 
         [data-theme="dark"] {
@@ -73,7 +73,7 @@
             --accent-wood: #34D399;
             --accent-wood-dark: #10B981;
             --accent-fire: #FBBF24;
-            --card-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.55);
+            --card-shadow: 0 10px 28px -8px rgba(0, 0, 0, 0.52);
         }
 
         *, *::before, *::after {
@@ -95,7 +95,7 @@
         @keyframes panelReveal {
             from {
                 opacity: 0;
-                transform: translate3d(0, 8px, 0);
+                transform: translate3d(0, 6px, 0);
             }
             to {
                 opacity: 1;
@@ -103,7 +103,7 @@
             }
         }
         .panel-animate {
-            animation: panelReveal 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: panelReveal 0.22s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         button, a {
@@ -127,9 +127,9 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 10px 14px;
-            border-radius: 15px;
-            font-size: 13.5px;
+            padding: 9px 13px;
+            border-radius: 14px;
+            font-size: 13px;
             font-weight: 600;
             letter-spacing: -0.01em;
             color: var(--text-secondary);
@@ -169,7 +169,7 @@
             background: var(--surface-solid);
             border: 1px solid var(--border-hairline);
             box-shadow: var(--card-shadow);
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            transition: transform 0.18s ease, border-color 0.18s ease;
         }
         .studio-card:hover {
             border-color: rgba(16, 185, 129, 0.28);
@@ -180,9 +180,9 @@
             background: var(--surface-elevated);
             color: var(--text-primary);
             border: 1px solid var(--border-hairline);
-            border-radius: 14px;
-            padding: 10px 14px;
-            font-size: 14px;
+            border-radius: 13px;
+            padding: 9px 13px;
+            font-size: 13.5px;
             font-family: "Inter", sans-serif;
             transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
         }
@@ -213,7 +213,7 @@
         }
     </style>
 </head>
-<body class="antialiased selection:bg-[#10B981] selection:text-white pb-28 lg:pb-12">
+<body class="antialiased selection:bg-[#10B981] selection:text-white pb-24 lg:pb-10">
 
     <!-- ==================== Toast Notification ==================== -->
     <div id="ios-toast" class="fixed left-1/2 z-[200] opacity-0 pointer-events-none max-w-[90vw]">
@@ -275,9 +275,9 @@
     </div>
 
     <!-- ==================== A. WEB DESKTOP FLOATING SIDEBAR (lg:flex) ==================== -->
-    <aside id="desktop-sidebar" class="hidden lg:flex fixed left-5 w-[264px] z-40 desktop-sidebar rounded-[28px] p-4 flex-col justify-between">
+    <aside id="desktop-sidebar" class="hidden lg:flex fixed left-5 w-[256px] z-40 desktop-sidebar rounded-[26px] p-4 flex-col justify-between">
         <div class="flex flex-col min-h-0">
-            <div class="px-3 pt-2 pb-4 mb-2 border-b flex items-center justify-between" style="border-color: var(--border-hairline);">
+            <div class="px-3 pt-1.5 pb-3.5 mb-2 border-b flex items-center justify-between" style="border-color: var(--border-hairline);">
                 <div class="flex items-center gap-2.5">
                     <span class="relative flex h-3 w-3 flex-shrink-0">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"></span>
@@ -285,7 +285,7 @@
                     </span>
                     <div>
                         <h1 class="text-sm font-extrabold tracking-tight leading-none">MZ STUDIO</h1>
-                        <p id="session-status-label" class="text-[11px] font-medium mt-1" style="color: var(--text-muted);">CMS Workspace</p>
+                        <p id="session-status-label" class="text-[11px] font-medium mt-1 truncate max-w-[140px]" style="color: var(--text-muted);">CMS Workspace</p>
                     </div>
                 </div>
                 <button type="button" onclick="toggleSpatialTheme()" title="Ganti Tema Terang / Gelap" class="w-8 h-8 rounded-full border flex items-center justify-center text-sm hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
@@ -334,17 +334,17 @@
         </div>
 
         <div class="pt-3 border-t space-y-2" style="border-color: var(--border-hairline);">
-            <button type="button" onclick="triggerPwaInstall()" class="pwa-install-trigger w-full py-2.5 px-3.5 rounded-2xl bg-emerald-500/12 text-[#059669] dark:text-[#34D399] hover:bg-emerald-500/20 text-xs font-bold flex items-center justify-center gap-2">
+            <button type="button" onclick="triggerPwaInstall()" class="pwa-install-trigger w-full py-2 px-3.5 rounded-2xl bg-emerald-500/12 text-[#059669] dark:text-[#34D399] hover:bg-emerald-500/20 text-xs font-bold flex items-center justify-center gap-2">
                 <i class='bx bx-download text-base'></i>
                 <span>Install Studio App</span>
             </button>
 
             <div class="grid grid-cols-2 gap-2">
-                <a href="index.html" target="_blank" rel="noopener noreferrer" class="py-2.5 px-3 rounded-2xl border text-xs font-semibold flex items-center justify-center gap-1.5 hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                <a href="index.html" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-2xl border text-xs font-semibold flex items-center justify-center gap-1.5 hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                     <i class='bx bx-link-external text-sm text-[#D97706]'></i>
                     <span>Live Web</span>
                 </a>
-                <button type="button" onclick="handleLogout()" class="logout-trigger hidden py-2.5 px-3 rounded-2xl bg-red-500/12 text-red-600 dark:text-red-400 hover:bg-red-500/20 text-xs font-bold items-center justify-center gap-1.5">
+                <button type="button" onclick="handleLogout()" class="logout-trigger hidden py-2 px-3 rounded-2xl bg-red-500/12 text-red-600 dark:text-red-400 hover:bg-red-500/20 text-xs font-bold items-center justify-center gap-1.5">
                     <i class='bx bx-log-out text-sm'></i>
                     <span>Logout</span>
                 </button>
@@ -353,7 +353,7 @@
     </aside>
 
     <!-- ==================== B. MOBILE & PWA TOP FLOATING BAR (lg:hidden) ==================== -->
-    <header class="lg:hidden fixed left-1/2 -translate-x-1/2 w-[94%] max-w-2xl z-50 mobile-top-nav rounded-full px-4 py-2.5">
+    <header class="lg:hidden fixed left-1/2 -translate-x-1/2 w-[94%] max-w-2xl z-50 mobile-top-nav rounded-full px-4 py-2">
         <div class="flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 min-w-0">
                 <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-[#10B981] to-[#F59E0B] flex-shrink-0"></span>
@@ -363,7 +363,7 @@
             <div class="flex items-center gap-1.5 flex-shrink-0">
                 <button type="button" onclick="triggerPwaInstall()" class="pwa-install-trigger inline-flex h-8 px-2.5 rounded-full bg-emerald-500/15 text-[#059669] dark:text-[#34D399] border border-emerald-500/25 text-[11px] font-bold items-center gap-1">
                     <i class='bx bx-download text-sm'></i>
-                    <span>Install Studio</span>
+                    <span>Install</span>
                 </button>
 
                 <button type="button" onclick="toggleSpatialTheme()" class="w-8 h-8 rounded-full border flex items-center justify-center text-sm" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
@@ -409,11 +409,11 @@
     </nav>
 
     <!-- ==================== CONTENT AREA ==================== -->
-    <div class="lg:pl-[300px] lg:pr-7 transition-all">
+    <div class="lg:pl-[292px] lg:pr-6 transition-all">
 
         <!-- ==================== 1. AUTHENTICATION VIEW ==================== -->
         <section id="auth-view" class="max-w-md mx-auto px-4 pt-28 lg:pt-24 panel-animate">
-            <div class="studio-card rounded-[30px] p-7 sm:p-9 space-y-6">
+            <div class="studio-card rounded-[28px] p-7 sm:p-8 space-y-5">
                 <div class="space-y-1.5 text-center">
                     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[11px] font-bold uppercase tracking-wider">
                         <i class='bx bxs-lock-alt'></i> Restricted Access
@@ -432,7 +432,7 @@
                         <input type="password" id="login-password" required autocomplete="current-password" placeholder="••••••••" class="studio-input">
                     </div>
                     <p id="auth-error" class="hidden text-xs font-semibold text-red-600 dark:text-red-400 bg-red-500/10 px-3.5 py-2.5 rounded-xl"></p>
-                    <button type="submit" id="btn-login" class="w-full py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-sm font-bold shadow-sm">
+                    <button type="submit" id="btn-login" class="w-full py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-sm font-bold shadow-sm">
                         Masuk ke Dashboard
                     </button>
                 </form>
@@ -440,119 +440,117 @@
         </section>
 
         <!-- ==================== 2. MAIN CMS DASHBOARD VIEW ==================== -->
-        <main id="dashboard-view" class="hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-2 pt-20 lg:pt-6 space-y-6">
+        <main id="dashboard-view" class="hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-2 pt-18 lg:pt-5 space-y-4">
 
-            <!-- ==================== LIVE ENGAGEMENT TELEMETRY STRIP ==================== -->
-            <section class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-6 space-y-4 panel-animate">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
-                        <h2 class="text-sm sm:text-base font-extrabold tracking-tight">Visitor Engagement Telemetry</h2>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span id="telemetry-top-project" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[11px] font-bold">
+            <!-- ==================== COMPACT ENGAGEMENT TELEMETRY STRIP ==================== -->
+            <section class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 space-y-3 panel-animate">
+                <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <span class="w-2 h-2 rounded-full bg-[#10B981] flex-shrink-0"></span>
+                        <h2 class="text-xs sm:text-sm font-extrabold tracking-tight truncate">Visitor Telemetry</h2>
+                        <span id="telemetry-top-project" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[10px] font-bold truncate">
                             <i class='bx bxs-hot'></i> Top: —
                         </span>
-                        <button type="button" onclick="resetTelemetryStats()" class="px-3 py-1 rounded-full border text-[11px] font-bold hover:border-red-500 hover:text-red-500" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                            Reset Stats
-                        </button>
                     </div>
+                    <button type="button" onclick="resetTelemetryStats()" class="px-2.5 py-1 rounded-full border text-[10px] font-bold hover:border-red-500 hover:text-red-500 flex-shrink-0" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        Reset
+                    </button>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
-                    <div class="p-3.5 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Session Views</span>
-                        <span id="stat-views" class="text-xl font-extrabold text-[#10B981] mt-0.5 block">0</span>
+                <div class="grid grid-cols-5 gap-1.5 sm:gap-2.5 text-center sm:text-left">
+                    <div class="p-2.5 sm:p-3 rounded-xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Views</span>
+                        <span id="stat-views" class="text-base sm:text-lg font-extrabold text-[#10B981] mt-0.5 block">0</span>
                     </div>
-                    <div class="p-3.5 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">CV Downloads</span>
-                        <span id="stat-cv" class="text-xl font-extrabold text-[#D97706] mt-0.5 block">0</span>
+                    <div class="p-2.5 sm:p-3 rounded-xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider block truncate" style="color: var(--text-muted);">CV</span>
+                        <span id="stat-cv" class="text-base sm:text-lg font-extrabold text-[#D97706] mt-0.5 block">0</span>
                     </div>
-                    <div class="p-3.5 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Project Opens</span>
-                        <span id="stat-projects" class="text-xl font-extrabold mt-0.5 block">0</span>
+                    <div class="p-2.5 sm:p-3 rounded-xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Works</span>
+                        <span id="stat-projects" class="text-base sm:text-lg font-extrabold mt-0.5 block">0</span>
                     </div>
-                    <div class="p-3.5 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">WA Clicks</span>
-                        <span id="stat-wa" class="text-xl font-extrabold text-[#10B981] mt-0.5 block">0</span>
+                    <div class="p-2.5 sm:p-3 rounded-xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider block truncate" style="color: var(--text-muted);">WA</span>
+                        <span id="stat-wa" class="text-base sm:text-lg font-extrabold text-[#10B981] mt-0.5 block">0</span>
                     </div>
-                    <div class="col-span-2 sm:col-span-1 p-3.5 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">HR Brief Copies</span>
-                        <span id="stat-brief" class="text-xl font-extrabold text-[#D97706] mt-0.5 block">0</span>
+                    <div class="p-2.5 sm:p-3 rounded-xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Brief</span>
+                        <span id="stat-brief" class="text-base sm:text-lg font-extrabold text-[#D97706] mt-0.5 block">0</span>
                     </div>
                 </div>
             </section>
 
             <!-- ==================== TAB 1: PROFILE & HERO ==================== -->
-            <section id="panel-profile" class="cms-panel panel-animate studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-6">
-                <div class="border-b pb-4" style="border-color: var(--border-hairline);">
+            <section id="panel-profile" class="cms-panel panel-animate studio-card rounded-[24px] sm:rounded-[26px] p-5 sm:p-7 space-y-5">
+                <div class="border-b pb-3.5" style="border-color: var(--border-hairline);">
                     <h2 class="text-lg sm:text-xl font-extrabold tracking-tight">Hero Identity &amp; Contact Settings</h2>
-                    <p class="text-xs mt-1" style="color: var(--text-secondary);">Kelola foto profil, judul utama, focus domain HUD, tautan CV, dan kontak WhatsApp/Email.</p>
+                    <p class="text-xs mt-0.5" style="color: var(--text-secondary);">Kelola foto profil, judul utama, focus domain HUD, tautan CV, dan kontak WhatsApp/Email.</p>
                 </div>
 
-                <form onsubmit="saveProfile(event)" class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div class="space-y-2">
+                <form onsubmit="saveProfile(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
                             <label class="block text-xs font-bold">Foto Profil (URL atau Upload Baru)</label>
                             <input type="text" id="prof-photo-url" placeholder="https://..." class="studio-input">
                             <input type="file" id="prof-photo-file" accept="image/*" class="w-full text-xs file:mr-3 file:py-1.5 file:px-3.5 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-500/15 file:text-[#059669] cursor-pointer">
                         </div>
-                        <div class="space-y-2">
+                        <div class="space-y-1.5">
                             <label class="block text-xs font-bold">Dokumen CV / Resume (URL PDF atau Upload Baru)</label>
                             <input type="text" id="prof-cv-url" placeholder="https://..." class="studio-input">
                             <input type="file" id="prof-cv-file" accept=".pdf,image/*" class="w-full text-xs file:mr-3 file:py-1.5 file:px-3.5 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-500/15 file:text-[#D97706] cursor-pointer">
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Top Badge Text</label>
+                            <label class="block text-xs font-bold mb-1">Top Badge Text</label>
                             <input type="text" id="prof-badge" placeholder="Cth: DATA & BUSINESS ANALYST" class="studio-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Focus Domain (Card Active Profile)</label>
+                            <label class="block text-xs font-bold mb-1">Focus Domain (Card Active Profile)</label>
                             <input type="text" id="prof-focus-domain" placeholder="Cth: Data & IT Solutions" class="studio-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Email Kontak</label>
+                            <label class="block text-xs font-bold mb-1">Email Kontak</label>
                             <input type="email" id="prof-email" placeholder="jidan1307@gmail.com" class="studio-input">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold mb-1.5">Hero Headline (Mendukung HTML &amp; Tag Pills)</label>
-                        <textarea id="prof-headline" rows="3" class="studio-input font-mono text-xs"></textarea>
+                        <label class="block text-xs font-bold mb-1">Hero Headline (Mendukung HTML &amp; Tag Pills)</label>
+                        <textarea id="prof-headline" rows="2" class="studio-input font-mono text-xs"></textarea>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold mb-1.5">Hero Summary</label>
-                        <textarea id="prof-summary" rows="3" class="studio-input"></textarea>
+                        <label class="block text-xs font-bold mb-1">Hero Summary</label>
+                        <textarea id="prof-summary" rows="2" class="studio-input"></textarea>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2 border-t" style="border-color: var(--border-hairline);">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-2 border-t" style="border-color: var(--border-hairline);">
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">WhatsApp Link (Format https://wa.me/628...)</label>
+                            <label class="block text-xs font-bold mb-1">WhatsApp Link (Format https://wa.me/628...)</label>
                             <input type="text" id="prof-wa" placeholder="https://wa.me/62812..." class="studio-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">LinkedIn URL</label>
+                            <label class="block text-xs font-bold mb-1">LinkedIn URL</label>
                             <input type="text" id="prof-linkedin" placeholder="https://linkedin.com/in/..." class="studio-input">
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Footer CTA Title (Judul Banner Bawah)</label>
+                            <label class="block text-xs font-bold mb-1">Footer CTA Title (Judul Banner Bawah)</label>
                             <input type="text" id="prof-footer-title" placeholder="Ready to build something impactful?" class="studio-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Footer CTA Subtitle (Subjudul Banner Bawah)</label>
+                            <label class="block text-xs font-bold mb-1">Footer CTA Subtitle (Subjudul Banner Bawah)</label>
                             <input type="text" id="prof-footer-sub" placeholder="I am actively seeking collaboration..." class="studio-input">
                         </div>
                     </div>
 
-                    <div class="pt-2">
-                        <button type="submit" id="btn-save-profile" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold shadow-sm">
+                    <div class="pt-1">
+                        <button type="submit" id="btn-save-profile" class="w-full sm:w-auto px-7 py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold shadow-sm">
                             Simpan Perubahan Profile
                         </button>
                     </div>
@@ -560,20 +558,28 @@
             </section>
 
             <!-- ==================== TAB 2: STATUS PILLS ==================== -->
-            <section id="panel-statuses" class="hidden cms-panel panel-animate space-y-5 sm:space-y-6">
-                <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-5">
-                    <div class="border-b pb-4 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
-                        <div>
-                            <h2 id="st-form-heading" class="text-lg sm:text-xl font-extrabold tracking-tight">Availability &amp; Activity Status Pills</h2>
-                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Tampilkan status aktif di bawah badge Hero (misal: Open to Work, Freelance, dll).</p>
-                        </div>
-                        <button type="button" id="btn-cancel-edit-st" onclick="resetStatusForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline flex-shrink-0">Batal Edit</button>
+            <section id="panel-statuses" class="hidden cms-panel panel-animate space-y-4">
+                <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Status Pills</h2>
+                        <p class="text-xs" style="color: var(--text-secondary);">Label status aktif di bagian Hero.</p>
+                    </div>
+                    <button type="button" onclick="openCmsDrawer('st', true)" class="px-4 py-2 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold flex-shrink-0">
+                        + Tambah Status
+                    </button>
+                </div>
+
+                <!-- Collapsible Form Drawer -->
+                <div id="st-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
+                    <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                        <h3 id="st-form-heading" class="text-base font-extrabold tracking-tight">Tambah Status Pill</h3>
+                        <button type="button" onclick="resetStatusForm()" class="px-3 py-1 rounded-full text-xs font-bold text-[#D97706] bg-amber-500/12">Tutup</button>
                     </div>
 
                     <form onsubmit="saveStatus(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
                         <input type="hidden" id="st-edit-id">
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Tipe Ikon</label>
+                            <label class="block text-xs font-bold mb-1">Tipe Ikon</label>
                             <select id="st-type" class="studio-input">
                                 <option value="open">Open / Available (Dot)</option>
                                 <option value="working">Working / Role (Briefcase)</option>
@@ -582,101 +588,117 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Judul Status *</label>
+                            <label class="block text-xs font-bold mb-1">Judul Status *</label>
                             <input type="text" id="st-title" required placeholder="Cth: Open to Work" class="studio-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Instansi / Keterangan (Opsional)</label>
+                            <label class="block text-xs font-bold mb-1">Instansi / Keterangan</label>
                             <input type="text" id="st-org" placeholder="Cth: Data & IT Roles" class="studio-input">
                         </div>
-                        <button type="submit" id="btn-save-st" class="w-full py-3 px-5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
-                            + Tambah Status
+                        <button type="submit" id="btn-save-st" class="w-full py-2.5 px-5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
+                            Simpan Status
                         </button>
                     </form>
                 </div>
 
-                <div id="statuses-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                <div id="statuses-list" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
             </section>
 
             <!-- ==================== TAB 3: CASE STUDIES / PROJECTS ==================== -->
-            <section id="panel-projects" class="hidden cms-panel panel-animate space-y-5 sm:space-y-6">
-                <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-5">
-                    <div class="border-b pb-4 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
-                        <div>
-                            <h2 id="proj-form-heading" class="text-lg sm:text-xl font-extrabold tracking-tight">Tambah Studi Kasus Baru</h2>
-                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Proyek yang ditambahkan tampil di bagian Featured Case Studies.</p>
-                        </div>
-                        <button type="button" id="btn-cancel-edit-proj" onclick="resetProjectForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline flex-shrink-0">Batal Edit</button>
+            <section id="panel-projects" class="hidden cms-panel panel-animate space-y-4">
+                <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Featured Case Studies</h2>
+                        <p class="text-xs" style="color: var(--text-secondary);">Kelola studi kasus &amp; tautan demo proyek.</p>
+                    </div>
+                    <button type="button" onclick="openCmsDrawer('proj', true)" class="px-4 py-2 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold flex-shrink-0">
+                        + Tambah Proyek
+                    </button>
+                </div>
+
+                <!-- Collapsible Form Drawer -->
+                <div id="proj-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
+                    <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                        <h3 id="proj-form-heading" class="text-base font-extrabold tracking-tight">Tambah Studi Kasus Baru</h3>
+                        <button type="button" onclick="resetProjectForm()" class="px-3 py-1 rounded-full text-xs font-bold text-[#D97706] bg-amber-500/12">Tutup</button>
                     </div>
 
-                    <form onsubmit="saveProject(event)" class="space-y-4">
+                    <form onsubmit="saveProject(event)" class="space-y-3.5">
                         <input type="hidden" id="proj-edit-id">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">Judul Proyek *</label>
+                                <label class="block text-xs font-bold mb-1">Judul Proyek *</label>
                                 <input type="text" id="proj-title" required placeholder="Cth: US Airlines Sentiment Dashboard" class="studio-input">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">Cover Gambar (URL atau Upload)</label>
-                                <input type="text" id="proj-img-url" placeholder="https://..." class="studio-input mb-2">
+                                <label class="block text-xs font-bold mb-1">Cover Gambar (URL atau Upload)</label>
+                                <input type="text" id="proj-img-url" placeholder="https://..." class="studio-input mb-1.5">
                                 <input type="file" id="proj-img-file" accept="image/*" class="w-full text-xs file:mr-3 file:py-1.5 file:px-3 rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-500/15 file:text-[#059669]">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Ringkasan Kartu (Deskripsi Singkat) *</label>
+                            <label class="block text-xs font-bold mb-1">Ringkasan Kartu (Deskripsi Singkat) *</label>
                             <textarea id="proj-desc" rows="2" required placeholder="Ringkasan singkat yang muncul di kartu depan..." class="studio-input"></textarea>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Konten Lengkap Studi Kasus (Mendukung HTML / Paragraf)</label>
-                            <textarea id="proj-content" rows="5" placeholder="Jelaskan latar belakang masalah, metodologi, hasil analisis, dan tautan demo/GitHub..." class="studio-input"></textarea>
+                            <label class="block text-xs font-bold mb-1">Konten Lengkap Studi Kasus (Mendukung HTML / Paragraf)</label>
+                            <textarea id="proj-content" rows="4" placeholder="Jelaskan latar belakang masalah, metodologi, hasil analisis, dan tautan demo/GitHub..." class="studio-input"></textarea>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">Tags / Tools (Pisahkan dengan koma)</label>
+                                <label class="block text-xs font-bold mb-1">Tags / Tools (Pisahkan dengan koma)</label>
                                 <input type="text" id="proj-tags" placeholder="Python, Streamlit, Pandas" class="studio-input">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">External Link / Demo / Repo (Opsional)</label>
+                                <label class="block text-xs font-bold mb-1">External Link / Demo / Repo (Opsional)</label>
                                 <input type="text" id="proj-link" placeholder="https://github.com/..." class="studio-input">
                             </div>
                         </div>
 
-                        <button type="submit" id="btn-save-proj" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
+                        <button type="submit" id="btn-save-proj" class="w-full sm:w-auto px-7 py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
                             Simpan Studi Kasus
                         </button>
                     </form>
                 </div>
 
-                <div id="projects-list" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+                <div id="projects-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </section>
 
             <!-- ==================== TAB 4: SERVICES & OFFERINGS ==================== -->
-            <section id="panel-services" class="hidden cms-panel panel-animate space-y-5 sm:space-y-6">
-                <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-5">
-                    <div class="border-b pb-4 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
-                        <div>
-                            <h2 id="srv-form-heading" class="text-lg sm:text-xl font-extrabold tracking-tight">Tambah Layanan Profesional</h2>
-                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Kelola katalog jasa/layanan, skema harga, dan status slot (Open / Closed).</p>
-                        </div>
-                        <button type="button" id="btn-cancel-edit-srv" onclick="resetServiceForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline flex-shrink-0">Batal Edit</button>
+            <section id="panel-services" class="hidden cms-panel panel-animate space-y-4">
+                <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Professional Services</h2>
+                        <p class="text-xs" style="color: var(--text-secondary);">Kelola katalog jasa, skema harga, dan status slot.</p>
+                    </div>
+                    <button type="button" onclick="openCmsDrawer('srv', true)" class="px-4 py-2 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold flex-shrink-0">
+                        + Tambah Layanan
+                    </button>
+                </div>
+
+                <!-- Collapsible Form Drawer -->
+                <div id="srv-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
+                    <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                        <h3 id="srv-form-heading" class="text-base font-extrabold tracking-tight">Tambah Layanan Profesional</h3>
+                        <button type="button" onclick="resetServiceForm()" class="px-3 py-1 rounded-full text-xs font-bold text-[#D97706] bg-amber-500/12">Tutup</button>
                     </div>
 
-                    <form onsubmit="saveService(event)" class="space-y-4">
+                    <form onsubmit="saveService(event)" class="space-y-3.5">
                         <input type="hidden" id="srv-edit-id">
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">Kategori Badge *</label>
+                                <label class="block text-xs font-bold mb-1">Kategori Badge *</label>
                                 <input type="text" id="srv-badge" required placeholder="Cth: Data Analytics" class="studio-input">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">Nama Layanan *</label>
+                                <label class="block text-xs font-bold mb-1">Nama Layanan *</label>
                                 <input type="text" id="srv-title" required placeholder="Cth: Dashboard & Reporting" class="studio-input">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">Status Slot</label>
+                                <label class="block text-xs font-bold mb-1">Status Slot</label>
                                 <select id="srv-status" class="studio-input">
                                     <option value="open">Open (Tersedia)</option>
                                     <option value="closed">Closed (Penuh / Tutup)</option>
@@ -684,9 +706,9 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">Skema Harga</label>
+                                <label class="block text-xs font-bold mb-1">Skema Harga</label>
                                 <select id="srv-pricing-type" class="studio-input">
                                     <option value="negotiable">Negotiable / Custom Quote</option>
                                     <option value="nett">Nett / Fixed Rate</option>
@@ -694,76 +716,91 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">Label Harga (Cth: Mulai Rp 350rb)</label>
+                                <label class="block text-xs font-bold mb-1">Label Harga (Cth: Mulai Rp 350rb)</label>
                                 <input type="text" id="srv-price-label" placeholder="Mulai Rp 350.000 / Project" class="studio-input">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Deskripsi Singkat Kartu *</label>
+                            <label class="block text-xs font-bold mb-1">Deskripsi Singkat Kartu *</label>
                             <textarea id="srv-short-desc" rows="2" required placeholder="Ringkasan layanan di kartu depan..." class="studio-input"></textarea>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Rincian Deliverables &amp; Ketentuan (Modal Detail)</label>
-                            <textarea id="srv-full-details" rows="4" placeholder="Poin-poin output yang didapat klien, estimasi pengerjaan, revisi, dll..." class="studio-input"></textarea>
+                            <label class="block text-xs font-bold mb-1">Rincian Deliverables &amp; Ketentuan (Modal Detail)</label>
+                            <textarea id="srv-full-details" rows="3" placeholder="Poin-poin output yang didapat klien, estimasi pengerjaan, revisi, dll..." class="studio-input"></textarea>
                         </div>
 
-                        <button type="submit" id="btn-save-srv" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
+                        <button type="submit" id="btn-save-srv" class="w-full sm:w-auto px-7 py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
                             Simpan Layanan
                         </button>
                     </form>
                 </div>
 
-                <div id="services-list" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+                <div id="services-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </section>
 
             <!-- ==================== TAB 5: TECHNICAL ARSENAL ==================== -->
-            <section id="panel-arsenal" class="hidden cms-panel panel-animate space-y-5 sm:space-y-6">
-                <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-5">
-                    <div class="border-b pb-4 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
-                        <div>
-                            <h2 id="sk-form-heading" class="text-lg sm:text-xl font-extrabold tracking-tight">Technical Arsenal &amp; Skills</h2>
-                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Kelompokkan keahlian berdasarkan kategori dan tingkat penguasaan.</p>
-                        </div>
-                        <button type="button" id="btn-cancel-edit-sk" onclick="resetSkillForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline flex-shrink-0">Batal Edit</button>
+            <section id="panel-arsenal" class="hidden cms-panel panel-animate space-y-4">
+                <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Technical Arsenal</h2>
+                        <p class="text-xs" style="color: var(--text-secondary);">Kelola kategori keahlian &amp; tingkat penguasaan.</p>
+                    </div>
+                    <button type="button" onclick="openCmsDrawer('sk', true)" class="px-4 py-2 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold flex-shrink-0">
+                        + Tambah Skill
+                    </button>
+                </div>
+
+                <!-- Collapsible Form Drawer -->
+                <div id="sk-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
+                    <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                        <h3 id="sk-form-heading" class="text-base font-extrabold tracking-tight">Tambah Skill / Tool</h3>
+                        <button type="button" onclick="resetSkillForm()" class="px-3 py-1 rounded-full text-xs font-bold text-[#D97706] bg-amber-500/12">Tutup</button>
                     </div>
 
                     <form onsubmit="saveSkill(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
                         <input type="hidden" id="sk-edit-id">
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Kategori *</label>
+                            <label class="block text-xs font-bold mb-1">Kategori *</label>
                             <input type="text" id="sk-cat" required placeholder="Cth: Data & Analytics" class="studio-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Nama Skill / Tool *</label>
+                            <label class="block text-xs font-bold mb-1">Nama Skill / Tool *</label>
                             <input type="text" id="sk-name" required placeholder="Cth: Python (Pandas)" class="studio-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Tingkat Penguasaan</label>
+                            <label class="block text-xs font-bold mb-1">Tingkat Penguasaan</label>
                             <select id="sk-level" class="studio-input">
                                 <option value="Advanced">Core (3 Dots)</option>
                                 <option value="Intermediate" selected>Proficient (2 Dots)</option>
                                 <option value="Familiar">Familiar (1 Dot)</option>
                             </select>
                         </div>
-                        <button type="submit" id="btn-save-sk" class="w-full py-3 px-5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
-                            + Tambah Skill
+                        <button type="submit" id="btn-save-sk" class="w-full py-2.5 px-5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
+                            Simpan Skill
                         </button>
                     </form>
                 </div>
 
-                <div id="arsenal-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                <div id="arsenal-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
             </section>
 
             <!-- ==================== TAB 6: EDUCATION & CERTIFICATIONS ==================== -->
-            <section id="panel-credentials" class="hidden cms-panel panel-animate grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <section id="panel-credentials" class="hidden cms-panel panel-animate grid grid-cols-1 lg:grid-cols-2 gap-5">
                 <!-- Education Column -->
-                <div class="space-y-5">
-                    <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-6 space-y-4">
-                        <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
-                            <h2 id="edu-form-heading" class="text-lg font-extrabold tracking-tight">Tambah Riwayat Pendidikan</h2>
-                            <button type="button" id="btn-cancel-edit-edu" onclick="resetEduForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline">Batal Edit</button>
+                <div class="space-y-3.5">
+                    <div class="studio-card rounded-[22px] p-4 flex items-center justify-between gap-2">
+                        <h2 class="text-base font-extrabold tracking-tight">Education &amp; GPA</h2>
+                        <button type="button" onclick="openCmsDrawer('edu', true)" class="px-3.5 py-1.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
+                            + Tambah
+                        </button>
+                    </div>
+
+                    <div id="edu-drawer" class="hidden studio-card rounded-[22px] p-5 space-y-3.5 border-emerald-500/30 panel-animate">
+                        <div class="border-b pb-2.5 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                            <h3 id="edu-form-heading" class="text-sm font-extrabold">Tambah Riwayat Pendidikan</h3>
+                            <button type="button" onclick="resetEduForm()" class="px-2.5 py-0.5 rounded-full text-xs font-bold text-[#D97706] bg-amber-500/12">Tutup</button>
                         </div>
                         <form onsubmit="saveEducation(event)" class="space-y-3">
                             <input type="hidden" id="edu-edit-id">
@@ -774,18 +811,26 @@
                                 <input type="text" id="edu-grad" placeholder="Lulus (2026)" class="studio-input">
                                 <input type="text" id="edu-gpa" placeholder="IPK (3.79)" class="studio-input">
                             </div>
-                            <button type="submit" id="btn-save-edu" class="w-full py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">+ Simpan Pendidikan</button>
+                            <button type="submit" id="btn-save-edu" class="w-full py-2.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">Simpan Pendidikan</button>
                         </form>
                     </div>
+
                     <div id="edu-list" class="space-y-3"></div>
                 </div>
 
                 <!-- Certifications Column -->
-                <div class="space-y-5">
-                    <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-6 space-y-4">
-                        <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
-                            <h2 id="cert-form-heading" class="text-lg font-extrabold tracking-tight">Tambah Sertifikasi</h2>
-                            <button type="button" id="btn-cancel-edit-cert" onclick="resetCertForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline">Batal Edit</button>
+                <div class="space-y-3.5">
+                    <div class="studio-card rounded-[22px] p-4 flex items-center justify-between gap-2">
+                        <h2 class="text-base font-extrabold tracking-tight">Certifications</h2>
+                        <button type="button" onclick="openCmsDrawer('cert', true)" class="px-3.5 py-1.5 rounded-full bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold">
+                            + Tambah
+                        </button>
+                    </div>
+
+                    <div id="cert-drawer" class="hidden studio-card rounded-[22px] p-5 space-y-3.5 border-amber-500/30 panel-animate">
+                        <div class="border-b pb-2.5 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                            <h3 id="cert-form-heading" class="text-sm font-extrabold">Tambah Sertifikasi</h3>
+                            <button type="button" onclick="resetCertForm()" class="px-2.5 py-0.5 rounded-full text-xs font-bold text-[#D97706] bg-amber-500/12">Tutup</button>
                         </div>
                         <form onsubmit="saveCertification(event)" class="space-y-3">
                             <input type="hidden" id="cert-edit-id">
@@ -796,50 +841,59 @@
                             </div>
                             <div>
                                 <label class="block text-[11px] font-bold mb-1" style="color: var(--text-muted);">File Sertifikat (URL atau Upload Gambar/PDF)</label>
-                                <input type="text" id="cert-url" placeholder="https://..." class="studio-input mb-2">
+                                <input type="text" id="cert-url" placeholder="https://..." class="studio-input mb-1.5">
                                 <input type="file" id="cert-file" accept="image/*,.pdf" class="w-full text-xs file:mr-3 file:py-1.5 file:px-3 rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-500/15 file:text-[#D97706]">
                             </div>
-                            <button type="submit" id="btn-save-cert" class="w-full py-3 rounded-full bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold">+ Simpan Sertifikat</button>
+                            <button type="submit" id="btn-save-cert" class="w-full py-2.5 rounded-full bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold">Simpan Sertifikat</button>
                         </form>
                     </div>
+
                     <div id="cert-list" class="space-y-3"></div>
                 </div>
             </section>
 
             <!-- ==================== TAB 7: GALLERY ALBUMS ==================== -->
-            <section id="panel-gallery" class="hidden cms-panel panel-animate space-y-5 sm:space-y-6">
-                <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-5">
-                    <div class="border-b pb-4 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
-                        <div>
-                            <h2 id="gal-form-heading" class="text-lg sm:text-xl font-extrabold tracking-tight">Buat Album Dokumentasi Baru</h2>
-                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Pilih beberapa foto sekaligus untuk diunggah ke dalam satu album galeri.</p>
-                        </div>
-                        <button type="button" id="btn-cancel-edit-gal" onclick="resetGalleryForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline flex-shrink-0">Batal Edit</button>
+            <section id="panel-gallery" class="hidden cms-panel panel-animate space-y-4">
+                <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Gallery Albums</h2>
+                        <p class="text-xs" style="color: var(--text-secondary);">Kelola album dokumentasi kegiatan &amp; multi-foto.</p>
+                    </div>
+                    <button type="button" onclick="openCmsDrawer('gal', true)" class="px-4 py-2 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold flex-shrink-0">
+                        + Buat Album
+                    </button>
+                </div>
+
+                <!-- Collapsible Form Drawer -->
+                <div id="gal-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
+                    <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                        <h3 id="gal-form-heading" class="text-base font-extrabold tracking-tight">Buat Album Dokumentasi Baru</h3>
+                        <button type="button" onclick="resetGalleryForm()" class="px-3 py-1 rounded-full text-xs font-bold text-[#D97706] bg-amber-500/12">Tutup</button>
                     </div>
 
-                    <form onsubmit="saveGalleryAlbum(event)" class="space-y-4">
+                    <form onsubmit="saveGalleryAlbum(event)" class="space-y-3.5">
                         <input type="hidden" id="gal-edit-id">
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">Judul Album *</label>
+                                <label class="block text-xs font-bold mb-1">Judul Album *</label>
                                 <input type="text" id="gal-title" required placeholder="Cth: Seminar Nasional TI" class="studio-input">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">Kategori *</label>
+                                <label class="block text-xs font-bold mb-1">Kategori *</label>
                                 <input type="text" id="gal-cat" required placeholder="Cth: Workshop / Event" class="studio-input">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold mb-1.5">Tahun</label>
+                                <label class="block text-xs font-bold mb-1">Tahun</label>
                                 <input type="text" id="gal-year" placeholder="2026" class="studio-input">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Deskripsi Singkat Album</label>
+                            <label class="block text-xs font-bold mb-1">Deskripsi Singkat Album</label>
                             <textarea id="gal-desc" rows="2" placeholder="Ceritakan singkat momen atau kegiatan pada album ini..." class="studio-input"></textarea>
                         </div>
 
-                        <div id="gal-existing-photos-wrap" class="hidden space-y-2 p-4 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <div id="gal-existing-photos-wrap" class="hidden space-y-2 p-3.5 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold">Foto Tersimpan di Album Ini</span>
                                 <span id="gal-existing-count" class="text-[11px] font-semibold" style="color: var(--text-muted);">0 Foto</span>
@@ -848,38 +902,38 @@
                         </div>
 
                         <div>
-                            <label id="gal-files-label" class="block text-xs font-bold mb-1.5">Pilih Foto (Bisa Multi-Select) *</label>
+                            <label id="gal-files-label" class="block text-xs font-bold mb-1">Pilih Foto (Bisa Multi-Select) *</label>
                             <input type="file" id="gal-files" accept="image/*" multiple required class="w-full text-xs file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-500/15 file:text-[#059669]">
                         </div>
 
-                        <button type="submit" id="btn-save-gal" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
+                        <button type="submit" id="btn-save-gal" class="w-full sm:w-auto px-7 py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
                             Unggah &amp; Publikasikan Album
                         </button>
                     </form>
                 </div>
 
-                <div id="gallery-list" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+                <div id="gallery-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </section>
 
             <!-- ==================== TAB 8: VISITOR INQUIRIES INBOX ==================== -->
-            <section id="panel-inquiries" class="hidden cms-panel panel-animate space-y-5">
-                <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-6 flex items-center justify-between gap-3">
+            <section id="panel-inquiries" class="hidden cms-panel panel-animate space-y-4">
+                <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
                     <div>
-                        <h2 class="text-lg sm:text-xl font-extrabold tracking-tight">Kotak Masuk Pengajuan</h2>
-                        <p class="text-xs mt-0.5" style="color: var(--text-secondary);">Pesan kolaborasi &amp; permintaan layanan dari pengunjung.</p>
+                        <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Kotak Masuk Pengajuan</h2>
+                        <p class="text-xs" style="color: var(--text-secondary);">Pesan kolaborasi &amp; permintaan layanan dari pengunjung.</p>
                     </div>
                     <button type="button" onclick="loadAllData()" class="px-3.5 py-2 rounded-full border text-xs font-bold hover:border-[#10B981] flex-shrink-0" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                         <i class='bx bx-refresh mr-1'></i> Refresh
                     </button>
                 </div>
 
-                <div id="inquiries-list" class="space-y-4"></div>
+                <div id="inquiries-list" class="space-y-3.5"></div>
             </section>
 
         </main>
     </div>
 
-    <!-- ==================== PWA & THEME SCRIPT ==================== -->
+    <!-- ==================== PWA, DRAWER & THEME SCRIPT ==================== -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -924,6 +978,29 @@
         };
         window.closeMobileDrawer = function() {
             document.getElementById('mobile-more-drawer').classList.add('hidden');
+        };
+
+        // Collapsible Form Drawer Controller
+        window.openCmsDrawer = function(prefix, resetFirst = false) {
+            if (resetFirst) {
+                if (prefix === 'st') resetStatusForm(true);
+                if (prefix === 'proj') resetProjectForm(true);
+                if (prefix === 'srv') resetServiceForm(true);
+                if (prefix === 'sk') resetSkillForm(true);
+                if (prefix === 'edu') resetEduForm(true);
+                if (prefix === 'cert') resetCertForm(true);
+                if (prefix === 'gal') resetGalleryForm(true);
+            }
+            const drawer = document.getElementById(`${prefix}-drawer`);
+            if (drawer) {
+                drawer.classList.remove('hidden');
+                drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        };
+
+        window.closeCmsDrawer = function(prefix) {
+            const drawer = document.getElementById(`${prefix}-drawer`);
+            if (drawer) drawer.classList.add('hidden');
         };
 
         function syncThemeIcon() {
@@ -1259,6 +1336,10 @@
         // 2. Status Pills CRUD
         function renderStatusesAdmin(list) {
             const wrap = document.getElementById('statuses-list');
+            if (!list.length) {
+                wrap.innerHTML = `<div class="col-span-full studio-card rounded-2xl p-6 text-center text-xs" style="color: var(--text-muted);">Belum ada status pill. Klik "+ Tambah Status" di atas.</div>`;
+                return;
+            }
             wrap.innerHTML = list.map(s => `
                 <div class="studio-card rounded-2xl p-4 flex items-center justify-between gap-3">
                     <div class="min-w-0">
@@ -1285,18 +1366,17 @@
             document.getElementById('st-org').value = st.organization || '';
             document.getElementById('st-form-heading').innerText = 'Edit Status Pill';
             document.getElementById('btn-save-st').innerText = 'Simpan Perubahan';
-            document.getElementById('btn-cancel-edit-st').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            openCmsDrawer('st', false);
         };
 
-        window.resetStatusForm = function() {
+        window.resetStatusForm = function(keepOpen = false) {
             document.getElementById('st-edit-id').value = '';
             document.getElementById('st-type').value = 'open';
             document.getElementById('st-title').value = '';
             document.getElementById('st-org').value = '';
-            document.getElementById('st-form-heading').innerText = 'Availability & Activity Status Pills';
-            document.getElementById('btn-save-st').innerText = '+ Tambah Status';
-            document.getElementById('btn-cancel-edit-st').classList.add('hidden');
+            document.getElementById('st-form-heading').innerText = 'Tambah Status Pill';
+            document.getElementById('btn-save-st').innerText = 'Simpan Status';
+            if (!keepOpen) closeCmsDrawer('st');
         };
 
         window.saveStatus = async function(e) {
@@ -1336,18 +1416,22 @@
         // 3. Projects CRUD
         function renderProjectsAdmin(list) {
             const wrap = document.getElementById('projects-list');
+            if (!list.length) {
+                wrap.innerHTML = `<div class="col-span-full studio-card rounded-2xl p-6 text-center text-xs" style="color: var(--text-muted);">Belum ada studi kasus tambahan di database. Klik "+ Tambah Proyek" di atas.</div>`;
+                return;
+            }
             wrap.innerHTML = list.map(p => `
-                <div class="studio-card rounded-[24px] overflow-hidden flex flex-col justify-between">
+                <div class="studio-card rounded-[22px] overflow-hidden flex flex-col justify-between">
                     <div>
-                        <img src="${escapeHTML(p.image_url)}" alt="" class="w-full h-40 object-cover bg-zinc-200">
-                        <div class="p-5">
-                            <h4 class="font-bold text-base">${escapeHTML(p.title)}</h4>
+                        <img src="${escapeHTML(p.image_url)}" alt="" class="w-full h-36 object-cover bg-zinc-200">
+                        <div class="p-4">
+                            <h4 class="font-bold text-sm sm:text-base">${escapeHTML(p.title)}</h4>
                             <p class="text-xs mt-1 line-clamp-2" style="color: var(--text-secondary);">${escapeHTML(p.description || '')}</p>
                         </div>
                     </div>
-                    <div class="px-5 py-3 border-t flex justify-end gap-2" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                        <button type="button" onclick="editProject('${escapeHTML(p.id)}')" class="px-3.5 py-1.5 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
-                        <button type="button" onclick="deleteRow('projects', '${escapeHTML(p.id)}')" class="px-3.5 py-1.5 rounded-full bg-red-500/15 text-red-600 text-xs font-bold">Hapus</button>
+                    <div class="px-4 py-2.5 border-t flex justify-end gap-2" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <button type="button" onclick="editProject('${escapeHTML(p.id)}')" class="px-3.5 py-1 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
+                        <button type="button" onclick="deleteRow('projects', '${escapeHTML(p.id)}')" class="px-3.5 py-1 rounded-full bg-red-500/15 text-red-600 text-xs font-bold">Hapus</button>
                     </div>
                 </div>
             `).join('');
@@ -1364,11 +1448,10 @@
             document.getElementById('proj-tags').value = Array.isArray(p.tags) ? p.tags.join(', ') : (p.tags || '');
             document.getElementById('proj-link').value = p.demo_url || p.link || '';
             document.getElementById('proj-form-heading').innerText = 'Edit Studi Kasus';
-            document.getElementById('btn-cancel-edit-proj').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            openCmsDrawer('proj', false);
         };
 
-        window.resetProjectForm = function() {
+        window.resetProjectForm = function(keepOpen = false) {
             document.getElementById('proj-edit-id').value = '';
             document.getElementById('proj-title').value = '';
             document.getElementById('proj-img-url').value = '';
@@ -1378,7 +1461,7 @@
             document.getElementById('proj-tags').value = '';
             document.getElementById('proj-link').value = '';
             document.getElementById('proj-form-heading').innerText = 'Tambah Studi Kasus Baru';
-            document.getElementById('btn-cancel-edit-proj').classList.add('hidden');
+            if (!keepOpen) closeCmsDrawer('proj');
         };
 
         window.saveProject = async function(e) {
@@ -1429,18 +1512,22 @@
         // 4. Services CRUD
         function renderServicesAdmin(list) {
             const wrap = document.getElementById('services-list');
+            if (!list.length) {
+                wrap.innerHTML = `<div class="col-span-full studio-card rounded-2xl p-6 text-center text-xs" style="color: var(--text-muted);">Belum ada layanan terdaftar. Klik "+ Tambah Layanan" di atas.</div>`;
+                return;
+            }
             wrap.innerHTML = list.map(s => `
-                <div class="studio-card rounded-[24px] p-5 flex flex-col justify-between gap-4">
+                <div class="studio-card rounded-[22px] p-4 sm:p-5 flex flex-col justify-between gap-3">
                     <div>
-                        <div class="flex items-center justify-between gap-2 mb-2">
+                        <div class="flex items-center justify-between gap-2 mb-1.5">
                             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-[#D97706] text-[11px] font-bold">${escapeHTML(s.badge)}</span>
                             <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${s.status === 'open' ? 'bg-emerald-500/15 text-[#059669]' : 'bg-zinc-500/15 text-zinc-500'}">${escapeHTML(s.status)}</span>
                         </div>
-                        <h4 class="font-bold text-base">${escapeHTML(s.title)}</h4>
-                        <p class="text-xs mt-1" style="color: var(--text-secondary);">${escapeHTML(s.short_desc)}</p>
+                        <h4 class="font-bold text-sm sm:text-base">${escapeHTML(s.title)}</h4>
+                        <p class="text-xs mt-1 line-clamp-2" style="color: var(--text-secondary);">${escapeHTML(s.short_desc)}</p>
                         <p class="text-xs font-bold mt-2 text-[#10B981]">${escapeHTML(s.price_label || s.pricing_type)}</p>
                     </div>
-                    <div class="pt-3 border-t flex flex-wrap justify-end gap-2" style="border-color: var(--border-hairline);">
+                    <div class="pt-2.5 border-t flex flex-wrap justify-end gap-1.5" style="border-color: var(--border-hairline);">
                         <button type="button" onclick="toggleServiceStatus('${escapeHTML(s.id)}', '${s.status === 'open' ? 'closed' : 'open'}')" class="px-3 py-1 rounded-full border text-xs font-semibold" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                             Set ${s.status === 'open' ? 'Closed' : 'Open'}
                         </button>
@@ -1463,11 +1550,10 @@
             document.getElementById('srv-short-desc').value = s.short_desc || '';
             document.getElementById('srv-full-details').value = s.full_details || '';
             document.getElementById('srv-form-heading').innerText = 'Edit Layanan';
-            document.getElementById('btn-cancel-edit-srv').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            openCmsDrawer('srv', false);
         };
 
-        window.resetServiceForm = function() {
+        window.resetServiceForm = function(keepOpen = false) {
             document.getElementById('srv-edit-id').value = '';
             document.getElementById('srv-badge').value = '';
             document.getElementById('srv-title').value = '';
@@ -1477,7 +1563,7 @@
             document.getElementById('srv-short-desc').value = '';
             document.getElementById('srv-full-details').value = '';
             document.getElementById('srv-form-heading').innerText = 'Tambah Layanan Profesional';
-            document.getElementById('btn-cancel-edit-srv').classList.add('hidden');
+            if (!keepOpen) closeCmsDrawer('srv');
         };
 
         window.saveService = async function(e) {
@@ -1520,8 +1606,12 @@
         // 5. Technical Arsenal CRUD
         function renderArsenalAdmin(list) {
             const wrap = document.getElementById('arsenal-list');
+            if (!list.length) {
+                wrap.innerHTML = `<div class="col-span-full studio-card rounded-2xl p-6 text-center text-xs" style="color: var(--text-muted);">Belum ada keahlian ditambahkan. Klik "+ Tambah Skill" di atas.</div>`;
+                return;
+            }
             wrap.innerHTML = list.map(sk => `
-                <div class="studio-card rounded-2xl p-4 flex items-center justify-between gap-2">
+                <div class="studio-card rounded-2xl p-3.5 flex items-center justify-between gap-2">
                     <div class="min-w-0">
                         <span class="text-[10px] font-bold uppercase text-[#D97706] block truncate">${escapeHTML(sk.category)}</span>
                         <h4 class="font-bold text-sm truncate">${escapeHTML(sk.name)}</h4>
@@ -1544,18 +1634,17 @@
             document.getElementById('sk-level').value = sk.level || 'Intermediate';
             document.getElementById('sk-form-heading').innerText = 'Edit Skill & Kategori';
             document.getElementById('btn-save-sk').innerText = 'Simpan Perubahan';
-            document.getElementById('btn-cancel-edit-sk').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            openCmsDrawer('sk', false);
         };
 
-        window.resetSkillForm = function() {
+        window.resetSkillForm = function(keepOpen = false) {
             document.getElementById('sk-edit-id').value = '';
             document.getElementById('sk-cat').value = '';
             document.getElementById('sk-name').value = '';
             document.getElementById('sk-level').value = 'Intermediate';
-            document.getElementById('sk-form-heading').innerText = 'Technical Arsenal & Skills';
-            document.getElementById('btn-save-sk').innerText = '+ Tambah Skill';
-            document.getElementById('btn-cancel-edit-sk').classList.add('hidden');
+            document.getElementById('sk-form-heading').innerText = 'Tambah Skill / Tool';
+            document.getElementById('btn-save-sk').innerText = 'Simpan Skill';
+            if (!keepOpen) closeCmsDrawer('sk');
         };
 
         window.saveSkill = async function(e) {
@@ -1584,8 +1673,13 @@
 
         // 6. Education & Certifications CRUD
         function renderEduAdmin(list) {
-            document.getElementById('edu-list').innerHTML = list.map(ed => `
-                <div class="studio-card rounded-2xl p-4 flex items-center justify-between gap-3">
+            const wrap = document.getElementById('edu-list');
+            if (!list.length) {
+                wrap.innerHTML = `<div class="studio-card rounded-2xl p-5 text-center text-xs" style="color: var(--text-muted);">Belum ada riwayat pendidikan.</div>`;
+                return;
+            }
+            wrap.innerHTML = list.map(ed => `
+                <div class="studio-card rounded-2xl p-3.5 flex items-center justify-between gap-3">
                     <div class="min-w-0">
                         <h4 class="font-bold text-sm truncate">${escapeHTML(ed.institution)}</h4>
                         <p class="text-xs truncate" style="color: var(--text-secondary);">${escapeHTML(ed.degree)} (${escapeHTML(ed.start_year || '')} - ${escapeHTML(ed.grad_year || '')})${ed.gpa ? ' • GPA: ' + escapeHTML(ed.gpa) : ''}</p>
@@ -1608,12 +1702,11 @@
             document.getElementById('edu-grad').value = ed.grad_year || '';
             document.getElementById('edu-gpa').value = ed.gpa || '';
             document.getElementById('edu-form-heading').innerText = 'Edit Riwayat Pendidikan';
-            document.getElementById('btn-save-edu').innerText = 'Simpan Perubahan Pendidikan';
-            document.getElementById('btn-cancel-edit-edu').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('btn-save-edu').innerText = 'Simpan Perubahan';
+            openCmsDrawer('edu', false);
         };
 
-        window.resetEduForm = function() {
+        window.resetEduForm = function(keepOpen = false) {
             document.getElementById('edu-edit-id').value = '';
             document.getElementById('edu-inst').value = '';
             document.getElementById('edu-deg').value = '';
@@ -1621,8 +1714,8 @@
             document.getElementById('edu-grad').value = '';
             document.getElementById('edu-gpa').value = '';
             document.getElementById('edu-form-heading').innerText = 'Tambah Riwayat Pendidikan';
-            document.getElementById('btn-save-edu').innerText = '+ Simpan Pendidikan';
-            document.getElementById('btn-cancel-edit-edu').classList.add('hidden');
+            document.getElementById('btn-save-edu').innerText = 'Simpan Pendidikan';
+            if (!keepOpen) closeCmsDrawer('edu');
         };
 
         window.saveEducation = async function(e) {
@@ -1652,8 +1745,13 @@
         };
 
         function renderCertAdmin(list) {
-            document.getElementById('cert-list').innerHTML = list.map(c => `
-                <div class="studio-card rounded-2xl p-4 flex items-center justify-between gap-3">
+            const wrap = document.getElementById('cert-list');
+            if (!list.length) {
+                wrap.innerHTML = `<div class="studio-card rounded-2xl p-5 text-center text-xs" style="color: var(--text-muted);">Belum ada sertifikasi.</div>`;
+                return;
+            }
+            wrap.innerHTML = list.map(c => `
+                <div class="studio-card rounded-2xl p-3.5 flex items-center justify-between gap-3">
                     <div class="min-w-0">
                         <h4 class="font-bold text-sm truncate">${escapeHTML(c.title)}</h4>
                         <p class="text-xs truncate" style="color: var(--text-secondary);">${escapeHTML(c.issuer)} ${c.year ? '• ' + escapeHTML(c.year) : ''}</p>
@@ -1675,12 +1773,11 @@
             document.getElementById('cert-year').value = c.year || '';
             document.getElementById('cert-url').value = c.file_url || '';
             document.getElementById('cert-form-heading').innerText = 'Edit Sertifikasi';
-            document.getElementById('btn-save-cert').innerText = 'Simpan Perubahan Sertifikat';
-            document.getElementById('btn-cancel-edit-cert').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('btn-save-cert').innerText = 'Simpan Perubahan';
+            openCmsDrawer('cert', false);
         };
 
-        window.resetCertForm = function() {
+        window.resetCertForm = function(keepOpen = false) {
             document.getElementById('cert-edit-id').value = '';
             document.getElementById('cert-title').value = '';
             document.getElementById('cert-issuer').value = '';
@@ -1688,8 +1785,8 @@
             document.getElementById('cert-url').value = '';
             document.getElementById('cert-file').value = '';
             document.getElementById('cert-form-heading').innerText = 'Tambah Sertifikasi';
-            document.getElementById('btn-save-cert').innerText = '+ Simpan Sertifikat';
-            document.getElementById('btn-cancel-edit-cert').classList.add('hidden');
+            document.getElementById('btn-save-cert').innerText = 'Simpan Sertifikat';
+            if (!keepOpen) closeCmsDrawer('cert');
         };
 
         window.saveCertification = async function(e) {
@@ -1727,18 +1824,23 @@
             } catch (err) {
                 alert(err.message);
             } finally {
-                btn.innerText = '+ Simpan Sertifikat';
+                btn.innerText = 'Simpan Sertifikat';
                 btn.disabled = false;
             }
         };
 
         // 7. Gallery Albums CRUD
         function renderGalleryAdmin(list) {
-            document.getElementById('gallery-list').innerHTML = list.map(al => `
-                <div class="studio-card rounded-2xl p-5 flex items-center justify-between gap-3">
+            const wrap = document.getElementById('gallery-list');
+            if (!list.length) {
+                wrap.innerHTML = `<div class="col-span-full studio-card rounded-2xl p-6 text-center text-xs" style="color: var(--text-muted);">Belum ada album tambahan di database. Klik "+ Buat Album" di atas.</div>`;
+                return;
+            }
+            wrap.innerHTML = list.map(al => `
+                <div class="studio-card rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-3">
                     <div class="min-w-0">
                         <span class="text-[10px] font-bold uppercase text-[#D97706]">${escapeHTML(al.category)} • ${(al.photos || []).length} Foto</span>
-                        <h4 class="font-bold text-base mt-0.5 truncate">${escapeHTML(al.title)}</h4>
+                        <h4 class="font-bold text-sm sm:text-base mt-0.5 truncate">${escapeHTML(al.title)}</h4>
                     </div>
                     <div class="flex items-center gap-1.5 flex-shrink-0">
                         <button type="button" onclick="editGallery('${escapeHTML(al.id)}')" class="px-3.5 py-1.5 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
@@ -1787,14 +1889,13 @@
             document.getElementById('gal-files-label').innerText = 'Tambah Foto Baru ke Album Ini (Opsional)';
             document.getElementById('gal-form-heading').innerText = 'Edit Album Dokumentasi';
             document.getElementById('btn-save-gal').innerText = 'Simpan Perubahan Album';
-            document.getElementById('btn-cancel-edit-gal').classList.remove('hidden');
 
             editingAlbumPhotos = Array.isArray(al.photos) ? [...al.photos] : [];
             renderEditingAlbumPhotos();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            openCmsDrawer('gal', false);
         };
 
-        window.resetGalleryForm = function() {
+        window.resetGalleryForm = function(keepOpen = false) {
             document.getElementById('gal-edit-id').value = '';
             document.getElementById('gal-title').value = '';
             document.getElementById('gal-cat').value = '';
@@ -1805,9 +1906,9 @@
             document.getElementById('gal-files-label').innerText = 'Pilih Foto (Bisa Multi-Select) *';
             document.getElementById('gal-form-heading').innerText = 'Buat Album Dokumentasi Baru';
             document.getElementById('btn-save-gal').innerText = 'Unggah & Publikasikan Album';
-            document.getElementById('btn-cancel-edit-gal').classList.add('hidden');
             editingAlbumPhotos = [];
             document.getElementById('gal-existing-photos-wrap').classList.add('hidden');
+            if (!keepOpen) closeCmsDrawer('gal');
         };
 
         window.saveGalleryAlbum = async function(e) {
@@ -1882,21 +1983,21 @@
             }
 
             wrap.innerHTML = list.map(inq => `
-                <div class="studio-card rounded-[24px] p-5 sm:p-6 space-y-3">
+                <div class="studio-card rounded-[22px] p-4 sm:p-5 space-y-2.5">
                     <div class="flex flex-wrap items-center justify-between gap-2">
-                        <div class="flex flex-wrap items-center gap-2">
+                        <div class="flex flex-wrap items-center gap-1.5">
                             <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-[#059669] text-[11px] font-bold">${escapeHTML(inq.inquiry_type)}</span>
                             ${inq.service_ref ? `<span class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-[#D97706] text-[11px] font-bold">${escapeHTML(inq.service_ref)}</span>` : ''}
                         </div>
                         <span class="text-[11px]" style="color: var(--text-muted);">${new Date(inq.created_at).toLocaleString('id-ID')}</span>
                     </div>
                     <div>
-                        <h4 class="font-bold text-base break-words">${escapeHTML(inq.sender_name)} <span class="text-xs font-normal opacity-70">(${escapeHTML(inq.sender_contact)})</span></h4>
+                        <h4 class="font-bold text-sm sm:text-base break-words">${escapeHTML(inq.sender_name)} <span class="text-xs font-normal opacity-70">(${escapeHTML(inq.sender_contact)})</span></h4>
                         ${inq.budget_timeline ? `<p class="text-xs font-semibold text-[#D97706] mt-0.5">Budget/Target: ${escapeHTML(inq.budget_timeline)}</p>` : ''}
-                        <p class="text-sm mt-2 leading-relaxed p-3.5 rounded-2xl break-words whitespace-pre-line" style="background: var(--surface-elevated); color: var(--text-secondary);">${escapeHTML(inq.message)}</p>
+                        <p class="text-xs sm:text-sm mt-2 leading-relaxed p-3 rounded-xl break-words whitespace-pre-line" style="background: var(--surface-elevated); color: var(--text-secondary);">${escapeHTML(inq.message)}</p>
                     </div>
-                    <div class="flex justify-end gap-2 pt-1">
-                        <button type="button" onclick="deleteRow('inquiries', '${escapeHTML(inq.id)}')" class="px-3.5 py-1.5 rounded-full bg-red-500/12 text-red-600 text-xs font-bold">Hapus Pesan</button>
+                    <div class="flex justify-end gap-2 pt-0.5">
+                        <button type="button" onclick="deleteRow('inquiries', '${escapeHTML(inq.id)}')" class="px-3.5 py-1 rounded-full bg-red-500/12 text-red-600 text-xs font-bold">Hapus Pesan</button>
                     </div>
                 </div>
             `).join('');

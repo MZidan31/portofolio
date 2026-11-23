@@ -1,82 +1,69 @@
-const CACHE_NAME = 'mzidan-spatial-pwa-v3';
-const APP_SHELL_ASSETS = [
-  './',
-  './index.html',
-  './project-detail.html',
-  './project-bunhaven.html',
-  './project-amazon.html',
-  './admin.html',
-  './manifest.json',
-  './admin-manifest.json'
+const CACHE_NAME = 'mz-portfolio-pwa-v4';
+const CORE_ASSETS = [
+    './',
+    './index.html',
+    './admin.html',
+    './manifest.json',
+    './admin-manifest.json'
 ];
 
-// 1. Install Event: Pre-cache App Shell
 self.addEventListener('install', (event) => {
-  self.skipWaiting();
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return Promise.allSettled(
-        APP_SHELL_ASSETS.map((url) =>
-          cache.add(url).catch(() => null)
-        )
-      );
-    })
-  );
-});
-
-// 2. Activate Event: Clean up old caches
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
-      );
-    }).then(() => self.clients.claim())
-  );
-});
-
-// 3. Fetch Event: Network-First for HTML & Supabase, Stale-While-Revalidate for Static Assets
-self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  if (request.method !== 'GET') return;
-
-  const url = new URL(request.url);
-
-  // Skip Supabase API & Auth requests from static caching (always live)
-  if (url.hostname.includes('supabase.co')) {
-    return;
-  }
-
-  // HTML Navigation Requests -> Network-First with Offline Cache Fallback
-  if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
-    event.respondWith(
-      fetch(request)
-        .then((networkRes) => {
-          const resClone = networkRes.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, resClone));
-          return networkRes;
-        })
-        .catch(() => caches.match(request).then((cached) => cached || caches.match('./index.html')))
+    event.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS))
     );
-    return;
-  }
+    self.skipWaiting();
+});
 
-  // Static Assets (Images, CSS, JS, Fonts) -> Stale-While-Revalidate
-  event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      const fetchPromise = fetch(request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
-          }
-          return networkResponse;
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((keys) =>
+            Promise.all(
+                keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+            )
+        )
+    );
+    self.clients.claim();
+});
+
+self.addEventListener('fetch', (event) => {
+    const req = event.request;
+    if (req.method !== 'GET') return;
+
+    const url = new URL(req.url);
+
+    // Selalu gunakan jaringan langsung untuk API & Storage Supabase
+    if (url.hostname.includes('supabase.co')) {
+        return;
+    }
+
+    // Network-First untuk dokumen HTML agar pembaruan CMS & Portfolio langsung tampil
+    if (req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html')) {
+        event.respondWith(
+            fetch(req)
+                .then((res) => {
+                    const copy = res.clone();
+                    caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+                    return res;
+                })
+                .catch(() => caches.match(req).then((cached) => cached || caches.match('./index.html')))
+        );
+        return;
+    }
+
+    // Stale-While-Revalidate untuk aset statis
+    event.respondWith(
+        caches.match(req).then((cached) => {
+            const networkFetch = fetch(req)
+                .then((res) => {
+                    if (res && res.status === 200) {
+                        const copy = res.clone();
+                        caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+                    }
+                    return res;
+                })
+                .catch(() => cached);
+
+            return cached || networkFetch;
         })
-        .catch(() => cachedResponse);
-
-      return cachedResponse || fetchPromise;
-    })
-  );
+    );
 });

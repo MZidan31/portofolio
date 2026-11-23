@@ -91,8 +91,8 @@
         /* Ultra-Lightweight GPU Scroll Reveal & Tactile Motion */
         .reveal-section {
             opacity: 0;
-            transform: translate3d(0, 14px, 0);
-            transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translate3d(0, 12px, 0);
+            transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .reveal-section.is-visible {
             opacity: 1;
@@ -136,7 +136,7 @@
 
         /* Lightweight Top Navigation Pill (Safe-Area Aware for PWA) */
         .dynamic-nav {
-            top: max(1rem, calc(env(safe-area-inset-top) + 0.4rem));
+            top: max(0.85rem, calc(env(safe-area-inset-top) + 0.35rem));
             background: var(--surface-nav);
             border: 1px solid var(--border-hairline);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
@@ -150,14 +150,14 @@
             transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease, box-shadow 0.22s ease;
         }
         .bento-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             border-color: rgba(16, 185, 129, 0.45);
         }
 
         /* Below-the-fold rendering optimization */
         .perf-section {
             content-visibility: auto;
-            contain-intrinsic-size: 1px 550px;
+            contain-intrinsic-size: 1px 480px;
         }
 
         /* ==================== ADAPTIVE MOBILE & PWA SNAP-DECK ==================== */
@@ -166,12 +166,12 @@
                 display: grid !important;
                 grid-template-columns: none !important;
                 grid-auto-flow: column !important;
-                grid-auto-columns: 83% !important;
-                gap: 14px !important;
+                grid-auto-columns: 84% !important;
+                gap: 12px !important;
                 overflow-x: auto !important;
                 scroll-snap-type: x mandatory;
                 scroll-padding-left: 2px;
-                padding-bottom: 10px;
+                padding-bottom: 8px;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
             }
@@ -183,20 +183,20 @@
             }
 
             .mobile-snap-deck .proj-cover-wrap {
-                height: 148px !important;
+                height: 140px !important;
             }
             .mobile-snap-deck .gal-thumbs-wrap {
-                margin-bottom: 14px !important;
+                margin-bottom: 12px !important;
             }
             .mobile-snap-deck .gal-thumbs-wrap img,
             .mobile-snap-deck .gal-thumbs-wrap > div {
-                height: 68px !important;
+                height: 64px !important;
             }
             .mobile-snap-deck .card-body-pad {
-                padding: 18px !important;
+                padding: 16px !important;
             }
             .mobile-snap-deck h3 {
-                font-size: 16.5px !important;
+                font-size: 16px !important;
                 line-height: 1.3 !important;
                 margin-bottom: 6px !important;
             }
@@ -207,7 +207,7 @@
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
-                margin-bottom: 14px !important;
+                margin-bottom: 12px !important;
             }
         }
 
@@ -216,11 +216,11 @@
         #hero-headline span:has(span) {
             display: flex !important;
             flex-wrap: wrap !important;
-            gap: 0.5rem !important;
+            gap: 0.45rem !important;
             background: transparent !important;
             border: none !important;
             padding: 0 !important;
-            margin-top: 0.75rem !important;
+            margin-top: 0.65rem !important;
             box-shadow: none !important;
             border-radius: 0 !important;
         }
@@ -247,9 +247,9 @@
             background: var(--surface-elevated);
             color: var(--text-primary);
             border: 1px solid var(--border-hairline);
-            border-radius: 14px;
-            padding: 11px 15px;
-            font-size: 13.5px;
+            border-radius: 13px;
+            padding: 10px 14px;
+            font-size: 13px;
             font-family: "Inter", sans-serif;
             transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
         }
@@ -295,7 +295,7 @@
         }
     </style>
 </head>
-<body class="antialiased selection:bg-[#10B981] selection:text-white pb-24 md:pb-12">
+<body class="antialiased selection:bg-[#10B981] selection:text-white pb-24 md:pb-10">
 
     <!-- ==================== Top Reading Progress Bar ==================== -->
     <div id="scroll-progress" class="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#10B981] to-[#D97706] z-[100] pointer-events-none"></div>
@@ -418,7 +418,7 @@
     </div>
 
     <!-- ==================== Top Dynamic Island Navbar ==================== -->
-    <nav id="top-dynamic-nav" class="fixed left-1/2 transform -translate-x-1/2 w-[94%] md:w-[88%] max-w-6xl z-50 dynamic-nav rounded-full px-4 sm:px-6 py-2.5 sm:py-3">
+    <nav id="top-dynamic-nav" class="fixed left-1/2 transform -translate-x-1/2 w-[94%] md:w-[88%] max-w-6xl z-50 dynamic-nav rounded-full px-4 sm:px-6 py-2.5">
         <div class="flex justify-between items-center gap-2">
             <a href="#hero" class="flex items-center gap-2 sm:gap-2.5 min-w-0">
                 <span class="relative flex h-2.5 w-2.5 flex-shrink-0">
@@ -429,8 +429,8 @@
             </a>
             
             <div class="hidden lg:flex space-x-6 text-[13px] font-semibold" style="color: var(--text-secondary);">
-                <a href="#arsenal" class="hover:text-[#10B981] dark:hover:text-[#34D399] transition-colors">Expertise</a>
                 <a href="#projects" class="hover:text-[#10B981] dark:hover:text-[#34D399] transition-colors">Projects</a>
+                <a href="#arsenal" class="hover:text-[#10B981] dark:hover:text-[#34D399] transition-colors">Expertise</a>
                 <a href="#services" class="hover:text-[#10B981] dark:hover:text-[#34D399] transition-colors">Services</a>
                 <a href="#credentials-hub" class="hover:text-[#10B981] dark:hover:text-[#34D399] transition-colors">Credentials &amp; Moments</a>
             </div>
@@ -485,57 +485,57 @@
     </div>
 
     <!-- ==================== Main Spatial Bento Container ==================== -->
-    <main class="pt-24 md:pt-28 pb-16 px-4 sm:px-8 max-w-6xl mx-auto space-y-12 md:space-y-16">
+    <main class="pt-20 md:pt-24 pb-12 px-4 sm:px-8 max-w-6xl mx-auto space-y-9 md:space-y-12">
 
-        <!-- ==================== 1. SPATIAL BENTO HERO + AUDIENCE LENS ==================== -->
-        <section id="hero" class="space-y-4">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5 items-stretch">
+        <!-- ==================== 1. COMPACT BENTO HERO + AUDIENCE LENS ==================== -->
+        <section id="hero">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
                 
                 <!-- Tile 1: Main Identity, Audience Switcher & Narrative Card -->
-                <div class="lg:col-span-7 bento-card rounded-[28px] sm:rounded-[32px] p-6 sm:p-9 flex flex-col justify-between">
-                    <div class="space-y-3.5">
+                <div class="lg:col-span-7 bento-card rounded-[26px] sm:rounded-[30px] p-5 sm:p-8 flex flex-col justify-between">
+                    <div class="space-y-3">
                         <!-- Top Row: Badge + Audience Lens Switcher -->
                         <div class="flex flex-wrap items-center justify-between gap-2">
-                            <span id="hero-badge" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[11px] font-extrabold tracking-wide uppercase border border-amber-500/25">
+                            <span id="hero-badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[11px] font-extrabold tracking-wide uppercase border border-amber-500/25">
                                 Memuat...
                             </span>
 
                             <!-- Audience Lens Switcher -->
                             <div class="inline-flex items-center p-1 rounded-full border text-[11px] font-bold" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                                <button type="button" onclick="setAudienceLens('all')" data-lens="all" class="lens-btn px-2.5 py-1 rounded-full bg-[#10B981] text-white transition">All</button>
-                                <button type="button" onclick="setAudienceLens('hiring')" data-lens="hiring" class="lens-btn px-2.5 py-1 rounded-full opacity-75 hover:opacity-100 transition">For HR</button>
-                                <button type="button" onclick="setAudienceLens('services')" data-lens="services" class="lens-btn px-2.5 py-1 rounded-full opacity-75 hover:opacity-100 transition">For Clients</button>
+                                <button type="button" onclick="setAudienceLens('all')" data-lens="all" class="lens-btn px-2.5 py-0.5 rounded-full bg-[#10B981] text-white transition">All</button>
+                                <button type="button" onclick="setAudienceLens('hiring')" data-lens="hiring" class="lens-btn px-2.5 py-0.5 rounded-full opacity-75 hover:opacity-100 transition">For HR</button>
+                                <button type="button" onclick="setAudienceLens('services')" data-lens="services" class="lens-btn px-2.5 py-0.5 rounded-full opacity-75 hover:opacity-100 transition">For Clients</button>
                             </div>
                         </div>
 
                         <!-- Dynamic Status / Availability Pills -->
-                        <div id="hero-status-container" class="flex flex-wrap items-center gap-2"></div>
+                        <div id="hero-status-container" class="flex flex-wrap items-center gap-1.5"></div>
 
-                        <h1 id="hero-headline" class="text-[25px] sm:text-4xl md:text-[40px] font-extrabold leading-[1.16] tracking-[-0.025em]">
+                        <h1 id="hero-headline" class="text-[24px] sm:text-4xl md:text-[38px] font-extrabold leading-[1.15] tracking-[-0.025em]">
                             Memuat data...
                         </h1>
 
-                        <p id="hero-summary" class="text-[14px] sm:text-[15px] leading-relaxed" style="color: var(--text-secondary);">
+                        <p id="hero-summary" class="text-[13.5px] sm:text-[14.5px] leading-relaxed" style="color: var(--text-secondary);">
                             Memuat profil...
                         </p>
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-2.5 pt-5 mt-5 border-t" style="border-color: var(--border-hairline);">
-                        <a href="#projects" class="flex-1 sm:flex-none text-center bg-[#10B981] hover:bg-[#059669] text-white px-6 py-3 rounded-full text-xs sm:text-sm font-semibold transition">
+                    <div class="flex flex-wrap items-center gap-2 pt-4 mt-4 border-t" style="border-color: var(--border-hairline);">
+                        <a href="#projects" class="flex-1 sm:flex-none text-center bg-[#10B981] hover:bg-[#059669] text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition">
                             Explore Work
                         </a>
-                        <a id="hero-cv" href="#" target="_blank" rel="noopener noreferrer" onclick="trackEvent('cv_download', 'Hero Resume Button')" class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 border px-5 py-3 rounded-full text-xs sm:text-sm font-semibold transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <a id="hero-cv" href="#" target="_blank" rel="noopener noreferrer" onclick="trackEvent('cv_download', 'Hero Resume Button')" class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 border px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                             <i class='bx bx-download text-base text-[#D97706] dark:text-[#FBBF24]'></i> Resume
                         </a>
-                        <button type="button" onclick="copyCandidateBrief()" class="w-full sm:w-auto flex items-center justify-center gap-1.5 border px-4 py-3 rounded-full text-xs font-semibold transition hover:border-[#10B981]" style="background: var(--surface-solid); border-color: var(--border-hairline); color: var(--text-secondary);" title="Salin ringkasan profil untuk catatan HR/Tim">
+                        <button type="button" onclick="copyCandidateBrief()" class="w-full sm:w-auto flex items-center justify-center gap-1.5 border px-4 py-2.5 rounded-full text-xs font-semibold transition hover:border-[#10B981]" style="background: var(--surface-solid); border-color: var(--border-hairline); color: var(--text-secondary);" title="Salin ringkasan profil untuk catatan HR/Tim">
                             <i class='bx bx-copy-alt text-base text-[#10B981]'></i> Copy HR Brief
                         </button>
                     </div>
                 </div>
 
-                <!-- Tile 2: Spatial Portrait & Live Telemetry HUD Card -->
-                <div class="lg:col-span-5 bento-card rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 flex flex-col justify-between">
-                    <div class="flex items-center justify-between gap-2 mb-3">
+                <!-- Tile 2: Spatial Portrait & Compact Metrics Card -->
+                <div class="lg:col-span-5 bento-card rounded-[26px] sm:rounded-[30px] p-4 sm:p-5 flex flex-col justify-between">
+                    <div class="flex items-center justify-between gap-2 mb-2.5">
                         <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide" style="background: var(--surface-elevated); color: var(--text-secondary);">
                             <span class="relative flex h-2 w-2">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -546,68 +546,40 @@
                         <span class="text-[11px] font-mono font-semibold opacity-60">IDN &bull; UTC+7</span>
                     </div>
 
-                    <div class="flex-1 flex items-center justify-center my-1">
-                        <div class="w-full h-52 sm:h-68 lg:h-[268px] rounded-[22px] overflow-hidden border relative group" style="border-color: var(--border-hairline); background: var(--surface-elevated);">
+                    <div class="flex-1 flex items-center justify-center">
+                        <div class="w-full h-48 sm:h-60 lg:h-[235px] rounded-[20px] overflow-hidden border relative group" style="border-color: var(--border-hairline); background: var(--surface-elevated);">
                             <img src="" alt="Muhammad Zidan" id="hero-image" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]">
-                            <div class="absolute inset-x-0 bottom-0 p-3.5 bg-gradient-to-t from-black/80 via-black/35 to-transparent text-white">
+                            <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/80 via-black/35 to-transparent text-white">
                                 <p class="text-sm font-extrabold tracking-tight">Muhammad Zidan</p>
                                 <p id="hud-portrait-sub" class="text-[11px] text-white/85">Data Analytics &bull; Business &amp; Web Systems</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2.5 pt-3 mt-3 border-t" style="border-color: var(--border-hairline);">
-                        <div class="p-2.5 rounded-2xl" style="background: var(--surface-elevated);">
-                            <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Academic GPA</span>
-                            <span id="hud-gpa-value" class="text-sm sm:text-base font-extrabold text-[#10B981] dark:text-[#34D399]">3.79 <span class="text-xs font-medium opacity-70">/ 4.00</span></span>
+                    <!-- Integrated 3-Metric HUD Strip -->
+                    <div class="grid grid-cols-3 gap-2 pt-3 mt-3 border-t" style="border-color: var(--border-hairline);">
+                        <div class="p-2 rounded-xl" style="background: var(--surface-elevated);">
+                            <span class="text-[9px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">GPA</span>
+                            <span id="hud-gpa-value" class="text-xs sm:text-sm font-extrabold text-[#10B981] dark:text-[#34D399]">3.79 <span class="text-[10px] font-medium opacity-70">/ 4.0</span></span>
                         </div>
-                        <div class="p-2.5 rounded-2xl" style="background: var(--surface-elevated);">
-                            <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Focus Domain</span>
-                            <span id="hud-focus-domain" class="text-xs font-extrabold block mt-0.5 truncate text-[#D97706] dark:text-[#FBBF24]">Data &amp; IT Solutions</span>
-                        </div>
+                        <a href="#projects" class="p-2 rounded-xl hover:opacity-85 transition" style="background: var(--surface-elevated);">
+                            <span class="text-[9px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Works</span>
+                            <span class="text-xs sm:text-sm font-extrabold block"><span id="telemetry-proj-count">2</span> <span class="text-[10px] font-medium opacity-70">Projects</span></span>
+                        </a>
+                        <a href="#services" class="p-2 rounded-xl hover:opacity-85 transition" style="background: var(--surface-elevated);">
+                            <span class="text-[9px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Services</span>
+                            <span id="telemetry-srv-count" class="text-xs sm:text-sm font-extrabold block truncate text-[#D97706] dark:text-[#FBBF24]">Open</span>
+                        </a>
                     </div>
                 </div>
             </div>
-
-            <!-- Compact Telemetry Strip -->
-            <div class="mobile-snap-deck grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                <a href="#projects" class="bento-card rounded-[20px] p-4 flex items-center justify-between gap-3 group">
-                    <div>
-                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Case Studies</span>
-                        <p class="text-base sm:text-lg font-extrabold mt-0.5"><span id="telemetry-proj-count">2</span> <span class="text-xs font-semibold opacity-70">Published Works</span></p>
-                    </div>
-                    <span class="w-10 h-10 rounded-2xl bg-emerald-500/12 text-[#10B981] dark:text-[#34D399] flex items-center justify-center text-xl flex-shrink-0 transition-transform group-hover:scale-110">
-                        <i class='bx bx-bar-chart-alt-2'></i>
-                    </span>
-                </a>
-
-                <a href="#services" class="bento-card rounded-[20px] p-4 flex items-center justify-between gap-3 group">
-                    <div>
-                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Services &amp; Slots</span>
-                        <p class="text-base sm:text-lg font-extrabold mt-0.5"><span id="telemetry-srv-count">Open</span> <span class="text-xs font-semibold opacity-70">For Collaboration</span></p>
-                    </div>
-                    <span class="w-10 h-10 rounded-2xl bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] flex items-center justify-center text-xl flex-shrink-0 transition-transform group-hover:scale-110">
-                        <i class='bx bx-briefcase-alt-2'></i>
-                    </span>
-                </a>
-
-                <button type="button" onclick="openSpotlight()" class="bento-card rounded-[20px] p-4 flex items-center justify-between gap-3 text-left group">
-                    <div>
-                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Spotlight Search</span>
-                        <p class="text-xs sm:text-sm font-extrabold mt-0.5">Quick Jump &amp; Actions <kbd class="ml-1 px-1.5 py-0.5 text-[10px] rounded border font-mono opacity-75" style="border-color: var(--border-hairline);">⌘K</kbd></p>
-                    </div>
-                    <span class="w-10 h-10 rounded-2xl bg-emerald-500/12 text-[#10B981] dark:text-[#34D399] flex items-center justify-center text-xl flex-shrink-0 transition-transform group-hover:scale-110">
-                        <i class='bx bx-command'></i>
-                    </span>
-                </button>
-            </div>
         </section>
 
-        <!-- ==================== 2. FEATURED CASE STUDIES (WITH FILTER & QUICK-READ MODAL) ==================== -->
-        <section id="projects" class="space-y-5 perf-section reveal-section" data-audience="all hiring services">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 border-b pb-4" style="border-color: var(--border-hairline);">
+        <!-- ==================== 2. FEATURED CASE STUDIES ==================== -->
+        <section id="projects" class="space-y-4 perf-section reveal-section" data-audience="all hiring services">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-2.5 border-b pb-3.5" style="border-color: var(--border-hairline);">
                 <div>
-                    <span class="inline-block px-3 py-1 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-xs font-bold uppercase tracking-wider mb-2">Selected Works</span>
+                    <span class="inline-block px-3 py-0.5 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[11px] font-bold uppercase tracking-wider mb-1.5">Selected Works</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Featured Case Studies.</h2>
                 </div>
                 <div class="flex items-center justify-between w-full md:w-auto gap-2">
@@ -618,74 +590,81 @@
                 </div>
             </div>
 
-            <div id="projects-grid" class="mobile-snap-deck grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+            <div id="projects-grid" class="mobile-snap-deck grid grid-cols-1 md:grid-cols-2 gap-5"></div>
         </section>
 
-        <!-- ==================== 3. TECHNICAL ARSENAL (BENTO) ==================== -->
-        <section id="arsenal" class="perf-section reveal-section" data-audience="all hiring">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-5">
+        <!-- ==================== 3. TECHNICAL ARSENAL (SINGLE LEGEND) ==================== -->
+        <section id="arsenal" class="space-y-4 perf-section reveal-section" data-audience="all hiring">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b pb-3.5" style="border-color: var(--border-hairline);">
                 <div>
-                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/12 text-[#059669] dark:text-[#34D399] text-xs font-bold uppercase tracking-wider mb-2">Capabilities</span>
+                    <span class="inline-block px-3 py-0.5 rounded-full bg-emerald-500/12 text-[#059669] dark:text-[#34D399] text-[11px] font-bold uppercase tracking-wider mb-1.5">Capabilities</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Technical Arsenal.</h2>
                 </div>
-                <span class="md:hidden text-[11px] font-semibold inline-flex items-center gap-1" style="color: var(--text-muted);">
-                    <i class='bx bx-left-right-arrow text-sm text-[#10B981]'></i> Geser kartu
-                </span>
+                <div class="flex items-center justify-between sm:justify-end gap-4">
+                    <div class="flex items-center gap-3 text-[11px] font-semibold" style="color: var(--text-muted);">
+                        <span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span><span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span><span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span> Core</span>
+                        <span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span><span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span><span class="w-1.5 h-1.5 rounded-full bg-emerald-500/20"></span> Proficient</span>
+                        <span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span><span class="w-1.5 h-1.5 rounded-full bg-emerald-500/20"></span><span class="w-1.5 h-1.5 rounded-full bg-emerald-500/20"></span> Familiar</span>
+                    </div>
+                    <span class="md:hidden text-[11px] font-semibold inline-flex items-center gap-1 flex-shrink-0" style="color: var(--text-muted);">
+                        <i class='bx bx-left-right-arrow text-sm text-[#10B981]'></i> Geser
+                    </span>
+                </div>
             </div>
             
-            <div id="arsenal-container" class="mobile-snap-deck grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div id="arsenal-container" class="mobile-snap-deck grid grid-cols-1 md:grid-cols-3 gap-4">
                 <p class="text-center col-span-3 text-sm" style="color: var(--text-secondary);">Memuat daftar keahlian...</p>
             </div>
         </section>
 
         <!-- ==================== 4. SERVICES & OFFERINGS ==================== -->
-        <section id="services" class="space-y-5 perf-section reveal-section" data-audience="all services">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 border-b pb-4" style="border-color: var(--border-hairline);">
+        <section id="services" class="space-y-4 perf-section reveal-section" data-audience="all services">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-2.5 border-b pb-3.5" style="border-color: var(--border-hairline);">
                 <div>
-                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/12 text-[#059669] dark:text-[#34D399] text-xs font-bold uppercase tracking-wider mb-2">Services &amp; Availability</span>
+                    <span class="inline-block px-3 py-0.5 rounded-full bg-emerald-500/12 text-[#059669] dark:text-[#34D399] text-[11px] font-bold uppercase tracking-wider mb-1.5">Services &amp; Availability</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Professional Services.</h2>
                 </div>
                 <div class="flex items-center justify-between w-full md:w-auto gap-3">
-                    <a href="#inquiry-box" class="inline-flex items-center gap-2 border px-4 py-2 rounded-full text-xs font-semibold transition hover:border-[#10B981]" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+                    <button type="button" onclick="openInquiryTab()" class="inline-flex items-center gap-2 border px-4 py-1.5 rounded-full text-xs font-semibold transition hover:border-[#10B981]" style="background: var(--surface-solid); border-color: var(--border-hairline);">
                         <i class='bx bx-customize text-base text-[#D97706] dark:text-[#FBBF24]'></i> Request Custom Service
-                    </a>
+                    </button>
                     <span class="md:hidden text-[11px] font-semibold inline-flex items-center gap-1" style="color: var(--text-muted);">
                         <i class='bx bx-left-right-arrow text-sm text-[#10B981]'></i> Geser
                     </span>
                 </div>
             </div>
 
-            <div id="services-grid" class="mobile-snap-deck grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div id="services-grid" class="mobile-snap-deck grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <p class="text-sm col-span-full" style="color: var(--text-secondary);">Memuat daftar layanan...</p>
             </div>
         </section>
 
         <!-- ==================== 5. COMPACT BENTO HUB (CREDENTIALS & VISUAL JOURNAL) ==================== -->
-        <section id="credentials-hub" class="bento-card rounded-[28px] sm:rounded-[32px] p-5 sm:p-8 space-y-6 perf-section reveal-section" data-audience="all hiring">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-5" style="border-color: var(--border-hairline);">
+        <section id="credentials-hub" class="bento-card rounded-[26px] sm:rounded-[30px] p-5 sm:p-7 space-y-5 perf-section reveal-section" data-audience="all hiring">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b pb-4" style="border-color: var(--border-hairline);">
                 <div>
-                    <span class="inline-block px-3 py-1 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-xs font-bold uppercase tracking-wider mb-2">Track Record</span>
+                    <span class="inline-block px-3 py-0.5 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[11px] font-bold uppercase tracking-wider mb-1.5">Track Record</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Credentials &amp; Visual Journal.</h2>
                 </div>
 
                 <!-- Unified Hub Switcher Tabs -->
-                <div class="flex flex-wrap gap-1.5 p-1.5 rounded-2xl sm:rounded-full border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                    <button type="button" onclick="switchHubTab('credentials')" data-hub="credentials" class="hub-tab-btn px-4 py-2 rounded-full text-xs font-bold bg-[#10B981] text-white transition">
+                <div class="flex flex-wrap gap-1.5 p-1 rounded-full border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                    <button type="button" onclick="switchHubTab('credentials')" data-hub="credentials" class="hub-tab-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#10B981] text-white transition">
                         Academic &amp; Certs <span id="hub-cert-badge" class="ml-1 opacity-85"></span>
                     </button>
-                    <button type="button" onclick="switchHubTab('gallery')" data-hub="gallery" class="hub-tab-btn px-4 py-2 rounded-full text-xs font-bold opacity-75 hover:opacity-100 transition">
+                    <button type="button" onclick="switchHubTab('gallery')" data-hub="gallery" class="hub-tab-btn px-3.5 py-1.5 rounded-full text-xs font-bold opacity-75 hover:opacity-100 transition">
                         Activity Moments <span id="hub-gal-badge" class="ml-1 opacity-85"></span>
                     </button>
                 </div>
             </div>
 
             <!-- Hub Panel A: Education & Certifications -->
-            <div id="hub-panel-credentials" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-5 space-y-3">
-                    <h3 class="text-xs font-extrabold uppercase tracking-wider" style="color: var(--text-muted);">Academic Background</h3>
-                    <div id="edu-container" class="space-y-3">
-                        <div class="p-4 sm:p-5 rounded-[22px] border flex items-center gap-3.5" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                            <div class="w-12 h-12 rounded-2xl bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] flex-shrink-0 flex items-center justify-center text-2xl">
+            <div id="hub-panel-credentials" class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                <div class="lg:col-span-5 space-y-2.5">
+                    <h3 class="text-[11px] font-extrabold uppercase tracking-wider" style="color: var(--text-muted);">Academic Background</h3>
+                    <div id="edu-container" class="space-y-2.5">
+                        <div class="p-4 rounded-[20px] border flex items-center gap-3.5" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                            <div class="w-11 h-11 rounded-2xl bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] flex-shrink-0 flex items-center justify-center text-2xl">
                                 <i class='bx bxs-graduation'></i>
                             </div>
                             <div>
@@ -697,124 +676,123 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-7 space-y-3">
-                    <h3 class="text-xs font-extrabold uppercase tracking-wider" style="color: var(--text-muted);">Verified Certifications</h3>
-                    <div id="cert-container" class="space-y-2.5">
+                <div class="lg:col-span-7 space-y-2.5">
+                    <h3 class="text-[11px] font-extrabold uppercase tracking-wider" style="color: var(--text-muted);">Verified Certifications</h3>
+                    <div id="cert-container" class="space-y-2">
                         <p class="text-xs" style="color: var(--text-secondary);">Memuat sertifikasi...</p>
                     </div>
                 </div>
             </div>
 
             <!-- Hub Panel B: Activity & Event Gallery -->
-            <div id="hub-panel-gallery" class="hidden space-y-4">
+            <div id="hub-panel-gallery" class="hidden space-y-3.5">
                 <div class="flex items-center justify-between gap-2">
                     <div id="gallery-filter-pills" class="flex flex-wrap gap-1.5"></div>
                     <span class="md:hidden text-[11px] font-semibold inline-flex items-center gap-1 flex-shrink-0" style="color: var(--text-muted);">
                         <i class='bx bx-left-right-arrow text-sm text-[#D97706]'></i> Geser
                     </span>
                 </div>
-                <div id="gallery-albums-grid" class="mobile-snap-deck grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+                <div id="gallery-albums-grid" class="mobile-snap-deck grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
         </section>
 
-        <!-- ==================== 6. COLLABORATION & SERVICE REQUEST FORM ==================== -->
-        <section id="inquiry-box" class="bento-card rounded-[28px] sm:rounded-[32px] p-6 sm:p-10 perf-section reveal-section" data-audience="all services">
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-                <div class="lg:col-span-2 space-y-3">
-                    <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/12 text-[#059669] dark:text-[#34D399] text-xs font-bold uppercase tracking-wider">Collaboration &amp; Requests</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Propose a Project or Custom Service.</h2>
-                    <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
-                        Punya kebutuhan pengolahan data, proyek pengembangan web, kolaborasi riset, atau penawaran layanan khusus? Kirim detail singkat di samping—pesan langsung masuk ke sistem saya.
-                    </p>
-                    <div class="pt-1 space-y-2 text-xs" style="color: var(--text-secondary);">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] flex-shrink-0 flex items-center justify-center"><i class='bx bx-check-shield text-base'></i></span>
-                            <span>Respon cepat untuk kebutuhan <em>remote</em> maupun <em>project-based</em>.</span>
-                        </div>
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 rounded-full bg-emerald-500/12 text-[#10B981] flex-shrink-0 flex items-center justify-center"><i class='bx bxl-whatsapp text-base'></i></span>
-                            <span>Bisa langsung dilanjutkan ke diskusi WhatsApp setelah mengirim form.</span>
-                        </div>
-                    </div>
+        <!-- ==================== 6. UNIFIED ACTION BENTO (DIRECT CONNECT & PROJECT FORM) ==================== -->
+        <section id="contact" class="bg-gradient-to-br from-[#18181B] via-[#141A17] to-[#0D1310] rounded-[26px] sm:rounded-[30px] p-6 sm:p-9 text-white relative overflow-hidden shadow-xl border border-white/10 perf-section reveal-section">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                <div>
+                    <span class="inline-block px-3 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold uppercase tracking-wider mb-1.5">Get In Touch</span>
+                    <h2 id="footer-title" class="text-2xl sm:text-3xl font-extrabold tracking-tight">Ready to build something impactful?</h2>
                 </div>
 
-                <form id="visitor-inquiry-form" onsubmit="submitVisitorInquiry(event)" class="lg:col-span-3 space-y-3.5 p-5 sm:p-6 rounded-[22px] border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                <!-- Unified Action Switcher -->
+                <div class="inline-flex p-1 rounded-full bg-white/10 border border-white/15 self-start md:self-auto">
+                    <button type="button" onclick="switchContactMode('direct')" data-cmode="direct" class="cmode-btn px-4 py-1.5 rounded-full text-xs font-bold bg-[#10B981] text-white transition">
+                        Direct Connect
+                    </button>
+                    <button type="button" onclick="switchContactMode('form')" data-cmode="form" class="cmode-btn px-4 py-1.5 rounded-full text-xs font-bold text-zinc-300 hover:text-white transition">
+                        Project / Service Form
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mode A: Direct Connect -->
+            <div id="contact-mode-direct" class="pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div class="space-y-2 max-w-xl">
+                    <p id="footer-sub" class="text-zinc-300 text-sm leading-relaxed">I am actively seeking collaboration and professional opportunities where tech meets business logic.</p>
+                    <p class="text-xs text-zinc-400">
+                        Email: <button type="button" onclick="copyEmailToast()" class="text-white font-semibold hover:underline"><span id="footer-email">jidan1307@gmail.com</span> <i class='bx bx-copy text-xs ml-0.5'></i></button>
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 sm:flex gap-2.5 w-full md:w-auto flex-shrink-0">
+                    <a id="footer-wa" href="#" target="_blank" rel="noopener noreferrer" onclick="trackEvent('service_wa', 'Footer Direct WhatsApp')" class="bg-[#10B981] text-white px-5 py-3 rounded-full text-xs sm:text-sm font-semibold hover:bg-[#059669] transition flex items-center justify-center gap-2">
+                        <i class='bx bxl-whatsapp text-lg'></i> WhatsApp
+                    </a>
+                    <a id="footer-linkedin" href="#" target="_blank" rel="noopener noreferrer" class="bg-[#D97706] text-white px-5 py-3 rounded-full text-xs sm:text-sm font-semibold hover:bg-[#B45309] transition flex items-center justify-center gap-2">
+                        <i class='bx bxl-linkedin text-lg'></i> LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mode B: Project / Service Request Form -->
+            <div id="contact-mode-form" class="hidden pt-6">
+                <form id="visitor-inquiry-form" onsubmit="submitVisitorInquiry(event)" class="space-y-3.5 p-4 sm:p-6 rounded-[20px] bg-white/5 border border-white/10 text-zinc-100">
                     <input type="text" id="inq-hp" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold mb-1">Nama Lengkap / Instansi *</label>
-                            <input type="text" id="inq-name" required maxlength="120" placeholder="Cth: Budi Santoso / PT Maju Jaya" class="spatial-input">
+                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Nama Lengkap / Instansi *</label>
+                            <input type="text" id="inq-name" required maxlength="120" placeholder="Cth: Budi Santoso / PT Maju Jaya" class="w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm bg-white/10 border border-white/15 text-white placeholder-zinc-400 focus:outline-none focus:border-[#10B981]">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold mb-1">Kontak (WhatsApp / Email) *</label>
-                            <input type="text" id="inq-contact" required maxlength="120" placeholder="Cth: 0812xxxx / email@domain.com" class="spatial-input">
+                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Kontak (WhatsApp / Email) *</label>
+                            <input type="text" id="inq-contact" required maxlength="120" placeholder="Cth: 0812xxxx / email@domain.com" class="w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm bg-white/10 border border-white/15 text-white placeholder-zinc-400 focus:outline-none focus:border-[#10B981]">
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold mb-1">Jenis Pengajuan *</label>
-                            <select id="inq-type" class="spatial-input">
+                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Jenis Pengajuan *</label>
+                            <select id="inq-type" class="w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm bg-zinc-900 border border-white/15 text-white focus:outline-none focus:border-[#10B981]">
                                 <option value="Custom Service">Permintaan Layanan Khusus</option>
                                 <option value="Project Collaboration">Kolaborasi Proyek / Riset</option>
                                 <option value="Recruitment / Hiring">Tawaran Kerja / Magang</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold mb-1">Layanan Terkait (Opsional)</label>
-                            <select id="inq-service-ref" class="spatial-input">
+                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Layanan Terkait</label>
+                            <select id="inq-service-ref" class="w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm bg-zinc-900 border border-white/15 text-white focus:outline-none focus:border-[#10B981]">
                                 <option value="">— Umum / Lainnya —</option>
                             </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Budget / Target Waktu</label>
+                            <input type="text" id="inq-budget" maxlength="120" placeholder="Cth: Fleksibel / 2 minggu" class="w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm bg-white/10 border border-white/15 text-white placeholder-zinc-400 focus:outline-none focus:border-[#10B981]">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold mb-1">Estimasi Budget / Target Waktu (Opsional)</label>
-                        <input type="text" id="inq-budget" maxlength="120" placeholder="Cth: Fleksibel / Target selesai 2 minggu" class="spatial-input">
+                        <label class="block text-xs font-semibold text-zinc-300 mb-1">Detail Kebutuhan atau Ide Kolaborasi *</label>
+                        <textarea id="inq-message" rows="2" required maxlength="1500" placeholder="Jelaskan singkat ruang lingkup pekerjaan atau kolaborasi yang diharapkan..." class="w-full rounded-xl px-3.5 py-2.5 text-xs sm:text-sm bg-white/10 border border-white/15 text-white placeholder-zinc-400 focus:outline-none focus:border-[#10B981]"></textarea>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-semibold mb-1">Detail Kebutuhan atau Ide Kolaborasi *</label>
-                        <textarea id="inq-message" rows="3" required maxlength="1500" placeholder="Jelaskan singkat ruang lingkup pekerjaan atau kolaborasi yang diharapkan..." class="spatial-input"></textarea>
-                    </div>
+                    <div id="inq-feedback" class="hidden text-xs font-semibold px-4 py-2.5 rounded-xl"></div>
 
-                    <div id="inq-feedback" class="hidden text-xs font-semibold px-4 py-3 rounded-xl"></div>
-
-                    <div class="flex flex-col sm:flex-row gap-3 pt-1">
-                        <button type="submit" id="btn-submit-inq" class="flex-1 bg-[#10B981] hover:bg-[#059669] text-white font-semibold py-3 px-6 rounded-full text-sm transition">
+                    <div class="flex flex-col sm:flex-row gap-2.5 pt-1">
+                        <button type="submit" id="btn-submit-inq" class="flex-1 bg-[#10B981] hover:bg-[#059669] text-white font-semibold py-2.5 px-5 rounded-full text-xs sm:text-sm transition">
                             Kirim Pengajuan
                         </button>
-                        <button type="button" onclick="sendInquiryViaWa()" class="border font-semibold py-3 px-5 rounded-full text-sm inline-flex items-center justify-center gap-2 transition hover:border-[#10B981]" style="background: var(--surface-solid); border-color: var(--border-hairline);">
-                            <i class='bx bxl-whatsapp text-lg text-[#10B981]'></i> Kirim via WhatsApp
+                        <button type="button" onclick="sendInquiryViaWa()" class="border border-white/20 bg-white/5 hover:bg-white/10 text-white font-semibold py-2.5 px-5 rounded-full text-xs sm:text-sm inline-flex items-center justify-center gap-2 transition">
+                            <i class='bx bxl-whatsapp text-base text-[#10B981]'></i> Kirim via WhatsApp
                         </button>
                     </div>
                 </form>
             </div>
         </section>
 
-        <!-- ==================== 7. CONTACT / FOOTER CTA ==================== -->
-        <section id="contact" class="bg-gradient-to-br from-[#18181B] via-[#141A17] to-[#0D1310] rounded-[28px] sm:rounded-[32px] p-8 sm:p-10 md:p-14 text-center text-white relative overflow-hidden shadow-xl border border-white/10 perf-section reveal-section">
-            <h2 id="footer-title" class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Ready to build something impactful?</h2>
-            <p id="footer-sub" class="text-zinc-300 text-sm sm:text-base max-w-2xl mx-auto mb-8">I am actively seeking collaboration and professional opportunities where tech meets business logic.</p>
-            
-            <div class="grid grid-cols-2 sm:flex sm:justify-center gap-3 max-w-sm sm:max-w-none mx-auto">
-                <a id="footer-wa" href="#" target="_blank" rel="noopener noreferrer" onclick="trackEvent('service_wa', 'Footer Direct WhatsApp')" class="bg-[#10B981] text-white px-5 sm:px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-[#059669] transition flex items-center justify-center gap-2">
-                    <i class='bx bxl-whatsapp text-xl'></i> WhatsApp
-                </a>
-                <a id="footer-linkedin" href="#" target="_blank" rel="noopener noreferrer" class="bg-[#D97706] text-white px-5 sm:px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-[#B45309] transition flex items-center justify-center gap-2">
-                    <i class='bx bxl-linkedin text-xl'></i> LinkedIn
-                </a>
-            </div>
-            
-            <p class="mt-8 text-xs text-zinc-400">
-                Alternatively, drop an email to: <button type="button" onclick="copyEmailToast()" class="text-white font-semibold hover:underline"><span id="footer-email">jidan1307@gmail.com</span> <i class='bx bx-copy text-xs ml-0.5'></i></button>
-            </p>
-        </section>
-
     </main>
 
-    <footer class="text-center py-6 text-xs font-medium" style="color: var(--text-muted);">
+    <footer class="text-center py-4 text-xs font-medium" style="color: var(--text-muted);">
         &copy; 2026 Muhammad Zidan. All rights reserved.
     </footer>
 
@@ -880,7 +858,7 @@
                         obs.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.06, rootMargin: '0px 0px -25px 0px' });
+            }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
 
             sections.forEach(sec => observer.observe(sec));
         })();
@@ -946,7 +924,7 @@
             toastTimer = setTimeout(() => {
                 toast.classList.remove('show');
                 toast.classList.add('opacity-0', 'pointer-events-none');
-            }, 2600);
+            }, 2500);
         };
 
         window.copyEmailToast = function() {
@@ -968,13 +946,43 @@
             showIosToast('Tautan disalin ke clipboard!');
         };
 
+        // Unified Action Bento Mode Switcher
+        window.switchContactMode = function(mode) {
+            document.querySelectorAll('.cmode-btn').forEach(btn => {
+                if (btn.dataset.cmode === mode) {
+                    btn.className = 'cmode-btn px-4 py-1.5 rounded-full text-xs font-bold bg-[#10B981] text-white transition';
+                } else {
+                    btn.className = 'cmode-btn px-4 py-1.5 rounded-full text-xs font-bold text-zinc-300 hover:text-white transition';
+                }
+            });
+
+            const directEl = document.getElementById('contact-mode-direct');
+            const formEl = document.getElementById('contact-mode-form');
+            if (mode === 'form') {
+                directEl.classList.add('hidden');
+                formEl.classList.remove('hidden');
+            } else {
+                formEl.classList.add('hidden');
+                directEl.classList.remove('hidden');
+            }
+        };
+
+        window.openInquiryTab = function(preselectedService = '') {
+            switchContactMode('form');
+            if (preselectedService) {
+                const refSelect = document.getElementById('inq-service-ref');
+                if (refSelect) refSelect.value = preselectedService;
+            }
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        };
+
         // Audience Lens Switcher (All / Hiring / Services)
         window.setAudienceLens = function(lens) {
             document.querySelectorAll('.lens-btn').forEach(btn => {
                 if (btn.dataset.lens === lens) {
-                    btn.className = 'lens-btn px-2.5 py-1 rounded-full bg-[#10B981] text-white transition';
+                    btn.className = 'lens-btn px-2.5 py-0.5 rounded-full bg-[#10B981] text-white transition';
                 } else {
-                    btn.className = 'lens-btn px-2.5 py-1 rounded-full opacity-75 hover:opacity-100 transition';
+                    btn.className = 'lens-btn px-2.5 py-0.5 rounded-full opacity-75 hover:opacity-100 transition';
                 }
             });
 
@@ -990,8 +998,8 @@
 
             const labels = {
                 all: 'Menampilkan seluruh portofolio',
-                hiring: 'Mode Rekruter: Fokus pada Proyek, Keahlian & Kredensial',
-                services: 'Mode Klien: Fokus pada Layanan & Studi Kasus'
+                hiring: 'Mode Rekruter: Proyek, Keahlian & Kredensial',
+                services: 'Mode Klien: Layanan & Studi Kasus'
             };
             showIosToast(labels[lens] || 'Tampilan diperbarui');
         };
@@ -1000,9 +1008,9 @@
         window.switchHubTab = function(tabName) {
             document.querySelectorAll('.hub-tab-btn').forEach(btn => {
                 if (btn.dataset.hub === tabName) {
-                    btn.className = 'hub-tab-btn px-4 py-2 rounded-full text-xs font-bold bg-[#10B981] text-white transition';
+                    btn.className = 'hub-tab-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#10B981] text-white transition';
                 } else {
-                    btn.className = 'hub-tab-btn px-4 py-2 rounded-full text-xs font-bold opacity-75 hover:opacity-100 transition';
+                    btn.className = 'hub-tab-btn px-3.5 py-1.5 rounded-full text-xs font-bold opacity-75 hover:opacity-100 transition';
                 }
             });
 
@@ -1173,7 +1181,7 @@
             const categories = ['ALL', ...new Set(window.allGalleryAlbums.map(a => a.category).filter(Boolean))];
             pillWrap.innerHTML = categories.map((cat, idx) => `
                 <button type="button" onclick="window.filterGalleryCards('${escapeHTML(cat)}')" data-cat="${escapeHTML(cat)}"
-                    class="gal-filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition ${idx === 0 ? 'bg-[#10B981] text-white' : 'border opacity-80 hover:opacity-100'}"
+                    class="gal-filter-btn px-3 py-1 rounded-full text-xs font-semibold transition ${idx === 0 ? 'bg-[#10B981] text-white' : 'border opacity-80 hover:opacity-100'}"
                     style="${idx === 0 ? '' : 'background: var(--surface-solid); border-color: var(--border-hairline);'}">
                     ${cat === 'ALL' ? 'All Moments' : escapeHTML(cat)}
                 </button>
@@ -1185,10 +1193,10 @@
         window.filterGalleryCards = function(selectedCat) {
             document.querySelectorAll('.gal-filter-btn').forEach(btn => {
                 if (btn.dataset.cat === selectedCat) {
-                    btn.className = 'gal-filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-[#10B981] text-white';
+                    btn.className = 'gal-filter-btn px-3 py-1 rounded-full text-xs font-semibold transition bg-[#10B981] text-white';
                     btn.removeAttribute('style');
                 } else {
-                    btn.className = 'gal-filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition border opacity-80 hover:opacity-100';
+                    btn.className = 'gal-filter-btn px-3 py-1 rounded-full text-xs font-semibold transition border opacity-80 hover:opacity-100';
                     btn.setAttribute('style', 'background: var(--surface-solid); border-color: var(--border-hairline);');
                 }
             });
@@ -1209,28 +1217,28 @@
                     const isLastMore = idx === 3 && photos.length > 4;
                     if (isLastMore) {
                         return `
-                            <div class="relative w-full h-24 overflow-hidden">
+                            <div class="relative w-full h-20 overflow-hidden">
                                 <img src="${escapeHTML(p.url)}" alt="" loading="lazy" class="w-full h-full object-cover brightness-50">
                                 <span class="absolute inset-0 flex items-center justify-center text-white font-bold text-sm">+${photos.length - 3}</span>
                             </div>
                         `;
                     }
-                    return `<img src="${escapeHTML(p.url)}" alt="" loading="lazy" class="w-full h-24 object-cover">`;
+                    return `<img src="${escapeHTML(p.url)}" alt="" loading="lazy" class="w-full h-20 object-cover">`;
                 }).join('');
 
                 grid.innerHTML += `
-                    <div onclick="window.openIosAlbum('${escapeHTML(album.id)}')" class="card-body-pad group rounded-[22px] p-5 border cursor-pointer flex flex-col justify-between transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                    <div onclick="window.openIosAlbum('${escapeHTML(album.id)}')" class="card-body-pad group rounded-[20px] p-4 border cursor-pointer flex flex-col justify-between transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                         <div>
-                            <div class="gal-thumbs-wrap grid grid-cols-4 gap-1.5 mb-4 rounded-xl overflow-hidden">
+                            <div class="gal-thumbs-wrap grid grid-cols-4 gap-1.5 mb-3 rounded-xl overflow-hidden">
                                 ${previewThumbs}
                             </div>
-                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <div class="flex flex-wrap items-center gap-1.5 mb-1.5">
                                 ${newPill}
-                                <span class="px-2.5 py-0.5 bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-xs font-semibold rounded-full">${escapeHTML(album.category)}</span>
-                                <span class="text-xs font-medium" style="color: var(--text-muted);">${photos.length} Photos${album.year ? ' &bull; ' + escapeHTML(album.year) : ''}</span>
+                                <span class="px-2.5 py-0.5 bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[11px] font-semibold rounded-full">${escapeHTML(album.category)}</span>
+                                <span class="text-[11px] font-medium" style="color: var(--text-muted);">${photos.length} Photos${album.year ? ' &bull; ' + escapeHTML(album.year) : ''}</span>
                             </div>
-                            <h3 class="text-lg font-bold tracking-tight mb-1.5">${escapeHTML(album.title)}</h3>
-                            <p class="card-desc-clamp text-xs sm:text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">${escapeHTML(album.description || '')}</p>
+                            <h3 class="text-base sm:text-lg font-bold tracking-tight mb-1">${escapeHTML(album.title)}</h3>
+                            <p class="card-desc-clamp text-xs leading-relaxed mb-3" style="color: var(--text-secondary);">${escapeHTML(album.description || '')}</p>
                         </div>
                         <span class="inline-flex items-center text-[#10B981] dark:text-[#34D399] text-xs font-bold group-hover:underline">
                             Open Photo Album <i class='bx bx-chevron-right ml-1 text-base transition-transform group-hover:translate-x-1'></i>
@@ -1341,7 +1349,7 @@
         // 1-Click Copy Candidate Brief for HR / Recruiters
         window.copyCandidateBrief = function() {
             const gpa = document.getElementById('hud-gpa-value')?.innerText.replace(/\s+/g, ' ').trim() || '3.79 / 4.00';
-            const domain = document.getElementById('hud-focus-domain')?.innerText.trim() || 'Data Analytics, IT Business Analysis & Web Systems';
+            const domain = globalProfileData?.focus_domain || 'Data Analytics, IT Business Analysis & Web Systems';
             const cvUrl = globalProfileData?.cv_url || window.location.href;
             const email = globalProfileData?.email || 'jidan1307@gmail.com';
 
@@ -1417,7 +1425,7 @@
 
                 const orgText = st.organization ? ` <span class="opacity-50 font-normal">&bull;</span> <span class="font-bold">${escapeHTML(st.organization)}</span>` : '';
                 return `
-                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold border ${badgeBg}">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold border ${badgeBg}">
                         ${iconHTML}
                         <span>${escapeHTML(st.title)}${orgText}</span>
                     </span>
@@ -1440,7 +1448,7 @@
                 const tagList = Array.from(rawTags).slice(0, 5);
                 pillWrap.innerHTML = tagList.map((tag, idx) => `
                     <button type="button" onclick="filterProjectCards('${escapeHTML(tag)}')" data-ptag="${escapeHTML(tag)}"
-                        class="proj-filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition ${idx === 0 ? 'bg-[#10B981] text-white' : 'border opacity-80 hover:opacity-100'}"
+                        class="proj-filter-btn px-3 py-1 rounded-full text-xs font-semibold transition ${idx === 0 ? 'bg-[#10B981] text-white' : 'border opacity-80 hover:opacity-100'}"
                         style="${idx === 0 ? '' : 'background: var(--surface-solid); border-color: var(--border-hairline);'}">
                         ${tag === 'ALL' ? 'All Works' : escapeHTML(tag)}
                     </button>
@@ -1453,10 +1461,10 @@
         window.filterProjectCards = function(selectedTag) {
             document.querySelectorAll('.proj-filter-btn').forEach(btn => {
                 if (btn.dataset.ptag === selectedTag) {
-                    btn.className = 'proj-filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-[#10B981] text-white';
+                    btn.className = 'proj-filter-btn px-3 py-1 rounded-full text-xs font-semibold transition bg-[#10B981] text-white';
                     btn.removeAttribute('style');
                 } else {
-                    btn.className = 'proj-filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition border opacity-80 hover:opacity-100';
+                    btn.className = 'proj-filter-btn px-3 py-1 rounded-full text-xs font-semibold transition border opacity-80 hover:opacity-100';
                     btn.setAttribute('style', 'background: var(--surface-solid); border-color: var(--border-hairline);');
                 }
             });
@@ -1467,31 +1475,31 @@
                 ? allCombinedProjects
                 : allCombinedProjects.filter(p => Array.isArray(p.tags) && p.tags.includes(selectedTag));
 
-            grid.innerHTML = filtered.map((project, idx) => {
+            grid.innerHTML = filtered.map((project) => {
                 const actualIndex = allCombinedProjects.findIndex(item => String(item.id) === String(project.id));
                 const isNew = isRecentlyAdded(project.created_at);
-                const newPill = isNew ? `<span class="px-2.5 py-1 bg-emerald-500 text-white text-[10px] font-extrabold uppercase rounded-full">New</span>` : '';
+                const newPill = isNew ? `<span class="px-2 py-0.5 bg-emerald-500 text-white text-[10px] font-extrabold uppercase rounded-full">New</span>` : '';
                 const tagsList = Array.isArray(project.tags) && project.tags.length > 0
-                    ? project.tags.slice(0, 3).map((t, tIdx) => `<span class="px-3 py-1 text-xs font-semibold rounded-full ${tIdx === 0 ? 'bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24]' : ''}" style="${tIdx === 0 ? '' : 'background: var(--surface-elevated); color: var(--text-secondary);'}">${escapeHTML(t)}</span>`).join('')
+                    ? project.tags.slice(0, 3).map((t, tIdx) => `<span class="px-2.5 py-0.5 text-[11px] font-semibold rounded-full ${tIdx === 0 ? 'bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24]' : ''}" style="${tIdx === 0 ? '' : 'background: var(--surface-elevated); color: var(--text-secondary);'}">${escapeHTML(t)}</span>`).join('')
                     : '';
 
                 return `
-                    <div onclick="openProjectModal(${actualIndex})" class="group bento-card rounded-[24px] sm:rounded-[28px] overflow-hidden flex flex-col cursor-pointer">
-                        <div class="proj-cover-wrap h-56 overflow-hidden relative" style="background: var(--surface-elevated);">
+                    <div onclick="openProjectModal(${actualIndex})" class="group bento-card rounded-[22px] sm:rounded-[26px] overflow-hidden flex flex-col cursor-pointer">
+                        <div class="proj-cover-wrap h-48 overflow-hidden relative" style="background: var(--surface-elevated);">
                             <img src="${escapeHTML(project.image_url)}" alt="${escapeHTML(project.title)}" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                         </div>
-                        <div class="card-body-pad p-7 flex flex-col flex-grow">
-                            <div class="flex flex-wrap gap-1.5 mb-3">
+                        <div class="card-body-pad p-5 sm:p-6 flex flex-col flex-grow">
+                            <div class="flex flex-wrap gap-1.5 mb-2.5">
                                 ${newPill}
                                 ${tagsList}
                             </div>
-                            <h3 class="text-xl font-bold tracking-tight mb-2 group-hover:text-[#10B981] dark:group-hover:text-[#34D399] transition-colors">${escapeHTML(project.title)}</h3>
-                            <p class="card-desc-clamp text-sm leading-relaxed mb-5 flex-grow" style="color: var(--text-secondary);">${escapeHTML(project.description || '')}</p>
+                            <h3 class="text-lg sm:text-xl font-bold tracking-tight mb-1.5 group-hover:text-[#10B981] dark:group-hover:text-[#34D399] transition-colors">${escapeHTML(project.title)}</h3>
+                            <p class="card-desc-clamp text-xs sm:text-sm leading-relaxed mb-4 flex-grow" style="color: var(--text-secondary);">${escapeHTML(project.description || '')}</p>
                             <div class="flex items-center justify-between pt-3 border-t mt-auto" style="border-color: var(--border-hairline);">
-                                <span class="inline-flex items-center text-[#10B981] dark:text-[#34D399] text-xs sm:text-sm font-bold group-hover:underline">
-                                    Quick Read Case Study <i class='bx bx-chevron-right ml-1 text-lg transition-transform group-hover:translate-x-1'></i>
+                                <span class="inline-flex items-center text-[#10B981] dark:text-[#34D399] text-xs font-bold group-hover:underline">
+                                    Quick Read Case Study <i class='bx bx-chevron-right ml-1 text-base transition-transform group-hover:translate-x-1'></i>
                                 </span>
-                                <button type="button" onclick="event.stopPropagation(); shareItem('${escapeHTML(project.title).replace(/'/g, '&#39;')}', '${escapeHTML(project.description || '').replace(/'/g, '&#39;')}', '${project.isStatic ? project.full_url : 'project-detail?id=' + encodeURIComponent(project.id)}')" class="w-8 h-8 rounded-full flex items-center justify-center text-sm opacity-70 hover:opacity-100 hover:text-[#10B981]" style="background: var(--surface-elevated);" title="Bagikan">
+                                <button type="button" onclick="event.stopPropagation(); shareItem('${escapeHTML(project.title).replace(/'/g, '&#39;')}', '${escapeHTML(project.description || '').replace(/'/g, '&#39;')}', '${project.isStatic ? project.full_url : 'project-detail?id=' + encodeURIComponent(project.id)}')" class="w-7 h-7 rounded-full flex items-center justify-center text-sm opacity-70 hover:opacity-100 hover:text-[#10B981]" style="background: var(--surface-elevated);" title="Bagikan">
                                     <i class='bx bx-share-alt'></i>
                                 </button>
                             </div>
@@ -1584,8 +1592,8 @@
 
             if (globalServicesList.length === 0) {
                 grid.innerHTML = `
-                    <div class="col-span-full bento-card rounded-[24px] p-8 text-center">
-                        <p class="text-sm" style="color: var(--text-secondary);">Belum ada layanan yang dipublikasikan. Gunakan formulir di bawah untuk mengajukan kolaborasi khusus.</p>
+                    <div class="col-span-full bento-card rounded-[22px] p-6 text-center">
+                        <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">Belum ada layanan yang dipublikasikan. Gunakan form di bawah untuk mengajukan kolaborasi khusus.</p>
                     </div>
                 `;
                 return;
@@ -1594,29 +1602,29 @@
             grid.innerHTML = globalServicesList.map((srv, idx) => {
                 const isOpen = (srv.status || 'open').toLowerCase() === 'open';
                 const statusBadge = isOpen
-                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 text-[#059669] dark:text-[#34D399] text-[11px] font-bold uppercase tracking-wide"><span class="relative flex h-1.5 w-1.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span></span>Open</span>`
-                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-500/15 text-zinc-500 dark:text-zinc-400 text-[11px] font-bold uppercase tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Closed</span>`;
+                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-[#059669] dark:text-[#34D399] text-[10px] font-bold uppercase tracking-wide"><span class="relative flex h-1.5 w-1.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span></span>Open</span>`
+                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-zinc-500/15 text-zinc-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-wide"><span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Closed</span>`;
 
                 const priceInfo = formatPricingDisplay(srv);
 
                 return `
-                    <div onclick="openServiceModal(${idx})" class="card-body-pad group bento-card rounded-[24px] sm:rounded-[28px] p-6 cursor-pointer flex flex-col justify-between ${!isOpen ? 'opacity-85' : ''}">
+                    <div onclick="openServiceModal(${idx})" class="card-body-pad group bento-card rounded-[22px] sm:rounded-[26px] p-5 cursor-pointer flex flex-col justify-between ${!isOpen ? 'opacity-85' : ''}">
                         <div>
-                            <div class="flex items-center justify-between gap-2 mb-3">
-                                <span class="px-3 py-1 bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-xs font-semibold rounded-full">${escapeHTML(srv.badge)}</span>
+                            <div class="flex items-center justify-between gap-2 mb-2.5">
+                                <span class="px-2.5 py-0.5 bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[11px] font-semibold rounded-full">${escapeHTML(srv.badge)}</span>
                                 ${statusBadge}
                             </div>
-                            <h3 class="text-lg sm:text-xl font-bold tracking-tight mb-2 group-hover:text-[#10B981] dark:group-hover:text-[#34D399] transition-colors">${escapeHTML(srv.title)}</h3>
-                            <p class="card-desc-clamp text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">${escapeHTML(srv.short_desc)}</p>
+                            <h3 class="text-base sm:text-lg font-bold tracking-tight mb-1.5 group-hover:text-[#10B981] dark:group-hover:text-[#34D399] transition-colors">${escapeHTML(srv.title)}</h3>
+                            <p class="card-desc-clamp text-xs sm:text-sm leading-relaxed mb-3.5" style="color: var(--text-secondary);">${escapeHTML(srv.short_desc)}</p>
                         </div>
 
                         <div class="pt-3 border-t flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
                             <div>
-                                <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">${escapeHTML(priceInfo.tag)}</span>
-                                <span class="text-xs sm:text-sm font-bold">${escapeHTML(priceInfo.label)}</span>
+                                <span class="text-[9px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">${escapeHTML(priceInfo.tag)}</span>
+                                <span class="text-xs font-bold">${escapeHTML(priceInfo.label)}</span>
                             </div>
-                            <span class="w-8 h-8 rounded-full group-hover:bg-[#10B981] group-hover:text-white flex items-center justify-center transition flex-shrink-0" style="background: var(--surface-elevated);">
-                                <i class='bx bx-right-arrow-alt text-xl transition-transform group-hover:translate-x-0.5'></i>
+                            <span class="w-7 h-7 rounded-full group-hover:bg-[#10B981] group-hover:text-white flex items-center justify-center transition flex-shrink-0" style="background: var(--surface-elevated);">
+                                <i class='bx bx-right-arrow-alt text-lg transition-transform group-hover:translate-x-0.5'></i>
                             </span>
                         </div>
                     </div>
@@ -1642,16 +1650,16 @@
                 const safeTitle = escapeHTML(cert.title).replace(/'/g, '&#39;');
                 const safeUrl = escapeHTML(cert.file_url || '');
                 const viewBtn = cert.file_url 
-                    ? `<button type="button" onclick="window.openQuickLook('${safeUrl}', '${safeTitle}')" class="mt-1.5 text-xs text-[#10B981] dark:text-[#34D399] font-semibold hover:underline inline-flex items-center gap-1"><i class='bx bx-show text-sm'></i> Quick Look</button>` 
+                    ? `<button type="button" onclick="window.openQuickLook('${safeUrl}', '${safeTitle}')" class="mt-1 text-xs text-[#10B981] dark:text-[#34D399] font-semibold hover:underline inline-flex items-center gap-1"><i class='bx bx-show text-sm'></i> Quick Look</button>` 
                     : '';
                 return `
-                    <div class="p-4 rounded-[20px] border flex items-start justify-between gap-3" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                    <div class="p-3.5 rounded-[18px] border flex items-start justify-between gap-3" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                         <div class="min-w-0">
-                            <h4 class="font-bold text-sm tracking-tight leading-snug">${escapeHTML(cert.title)}</h4>
-                            <p class="text-xs mt-0.5" style="color: var(--text-secondary);">${escapeHTML(cert.issuer)}${cert.year ? ' &bull; ' + escapeHTML(cert.year) : ''}</p>
+                            <h4 class="font-bold text-xs sm:text-sm tracking-tight leading-snug">${escapeHTML(cert.title)}</h4>
+                            <p class="text-[11px] mt-0.5" style="color: var(--text-secondary);">${escapeHTML(cert.issuer)}${cert.year ? ' &bull; ' + escapeHTML(cert.year) : ''}</p>
                             ${viewBtn}
                         </div>
-                        <div class="w-8 h-8 rounded-full bg-emerald-500/15 text-[#059669] dark:text-[#34D399] flex-shrink-0 flex items-center justify-center text-lg">
+                        <div class="w-7 h-7 rounded-full bg-emerald-500/15 text-[#059669] dark:text-[#34D399] flex-shrink-0 flex items-center justify-center text-base">
                             <i class='bx bx-badge-check'></i>
                         </div>
                     </div>
@@ -1661,7 +1669,7 @@
             if (allLoadedCerts.length > limit) {
                 const remaining = allLoadedCerts.length - limit;
                 certContainer.innerHTML += `
-                    <button type="button" onclick="toggleCertExpand()" class="w-full py-2.5 px-4 rounded-2xl border text-xs font-bold flex items-center justify-center gap-1.5 transition hover:border-[#10B981]" style="background: var(--surface-solid); border-color: var(--border-hairline); color: var(--text-secondary);">
+                    <button type="button" onclick="toggleCertExpand()" class="w-full py-2 px-4 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition hover:border-[#10B981]" style="background: var(--surface-solid); border-color: var(--border-hairline); color: var(--text-secondary);">
                         <span>${certsExpanded ? 'Ringkas Sertifikasi' : `Lihat Semua Sertifikasi (+${remaining})`}</span>
                         <i class='bx ${certsExpanded ? 'bx-chevron-up' : 'bx-chevron-down'} text-base text-[#10B981]'></i>
                     </button>
@@ -1710,9 +1718,7 @@
 
             document.getElementById('srv-modal-form-btn').onclick = () => {
                 closeServiceModal();
-                const refSelect = document.getElementById('inq-service-ref');
-                if (refSelect) refSelect.value = srv.title;
-                document.getElementById('inquiry-box').scrollIntoView({ behavior: 'smooth' });
+                openInquiryTab(srv.title);
             };
 
             document.getElementById('service-detail-modal').classList.remove('hidden');
@@ -1756,13 +1762,13 @@
                 if (error) throw error;
 
                 lastInquirySubmitAt = Date.now();
-                fb.className = 'text-xs font-semibold px-4 py-3 rounded-xl bg-emerald-500/15 text-[#059669] dark:text-[#34D399] border border-emerald-500/25';
+                fb.className = 'text-xs font-semibold px-4 py-2.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
                 fb.innerText = 'Pengajuan berhasil terkirim! Saya akan segera meninjau dan menghubungi Anda kembali.';
                 fb.classList.remove('hidden');
                 showIosToast('Pengajuan berhasil dikirim!');
                 document.getElementById('visitor-inquiry-form').reset();
             } catch (err) {
-                fb.className = 'text-xs font-semibold px-4 py-3 rounded-xl bg-red-500/15 text-red-600 dark:text-red-400 border border-red-500/25';
+                fb.className = 'text-xs font-semibold px-4 py-2.5 rounded-xl bg-red-500/20 text-red-300 border border-red-500/30';
                 fb.innerText = 'Gagal mengirim pengajuan: ' + err.message;
                 fb.classList.remove('hidden');
             } finally {
@@ -1790,7 +1796,7 @@
                 { title: 'Explore Case Studies', sub: 'Lihat proyek analisis data & pengembangan sistem', icon: 'bx-folder-open', action: () => { setAudienceLens('all'); location.hash = '#projects'; } },
                 { title: 'Professional Services & Pricing', sub: 'Cek layanan terbuka, skema harga, & slot tersedia', icon: 'bx-briefcase-alt-2', action: () => { setAudienceLens('all'); location.hash = '#services'; } },
                 { title: 'Copy Candidate Brief (HR)', sub: 'Salin ringkasan profil, IPK, & tautan portofolio', icon: 'bx-copy-alt', action: () => copyCandidateBrief() },
-                { title: 'Propose Project / Custom Service', sub: 'Kirim pengajuan kolaborasi atau permintaan khusus', icon: 'bx-send', action: () => { setAudienceLens('all'); location.hash = '#inquiry-box'; } },
+                { title: 'Propose Project / Custom Service', sub: 'Buka formulir kolaborasi atau permintaan khusus', icon: 'bx-send', action: () => openInquiryTab() },
                 { title: 'Toggle Dark / Light Mode', sub: 'Ubah tampilan antara Warm Light dan Dark Mode', icon: 'bx-adjust', action: () => toggleSpatialTheme() }
             ];
 
@@ -1800,9 +1806,7 @@
                 if (profile.headline) document.getElementById('hero-headline').innerHTML = sanitizeRichHTML(profile.headline);
                 if (profile.summary) document.getElementById('hero-summary').innerHTML = sanitizeRichHTML(profile.summary);
                 if (profile.focus_domain) {
-                    const hudDomain = document.getElementById('hud-focus-domain');
                     const hudSub = document.getElementById('hud-portrait-sub');
-                    if (hudDomain) hudDomain.innerText = profile.focus_domain;
                     if (hudSub) hudSub.innerText = profile.focus_domain;
                 }
                 if (profile.cv_url) {
@@ -1889,7 +1893,7 @@
                     catData.skills.sort((a, b) => (rank[a.level] || 2) - (rank[b.level] || 2));
 
                     const skillsHTML = catData.skills.map(s => `
-                        <span title="${escapeHTML(s.name)} — ${escapeHTML(s.level)}" class="inline-flex items-center gap-1.5 px-3 py-1.5 border text-xs font-semibold rounded-full transition-colors hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <span title="${escapeHTML(s.name)} — ${escapeHTML(s.level)}" class="inline-flex items-center gap-1.5 px-2.5 py-1 border text-xs font-semibold rounded-full transition-colors hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                             <span>${escapeHTML(s.name)}</span>
                             <span class="inline-flex items-center gap-0.5 ml-0.5">
                                 ${renderLevelDots(s.level, theme.dotActive, theme.dotMuted)}
@@ -1898,19 +1902,14 @@
                     `).join('');
 
                     arsenalContainer.innerHTML += `
-                        <div class="card-body-pad bento-card p-7 rounded-[24px] sm:rounded-[28px] flex flex-col justify-between">
-                            <div>
-                                <div class="w-11 h-11 ${theme.bg} ${theme.text} rounded-2xl flex items-center justify-center text-2xl mb-4">
+                        <div class="card-body-pad bento-card p-5 sm:p-6 rounded-[22px] sm:rounded-[26px]">
+                            <div class="flex items-center gap-3 mb-3.5">
+                                <div class="w-10 h-10 ${theme.bg} ${theme.text} rounded-2xl flex items-center justify-center text-xl flex-shrink-0">
                                     <i class='bx ${escapeHTML(catData.icon)}'></i>
                                 </div>
-                                <h3 class="text-lg sm:text-xl font-bold tracking-tight mb-3">${escapeHTML(catName)}</h3>
-                                <div class="flex flex-wrap gap-1.5">${skillsHTML}</div>
+                                <h3 class="text-base sm:text-lg font-bold tracking-tight leading-snug">${escapeHTML(catName)}</h3>
                             </div>
-                            <div class="mt-5 pt-3 border-t flex items-center justify-between text-[10px] font-medium" style="border-color: var(--border-hairline); color: var(--text-muted);">
-                                <span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span> Core</span>
-                                <span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotMuted}"></span> Proficient</span>
-                                <span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full ${theme.dotActive}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotMuted}"></span><span class="w-1.5 h-1.5 rounded-full ${theme.dotMuted}"></span> Familiar</span>
-                            </div>
+                            <div class="flex flex-wrap gap-1.5">${skillsHTML}</div>
                         </div>
                     `;
                 }
@@ -1923,9 +1922,9 @@
                     const rawGpa = String(latestWithGpa.gpa).trim();
                     if (rawGpa.includes('/')) {
                         const [score, scale] = rawGpa.split('/');
-                        hudGpa.innerHTML = `${escapeHTML(score.trim())} <span class="text-xs font-medium opacity-70">/ ${escapeHTML(scale.trim())}</span>`;
+                        hudGpa.innerHTML = `${escapeHTML(score.trim())} <span class="text-[10px] font-medium opacity-70">/ ${escapeHTML(scale.trim())}</span>`;
                     } else {
-                        hudGpa.innerHTML = `${escapeHTML(rawGpa)} <span class="text-xs font-medium opacity-70">/ 4.00</span>`;
+                        hudGpa.innerHTML = `${escapeHTML(rawGpa)} <span class="text-[10px] font-medium opacity-70">/ 4.0</span>`;
                     }
                 }
 
@@ -1939,8 +1938,8 @@
                     if (edu.gpa) metaParts.push(`GPA: ${escapeHTML(edu.gpa)}`);
                     
                     eduContainer.innerHTML += `
-                        <div class="p-4 sm:p-5 rounded-[22px] border flex items-center gap-3.5" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                            <div class="w-12 h-12 rounded-2xl bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] flex-shrink-0 flex items-center justify-center text-2xl">
+                        <div class="p-4 rounded-[20px] border flex items-center gap-3.5" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                            <div class="w-11 h-11 rounded-2xl bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] flex-shrink-0 flex items-center justify-center text-2xl">
                                 <i class='bx bxs-graduation'></i>
                             </div>
                             <div class="min-w-0">
