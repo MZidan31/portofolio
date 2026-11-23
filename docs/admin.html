@@ -92,7 +92,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Ultra-Lightweight GPU Motion */
         @keyframes panelReveal {
             from {
                 opacity: 0;
@@ -442,6 +441,47 @@
 
         <!-- ==================== 2. MAIN CMS DASHBOARD VIEW ==================== -->
         <main id="dashboard-view" class="hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-2 pt-20 lg:pt-6 space-y-6">
+
+            <!-- ==================== LIVE ENGAGEMENT TELEMETRY STRIP ==================== -->
+            <section class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-6 space-y-4 panel-animate">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
+                        <h2 class="text-sm sm:text-base font-extrabold tracking-tight">Visitor Engagement Telemetry</h2>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="telemetry-top-project" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[11px] font-bold">
+                            <i class='bx bxs-hot'></i> Top: —
+                        </span>
+                        <button type="button" onclick="resetTelemetryStats()" class="px-3 py-1 rounded-full border text-[11px] font-bold hover:border-red-500 hover:text-red-500" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                            Reset Stats
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+                    <div class="p-3.5 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Session Views</span>
+                        <span id="stat-views" class="text-xl font-extrabold text-[#10B981] mt-0.5 block">0</span>
+                    </div>
+                    <div class="p-3.5 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">CV Downloads</span>
+                        <span id="stat-cv" class="text-xl font-extrabold text-[#D97706] mt-0.5 block">0</span>
+                    </div>
+                    <div class="p-3.5 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Project Opens</span>
+                        <span id="stat-projects" class="text-xl font-extrabold mt-0.5 block">0</span>
+                    </div>
+                    <div class="p-3.5 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">WA Clicks</span>
+                        <span id="stat-wa" class="text-xl font-extrabold text-[#10B981] mt-0.5 block">0</span>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1 p-3.5 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">HR Brief Copies</span>
+                        <span id="stat-brief" class="text-xl font-extrabold text-[#D97706] mt-0.5 block">0</span>
+                    </div>
+                </div>
+            </section>
 
             <!-- ==================== TAB 1: PROFILE & HERO ==================== -->
             <section id="panel-profile" class="cms-panel panel-animate studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-6">
@@ -799,7 +839,6 @@
                             <textarea id="gal-desc" rows="2" placeholder="Ceritakan singkat momen atau kegiatan pada album ini..." class="studio-input"></textarea>
                         </div>
 
-                        <!-- Existing Photos Preview when Editing Album -->
                         <div id="gal-existing-photos-wrap" class="hidden space-y-2 p-4 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold">Foto Tersimpan di Album Ini</span>
@@ -887,7 +926,6 @@
             document.getElementById('mobile-more-drawer').classList.add('hidden');
         };
 
-        // Theme Switcher (Default Light)
         function syncThemeIcon() {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             const meta = document.getElementById('meta-theme-color');
@@ -964,6 +1002,7 @@
         const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
         const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+        const PORTFOLIO_CACHE_KEY = 'mz_portfolio_cache_v4';
 
         let cachedStatuses = [];
         let cachedProjects = [];
@@ -974,7 +1013,6 @@
         let cachedAlbums = [];
         let editingAlbumPhotos = [];
 
-        // Security: Escape HTML to prevent Stored XSS
         function escapeHTML(str) {
             if (str === null || str === undefined) return '';
             return String(str)
@@ -1058,6 +1096,51 @@
             checkSession();
         };
 
+        // Telemetry Renderer & Reset
+        function renderTelemetryStats(events = []) {
+            const counts = {
+                page_view: 0,
+                cv_download: 0,
+                project_open: 0,
+                service_wa: 0,
+                copy_brief: 0
+            };
+            const projectHits = {};
+
+            (events || []).forEach(ev => {
+                if (counts[ev.event_type] !== undefined) {
+                    counts[ev.event_type]++;
+                }
+                if (ev.event_type === 'project_open' && ev.target_label) {
+                    projectHits[ev.target_label] = (projectHits[ev.target_label] || 0) + 1;
+                }
+            });
+
+            document.getElementById('stat-views').innerText = counts.page_view;
+            document.getElementById('stat-cv').innerText = counts.cv_download;
+            document.getElementById('stat-projects').innerText = counts.project_open;
+            document.getElementById('stat-wa').innerText = counts.service_wa;
+            document.getElementById('stat-brief').innerText = counts.copy_brief;
+
+            const topBadge = document.getElementById('telemetry-top-project');
+            const sortedProj = Object.entries(projectHits).sort((a, b) => b[1] - a[1]);
+            if (sortedProj.length > 0 && topBadge) {
+                topBadge.innerHTML = `<i class='bx bxs-hot'></i> Top: ${escapeHTML(sortedProj[0][0])} (${sortedProj[0][1]}x)`;
+                topBadge.classList.remove('hidden');
+                topBadge.classList.add('sm:inline-flex');
+            } else if (topBadge) {
+                topBadge.classList.add('hidden');
+            }
+        }
+
+        window.resetTelemetryStats = async function() {
+            if (!confirm('Reset seluruh catatan statistik interaksi pengunjung ke 0?')) return;
+            const { error } = await supabaseClient.from('page_events').delete().not('id', 'is', null);
+            if (error) return alert('Gagal mereset statistik: ' + error.message);
+            showToast('Statistik interaksi berhasil direset');
+            loadAllData();
+        };
+
         window.loadAllData = async function() {
             try {
                 const [
@@ -1069,7 +1152,8 @@
                     { data: edus },
                     { data: certs },
                     { data: albums },
-                    { data: inquiries }
+                    { data: inquiries },
+                    { data: pageEvents }
                 ] = await Promise.all([
                     supabaseClient.from('profile').select('*').eq('id', 1).single(),
                     supabaseClient.from('statuses').select('*').order('created_at', { ascending: false }),
@@ -1079,8 +1163,11 @@
                     supabaseClient.from('education').select('*').order('id', { ascending: false }),
                     supabaseClient.from('certifications').select('*').order('id', { ascending: false }),
                     supabaseClient.from('gallery_albums').select('*').order('created_at', { ascending: false }),
-                    supabaseClient.from('inquiries').select('*').order('created_at', { ascending: false })
+                    supabaseClient.from('inquiries').select('*').order('created_at', { ascending: false }),
+                    supabaseClient.from('page_events').select('event_type, target_label')
                 ]);
+
+                renderTelemetryStats(pageEvents || []);
 
                 if (profile) {
                     document.getElementById('prof-photo-url').value = profile.photo_url || '';
@@ -1112,7 +1199,6 @@
                 renderGalleryAdmin(cachedAlbums);
                 renderInquiriesAdmin(inquiries || []);
 
-                // Update Sidebar Counters
                 document.getElementById('count-statuses').innerText = cachedStatuses.length;
                 document.getElementById('count-projects').innerText = cachedProjects.length;
                 document.getElementById('count-services').innerText = cachedServices.length;
@@ -1160,7 +1246,7 @@
 
                 document.getElementById('prof-photo-url').value = photoUrl;
                 document.getElementById('prof-cv-url').value = cvUrl;
-                localStorage.removeItem('mz_portfolio_cache_v3');
+                localStorage.removeItem(PORTFOLIO_CACHE_KEY);
                 showToast('Profile berhasil diperbarui!');
             } catch (err) {
                 alert('Gagal menyimpan profile: ' + err.message);
@@ -1170,7 +1256,7 @@
             }
         };
 
-        // 2. Status Pills CRUD (With Edit)
+        // 2. Status Pills CRUD
         function renderStatusesAdmin(list) {
             const wrap = document.getElementById('statuses-list');
             wrap.innerHTML = list.map(s => `
@@ -1233,7 +1319,7 @@
             }
 
             resetStatusForm();
-            localStorage.removeItem('mz_portfolio_cache_v3');
+            localStorage.removeItem(PORTFOLIO_CACHE_KEY);
             showToast('Status tersimpan');
             loadAllData();
         };
@@ -1242,7 +1328,7 @@
             const { data, error } = await supabaseClient.from('statuses').update({ is_active: nextState }).eq('id', id).select();
             if (error) return alert('Gagal mengubah status: ' + error.message);
             if (!data || data.length === 0) return alert('Perubahan ditolak oleh RLS Policy Supabase.');
-            localStorage.removeItem('mz_portfolio_cache_v3');
+            localStorage.removeItem(PORTFOLIO_CACHE_KEY);
             showToast('Status diperbarui');
             loadAllData();
         };
@@ -1329,7 +1415,7 @@
                 }
 
                 resetProjectForm();
-                localStorage.removeItem('mz_portfolio_cache_v3');
+                localStorage.removeItem(PORTFOLIO_CACHE_KEY);
                 showToast('Studi kasus tersimpan!');
                 loadAllData();
             } catch (err) {
@@ -1417,7 +1503,7 @@
             }
 
             resetServiceForm();
-            localStorage.removeItem('mz_portfolio_cache_v3');
+            localStorage.removeItem(PORTFOLIO_CACHE_KEY);
             showToast('Layanan tersimpan!');
             loadAllData();
         };
@@ -1426,12 +1512,12 @@
             const { data, error } = await supabaseClient.from('services').update({ status: nextStatus }).eq('id', id).select();
             if (error) return alert(error.message);
             if (!data || data.length === 0) return alert('Perubahan ditolak oleh RLS Policy Supabase.');
-            localStorage.removeItem('mz_portfolio_cache_v3');
+            localStorage.removeItem(PORTFOLIO_CACHE_KEY);
             showToast('Status slot diperbarui');
             loadAllData();
         };
 
-        // 5. Technical Arsenal CRUD (With Edit)
+        // 5. Technical Arsenal CRUD
         function renderArsenalAdmin(list) {
             const wrap = document.getElementById('arsenal-list');
             wrap.innerHTML = list.map(sk => `
@@ -1491,12 +1577,12 @@
             }
 
             resetSkillForm();
-            localStorage.removeItem('mz_portfolio_cache_v3');
+            localStorage.removeItem(PORTFOLIO_CACHE_KEY);
             showToast('Skill tersimpan');
             loadAllData();
         };
 
-        // 6. Education & Certifications CRUD (Both With Edit)
+        // 6. Education & Certifications CRUD
         function renderEduAdmin(list) {
             document.getElementById('edu-list').innerHTML = list.map(ed => `
                 <div class="studio-card rounded-2xl p-4 flex items-center justify-between gap-3">
@@ -1560,7 +1646,7 @@
             }
 
             resetEduForm();
-            localStorage.removeItem('mz_portfolio_cache_v3');
+            localStorage.removeItem(PORTFOLIO_CACHE_KEY);
             showToast('Pendidikan & GPA tersimpan');
             loadAllData();
         };
@@ -1635,7 +1721,7 @@
                 }
 
                 resetCertForm();
-                localStorage.removeItem('mz_portfolio_cache_v3');
+                localStorage.removeItem(PORTFOLIO_CACHE_KEY);
                 showToast('Sertifikasi tersimpan');
                 loadAllData();
             } catch (err) {
@@ -1646,7 +1732,7 @@
             }
         };
 
-        // 7. Gallery Albums CRUD (With Full Edit + Photo Manager)
+        // 7. Gallery Albums CRUD
         function renderGalleryAdmin(list) {
             document.getElementById('gallery-list').innerHTML = list.map(al => `
                 <div class="studio-card rounded-2xl p-5 flex items-center justify-between gap-3">
@@ -1767,7 +1853,7 @@
                 }
 
                 resetGalleryForm();
-                localStorage.removeItem('mz_portfolio_cache_v3');
+                localStorage.removeItem(PORTFOLIO_CACHE_KEY);
                 showToast('Album berhasil disimpan!');
                 loadAllData();
             } catch (err) {
@@ -1778,7 +1864,7 @@
             }
         };
 
-        // 8. Inquiries Inbox (XSS Escaped)
+        // 8. Inquiries Inbox
         function renderInquiriesAdmin(list) {
             const deskBadge = document.getElementById('badge-inq-count-desk');
             if (deskBadge) deskBadge.innerText = list.length;
@@ -1841,7 +1927,7 @@
                 return alert(`Data pada tabel "${table}" gagal terhapus di database. Pastikan ekspresi USING pada policy DELETE di Supabase bernilai true.`);
             }
 
-            localStorage.removeItem('mz_portfolio_cache_v3');
+            localStorage.removeItem(PORTFOLIO_CACHE_KEY);
             showToast('Item dihapus permanen');
             loadAllData();
         };
