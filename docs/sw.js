@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mzidan-spatial-pwa-v1';
+const CACHE_NAME = 'mzidan-spatial-pwa-v2';
 const APP_SHELL_ASSETS = [
   './',
   './index.html',
@@ -6,7 +6,8 @@ const APP_SHELL_ASSETS = [
   './project-bunhaven.html',
   './project-amazon.html',
   './admin.html',
-  './manifest.json'
+  './manifest.json',
+  './admin-manifest.json'
 ];
 
 // 1. Install Event: Pre-cache App Shell

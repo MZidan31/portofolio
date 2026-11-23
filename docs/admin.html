@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>Studio CMS | Muhammad Zidan</title>
 
-    <!-- PWA & Apple Native Meta -->
-    <link rel="manifest" href="manifest.json">
+    <!-- PWA & Apple Native Meta (Dedicated Admin Manifest) -->
+    <link rel="manifest" href="admin-manifest.json">
     <meta name="theme-color" content="#10B981" id="meta-theme-color">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -91,6 +92,28 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Ultra-Lightweight GPU Motion */
+        @keyframes panelReveal {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 8px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        .panel-animate {
+            animation: panelReveal 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        button, a {
+            transition: transform 0.14s ease, background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
+        }
+        button:active {
+            transform: scale(0.97);
+        }
+
         /* Desktop Floating Sidebar */
         .desktop-sidebar {
             top: max(1.25rem, env(safe-area-inset-top));
@@ -111,11 +134,11 @@
             font-weight: 600;
             letter-spacing: -0.01em;
             color: var(--text-secondary);
-            transition: background-color 0.18s ease, color 0.18s ease, transform 0.15s ease;
         }
         .side-nav-item:hover {
             background: var(--surface-elevated);
             color: var(--text-primary);
+            transform: translateX(2px);
         }
         .side-nav-item.active {
             background: rgba(16, 185, 129, 0.13);
@@ -147,6 +170,10 @@
             background: var(--surface-solid);
             border: 1px solid var(--border-hairline);
             box-shadow: var(--card-shadow);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .studio-card:hover {
+            border-color: rgba(16, 185, 129, 0.28);
         }
 
         .studio-input {
@@ -158,6 +185,7 @@
             padding: 10px 14px;
             font-size: 14px;
             font-family: "Inter", sans-serif;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
         }
         .studio-input:focus {
             outline: none;
@@ -172,10 +200,17 @@
         #ios-toast {
             top: max(1.25rem, calc(env(safe-area-inset-top) + 0.65rem));
             transform: translate(-50%, -140%);
-            transition: transform 0.28s ease, opacity 0.22s ease;
+            transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
         }
         #ios-toast.show {
             transform: translate(-50%, 0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -191,13 +226,13 @@
 
     <!-- ==================== PWA Install Guide Modal ==================== -->
     <div id="pwa-guide-modal" class="hidden fixed inset-0 z-[180] bg-black/65 flex items-end sm:items-center justify-center p-0 sm:p-4" onclick="closePwaGuide()">
-        <div class="w-full max-w-md rounded-t-[28px] sm:rounded-[26px] p-6 sm:p-7 border shadow-2xl space-y-4" style="background: var(--surface-solid); border-color: var(--border-hairline); padding-bottom: max(1.5rem, env(safe-area-inset-bottom));" onclick="event.stopPropagation()">
+        <div class="w-full max-w-md rounded-t-[28px] sm:rounded-[26px] p-6 sm:p-7 border shadow-2xl space-y-4 panel-animate" style="background: var(--surface-solid); border-color: var(--border-hairline); padding-bottom: max(1.5rem, env(safe-area-inset-bottom));" onclick="event.stopPropagation()">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
                     <span class="w-9 h-9 rounded-2xl bg-emerald-500/15 text-[#10B981] flex items-center justify-center text-xl"><i class='bx bx-mobile-alt'></i></span>
                     <div>
-                        <h3 class="font-extrabold text-base">Install Studio CMS</h3>
-                        <p class="text-xs" style="color: var(--text-muted);">Akses cepat layaknya aplikasi native</p>
+                        <h3 class="font-extrabold text-base">Install MZ Studio App</h3>
+                        <p class="text-xs" style="color: var(--text-muted);">Akses langsung ke Studio CMS dari layar utama</p>
                     </div>
                 </div>
                 <button type="button" onclick="closePwaGuide()" class="w-8 h-8 rounded-full flex items-center justify-center text-lg" style="background: var(--surface-elevated);">&times;</button>
@@ -207,32 +242,32 @@
                 <p><strong class="text-[#D97706]">iPhone / iPad (Safari):</strong> Ketuk tombol <strong>Share (kotak panah ke atas)</strong> di bilah bawah, lalu pilih <strong>"Add to Home Screen"</strong>.</p>
                 <p><strong class="text-[#10B981]">Desktop (Chrome / Edge):</strong> Klik ikon <strong>Install (+)</strong> di sisi kanan bilah alamat URL.</p>
             </div>
-            <button type="button" onclick="closePwaGuide()" class="w-full py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold transition">Mengerti</button>
+            <button type="button" onclick="closePwaGuide()" class="w-full py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">Mengerti</button>
         </div>
     </div>
 
     <!-- ==================== Mobile More Tabs Drawer ==================== -->
     <div id="mobile-more-drawer" class="hidden lg:hidden fixed inset-0 z-[150] bg-black/55 flex items-end justify-center" onclick="closeMobileDrawer()">
-        <div class="w-full max-w-md rounded-t-[28px] p-5 border-t shadow-2xl space-y-3" style="background: var(--surface-solid); border-color: var(--border-hairline); padding-bottom: max(1.5rem, env(safe-area-inset-bottom));" onclick="event.stopPropagation()">
+        <div class="w-full max-w-md rounded-t-[28px] p-5 border-t shadow-2xl space-y-3 panel-animate" style="background: var(--surface-solid); border-color: var(--border-hairline); padding-bottom: max(1.5rem, env(safe-area-inset-bottom));" onclick="event.stopPropagation()">
             <div class="w-10 h-1 rounded-full mx-auto mb-2 opacity-30" style="background: var(--text-muted);"></div>
             <div class="flex items-center justify-between px-1">
                 <span class="text-xs font-extrabold uppercase tracking-wider" style="color: var(--text-muted);">Menu Kelola Lainnya</span>
                 <button type="button" onclick="closeMobileDrawer()" class="w-7 h-7 rounded-full flex items-center justify-center text-base" style="background: var(--surface-elevated);">&times;</button>
             </div>
             <div class="grid grid-cols-2 gap-2.5 pt-1">
-                <button type="button" onclick="switchTab('statuses'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                <button type="button" onclick="switchTab('statuses'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                     <i class='bx bx-pulse text-xl text-[#10B981]'></i>
                     <span class="text-xs font-bold">Status Pills</span>
                 </button>
-                <button type="button" onclick="switchTab('arsenal'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                <button type="button" onclick="switchTab('arsenal'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                     <i class='bx bx-chip text-xl text-[#D97706]'></i>
                     <span class="text-xs font-bold">Tech Arsenal</span>
                 </button>
-                <button type="button" onclick="switchTab('credentials'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                <button type="button" onclick="switchTab('credentials'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                     <i class='bx bx-certification text-xl text-[#10B981]'></i>
                     <span class="text-xs font-bold">Edu &amp; Certs</span>
                 </button>
-                <button type="button" onclick="switchTab('gallery'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                <button type="button" onclick="switchTab('gallery'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                     <i class='bx bx-images text-xl text-[#D97706]'></i>
                     <span class="text-xs font-bold">Gallery Albums</span>
                 </button>
@@ -242,44 +277,50 @@
 
     <!-- ==================== A. WEB DESKTOP FLOATING SIDEBAR (lg:flex) ==================== -->
     <aside id="desktop-sidebar" class="hidden lg:flex fixed left-5 w-[264px] z-40 desktop-sidebar rounded-[28px] p-4 flex-col justify-between">
-        <!-- Top Brand + Navigation -->
         <div class="flex flex-col min-h-0">
-            <!-- Brand Header -->
             <div class="px-3 pt-2 pb-4 mb-2 border-b flex items-center justify-between" style="border-color: var(--border-hairline);">
                 <div class="flex items-center gap-2.5">
-                    <span class="w-3 h-3 rounded-full bg-gradient-to-tr from-[#10B981] to-[#F59E0B] flex-shrink-0"></span>
+                    <span class="relative flex h-3 w-3 flex-shrink-0">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-gradient-to-tr from-[#10B981] to-[#F59E0B]"></span>
+                    </span>
                     <div>
                         <h1 class="text-sm font-extrabold tracking-tight leading-none">MZ STUDIO</h1>
-                        <p class="text-[11px] font-medium mt-1" style="color: var(--text-muted);">CMS Workspace</p>
+                        <p id="session-status-label" class="text-[11px] font-medium mt-1" style="color: var(--text-muted);">CMS Workspace</p>
                     </div>
                 </div>
-                <button type="button" onclick="toggleSpatialTheme()" title="Ganti Tema Terang / Gelap" class="w-8 h-8 rounded-full border flex items-center justify-center text-sm transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                <button type="button" onclick="toggleSpatialTheme()" title="Ganti Tema Terang / Gelap" class="w-8 h-8 rounded-full border flex items-center justify-center text-sm hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                     <i class='theme-icon-sync bx bx-moon'></i>
                 </button>
             </div>
 
-            <!-- Sidebar Menu List (Shown after login) -->
             <nav id="desktop-nav-links" class="hidden space-y-1 overflow-y-auto no-scrollbar pr-0.5 py-1">
                 <button type="button" onclick="switchTab('profile')" data-tab="profile" class="cms-tab side-nav-item active">
                     <span class="flex items-center gap-2.5"><i class='bx bx-user-circle text-lg'></i> Profile &amp; Hero</span>
                 </button>
                 <button type="button" onclick="switchTab('statuses')" data-tab="statuses" class="cms-tab side-nav-item">
                     <span class="flex items-center gap-2.5"><i class='bx bx-pulse text-lg'></i> Status Pills</span>
+                    <span id="count-statuses" class="text-[11px] opacity-60 font-bold">0</span>
                 </button>
                 <button type="button" onclick="switchTab('projects')" data-tab="projects" class="cms-tab side-nav-item">
                     <span class="flex items-center gap-2.5"><i class='bx bx-folder-open text-lg'></i> Case Studies</span>
+                    <span id="count-projects" class="text-[11px] opacity-60 font-bold">0</span>
                 </button>
                 <button type="button" onclick="switchTab('services')" data-tab="services" class="cms-tab side-nav-item">
                     <span class="flex items-center gap-2.5"><i class='bx bx-briefcase-alt-2 text-lg'></i> Services</span>
+                    <span id="count-services" class="text-[11px] opacity-60 font-bold">0</span>
                 </button>
                 <button type="button" onclick="switchTab('arsenal')" data-tab="arsenal" class="cms-tab side-nav-item">
                     <span class="flex items-center gap-2.5"><i class='bx bx-chip text-lg'></i> Tech Arsenal</span>
+                    <span id="count-arsenal" class="text-[11px] opacity-60 font-bold">0</span>
                 </button>
                 <button type="button" onclick="switchTab('credentials')" data-tab="credentials" class="cms-tab side-nav-item">
                     <span class="flex items-center gap-2.5"><i class='bx bx-certification text-lg'></i> Edu &amp; Certs</span>
+                    <span id="count-certs" class="text-[11px] opacity-60 font-bold">0</span>
                 </button>
                 <button type="button" onclick="switchTab('gallery')" data-tab="gallery" class="cms-tab side-nav-item">
                     <span class="flex items-center gap-2.5"><i class='bx bx-images text-lg'></i> Gallery Albums</span>
+                    <span id="count-gallery" class="text-[11px] opacity-60 font-bold">0</span>
                 </button>
                 <button type="button" onclick="switchTab('inquiries')" data-tab="inquiries" class="cms-tab side-nav-item">
                     <span class="flex items-center gap-2.5"><i class='bx bx-inbox text-lg'></i> Inquiries</span>
@@ -287,26 +328,24 @@
                 </button>
             </nav>
 
-            <!-- Logged-out Sidebar Info -->
             <div id="desktop-nav-locked" class="px-3 py-6 text-center space-y-2">
                 <span class="w-10 h-10 rounded-2xl bg-amber-500/12 text-[#D97706] inline-flex items-center justify-center text-xl"><i class='bx bxs-shield-alt-2'></i></span>
                 <p class="text-xs font-semibold" style="color: var(--text-secondary);">Silakan masuk untuk membuka menu pengelolaan konten.</p>
             </div>
         </div>
 
-        <!-- Bottom Sidebar Utility Actions -->
         <div class="pt-3 border-t space-y-2" style="border-color: var(--border-hairline);">
-            <button type="button" onclick="triggerPwaInstall()" class="pwa-install-trigger w-full py-2.5 px-3.5 rounded-2xl bg-emerald-500/12 text-[#059669] dark:text-[#34D399] hover:bg-emerald-500/20 text-xs font-bold flex items-center justify-center gap-2 transition">
+            <button type="button" onclick="triggerPwaInstall()" class="pwa-install-trigger w-full py-2.5 px-3.5 rounded-2xl bg-emerald-500/12 text-[#059669] dark:text-[#34D399] hover:bg-emerald-500/20 text-xs font-bold flex items-center justify-center gap-2">
                 <i class='bx bx-download text-base'></i>
-                <span>Install Desktop App</span>
+                <span>Install Studio App</span>
             </button>
 
             <div class="grid grid-cols-2 gap-2">
-                <a href="index.html" target="_blank" class="py-2.5 px-3 rounded-2xl border text-xs font-semibold flex items-center justify-center gap-1.5 transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                <a href="index.html" target="_blank" rel="noopener noreferrer" class="py-2.5 px-3 rounded-2xl border text-xs font-semibold flex items-center justify-center gap-1.5 hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                     <i class='bx bx-link-external text-sm text-[#D97706]'></i>
                     <span>Live Web</span>
                 </a>
-                <button type="button" onclick="handleLogout()" class="logout-trigger hidden py-2.5 px-3 rounded-2xl bg-red-500/12 text-red-600 dark:text-red-400 hover:bg-red-500/20 text-xs font-bold items-center justify-center gap-1.5 transition">
+                <button type="button" onclick="handleLogout()" class="logout-trigger hidden py-2.5 px-3 rounded-2xl bg-red-500/12 text-red-600 dark:text-red-400 hover:bg-red-500/20 text-xs font-bold items-center justify-center gap-1.5">
                     <i class='bx bx-log-out text-sm'></i>
                     <span>Logout</span>
                 </button>
@@ -325,14 +364,14 @@
             <div class="flex items-center gap-1.5 flex-shrink-0">
                 <button type="button" onclick="triggerPwaInstall()" class="pwa-install-trigger inline-flex h-8 px-2.5 rounded-full bg-emerald-500/15 text-[#059669] dark:text-[#34D399] border border-emerald-500/25 text-[11px] font-bold items-center gap-1">
                     <i class='bx bx-download text-sm'></i>
-                    <span>Install</span>
+                    <span>Install Studio</span>
                 </button>
 
                 <button type="button" onclick="toggleSpatialTheme()" class="w-8 h-8 rounded-full border flex items-center justify-center text-sm" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                     <i class='theme-icon-sync bx bx-moon'></i>
                 </button>
 
-                <a href="index.html" target="_blank" class="w-8 h-8 rounded-full border flex items-center justify-center text-sm" style="background: var(--surface-elevated); border-color: var(--border-hairline);" title="Live Web">
+                <a href="index.html" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border flex items-center justify-center text-sm" style="background: var(--surface-elevated); border-color: var(--border-hairline);" title="Live Web">
                     <i class='bx bx-link-external text-[#D97706]'></i>
                 </a>
 
@@ -370,11 +409,11 @@
         </div>
     </nav>
 
-    <!-- ==================== CONTENT AREA (Offset for Desktop Sidebar) ==================== -->
+    <!-- ==================== CONTENT AREA ==================== -->
     <div class="lg:pl-[300px] lg:pr-7 transition-all">
 
         <!-- ==================== 1. AUTHENTICATION VIEW ==================== -->
-        <section id="auth-view" class="max-w-md mx-auto px-4 pt-28 lg:pt-24">
+        <section id="auth-view" class="max-w-md mx-auto px-4 pt-28 lg:pt-24 panel-animate">
             <div class="studio-card rounded-[30px] p-7 sm:p-9 space-y-6">
                 <div class="space-y-1.5 text-center">
                     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[11px] font-bold uppercase tracking-wider">
@@ -387,14 +426,14 @@
                 <form onsubmit="handleLogin(event)" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold mb-1.5">Email Admin</label>
-                        <input type="email" id="login-email" required placeholder="admin@domain.com" class="studio-input">
+                        <input type="email" id="login-email" required autocomplete="username" placeholder="admin@domain.com" class="studio-input">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold mb-1.5">Password</label>
-                        <input type="password" id="login-password" required placeholder="••••••••" class="studio-input">
+                        <input type="password" id="login-password" required autocomplete="current-password" placeholder="••••••••" class="studio-input">
                     </div>
                     <p id="auth-error" class="hidden text-xs font-semibold text-red-600 dark:text-red-400 bg-red-500/10 px-3.5 py-2.5 rounded-xl"></p>
-                    <button type="submit" id="btn-login" class="w-full py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-sm font-bold transition shadow-sm">
+                    <button type="submit" id="btn-login" class="w-full py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-sm font-bold shadow-sm">
                         Masuk ke Dashboard
                     </button>
                 </form>
@@ -405,10 +444,10 @@
         <main id="dashboard-view" class="hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-2 pt-20 lg:pt-6 space-y-6">
 
             <!-- ==================== TAB 1: PROFILE & HERO ==================== -->
-            <section id="panel-profile" class="cms-panel studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-6">
+            <section id="panel-profile" class="cms-panel panel-animate studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-6">
                 <div class="border-b pb-4" style="border-color: var(--border-hairline);">
                     <h2 class="text-lg sm:text-xl font-extrabold tracking-tight">Hero Identity &amp; Contact Settings</h2>
-                    <p class="text-xs mt-1" style="color: var(--text-secondary);">Kelola foto profil, judul utama, ringkasan, tautan CV, dan kontak WhatsApp/Email.</p>
+                    <p class="text-xs mt-1" style="color: var(--text-secondary);">Kelola foto profil, judul utama, focus domain HUD, tautan CV, dan kontak WhatsApp/Email.</p>
                 </div>
 
                 <form onsubmit="saveProfile(event)" class="space-y-5">
@@ -425,10 +464,14 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label class="block text-xs font-bold mb-1.5">Top Badge Text</label>
                             <input type="text" id="prof-badge" placeholder="Cth: DATA & BUSINESS ANALYST" class="studio-input">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold mb-1.5">Focus Domain (Card Active Profile)</label>
+                            <input type="text" id="prof-focus-domain" placeholder="Cth: Data & IT Solutions" class="studio-input">
                         </div>
                         <div>
                             <label class="block text-xs font-bold mb-1.5">Email Kontak</label>
@@ -459,17 +502,17 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Footer CTA Title</label>
-                            <input type="text" id="prof-footer-title" class="studio-input">
+                            <label class="block text-xs font-bold mb-1.5">Footer CTA Title (Judul Banner Bawah)</label>
+                            <input type="text" id="prof-footer-title" placeholder="Ready to build something impactful?" class="studio-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Footer CTA Subtitle</label>
-                            <input type="text" id="prof-footer-sub" class="studio-input">
+                            <label class="block text-xs font-bold mb-1.5">Footer CTA Subtitle (Subjudul Banner Bawah)</label>
+                            <input type="text" id="prof-footer-sub" placeholder="I am actively seeking collaboration..." class="studio-input">
                         </div>
                     </div>
 
                     <div class="pt-2">
-                        <button type="submit" id="btn-save-profile" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold transition shadow-sm">
+                        <button type="submit" id="btn-save-profile" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold shadow-sm">
                             Simpan Perubahan Profile
                         </button>
                     </div>
@@ -477,14 +520,18 @@
             </section>
 
             <!-- ==================== TAB 2: STATUS PILLS ==================== -->
-            <section id="panel-statuses" class="hidden cms-panel space-y-5 sm:space-y-6">
+            <section id="panel-statuses" class="hidden cms-panel panel-animate space-y-5 sm:space-y-6">
                 <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-5">
-                    <div class="border-b pb-4" style="border-color: var(--border-hairline);">
-                        <h2 class="text-lg sm:text-xl font-extrabold tracking-tight">Availability &amp; Activity Status Pills</h2>
-                        <p class="text-xs mt-1" style="color: var(--text-secondary);">Tampilkan status aktif di bawah badge Hero (misal: Open to Work, Freelance, dll).</p>
+                    <div class="border-b pb-4 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                        <div>
+                            <h2 id="st-form-heading" class="text-lg sm:text-xl font-extrabold tracking-tight">Availability &amp; Activity Status Pills</h2>
+                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Tampilkan status aktif di bawah badge Hero (misal: Open to Work, Freelance, dll).</p>
+                        </div>
+                        <button type="button" id="btn-cancel-edit-st" onclick="resetStatusForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline flex-shrink-0">Batal Edit</button>
                     </div>
 
-                    <form onsubmit="addStatus(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+                    <form onsubmit="saveStatus(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+                        <input type="hidden" id="st-edit-id">
                         <div>
                             <label class="block text-xs font-bold mb-1.5">Tipe Ikon</label>
                             <select id="st-type" class="studio-input">
@@ -502,7 +549,7 @@
                             <label class="block text-xs font-bold mb-1.5">Instansi / Keterangan (Opsional)</label>
                             <input type="text" id="st-org" placeholder="Cth: Data & IT Roles" class="studio-input">
                         </div>
-                        <button type="submit" class="w-full py-3 px-5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold transition">
+                        <button type="submit" id="btn-save-st" class="w-full py-3 px-5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
                             + Tambah Status
                         </button>
                     </form>
@@ -512,7 +559,7 @@
             </section>
 
             <!-- ==================== TAB 3: CASE STUDIES / PROJECTS ==================== -->
-            <section id="panel-projects" class="hidden cms-panel space-y-5 sm:space-y-6">
+            <section id="panel-projects" class="hidden cms-panel panel-animate space-y-5 sm:space-y-6">
                 <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-5">
                     <div class="border-b pb-4 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
                         <div>
@@ -557,7 +604,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" id="btn-save-proj" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold transition">
+                        <button type="submit" id="btn-save-proj" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
                             Simpan Studi Kasus
                         </button>
                     </form>
@@ -567,7 +614,7 @@
             </section>
 
             <!-- ==================== TAB 4: SERVICES & OFFERINGS ==================== -->
-            <section id="panel-services" class="hidden cms-panel space-y-5 sm:space-y-6">
+            <section id="panel-services" class="hidden cms-panel panel-animate space-y-5 sm:space-y-6">
                 <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-5">
                     <div class="border-b pb-4 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
                         <div>
@@ -622,7 +669,7 @@
                             <textarea id="srv-full-details" rows="4" placeholder="Poin-poin output yang didapat klien, estimasi pengerjaan, revisi, dll..." class="studio-input"></textarea>
                         </div>
 
-                        <button type="submit" id="btn-save-srv" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold transition">
+                        <button type="submit" id="btn-save-srv" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
                             Simpan Layanan
                         </button>
                     </form>
@@ -632,14 +679,18 @@
             </section>
 
             <!-- ==================== TAB 5: TECHNICAL ARSENAL ==================== -->
-            <section id="panel-arsenal" class="hidden cms-panel space-y-5 sm:space-y-6">
+            <section id="panel-arsenal" class="hidden cms-panel panel-animate space-y-5 sm:space-y-6">
                 <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-5">
-                    <div class="border-b pb-4" style="border-color: var(--border-hairline);">
-                        <h2 class="text-lg sm:text-xl font-extrabold tracking-tight">Technical Arsenal &amp; Skills</h2>
-                        <p class="text-xs mt-1" style="color: var(--text-secondary);">Kelompokkan keahlian berdasarkan kategori dan tingkat penguasaan.</p>
+                    <div class="border-b pb-4 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                        <div>
+                            <h2 id="sk-form-heading" class="text-lg sm:text-xl font-extrabold tracking-tight">Technical Arsenal &amp; Skills</h2>
+                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Kelompokkan keahlian berdasarkan kategori dan tingkat penguasaan.</p>
+                        </div>
+                        <button type="button" id="btn-cancel-edit-sk" onclick="resetSkillForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline flex-shrink-0">Batal Edit</button>
                     </div>
 
-                    <form onsubmit="addSkill(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+                    <form onsubmit="saveSkill(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+                        <input type="hidden" id="sk-edit-id">
                         <div>
                             <label class="block text-xs font-bold mb-1.5">Kategori *</label>
                             <input type="text" id="sk-cat" required placeholder="Cth: Data & Analytics" class="studio-input">
@@ -656,7 +707,7 @@
                                 <option value="Familiar">Familiar (1 Dot)</option>
                             </select>
                         </div>
-                        <button type="submit" class="w-full py-3 px-5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold transition">
+                        <button type="submit" id="btn-save-sk" class="w-full py-3 px-5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
                             + Tambah Skill
                         </button>
                     </form>
@@ -666,20 +717,24 @@
             </section>
 
             <!-- ==================== TAB 6: EDUCATION & CERTIFICATIONS ==================== -->
-            <section id="panel-credentials" class="hidden cms-panel grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <section id="panel-credentials" class="hidden cms-panel panel-animate grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Education Column -->
                 <div class="space-y-5">
                     <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-6 space-y-4">
-                        <h2 class="text-lg font-extrabold tracking-tight border-b pb-3" style="border-color: var(--border-hairline);">Tambah Riwayat Pendidikan</h2>
-                        <form onsubmit="addEducation(event)" class="space-y-3">
+                        <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                            <h2 id="edu-form-heading" class="text-lg font-extrabold tracking-tight">Tambah Riwayat Pendidikan</h2>
+                            <button type="button" id="btn-cancel-edit-edu" onclick="resetEduForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline">Batal Edit</button>
+                        </div>
+                        <form onsubmit="saveEducation(event)" class="space-y-3">
+                            <input type="hidden" id="edu-edit-id">
                             <input type="text" id="edu-inst" required placeholder="Nama Institusi / Kampus *" class="studio-input">
                             <input type="text" id="edu-deg" required placeholder="Jurusan / Gelar *" class="studio-input">
                             <div class="grid grid-cols-3 gap-2">
-                                <input type="text" id="edu-start" placeholder="Masuk" class="studio-input">
-                                <input type="text" id="edu-grad" placeholder="Lulus" class="studio-input">
-                                <input type="text" id="edu-gpa" placeholder="IPK" class="studio-input">
+                                <input type="text" id="edu-start" placeholder="Masuk (2022)" class="studio-input">
+                                <input type="text" id="edu-grad" placeholder="Lulus (2026)" class="studio-input">
+                                <input type="text" id="edu-gpa" placeholder="IPK (3.79)" class="studio-input">
                             </div>
-                            <button type="submit" class="w-full py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold transition">+ Simpan Pendidikan</button>
+                            <button type="submit" id="btn-save-edu" class="w-full py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">+ Simpan Pendidikan</button>
                         </form>
                     </div>
                     <div id="edu-list" class="space-y-3"></div>
@@ -688,8 +743,12 @@
                 <!-- Certifications Column -->
                 <div class="space-y-5">
                     <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-6 space-y-4">
-                        <h2 class="text-lg font-extrabold tracking-tight border-b pb-3" style="border-color: var(--border-hairline);">Tambah Sertifikasi</h2>
-                        <form onsubmit="addCertification(event)" class="space-y-3">
+                        <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                            <h2 id="cert-form-heading" class="text-lg font-extrabold tracking-tight">Tambah Sertifikasi</h2>
+                            <button type="button" id="btn-cancel-edit-cert" onclick="resetCertForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline">Batal Edit</button>
+                        </div>
+                        <form onsubmit="saveCertification(event)" class="space-y-3">
+                            <input type="hidden" id="cert-edit-id">
                             <input type="text" id="cert-title" required placeholder="Nama Sertifikat *" class="studio-input">
                             <div class="grid grid-cols-2 gap-2">
                                 <input type="text" id="cert-issuer" required placeholder="Penerbit (Issuer) *" class="studio-input">
@@ -700,7 +759,7 @@
                                 <input type="text" id="cert-url" placeholder="https://..." class="studio-input mb-2">
                                 <input type="file" id="cert-file" accept="image/*,.pdf" class="w-full text-xs file:mr-3 file:py-1.5 file:px-3 rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-500/15 file:text-[#D97706]">
                             </div>
-                            <button type="submit" id="btn-save-cert" class="w-full py-3 rounded-full bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold transition">+ Simpan Sertifikat</button>
+                            <button type="submit" id="btn-save-cert" class="w-full py-3 rounded-full bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold">+ Simpan Sertifikat</button>
                         </form>
                     </div>
                     <div id="cert-list" class="space-y-3"></div>
@@ -708,14 +767,18 @@
             </section>
 
             <!-- ==================== TAB 7: GALLERY ALBUMS ==================== -->
-            <section id="panel-gallery" class="hidden cms-panel space-y-5 sm:space-y-6">
+            <section id="panel-gallery" class="hidden cms-panel panel-animate space-y-5 sm:space-y-6">
                 <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-8 space-y-5">
-                    <div class="border-b pb-4" style="border-color: var(--border-hairline);">
-                        <h2 class="text-lg sm:text-xl font-extrabold tracking-tight">Buat Album Dokumentasi Baru</h2>
-                        <p class="text-xs mt-1" style="color: var(--text-secondary);">Pilih beberapa foto sekaligus untuk diunggah ke dalam satu album galeri.</p>
+                    <div class="border-b pb-4 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                        <div>
+                            <h2 id="gal-form-heading" class="text-lg sm:text-xl font-extrabold tracking-tight">Buat Album Dokumentasi Baru</h2>
+                            <p class="text-xs mt-1" style="color: var(--text-secondary);">Pilih beberapa foto sekaligus untuk diunggah ke dalam satu album galeri.</p>
+                        </div>
+                        <button type="button" id="btn-cancel-edit-gal" onclick="resetGalleryForm()" class="hidden text-xs font-bold text-[#D97706] hover:underline flex-shrink-0">Batal Edit</button>
                     </div>
 
-                    <form onsubmit="createGalleryAlbum(event)" class="space-y-4">
+                    <form onsubmit="saveGalleryAlbum(event)" class="space-y-4">
+                        <input type="hidden" id="gal-edit-id">
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
                                 <label class="block text-xs font-bold mb-1.5">Judul Album *</label>
@@ -736,12 +799,21 @@
                             <textarea id="gal-desc" rows="2" placeholder="Ceritakan singkat momen atau kegiatan pada album ini..." class="studio-input"></textarea>
                         </div>
 
+                        <!-- Existing Photos Preview when Editing Album -->
+                        <div id="gal-existing-photos-wrap" class="hidden space-y-2 p-4 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold">Foto Tersimpan di Album Ini</span>
+                                <span id="gal-existing-count" class="text-[11px] font-semibold" style="color: var(--text-muted);">0 Foto</span>
+                            </div>
+                            <div id="gal-existing-grid" class="grid grid-cols-3 sm:grid-cols-5 gap-2.5"></div>
+                        </div>
+
                         <div>
-                            <label class="block text-xs font-bold mb-1.5">Pilih Foto (Bisa Multi-Select) *</label>
+                            <label id="gal-files-label" class="block text-xs font-bold mb-1.5">Pilih Foto (Bisa Multi-Select) *</label>
                             <input type="file" id="gal-files" accept="image/*" multiple required class="w-full text-xs file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-500/15 file:text-[#059669]">
                         </div>
 
-                        <button type="submit" id="btn-save-gal" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold transition">
+                        <button type="submit" id="btn-save-gal" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
                             Unggah &amp; Publikasikan Album
                         </button>
                     </form>
@@ -751,13 +823,13 @@
             </section>
 
             <!-- ==================== TAB 8: VISITOR INQUIRIES INBOX ==================== -->
-            <section id="panel-inquiries" class="hidden cms-panel space-y-5">
+            <section id="panel-inquiries" class="hidden cms-panel panel-animate space-y-5">
                 <div class="studio-card rounded-[26px] sm:rounded-[28px] p-5 sm:p-6 flex items-center justify-between gap-3">
                     <div>
                         <h2 class="text-lg sm:text-xl font-extrabold tracking-tight">Kotak Masuk Pengajuan</h2>
                         <p class="text-xs mt-0.5" style="color: var(--text-secondary);">Pesan kolaborasi &amp; permintaan layanan dari pengunjung.</p>
                     </div>
-                    <button type="button" onclick="loadAllData()" class="px-3.5 py-2 rounded-full border text-xs font-bold hover:border-[#10B981] transition flex-shrink-0" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                    <button type="button" onclick="loadAllData()" class="px-3.5 py-2 rounded-full border text-xs font-bold hover:border-[#10B981] flex-shrink-0" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                         <i class='bx bx-refresh mr-1'></i> Refresh
                     </button>
                 </div>
@@ -796,7 +868,7 @@
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
                     document.querySelectorAll('.pwa-install-trigger').forEach(el => el.classList.add('hidden'));
-                    showToast('Studio CMS berhasil diinstal!');
+                    showToast('MZ Studio berhasil diinstal!');
                 }
                 deferredPrompt = null;
             } else {
@@ -851,11 +923,17 @@
         };
 
         window.switchTab = function(tabName) {
-            document.querySelectorAll('.cms-panel').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.cms-panel').forEach(p => {
+                p.classList.add('hidden');
+                p.classList.remove('panel-animate');
+            });
             const target = document.getElementById(`panel-${tabName}`);
-            if (target) target.classList.remove('hidden');
+            if (target) {
+                target.classList.remove('hidden');
+                void target.offsetWidth;
+                target.classList.add('panel-animate');
+            }
 
-            // Sync Desktop Sidebar Active Item
             document.querySelectorAll('.cms-tab').forEach(btn => {
                 if (btn.dataset.tab === tabName) {
                     btn.classList.add('active');
@@ -864,7 +942,6 @@
                 }
             });
 
-            // Sync Mobile Bottom Dock Active Item
             const drawerTabs = ['statuses', 'arsenal', 'credentials', 'gallery'];
             const activeDockKey = drawerTabs.includes(tabName) ? 'more' : tabName;
             document.querySelectorAll('.dock-btn').forEach(btn => {
@@ -888,8 +965,25 @@
         const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+        let cachedStatuses = [];
         let cachedProjects = [];
         let cachedServices = [];
+        let cachedArsenal = [];
+        let cachedEdus = [];
+        let cachedCerts = [];
+        let cachedAlbums = [];
+        let editingAlbumPhotos = [];
+
+        // Security: Escape HTML to prevent Stored XSS
+        function escapeHTML(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
 
         async function uploadAsset(file, folder = 'uploads') {
             const ext = file.name.split('.').pop();
@@ -902,7 +996,9 @@
 
         async function checkSession() {
             const { data: { session } } = await supabaseClient.auth.getSession();
+            const statusLbl = document.getElementById('session-status-label');
             if (session) {
+                if (statusLbl) statusLbl.innerText = session.user?.email || 'Authenticated';
                 document.getElementById('auth-view').classList.add('hidden');
                 document.getElementById('dashboard-view').classList.remove('hidden');
                 document.getElementById('mobile-cms-dock').classList.remove('hidden');
@@ -914,6 +1010,7 @@
                 });
                 loadAllData();
             } else {
+                if (statusLbl) statusLbl.innerText = 'CMS Workspace';
                 document.getElementById('auth-view').classList.remove('hidden');
                 document.getElementById('dashboard-view').classList.add('hidden');
                 document.getElementById('mobile-cms-dock').classList.add('hidden');
@@ -925,6 +1022,10 @@
                 });
             }
         }
+
+        supabaseClient.auth.onAuthStateChange((event) => {
+            if (event === 'SIGNED_OUT') checkSession();
+        });
 
         window.handleLogin = async function(e) {
             e.preventDefault();
@@ -985,6 +1086,7 @@
                     document.getElementById('prof-photo-url').value = profile.photo_url || '';
                     document.getElementById('prof-cv-url').value = profile.cv_url || '';
                     document.getElementById('prof-badge').value = profile.badge || '';
+                    document.getElementById('prof-focus-domain').value = profile.focus_domain || 'Data & IT Solutions';
                     document.getElementById('prof-email').value = profile.email || '';
                     document.getElementById('prof-headline').value = profile.headline || '';
                     document.getElementById('prof-summary').value = profile.summary || '';
@@ -994,16 +1096,29 @@
                     document.getElementById('prof-footer-sub').value = profile.footer_sub || '';
                 }
 
-                renderStatusesAdmin(statuses || []);
+                cachedStatuses = statuses || [];
+                renderStatusesAdmin(cachedStatuses);
                 cachedProjects = projects || [];
                 renderProjectsAdmin(cachedProjects);
                 cachedServices = services || [];
                 renderServicesAdmin(cachedServices);
-                renderArsenalAdmin(arsenal || []);
-                renderEduAdmin(edus || []);
-                renderCertAdmin(certs || []);
-                renderGalleryAdmin(albums || []);
+                cachedArsenal = arsenal || [];
+                renderArsenalAdmin(cachedArsenal);
+                cachedEdus = edus || [];
+                renderEduAdmin(cachedEdus);
+                cachedCerts = certs || [];
+                renderCertAdmin(cachedCerts);
+                cachedAlbums = albums || [];
+                renderGalleryAdmin(cachedAlbums);
                 renderInquiriesAdmin(inquiries || []);
+
+                // Update Sidebar Counters
+                document.getElementById('count-statuses').innerText = cachedStatuses.length;
+                document.getElementById('count-projects').innerText = cachedProjects.length;
+                document.getElementById('count-services').innerText = cachedServices.length;
+                document.getElementById('count-arsenal').innerText = cachedArsenal.length;
+                document.getElementById('count-certs').innerText = cachedCerts.length;
+                document.getElementById('count-gallery').innerText = cachedAlbums.length;
             } catch (err) {
                 console.error('Error loading CMS data:', err);
             }
@@ -1030,6 +1145,7 @@
                     photo_url: photoUrl,
                     cv_url: cvUrl,
                     badge: document.getElementById('prof-badge').value.trim(),
+                    focus_domain: document.getElementById('prof-focus-domain').value.trim() || 'Data & IT Solutions',
                     email: document.getElementById('prof-email').value.trim(),
                     headline: document.getElementById('prof-headline').value,
                     summary: document.getElementById('prof-summary').value,
@@ -1054,42 +1170,78 @@
             }
         };
 
-        // 2. Status Pills CRUD
+        // 2. Status Pills CRUD (With Edit)
         function renderStatusesAdmin(list) {
             const wrap = document.getElementById('statuses-list');
             wrap.innerHTML = list.map(s => `
                 <div class="studio-card rounded-2xl p-4 flex items-center justify-between gap-3">
                     <div class="min-w-0">
                         <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${s.is_active ? 'bg-emerald-500/15 text-[#059669]' : 'bg-zinc-500/15 text-zinc-500'}">${s.is_active ? 'Active' : 'Hidden'}</span>
-                        <h4 class="font-bold text-sm mt-1 truncate">${s.title} ${s.organization ? '• ' + s.organization : ''}</h4>
+                        <h4 class="font-bold text-sm mt-1 truncate">${escapeHTML(s.title)} ${s.organization ? '• ' + escapeHTML(s.organization) : ''}</h4>
                     </div>
-                    <div class="flex items-center gap-2 flex-shrink-0">
-                        <button type="button" onclick="toggleStatus(${s.id}, ${!s.is_active})" class="px-3 py-1.5 rounded-full border text-xs font-semibold" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                    <div class="flex items-center gap-1.5 flex-shrink-0">
+                        <button type="button" onclick="editStatus('${escapeHTML(s.id)}')" class="px-3 py-1.5 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
+                        <button type="button" onclick="toggleStatus('${escapeHTML(s.id)}', ${!s.is_active})" class="px-3 py-1.5 rounded-full border text-xs font-semibold" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                             ${s.is_active ? 'Hide' : 'Show'}
                         </button>
-                        <button type="button" onclick="deleteRow('statuses', ${s.id})" class="w-8 h-8 rounded-full bg-red-500/12 text-red-600 flex items-center justify-center"><i class='bx bx-trash'></i></button>
+                        <button type="button" onclick="deleteRow('statuses', '${escapeHTML(s.id)}')" class="w-8 h-8 rounded-full bg-red-500/12 text-red-600 flex items-center justify-center"><i class='bx bx-trash'></i></button>
                     </div>
                 </div>
             `).join('');
         }
 
-        window.addStatus = async function(e) {
+        window.editStatus = function(id) {
+            const st = cachedStatuses.find(item => String(item.id) === String(id));
+            if (!st) return;
+            document.getElementById('st-edit-id').value = st.id;
+            document.getElementById('st-type').value = st.status_type || 'open';
+            document.getElementById('st-title').value = st.title || '';
+            document.getElementById('st-org').value = st.organization || '';
+            document.getElementById('st-form-heading').innerText = 'Edit Status Pill';
+            document.getElementById('btn-save-st').innerText = 'Simpan Perubahan';
+            document.getElementById('btn-cancel-edit-st').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.resetStatusForm = function() {
+            document.getElementById('st-edit-id').value = '';
+            document.getElementById('st-type').value = 'open';
+            document.getElementById('st-title').value = '';
+            document.getElementById('st-org').value = '';
+            document.getElementById('st-form-heading').innerText = 'Availability & Activity Status Pills';
+            document.getElementById('btn-save-st').innerText = '+ Tambah Status';
+            document.getElementById('btn-cancel-edit-st').classList.add('hidden');
+        };
+
+        window.saveStatus = async function(e) {
             e.preventDefault();
-            const { error } = await supabaseClient.from('statuses').insert([{
+            const payload = {
                 status_type: document.getElementById('st-type').value,
                 title: document.getElementById('st-title').value.trim(),
-                organization: document.getElementById('st-org').value.trim() || null,
-                is_active: true
-            }]);
-            if (error) return alert(error.message);
-            e.target.reset();
+                organization: document.getElementById('st-org').value.trim() || null
+            };
+
+            const editId = document.getElementById('st-edit-id').value;
+            if (editId) {
+                const { data, error } = await supabaseClient.from('statuses').update(payload).eq('id', editId).select();
+                if (error) return alert(error.message);
+                if (!data || data.length === 0) return alert('Update ditolak oleh RLS Policy Supabase.');
+            } else {
+                payload.is_active = true;
+                const { error } = await supabaseClient.from('statuses').insert([payload]);
+                if (error) return alert(error.message);
+            }
+
+            resetStatusForm();
             localStorage.removeItem('mz_portfolio_cache_v3');
-            showToast('Status ditambahkan');
+            showToast('Status tersimpan');
             loadAllData();
         };
 
         window.toggleStatus = async function(id, nextState) {
-            await supabaseClient.from('statuses').update({ is_active: nextState }).eq('id', id);
+            const { data, error } = await supabaseClient.from('statuses').update({ is_active: nextState }).eq('id', id).select();
+            if (error) return alert('Gagal mengubah status: ' + error.message);
+            if (!data || data.length === 0) return alert('Perubahan ditolak oleh RLS Policy Supabase.');
             localStorage.removeItem('mz_portfolio_cache_v3');
             showToast('Status diperbarui');
             loadAllData();
@@ -1101,22 +1253,22 @@
             wrap.innerHTML = list.map(p => `
                 <div class="studio-card rounded-[24px] overflow-hidden flex flex-col justify-between">
                     <div>
-                        <img src="${p.image_url}" alt="" class="w-full h-40 object-cover bg-zinc-200">
+                        <img src="${escapeHTML(p.image_url)}" alt="" class="w-full h-40 object-cover bg-zinc-200">
                         <div class="p-5">
-                            <h4 class="font-bold text-base">${p.title}</h4>
-                            <p class="text-xs mt-1 line-clamp-2" style="color: var(--text-secondary);">${p.description || ''}</p>
+                            <h4 class="font-bold text-base">${escapeHTML(p.title)}</h4>
+                            <p class="text-xs mt-1 line-clamp-2" style="color: var(--text-secondary);">${escapeHTML(p.description || '')}</p>
                         </div>
                     </div>
                     <div class="px-5 py-3 border-t flex justify-end gap-2" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                        <button type="button" onclick="editProject(${p.id})" class="px-3.5 py-1.5 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
-                        <button type="button" onclick="deleteRow('projects', ${p.id})" class="px-3.5 py-1.5 rounded-full bg-red-500/15 text-red-600 text-xs font-bold">Hapus</button>
+                        <button type="button" onclick="editProject('${escapeHTML(p.id)}')" class="px-3.5 py-1.5 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
+                        <button type="button" onclick="deleteRow('projects', '${escapeHTML(p.id)}')" class="px-3.5 py-1.5 rounded-full bg-red-500/15 text-red-600 text-xs font-bold">Hapus</button>
                     </div>
                 </div>
             `).join('');
         }
 
         window.editProject = function(id) {
-            const p = cachedProjects.find(item => item.id === id);
+            const p = cachedProjects.find(item => String(item.id) === String(id));
             if (!p) return;
             document.getElementById('proj-edit-id').value = p.id;
             document.getElementById('proj-title').value = p.title || '';
@@ -1168,8 +1320,9 @@
 
                 const editId = document.getElementById('proj-edit-id').value;
                 if (editId) {
-                    const { error } = await supabaseClient.from('projects').update(payload).eq('id', editId);
+                    const { data, error } = await supabaseClient.from('projects').update(payload).eq('id', editId).select();
                     if (error) throw error;
+                    if (!data || data.length === 0) throw new Error('Update ditolak oleh RLS Policy Supabase.');
                 } else {
                     const { error } = await supabaseClient.from('projects').insert([payload]);
                     if (error) throw error;
@@ -1194,26 +1347,26 @@
                 <div class="studio-card rounded-[24px] p-5 flex flex-col justify-between gap-4">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-2">
-                            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-[#D97706] text-[11px] font-bold">${s.badge}</span>
-                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${s.status === 'open' ? 'bg-emerald-500/15 text-[#059669]' : 'bg-zinc-500/15 text-zinc-500'}">${s.status}</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-[#D97706] text-[11px] font-bold">${escapeHTML(s.badge)}</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${s.status === 'open' ? 'bg-emerald-500/15 text-[#059669]' : 'bg-zinc-500/15 text-zinc-500'}">${escapeHTML(s.status)}</span>
                         </div>
-                        <h4 class="font-bold text-base">${s.title}</h4>
-                        <p class="text-xs mt-1" style="color: var(--text-secondary);">${s.short_desc}</p>
-                        <p class="text-xs font-bold mt-2 text-[#10B981]">${s.price_label || s.pricing_type}</p>
+                        <h4 class="font-bold text-base">${escapeHTML(s.title)}</h4>
+                        <p class="text-xs mt-1" style="color: var(--text-secondary);">${escapeHTML(s.short_desc)}</p>
+                        <p class="text-xs font-bold mt-2 text-[#10B981]">${escapeHTML(s.price_label || s.pricing_type)}</p>
                     </div>
                     <div class="pt-3 border-t flex flex-wrap justify-end gap-2" style="border-color: var(--border-hairline);">
-                        <button type="button" onclick="toggleServiceStatus(${s.id}, '${s.status === 'open' ? 'closed' : 'open'}')" class="px-3 py-1 rounded-full border text-xs font-semibold" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <button type="button" onclick="toggleServiceStatus('${escapeHTML(s.id)}', '${s.status === 'open' ? 'closed' : 'open'}')" class="px-3 py-1 rounded-full border text-xs font-semibold" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                             Set ${s.status === 'open' ? 'Closed' : 'Open'}
                         </button>
-                        <button type="button" onclick="editService(${s.id})" class="px-3 py-1 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
-                        <button type="button" onclick="deleteRow('services', ${s.id})" class="px-3 py-1 rounded-full bg-red-500/15 text-red-600 text-xs font-bold">Hapus</button>
+                        <button type="button" onclick="editService('${escapeHTML(s.id)}')" class="px-3 py-1 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
+                        <button type="button" onclick="deleteRow('services', '${escapeHTML(s.id)}')" class="px-3 py-1 rounded-full bg-red-500/15 text-red-600 text-xs font-bold">Hapus</button>
                     </div>
                 </div>
             `).join('');
         }
 
         window.editService = function(id) {
-            const s = cachedServices.find(item => item.id === id);
+            const s = cachedServices.find(item => String(item.id) === String(id));
             if (!s) return;
             document.getElementById('srv-edit-id').value = s.id;
             document.getElementById('srv-badge').value = s.badge || '';
@@ -1254,11 +1407,15 @@
             };
 
             const editId = document.getElementById('srv-edit-id').value;
-            const { error } = editId
-                ? await supabaseClient.from('services').update(payload).eq('id', editId)
-                : await supabaseClient.from('services').insert([payload]);
+            if (editId) {
+                const { data, error } = await supabaseClient.from('services').update(payload).eq('id', editId).select();
+                if (error) return alert(error.message);
+                if (!data || data.length === 0) return alert('Update ditolak oleh RLS Policy Supabase.');
+            } else {
+                const { error } = await supabaseClient.from('services').insert([payload]);
+                if (error) return alert(error.message);
+            }
 
-            if (error) return alert(error.message);
             resetServiceForm();
             localStorage.removeItem('mz_portfolio_cache_v3');
             showToast('Layanan tersimpan!');
@@ -1266,67 +1423,145 @@
         };
 
         window.toggleServiceStatus = async function(id, nextStatus) {
-            await supabaseClient.from('services').update({ status: nextStatus }).eq('id', id);
+            const { data, error } = await supabaseClient.from('services').update({ status: nextStatus }).eq('id', id).select();
+            if (error) return alert(error.message);
+            if (!data || data.length === 0) return alert('Perubahan ditolak oleh RLS Policy Supabase.');
             localStorage.removeItem('mz_portfolio_cache_v3');
             showToast('Status slot diperbarui');
             loadAllData();
         };
 
-        // 5. Arsenal CRUD
+        // 5. Technical Arsenal CRUD (With Edit)
         function renderArsenalAdmin(list) {
             const wrap = document.getElementById('arsenal-list');
             wrap.innerHTML = list.map(sk => `
                 <div class="studio-card rounded-2xl p-4 flex items-center justify-between gap-2">
                     <div class="min-w-0">
-                        <span class="text-[10px] font-bold uppercase text-[#D97706] block truncate">${sk.category}</span>
-                        <h4 class="font-bold text-sm truncate">${sk.name}</h4>
-                        <span class="text-[11px]" style="color: var(--text-muted);">${sk.level || 'Intermediate'}</span>
+                        <span class="text-[10px] font-bold uppercase text-[#D97706] block truncate">${escapeHTML(sk.category)}</span>
+                        <h4 class="font-bold text-sm truncate">${escapeHTML(sk.name)}</h4>
+                        <span class="text-[11px]" style="color: var(--text-muted);">${escapeHTML(sk.level || 'Intermediate')}</span>
                     </div>
-                    <button type="button" onclick="deleteRow('arsenal', ${sk.id})" class="w-8 h-8 rounded-full bg-red-500/12 text-red-600 flex-shrink-0 flex items-center justify-center"><i class='bx bx-trash'></i></button>
+                    <div class="flex items-center gap-1.5 flex-shrink-0">
+                        <button type="button" onclick="editSkill('${escapeHTML(sk.id)}')" class="px-3 py-1 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
+                        <button type="button" onclick="deleteRow('arsenal', '${escapeHTML(sk.id)}')" class="w-8 h-8 rounded-full bg-red-500/12 text-red-600 flex items-center justify-center"><i class='bx bx-trash'></i></button>
+                    </div>
                 </div>
             `).join('');
         }
 
-        window.addSkill = async function(e) {
+        window.editSkill = function(id) {
+            const sk = cachedArsenal.find(item => String(item.id) === String(id));
+            if (!sk) return;
+            document.getElementById('sk-edit-id').value = sk.id;
+            document.getElementById('sk-cat').value = sk.category || '';
+            document.getElementById('sk-name').value = sk.name || '';
+            document.getElementById('sk-level').value = sk.level || 'Intermediate';
+            document.getElementById('sk-form-heading').innerText = 'Edit Skill & Kategori';
+            document.getElementById('btn-save-sk').innerText = 'Simpan Perubahan';
+            document.getElementById('btn-cancel-edit-sk').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.resetSkillForm = function() {
+            document.getElementById('sk-edit-id').value = '';
+            document.getElementById('sk-cat').value = '';
+            document.getElementById('sk-name').value = '';
+            document.getElementById('sk-level').value = 'Intermediate';
+            document.getElementById('sk-form-heading').innerText = 'Technical Arsenal & Skills';
+            document.getElementById('btn-save-sk').innerText = '+ Tambah Skill';
+            document.getElementById('btn-cancel-edit-sk').classList.add('hidden');
+        };
+
+        window.saveSkill = async function(e) {
             e.preventDefault();
-            const { error } = await supabaseClient.from('arsenal').insert([{
+            const payload = {
                 category: document.getElementById('sk-cat').value.trim(),
                 name: document.getElementById('sk-name').value.trim(),
                 level: document.getElementById('sk-level').value
-            }]);
-            if (error) return alert(error.message);
-            document.getElementById('sk-name').value = '';
+            };
+
+            const editId = document.getElementById('sk-edit-id').value;
+            if (editId) {
+                const { data, error } = await supabaseClient.from('arsenal').update(payload).eq('id', editId).select();
+                if (error) return alert(error.message);
+                if (!data || data.length === 0) return alert('Update ditolak oleh RLS Policy Supabase.');
+            } else {
+                const { error } = await supabaseClient.from('arsenal').insert([payload]);
+                if (error) return alert(error.message);
+            }
+
+            resetSkillForm();
             localStorage.removeItem('mz_portfolio_cache_v3');
-            showToast('Skill ditambahkan');
+            showToast('Skill tersimpan');
             loadAllData();
         };
 
-        // 6. Education & Certifications CRUD
+        // 6. Education & Certifications CRUD (Both With Edit)
         function renderEduAdmin(list) {
             document.getElementById('edu-list').innerHTML = list.map(ed => `
                 <div class="studio-card rounded-2xl p-4 flex items-center justify-between gap-3">
                     <div class="min-w-0">
-                        <h4 class="font-bold text-sm truncate">${ed.institution}</h4>
-                        <p class="text-xs truncate" style="color: var(--text-secondary);">${ed.degree} (${ed.start_year || ''} - ${ed.grad_year || ''})</p>
+                        <h4 class="font-bold text-sm truncate">${escapeHTML(ed.institution)}</h4>
+                        <p class="text-xs truncate" style="color: var(--text-secondary);">${escapeHTML(ed.degree)} (${escapeHTML(ed.start_year || '')} - ${escapeHTML(ed.grad_year || '')})${ed.gpa ? ' • GPA: ' + escapeHTML(ed.gpa) : ''}</p>
                     </div>
-                    <button type="button" onclick="deleteRow('education', ${ed.id})" class="w-8 h-8 rounded-full bg-red-500/12 text-red-600 flex-shrink-0 flex items-center justify-center"><i class='bx bx-trash'></i></button>
+                    <div class="flex items-center gap-1.5 flex-shrink-0">
+                        <button type="button" onclick="editEducation('${escapeHTML(ed.id)}')" class="px-3 py-1 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
+                        <button type="button" onclick="deleteRow('education', '${escapeHTML(ed.id)}')" class="w-8 h-8 rounded-full bg-red-500/12 text-red-600 flex items-center justify-center"><i class='bx bx-trash'></i></button>
+                    </div>
                 </div>
             `).join('');
         }
 
-        window.addEducation = async function(e) {
+        window.editEducation = function(id) {
+            const ed = cachedEdus.find(item => String(item.id) === String(id));
+            if (!ed) return;
+            document.getElementById('edu-edit-id').value = ed.id;
+            document.getElementById('edu-inst').value = ed.institution || '';
+            document.getElementById('edu-deg').value = ed.degree || '';
+            document.getElementById('edu-start').value = ed.start_year || '';
+            document.getElementById('edu-grad').value = ed.grad_year || '';
+            document.getElementById('edu-gpa').value = ed.gpa || '';
+            document.getElementById('edu-form-heading').innerText = 'Edit Riwayat Pendidikan';
+            document.getElementById('btn-save-edu').innerText = 'Simpan Perubahan Pendidikan';
+            document.getElementById('btn-cancel-edit-edu').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.resetEduForm = function() {
+            document.getElementById('edu-edit-id').value = '';
+            document.getElementById('edu-inst').value = '';
+            document.getElementById('edu-deg').value = '';
+            document.getElementById('edu-start').value = '';
+            document.getElementById('edu-grad').value = '';
+            document.getElementById('edu-gpa').value = '';
+            document.getElementById('edu-form-heading').innerText = 'Tambah Riwayat Pendidikan';
+            document.getElementById('btn-save-edu').innerText = '+ Simpan Pendidikan';
+            document.getElementById('btn-cancel-edit-edu').classList.add('hidden');
+        };
+
+        window.saveEducation = async function(e) {
             e.preventDefault();
-            const { error } = await supabaseClient.from('education').insert([{
+            const payload = {
                 institution: document.getElementById('edu-inst').value.trim(),
                 degree: document.getElementById('edu-deg').value.trim(),
                 start_year: document.getElementById('edu-start').value.trim() || null,
                 grad_year: document.getElementById('edu-grad').value.trim() || null,
                 gpa: document.getElementById('edu-gpa').value.trim() || null
-            }]);
-            if (error) return alert(error.message);
-            e.target.reset();
+            };
+
+            const editId = document.getElementById('edu-edit-id').value;
+            if (editId) {
+                const { data, error } = await supabaseClient.from('education').update(payload).eq('id', editId).select();
+                if (error) return alert(error.message);
+                if (!data || data.length === 0) return alert('Update ditolak oleh RLS Policy Supabase.');
+            } else {
+                const { error } = await supabaseClient.from('education').insert([payload]);
+                if (error) return alert(error.message);
+            }
+
+            resetEduForm();
             localStorage.removeItem('mz_portfolio_cache_v3');
-            showToast('Pendidikan ditambahkan');
+            showToast('Pendidikan & GPA tersimpan');
             loadAllData();
         };
 
@@ -1334,18 +1569,47 @@
             document.getElementById('cert-list').innerHTML = list.map(c => `
                 <div class="studio-card rounded-2xl p-4 flex items-center justify-between gap-3">
                     <div class="min-w-0">
-                        <h4 class="font-bold text-sm truncate">${c.title}</h4>
-                        <p class="text-xs truncate" style="color: var(--text-secondary);">${c.issuer} ${c.year ? '• ' + c.year : ''}</p>
+                        <h4 class="font-bold text-sm truncate">${escapeHTML(c.title)}</h4>
+                        <p class="text-xs truncate" style="color: var(--text-secondary);">${escapeHTML(c.issuer)} ${c.year ? '• ' + escapeHTML(c.year) : ''}</p>
                     </div>
-                    <button type="button" onclick="deleteRow('certifications', ${c.id})" class="w-8 h-8 rounded-full bg-red-500/12 text-red-600 flex-shrink-0 flex items-center justify-center"><i class='bx bx-trash'></i></button>
+                    <div class="flex items-center gap-1.5 flex-shrink-0">
+                        <button type="button" onclick="editCert('${escapeHTML(c.id)}')" class="px-3 py-1 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
+                        <button type="button" onclick="deleteRow('certifications', '${escapeHTML(c.id)}')" class="w-8 h-8 rounded-full bg-red-500/12 text-red-600 flex items-center justify-center"><i class='bx bx-trash'></i></button>
+                    </div>
                 </div>
             `).join('');
         }
 
-        window.addCertification = async function(e) {
+        window.editCert = function(id) {
+            const c = cachedCerts.find(item => String(item.id) === String(id));
+            if (!c) return;
+            document.getElementById('cert-edit-id').value = c.id;
+            document.getElementById('cert-title').value = c.title || '';
+            document.getElementById('cert-issuer').value = c.issuer || '';
+            document.getElementById('cert-year').value = c.year || '';
+            document.getElementById('cert-url').value = c.file_url || '';
+            document.getElementById('cert-form-heading').innerText = 'Edit Sertifikasi';
+            document.getElementById('btn-save-cert').innerText = 'Simpan Perubahan Sertifikat';
+            document.getElementById('btn-cancel-edit-cert').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.resetCertForm = function() {
+            document.getElementById('cert-edit-id').value = '';
+            document.getElementById('cert-title').value = '';
+            document.getElementById('cert-issuer').value = '';
+            document.getElementById('cert-year').value = '';
+            document.getElementById('cert-url').value = '';
+            document.getElementById('cert-file').value = '';
+            document.getElementById('cert-form-heading').innerText = 'Tambah Sertifikasi';
+            document.getElementById('btn-save-cert').innerText = '+ Simpan Sertifikat';
+            document.getElementById('btn-cancel-edit-cert').classList.add('hidden');
+        };
+
+        window.saveCertification = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-save-cert');
-            btn.innerText = 'Mengunggah...';
+            btn.innerText = 'Menyimpan...';
             btn.disabled = true;
 
             try {
@@ -1353,17 +1617,26 @@
                 const fileObj = document.getElementById('cert-file').files[0];
                 if (fileObj) fileUrl = await uploadAsset(fileObj, 'certificates');
 
-                const { error } = await supabaseClient.from('certifications').insert([{
+                const payload = {
                     title: document.getElementById('cert-title').value.trim(),
                     issuer: document.getElementById('cert-issuer').value.trim(),
                     year: document.getElementById('cert-year').value.trim() || null,
                     file_url: fileUrl || null
-                }]);
-                if (error) throw error;
+                };
 
-                e.target.reset();
+                const editId = document.getElementById('cert-edit-id').value;
+                if (editId) {
+                    const { data, error } = await supabaseClient.from('certifications').update(payload).eq('id', editId).select();
+                    if (error) throw error;
+                    if (!data || data.length === 0) throw new Error('Update ditolak oleh RLS Policy Supabase.');
+                } else {
+                    const { error } = await supabaseClient.from('certifications').insert([payload]);
+                    if (error) throw error;
+                }
+
+                resetCertForm();
                 localStorage.removeItem('mz_portfolio_cache_v3');
-                showToast('Sertifikasi ditambahkan');
+                showToast('Sertifikasi tersimpan');
                 loadAllData();
             } catch (err) {
                 alert(err.message);
@@ -1373,58 +1646,139 @@
             }
         };
 
-        // 7. Gallery Albums CRUD
+        // 7. Gallery Albums CRUD (With Full Edit + Photo Manager)
         function renderGalleryAdmin(list) {
             document.getElementById('gallery-list').innerHTML = list.map(al => `
                 <div class="studio-card rounded-2xl p-5 flex items-center justify-between gap-3">
                     <div class="min-w-0">
-                        <span class="text-[10px] font-bold uppercase text-[#D97706]">${al.category} • ${(al.photos || []).length} Foto</span>
-                        <h4 class="font-bold text-base mt-0.5 truncate">${al.title}</h4>
+                        <span class="text-[10px] font-bold uppercase text-[#D97706]">${escapeHTML(al.category)} • ${(al.photos || []).length} Foto</span>
+                        <h4 class="font-bold text-base mt-0.5 truncate">${escapeHTML(al.title)}</h4>
                     </div>
-                    <button type="button" onclick="deleteRow('gallery_albums', ${al.id})" class="px-3.5 py-1.5 rounded-full bg-red-500/15 text-red-600 text-xs font-bold flex-shrink-0">Hapus</button>
+                    <div class="flex items-center gap-1.5 flex-shrink-0">
+                        <button type="button" onclick="editGallery('${escapeHTML(al.id)}')" class="px-3.5 py-1.5 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
+                        <button type="button" onclick="deleteRow('gallery_albums', '${escapeHTML(al.id)}')" class="px-3.5 py-1.5 rounded-full bg-red-500/15 text-red-600 text-xs font-bold">Hapus</button>
+                    </div>
                 </div>
             `).join('');
         }
 
-        window.createGalleryAlbum = async function(e) {
+        function renderEditingAlbumPhotos() {
+            const wrap = document.getElementById('gal-existing-photos-wrap');
+            const grid = document.getElementById('gal-existing-grid');
+            const countEl = document.getElementById('gal-existing-count');
+
+            if (!editingAlbumPhotos || editingAlbumPhotos.length === 0) {
+                wrap.classList.add('hidden');
+                return;
+            }
+
+            wrap.classList.remove('hidden');
+            countEl.innerText = `${editingAlbumPhotos.length} Foto`;
+            grid.innerHTML = editingAlbumPhotos.map((p, idx) => `
+                <div class="relative group rounded-xl overflow-hidden border aspect-square" style="border-color: var(--border-hairline);">
+                    <img src="${escapeHTML(p.url)}" alt="" class="w-full h-full object-cover">
+                    <button type="button" onclick="removePhotoFromEditingAlbum(${idx})" title="Hapus foto ini dari album" class="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center text-xs shadow-md hover:bg-red-700">
+                        <i class='bx bx-x'></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        window.removePhotoFromEditingAlbum = function(idx) {
+            editingAlbumPhotos.splice(idx, 1);
+            renderEditingAlbumPhotos();
+        };
+
+        window.editGallery = function(id) {
+            const al = cachedAlbums.find(item => String(item.id) === String(id));
+            if (!al) return;
+            document.getElementById('gal-edit-id').value = al.id;
+            document.getElementById('gal-title').value = al.title || '';
+            document.getElementById('gal-cat').value = al.category || '';
+            document.getElementById('gal-year').value = al.year || '';
+            document.getElementById('gal-desc').value = al.description || '';
+            document.getElementById('gal-files').required = false;
+            document.getElementById('gal-files-label').innerText = 'Tambah Foto Baru ke Album Ini (Opsional)';
+            document.getElementById('gal-form-heading').innerText = 'Edit Album Dokumentasi';
+            document.getElementById('btn-save-gal').innerText = 'Simpan Perubahan Album';
+            document.getElementById('btn-cancel-edit-gal').classList.remove('hidden');
+
+            editingAlbumPhotos = Array.isArray(al.photos) ? [...al.photos] : [];
+            renderEditingAlbumPhotos();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.resetGalleryForm = function() {
+            document.getElementById('gal-edit-id').value = '';
+            document.getElementById('gal-title').value = '';
+            document.getElementById('gal-cat').value = '';
+            document.getElementById('gal-year').value = '';
+            document.getElementById('gal-desc').value = '';
+            document.getElementById('gal-files').value = '';
+            document.getElementById('gal-files').required = true;
+            document.getElementById('gal-files-label').innerText = 'Pilih Foto (Bisa Multi-Select) *';
+            document.getElementById('gal-form-heading').innerText = 'Buat Album Dokumentasi Baru';
+            document.getElementById('btn-save-gal').innerText = 'Unggah & Publikasikan Album';
+            document.getElementById('btn-cancel-edit-gal').classList.add('hidden');
+            editingAlbumPhotos = [];
+            document.getElementById('gal-existing-photos-wrap').classList.add('hidden');
+        };
+
+        window.saveGalleryAlbum = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-save-gal');
+            const editId = document.getElementById('gal-edit-id').value;
             const files = Array.from(document.getElementById('gal-files').files);
-            if (!files.length) return;
 
-            btn.innerText = `Mengunggah ${files.length} foto...`;
+            if (!editId && !files.length) return;
+
+            btn.innerText = files.length ? `Mengunggah ${files.length} foto...` : 'Menyimpan perubahan...';
             btn.disabled = true;
 
             try {
                 const title = document.getElementById('gal-title').value.trim();
-                const photos = [];
+                const basePhotos = editId ? [...editingAlbumPhotos] : [];
+                const startIndex = basePhotos.length;
+
                 for (let i = 0; i < files.length; i++) {
                     const url = await uploadAsset(files[i], 'gallery');
-                    photos.push({ url, caption: `${title} #${i + 1}` });
+                    basePhotos.push({ url, caption: `${title} #${startIndex + i + 1}` });
                 }
 
-                const { error } = await supabaseClient.from('gallery_albums').insert([{
+                if (basePhotos.length === 0) {
+                    throw new Error('Album minimal harus memiliki 1 foto.');
+                }
+
+                const payload = {
                     title,
                     category: document.getElementById('gal-cat').value.trim(),
                     year: document.getElementById('gal-year').value.trim() || null,
                     description: document.getElementById('gal-desc').value.trim() || null,
-                    photos
-                }]);
-                if (error) throw error;
+                    photos: basePhotos
+                };
 
-                e.target.reset();
+                if (editId) {
+                    const { data, error } = await supabaseClient.from('gallery_albums').update(payload).eq('id', editId).select();
+                    if (error) throw error;
+                    if (!data || data.length === 0) throw new Error('Update ditolak oleh RLS Policy Supabase.');
+                } else {
+                    const { error } = await supabaseClient.from('gallery_albums').insert([payload]);
+                    if (error) throw error;
+                }
+
+                resetGalleryForm();
                 localStorage.removeItem('mz_portfolio_cache_v3');
-                showToast('Album berhasil dipublikasikan!');
+                showToast('Album berhasil disimpan!');
                 loadAllData();
             } catch (err) {
-                alert('Gagal membuat album: ' + err.message);
+                alert('Gagal menyimpan album: ' + err.message);
             } finally {
                 btn.innerText = 'Unggah & Publikasikan Album';
                 btn.disabled = false;
             }
         };
 
-        // 8. Inquiries Inbox
+        // 8. Inquiries Inbox (XSS Escaped)
         function renderInquiriesAdmin(list) {
             const deskBadge = document.getElementById('badge-inq-count-desk');
             if (deskBadge) deskBadge.innerText = list.length;
@@ -1445,18 +1799,18 @@
                 <div class="studio-card rounded-[24px] p-5 sm:p-6 space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <div class="flex flex-wrap items-center gap-2">
-                            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-[#059669] text-[11px] font-bold">${inq.inquiry_type}</span>
-                            ${inq.service_ref ? `<span class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-[#D97706] text-[11px] font-bold">${inq.service_ref}</span>` : ''}
+                            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-[#059669] text-[11px] font-bold">${escapeHTML(inq.inquiry_type)}</span>
+                            ${inq.service_ref ? `<span class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-[#D97706] text-[11px] font-bold">${escapeHTML(inq.service_ref)}</span>` : ''}
                         </div>
                         <span class="text-[11px]" style="color: var(--text-muted);">${new Date(inq.created_at).toLocaleString('id-ID')}</span>
                     </div>
                     <div>
-                        <h4 class="font-bold text-base break-words">${inq.sender_name} <span class="text-xs font-normal opacity-70">(${inq.sender_contact})</span></h4>
-                        ${inq.budget_timeline ? `<p class="text-xs font-semibold text-[#D97706] mt-0.5">Budget/Target: ${inq.budget_timeline}</p>` : ''}
-                        <p class="text-sm mt-2 leading-relaxed p-3.5 rounded-2xl break-words" style="background: var(--surface-elevated); color: var(--text-secondary);">${inq.message}</p>
+                        <h4 class="font-bold text-base break-words">${escapeHTML(inq.sender_name)} <span class="text-xs font-normal opacity-70">(${escapeHTML(inq.sender_contact)})</span></h4>
+                        ${inq.budget_timeline ? `<p class="text-xs font-semibold text-[#D97706] mt-0.5">Budget/Target: ${escapeHTML(inq.budget_timeline)}</p>` : ''}
+                        <p class="text-sm mt-2 leading-relaxed p-3.5 rounded-2xl break-words whitespace-pre-line" style="background: var(--surface-elevated); color: var(--text-secondary);">${escapeHTML(inq.message)}</p>
                     </div>
                     <div class="flex justify-end gap-2 pt-1">
-                        <button type="button" onclick="deleteRow('inquiries', ${inq.id})" class="px-3.5 py-1.5 rounded-full bg-red-500/12 text-red-600 text-xs font-bold">Hapus Pesan</button>
+                        <button type="button" onclick="deleteRow('inquiries', '${escapeHTML(inq.id)}')" class="px-3.5 py-1.5 rounded-full bg-red-500/12 text-red-600 text-xs font-bold">Hapus Pesan</button>
                     </div>
                 </div>
             `).join('');
@@ -1465,10 +1819,30 @@
         // Generic Delete Row
         window.deleteRow = async function(table, id) {
             if (!confirm('Hapus item ini secara permanen?')) return;
-            const { error } = await supabaseClient.from(table).delete().eq('id', id);
-            if (error) return alert(error.message);
+
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) {
+                alert('Sesi admin telah berakhir. Silakan login kembali.');
+                checkSession();
+                return;
+            }
+
+            const { data, error } = await supabaseClient
+                .from(table)
+                .delete()
+                .eq('id', id)
+                .select();
+
+            if (error) {
+                return alert('Gagal menghapus: ' + error.message);
+            }
+
+            if (!data || data.length === 0) {
+                return alert(`Data pada tabel "${table}" gagal terhapus di database. Pastikan ekspresi USING pada policy DELETE di Supabase bernilai true.`);
+            }
+
             localStorage.removeItem('mz_portfolio_cache_v3');
-            showToast('Item dihapus');
+            showToast('Item dihapus permanen');
             loadAllData();
         };
 
