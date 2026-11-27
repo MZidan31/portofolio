@@ -38,42 +38,50 @@
         }
     </script>
 
-    <!-- Google Fonts (Plus Jakarta Sans & Inter) & Boxicons -->
+    <!-- Google Fonts, Boxicons & Cropper.js (Fitur Crop Foto Utama) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 
     <style>
-        /* ==================== FENG SHUI BAZI PALETTE (WOOD #10B981 & FIRE #D97706) ==================== */
+        /* ==================== LANDING-MATCHED EXECUTIVE MINT & DEEP FOREST PALETTE ==================== */
         :root {
-            --bg-canvas: #F6F5F0;
-            --surface-nav: rgba(255, 255, 255, 0.97);
+            --bg-canvas: #F7F8F6;
+            --bg-ambient: radial-gradient(circle at 50% -10%, rgba(16, 185, 129, 0.14), rgba(245, 158, 11, 0.05) 45%, transparent 75%);
+            --surface-nav: rgba(255, 255, 255, 0.94);
             --surface-solid: #FFFFFF;
-            --surface-elevated: #EFECE6;
-            --text-primary: #18181B;
-            --text-secondary: #52525B;
-            --text-muted: #71717A;
-            --border-hairline: rgba(24, 24, 27, 0.08);
+            --surface-elevated: #F1F3EF;
+            --surface-forest: linear-gradient(155deg, #0B2518 0%, #07170F 100%);
+            --text-primary: #0F1713;
+            --text-secondary: #4B5550;
+            --text-muted: #737E78;
+            --border-hairline: rgba(15, 23, 19, 0.08);
             --accent-wood: #10B981;
             --accent-wood-dark: #059669;
-            --accent-fire: #D97706;
-            --card-shadow: 0 6px 22px -6px rgba(24, 24, 27, 0.06);
+            --accent-mint-soft: #D1FAE5;
+            --accent-fire: #F59E0B;
+            --card-shadow: 0 10px 30px -10px rgba(11, 37, 24, 0.07);
         }
 
         [data-theme="dark"] {
-            --bg-canvas: #09090B;
-            --surface-nav: rgba(20, 20, 24, 0.97);
-            --surface-solid: #131317;
-            --surface-elevated: #1C1C22;
-            --text-primary: #F4F4F5;
-            --text-secondary: #A1A1AA;
-            --text-muted: #71717A;
+            --bg-canvas: #07110C;
+            --bg-ambient: radial-gradient(circle at 50% -10%, rgba(16, 185, 129, 0.16), rgba(245, 158, 11, 0.04) 45%, transparent 75%);
+            --surface-nav: rgba(13, 27, 20, 0.94);
+            --surface-solid: #0E1D15;
+            --surface-elevated: #15291E;
+            --surface-forest: linear-gradient(155deg, #113523 0%, #091C13 100%);
+            --text-primary: #F2F6F4;
+            --text-secondary: #9FB0A7;
+            --text-muted: #6C7D74;
             --border-hairline: rgba(255, 255, 255, 0.09);
             --accent-wood: #34D399;
             --accent-wood-dark: #10B981;
+            --accent-mint-soft: rgba(16, 185, 129, 0.16);
             --accent-fire: #FBBF24;
-            --card-shadow: 0 10px 28px -8px rgba(0, 0, 0, 0.52);
+            --card-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.6);
         }
 
         *, *::before, *::after {
@@ -88,29 +96,85 @@
         body {
             font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
             background-color: var(--bg-canvas);
+            background-image: var(--bg-ambient);
+            background-attachment: fixed;
             color: var(--text-primary);
             -webkit-font-smoothing: antialiased;
         }
 
-        @keyframes panelReveal {
-            from {
+        /* ==================== ANTI-MAINSTREAM MOTION SYSTEM ==================== */
+        /* 1. Blur-Unfold & Perspective Entrance (Bukan sekadar geser atas/bawah) */
+        @keyframes blurUnfold {
+            0% {
                 opacity: 0;
-                transform: translate3d(0, 6px, 0);
+                filter: blur(8px);
+                transform: perspective(900px) rotateX(4deg) scale(0.985);
             }
-            to {
+            100% {
                 opacity: 1;
-                transform: translate3d(0, 0, 0);
+                filter: blur(0);
+                transform: perspective(900px) rotateX(0deg) scale(1);
             }
         }
         .panel-animate {
-            animation: panelReveal 0.22s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: blurUnfold 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* 2. Organic Levitation & Micro-Drift untuk Balloon Preview */
+        @keyframes organicFloat {
+            0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+            33% { transform: translate3d(3px, -5px, 0) rotate(0.8deg); }
+            66% { transform: translate3d(-3px, -2px, 0) rotate(-0.8deg); }
+        }
+        .balloon-float {
+            animation: organicFloat 5.5s ease-in-out infinite;
+        }
+        .balloon-float:nth-child(2n) { animation-delay: -1.8s; }
+        .balloon-float:nth-child(3n) { animation-delay: -3.4s; }
+
+        /* 3. Cursor Spotlight Radial Glow Card */
+        .spotlight-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .spotlight-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(
+                420px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(16, 185, 129, 0.13),
+                transparent 65%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 4. 3D Magnetic Tilt & Tactile Spring */
+        .magnetic-card {
+            transform-style: preserve-3d;
+            transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* 5. Kinetic Watermark Marquee / Drift */
+        @keyframes watermarkBreath {
+            0%, 100% { letter-spacing: 0.04em; transform: scale(1); }
+            50% { letter-spacing: 0.09em; transform: scale(1.02); }
+        }
+        .kinetic-watermark {
+            animation: watermarkBreath 8s ease-in-out infinite;
         }
 
         button, a {
-            transition: transform 0.14s ease, background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
+            transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
         }
         button:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
 
         /* Desktop Floating Sidebar */
@@ -127,9 +191,9 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 9px 13px;
+            padding: 8.5px 13px;
             border-radius: 14px;
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 600;
             letter-spacing: -0.01em;
             color: var(--text-secondary);
@@ -137,15 +201,14 @@
         .side-nav-item:hover {
             background: var(--surface-elevated);
             color: var(--text-primary);
-            transform: translateX(2px);
+            transform: translateX(3px);
         }
         .side-nav-item.active {
-            background: rgba(16, 185, 129, 0.13);
+            background: var(--accent-mint-soft);
             color: var(--accent-wood-dark);
             font-weight: 700;
         }
         [data-theme="dark"] .side-nav-item.active {
-            background: rgba(52, 211, 153, 0.14);
             color: var(--accent-wood);
         }
 
@@ -153,6 +216,7 @@
         .mobile-top-nav {
             top: max(0.75rem, calc(env(safe-area-inset-top) + 0.35rem));
             background: var(--surface-nav);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border-hairline);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
         }
@@ -161,6 +225,7 @@
         .mobile-bottom-dock {
             bottom: max(0.75rem, env(safe-area-inset-bottom));
             background: var(--surface-nav);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border-hairline);
             box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
         }
@@ -169,10 +234,16 @@
             background: var(--surface-solid);
             border: 1px solid var(--border-hairline);
             box-shadow: var(--card-shadow);
-            transition: transform 0.18s ease, border-color 0.18s ease;
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
         .studio-card:hover {
-            border-color: rgba(16, 185, 129, 0.28);
+            border-color: rgba(16, 185, 129, 0.35);
+        }
+
+        .forest-card {
+            background: var(--surface-forest);
+            color: #F4F7F5;
+            border: 1px solid rgba(52, 211, 153, 0.22);
         }
 
         .studio-input {
@@ -191,6 +262,12 @@
             background: var(--surface-solid);
             border-color: var(--accent-wood);
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.16);
+        }
+
+        /* Cropper.js Custom Rounded Framing */
+        .cropper-view-box,
+        .cropper-face {
+            border-radius: 16px;
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -216,10 +293,52 @@
 <body class="antialiased selection:bg-[#10B981] selection:text-white pb-24 lg:pb-10">
 
     <!-- ==================== Toast Notification ==================== -->
-    <div id="ios-toast" class="fixed left-1/2 z-[200] opacity-0 pointer-events-none max-w-[90vw]">
+    <div id="ios-toast" class="fixed left-1/2 z-[220] opacity-0 pointer-events-none max-w-[90vw]">
         <div class="rounded-full px-5 py-2.5 flex items-center gap-2.5 shadow-xl border" style="background: var(--surface-nav); border-color: var(--border-hairline);">
             <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-[#10B981] flex-shrink-0 flex items-center justify-center text-sm"><i class='bx bx-check'></i></span>
             <span id="toast-msg" class="text-xs font-semibold truncate">Saved</span>
+        </div>
+    </div>
+
+    <!-- ==================== INTERACTIVE PHOTO CROPPER MODAL ==================== -->
+    <div id="photo-crop-modal" class="hidden fixed inset-0 z-[210] bg-black/75 backdrop-blur-sm flex items-center justify-center p-4" onclick="closePhotoCropper()">
+        <div class="w-full max-w-lg rounded-[28px] p-5 sm:p-6 border shadow-2xl space-y-4 panel-animate" style="background: var(--surface-solid); border-color: var(--border-hairline);" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--border-hairline);">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-9 h-9 rounded-2xl bg-emerald-500/15 text-[#10B981] flex items-center justify-center text-xl"><i class='bx bx-crop'></i></span>
+                    <div>
+                        <h3 class="font-extrabold text-sm sm:text-base">Sesuaikan &amp; Crop Foto Utama</h3>
+                        <p class="text-[11px]" style="color: var(--text-muted);">Geser posisi, zoom, atau atur rasio agar pas di bingkai Hero</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closePhotoCropper()" class="w-8 h-8 rounded-full flex items-center justify-center text-lg" style="background: var(--surface-elevated);">&times;</button>
+            </div>
+
+            <!-- Area Kanvas Cropper -->
+            <div class="w-full h-[300px] sm:h-[340px] rounded-2xl overflow-hidden bg-zinc-900 flex items-center justify-center">
+                <img id="cropper-source-img" src="" alt="Crop Preview" class="max-w-full block">
+            </div>
+
+            <!-- Kontrol Rasio & Zoom -->
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                <div class="flex items-center gap-1.5">
+                    <button type="button" onclick="setCropRatio(0.82)" class="px-3 py-1.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-[#059669] dark:text-[#34D399]">Hero Portrait (4:5)</button>
+                    <button type="button" onclick="setCropRatio(1)" class="px-3 py-1.5 rounded-full text-[11px] font-bold border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">1:1</button>
+                    <button type="button" onclick="setCropRatio(NaN)" class="px-3 py-1.5 rounded-full text-[11px] font-bold border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">Bebas</button>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <button type="button" onclick="zoomCropper(0.1)" title="Zoom In" class="w-8 h-8 rounded-full border flex items-center justify-center text-base" style="background: var(--surface-elevated); border-color: var(--border-hairline);"><i class='bx bx-zoom-in'></i></button>
+                    <button type="button" onclick="zoomCropper(-0.1)" title="Zoom Out" class="w-8 h-8 rounded-full border flex items-center justify-center text-base" style="background: var(--surface-elevated); border-color: var(--border-hairline);"><i class='bx bx-zoom-out'></i></button>
+                    <button type="button" onclick="rotateCropper(90)" title="Putar 90°" class="w-8 h-8 rounded-full border flex items-center justify-center text-base" style="background: var(--surface-elevated); border-color: var(--border-hairline);"><i class='bx bx-rotate-right'></i></button>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2 pt-2 border-t" style="border-color: var(--border-hairline);">
+                <button type="button" onclick="closePhotoCropper()" class="px-4 py-2.5 rounded-full border text-xs font-bold" style="background: var(--surface-elevated); border-color: var(--border-hairline);">Batal</button>
+                <button type="button" onclick="applyCroppedPhoto()" class="px-6 py-2.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                    <i class='bx bx-check text-base'></i> Terapkan Hasil Crop
+                </button>
+            </div>
         </div>
     </div>
 
@@ -250,13 +369,21 @@
         <div class="w-full max-w-md rounded-t-[28px] p-5 border-t shadow-2xl space-y-3 panel-animate" style="background: var(--surface-solid); border-color: var(--border-hairline); padding-bottom: max(1.5rem, env(safe-area-inset-bottom));" onclick="event.stopPropagation()">
             <div class="w-10 h-1 rounded-full mx-auto mb-2 opacity-30" style="background: var(--text-muted);"></div>
             <div class="flex items-center justify-between px-1">
-                <span class="text-xs font-extrabold uppercase tracking-wider" style="color: var(--text-muted);">Menu Kelola Lainnya</span>
+                <span class="text-xs font-extrabold uppercase tracking-wider" style="color: var(--text-muted);">Menu Kelola Lengkap</span>
                 <button type="button" onclick="closeMobileDrawer()" class="w-7 h-7 rounded-full flex items-center justify-center text-base" style="background: var(--surface-elevated);">&times;</button>
             </div>
             <div class="grid grid-cols-2 gap-2.5 pt-1">
+                <button type="button" onclick="switchTab('bento'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                    <i class='bx bx-grid-small text-xl text-[#10B981]'></i>
+                    <span class="text-xs font-bold">Bento &amp; Stats</span>
+                </button>
+                <button type="button" onclick="switchTab('faq'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                    <i class='bx bx-help-circle text-xl text-[#D97706]'></i>
+                    <span class="text-xs font-bold">Q&amp;A / FAQ</span>
+                </button>
                 <button type="button" onclick="switchTab('statuses'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                     <i class='bx bx-pulse text-xl text-[#10B981]'></i>
-                    <span class="text-xs font-bold">Status Pills</span>
+                    <span class="text-xs font-bold">Balloons &amp; Pills</span>
                 </button>
                 <button type="button" onclick="switchTab('arsenal'); closeMobileDrawer();" class="p-3.5 rounded-2xl border text-left flex items-center gap-2.5 hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                     <i class='bx bx-chip text-xl text-[#D97706]'></i>
@@ -275,7 +402,7 @@
     </div>
 
     <!-- ==================== A. WEB DESKTOP FLOATING SIDEBAR (lg:flex) ==================== -->
-    <aside id="desktop-sidebar" class="hidden lg:flex fixed left-5 w-[256px] z-40 desktop-sidebar rounded-[26px] p-4 flex-col justify-between">
+    <aside id="desktop-sidebar" class="hidden lg:flex fixed left-5 w-[262px] z-40 desktop-sidebar rounded-[26px] p-4 flex-col justify-between">
         <div class="flex flex-col min-h-0">
             <div class="px-3 pt-1.5 pb-3.5 mb-2 border-b flex items-center justify-between" style="border-color: var(--border-hairline);">
                 <div class="flex items-center gap-2.5">
@@ -285,7 +412,7 @@
                     </span>
                     <div>
                         <h1 class="text-sm font-extrabold tracking-tight leading-none">MZ STUDIO</h1>
-                        <p id="session-status-label" class="text-[11px] font-medium mt-1 truncate max-w-[140px]" style="color: var(--text-muted);">CMS Workspace</p>
+                        <p id="session-status-label" class="text-[11px] font-medium mt-1 truncate max-w-[145px]" style="color: var(--text-muted);">CMS Workspace</p>
                     </div>
                 </div>
                 <button type="button" onclick="toggleSpatialTheme()" title="Ganti Tema Terang / Gelap" class="w-8 h-8 rounded-full border flex items-center justify-center text-sm hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
@@ -295,19 +422,26 @@
 
             <nav id="desktop-nav-links" class="hidden space-y-1 overflow-y-auto no-scrollbar pr-0.5 py-1">
                 <button type="button" onclick="switchTab('profile')" data-tab="profile" class="cms-tab side-nav-item active">
-                    <span class="flex items-center gap-2.5"><i class='bx bx-user-circle text-lg'></i> Profile &amp; Hero</span>
+                    <span class="flex items-center gap-2.5"><i class='bx bx-user-circle text-lg'></i> Hero, Foto &amp; Watermark</span>
                 </button>
                 <button type="button" onclick="switchTab('statuses')" data-tab="statuses" class="cms-tab side-nav-item">
-                    <span class="flex items-center gap-2.5"><i class='bx bx-pulse text-lg'></i> Status Pills</span>
+                    <span class="flex items-center gap-2.5"><i class='bx bx-message-rounded-dots text-lg'></i> Floating Balloons</span>
                     <span id="count-statuses" class="text-[11px] opacity-60 font-bold">0</span>
+                </button>
+                <button type="button" onclick="switchTab('bento')" data-tab="bento" class="cms-tab side-nav-item">
+                    <span class="flex items-center gap-2.5"><i class='bx bx-grid-alt text-lg'></i> Bento Stats &amp; Pillars</span>
+                </button>
+                <button type="button" onclick="switchTab('services')" data-tab="services" class="cms-tab side-nav-item">
+                    <span class="flex items-center gap-2.5"><i class='bx bx-briefcase-alt-2 text-lg'></i> Services &amp; Models</span>
+                    <span id="count-services" class="text-[11px] opacity-60 font-bold">0</span>
+                </button>
+                <button type="button" onclick="switchTab('faq')" data-tab="faq" class="cms-tab side-nav-item">
+                    <span class="flex items-center gap-2.5"><i class='bx bx-help-circle text-lg'></i> Q&amp;A Accordion</span>
+                    <span id="count-faq" class="text-[11px] opacity-60 font-bold">0</span>
                 </button>
                 <button type="button" onclick="switchTab('projects')" data-tab="projects" class="cms-tab side-nav-item">
                     <span class="flex items-center gap-2.5"><i class='bx bx-folder-open text-lg'></i> Case Studies</span>
                     <span id="count-projects" class="text-[11px] opacity-60 font-bold">0</span>
-                </button>
-                <button type="button" onclick="switchTab('services')" data-tab="services" class="cms-tab side-nav-item">
-                    <span class="flex items-center gap-2.5"><i class='bx bx-briefcase-alt-2 text-lg'></i> Services</span>
-                    <span id="count-services" class="text-[11px] opacity-60 font-bold">0</span>
                 </button>
                 <button type="button" onclick="switchTab('arsenal')" data-tab="arsenal" class="cms-tab side-nav-item">
                     <span class="flex items-center gap-2.5"><i class='bx bx-chip text-lg'></i> Tech Arsenal</span>
@@ -386,11 +520,11 @@
         <div class="grid grid-cols-5 items-center text-center">
             <button type="button" onclick="switchTab('profile')" data-dock="profile" class="dock-btn flex flex-col items-center justify-center py-0.5 text-[10px] font-bold text-[#10B981]">
                 <i class='bx bx-user-circle text-xl mb-0.5'></i>
-                <span>Profile</span>
+                <span>Hero</span>
             </button>
-            <button type="button" onclick="switchTab('projects')" data-dock="projects" class="dock-btn flex flex-col items-center justify-center py-0.5 text-[10px] font-semibold opacity-75">
-                <i class='bx bx-folder-open text-xl mb-0.5'></i>
-                <span>Projects</span>
+            <button type="button" onclick="switchTab('bento')" data-dock="bento" class="dock-btn flex flex-col items-center justify-center py-0.5 text-[10px] font-semibold opacity-75">
+                <i class='bx bx-grid-alt text-xl mb-0.5'></i>
+                <span>Bento</span>
             </button>
             <button type="button" onclick="switchTab('services')" data-dock="services" class="dock-btn flex flex-col items-center justify-center py-0.5 text-[10px] font-semibold opacity-75">
                 <i class='bx bx-briefcase-alt-2 text-xl mb-0.5'></i>
@@ -402,20 +536,20 @@
                 <span id="dock-inq-dot" class="hidden absolute top-0.5 right-4 w-2 h-2 rounded-full bg-[#D97706]"></span>
             </button>
             <button type="button" onclick="openMobileDrawer()" data-dock="more" class="dock-btn flex flex-col items-center justify-center py-0.5 text-[10px] font-semibold opacity-75">
-                <i class='bx bx-grid-alt text-xl mb-0.5'></i>
+                <i class='bx bx-grid-small text-xl mb-0.5'></i>
                 <span>Lainnya</span>
             </button>
         </div>
     </nav>
 
     <!-- ==================== CONTENT AREA ==================== -->
-    <div class="lg:pl-[292px] lg:pr-6 transition-all">
+    <div class="lg:pl-[298px] lg:pr-6 transition-all">
 
         <!-- ==================== 1. AUTHENTICATION VIEW ==================== -->
         <section id="auth-view" class="max-w-md mx-auto px-4 pt-28 lg:pt-24 panel-animate">
-            <div class="studio-card rounded-[28px] p-7 sm:p-8 space-y-5">
+            <div class="studio-card spotlight-card magnetic-card rounded-[28px] p-7 sm:p-8 space-y-5">
                 <div class="space-y-1.5 text-center">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-[11px] font-bold uppercase tracking-wider">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/12 text-[#059669] dark:text-[#34D399] text-[11px] font-bold uppercase tracking-wider">
                         <i class='bx bxs-lock-alt'></i> Restricted Access
                     </span>
                     <h2 class="text-2xl font-extrabold tracking-tight pt-1">Studio Sign In</h2>
@@ -443,7 +577,7 @@
         <main id="dashboard-view" class="hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-2 pt-18 lg:pt-5 space-y-4">
 
             <!-- ==================== COMPACT ENGAGEMENT TELEMETRY STRIP ==================== -->
-            <section class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 space-y-3 panel-animate">
+            <section class="studio-card spotlight-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 space-y-3 panel-animate">
                 <div class="flex items-center justify-between gap-2">
                     <div class="flex items-center gap-2 min-w-0">
                         <span class="w-2 h-2 rounded-full bg-[#10B981] flex-shrink-0"></span>
@@ -480,40 +614,56 @@
                     </div>
                 </div>
             </section>
-
-            <!-- ==================== TAB 1: PROFILE & HERO ==================== -->
-            <section id="panel-profile" class="cms-panel panel-animate studio-card rounded-[24px] sm:rounded-[26px] p-5 sm:p-7 space-y-5">
-                <div class="border-b pb-3.5" style="border-color: var(--border-hairline);">
-                    <h2 class="text-lg sm:text-xl font-extrabold tracking-tight">Hero Identity &amp; Contact Settings</h2>
-                    <p class="text-xs mt-0.5" style="color: var(--text-secondary);">Kelola foto profil, judul utama, focus domain HUD, tautan CV, dan kontak WhatsApp/Email.</p>
+            <!-- ==================== TAB 1: PROFILE, HERO, PHOTO CROPPER & WATERMARK ==================== -->
+            <section id="panel-profile" class="cms-panel panel-animate studio-card spotlight-card rounded-[24px] sm:rounded-[26px] p-5 sm:p-7 space-y-5">
+                <div class="border-b pb-3.5 flex flex-wrap items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                    <div>
+                        <h2 class="text-lg sm:text-xl font-extrabold tracking-tight">Hero Identity, Watermark &amp; Photo Crop</h2>
+                        <p class="text-xs mt-0.5" style="color: var(--text-secondary);">Edit teks raksasa belakang (ANALYST), crop foto utama, dan kelola profil serta kontak.</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full bg-emerald-500/12 text-[#059669] dark:text-[#34D399] text-[11px] font-bold">SS 1 Sync</span>
                 </div>
 
-                <form onsubmit="saveProfile(event)" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="space-y-1.5">
-                            <label class="block text-xs font-bold">Foto Profil (URL atau Upload Baru)</label>
-                            <input type="text" id="prof-photo-url" placeholder="https://..." class="studio-input">
-                            <input type="file" id="prof-photo-file" accept="image/*" class="w-full text-xs file:mr-3 file:py-1.5 file:px-3.5 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-500/15 file:text-[#059669] cursor-pointer">
+                <form onsubmit="saveProfile(event)" class="space-y-5">
+                    <!-- Preview & Crop Foto Utama -->
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 rounded-2xl border items-center" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <div class="md:col-span-4 flex flex-col items-center gap-2.5">
+                            <div class="relative w-36 h-44 rounded-t-full overflow-hidden border-2 border-[#10B981]/50 bg-zinc-200 shadow-md">
+                                <img id="prof-photo-preview" src="" alt="Hero Preview" class="w-full h-full object-cover">
+                            </div>
+                            <button type="button" onclick="openCropperFromCurrentUrl()" class="px-3.5 py-1.5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-[11px] font-bold flex items-center gap-1.5 shadow-sm">
+                                <i class='bx bx-crop text-sm'></i> Crop / Sesuaikan Foto
+                            </button>
                         </div>
-                        <div class="space-y-1.5">
-                            <label class="block text-xs font-bold">Dokumen CV / Resume (URL PDF atau Upload Baru)</label>
-                            <input type="text" id="prof-cv-url" placeholder="https://..." class="studio-input">
-                            <input type="file" id="prof-cv-file" accept=".pdf,image/*" class="w-full text-xs file:mr-3 file:py-1.5 file:px-3.5 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-500/15 file:text-[#D97706] cursor-pointer">
+
+                        <div class="md:col-span-8 space-y-3">
+                            <div>
+                                <label class="block text-xs font-bold mb-1">Foto Profil Utama (URL atau Upload File Baru)</label>
+                                <input type="text" id="prof-photo-url" oninput="syncPhotoPreview(this.value)" placeholder="https://..." class="studio-input mb-2">
+                                <input type="file" id="prof-photo-file" accept="image/*" onchange="handlePhotoFileSelect(event)" class="w-full text-xs file:mr-3 file:py-1.5 file:px-3.5 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-500/15 file:text-[#059669] cursor-pointer">
+                                <p class="text-[11px] mt-1" style="color: var(--text-muted);">Pilih gambar baru untuk otomatis membuka jendela Crop &amp; Zoom.</p>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold mb-1">Dokumen CV / Resume (URL PDF atau Upload Baru)</label>
+                                <input type="text" id="prof-cv-url" placeholder="https://..." class="studio-input mb-1.5">
+                                <input type="file" id="prof-cv-file" accept=".pdf,image/*" class="w-full text-xs file:mr-3 file:py-1.5 file:px-3.5 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-500/15 file:text-[#D97706] cursor-pointer">
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Giant Background Watermark & Hero Titles -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+                        <div>
+                            <label class="block text-xs font-bold mb-1">Teks Raksasa Belakang (Watermark)</label>
+                            <input type="text" id="prof-watermark" placeholder="ANALYST" class="studio-input font-extrabold uppercase tracking-wider">
+                        </div>
                         <div>
                             <label class="block text-xs font-bold mb-1">Top Badge Text</label>
                             <input type="text" id="prof-badge" placeholder="Cth: DATA & BUSINESS ANALYST" class="studio-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1">Focus Domain (Card Active Profile)</label>
+                            <label class="block text-xs font-bold mb-1">Focus Domain (HUD Active Profile)</label>
                             <input type="text" id="prof-focus-domain" placeholder="Cth: Data & IT Solutions" class="studio-input">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold mb-1">Email Kontak</label>
-                            <input type="email" id="prof-email" placeholder="jidan1307@gmail.com" class="studio-input">
                         </div>
                     </div>
 
@@ -527,9 +677,13 @@
                         <textarea id="prof-summary" rows="2" class="studio-input"></textarea>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-2 border-t" style="border-color: var(--border-hairline);">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-2 border-t" style="border-color: var(--border-hairline);">
                         <div>
-                            <label class="block text-xs font-bold mb-1">WhatsApp Link (Format https://wa.me/628...)</label>
+                            <label class="block text-xs font-bold mb-1">Email Kontak</label>
+                            <input type="email" id="prof-email" placeholder="jidan1307@gmail.com" class="studio-input">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold mb-1">WhatsApp Link (https://wa.me/628...)</label>
                             <input type="text" id="prof-wa" placeholder="https://wa.me/62812..." class="studio-input">
                         </div>
                         <div>
@@ -551,52 +705,52 @@
 
                     <div class="pt-1">
                         <button type="submit" id="btn-save-profile" class="w-full sm:w-auto px-7 py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold shadow-sm">
-                            Simpan Perubahan Profile
+                            Simpan Perubahan Hero &amp; Profile
                         </button>
                     </div>
                 </form>
             </section>
 
-            <!-- ==================== TAB 2: STATUS PILLS ==================== -->
+            <!-- ==================== TAB 2: FLOATING BALLOONS & STATUS PILLS (SS 1) ==================== -->
             <section id="panel-statuses" class="hidden cms-panel panel-animate space-y-4">
-                <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
+                <div class="studio-card spotlight-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
                     <div>
-                        <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Status Pills</h2>
-                        <p class="text-xs" style="color: var(--text-secondary);">Label status aktif di bagian Hero.</p>
+                        <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Floating Hero Balloons &amp; Pills</h2>
+                        <p class="text-xs" style="color: var(--text-secondary);">Edit balon melayang di sekitar foto Hero (Data Analytics, AI-Assisted Prototypes, Business Operations, dll.).</p>
                     </div>
                     <button type="button" onclick="openCmsDrawer('st', true)" class="px-4 py-2 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold flex-shrink-0">
-                        + Tambah Status
+                        + Tambah Balloon
                     </button>
                 </div>
 
                 <!-- Collapsible Form Drawer -->
                 <div id="st-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
                     <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
-                        <h3 id="st-form-heading" class="text-base font-extrabold tracking-tight">Tambah Status Pill</h3>
+                        <h3 id="st-form-heading" class="text-base font-extrabold tracking-tight">Tambah Floating Balloon</h3>
                         <button type="button" onclick="resetStatusForm()" class="px-3 py-1 rounded-full text-xs font-bold text-[#D97706] bg-amber-500/12">Tutup</button>
                     </div>
 
                     <form onsubmit="saveStatus(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
                         <input type="hidden" id="st-edit-id">
                         <div>
-                            <label class="block text-xs font-bold mb-1">Tipe Ikon</label>
+                            <label class="block text-xs font-bold mb-1">Tipe Ikon &amp; Warna Titik</label>
                             <select id="st-type" class="studio-input">
-                                <option value="open">Open / Available (Dot)</option>
-                                <option value="working">Working / Role (Briefcase)</option>
-                                <option value="freelance">Freelance / Project (Laptop)</option>
-                                <option value="student">Academic / Research (Grad)</option>
+                                <option value="open">Emerald Dot (Data Analytics)</option>
+                                <option value="freelance">Amber Dot (AI-Assisted Prototypes)</option>
+                                <option value="working">Chart Icon (Business Operations)</option>
+                                <option value="student">Academic / Research</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1">Judul Status *</label>
-                            <input type="text" id="st-title" required placeholder="Cth: Open to Work" class="studio-input">
+                            <label class="block text-xs font-bold mb-1">Teks Balloon *</label>
+                            <input type="text" id="st-title" required placeholder="Cth: Data Analytics" class="studio-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold mb-1">Instansi / Keterangan</label>
-                            <input type="text" id="st-org" placeholder="Cth: Data & IT Roles" class="studio-input">
+                            <label class="block text-xs font-bold mb-1">Posisi / Sub-label (Opsional)</label>
+                            <input type="text" id="st-org" placeholder="Cth: Kiri Atas / Kanan Atas" class="studio-input">
                         </div>
                         <button type="submit" id="btn-save-st" class="w-full py-2.5 px-5 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
-                            Simpan Status
+                            Simpan Balloon
                         </button>
                     </form>
                 </div>
@@ -604,82 +758,204 @@
                 <div id="statuses-list" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
             </section>
 
-            <!-- ==================== TAB 3: CASE STUDIES / PROJECTS ==================== -->
-            <section id="panel-projects" class="hidden cms-panel panel-animate space-y-4">
-                <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
+            <!-- ==================== TAB 3: BENTO STATS & ANALYTICAL PILLARS (SS 2) ==================== -->
+            <section id="panel-bento" class="hidden cms-panel panel-animate studio-card spotlight-card rounded-[24px] sm:rounded-[26px] p-5 sm:p-7 space-y-5">
+                <div class="border-b pb-3.5 flex flex-wrap items-center justify-between gap-2" style="border-color: var(--border-hairline);">
                     <div>
-                        <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Featured Case Studies</h2>
-                        <p class="text-xs" style="color: var(--text-secondary);">Kelola studi kasus &amp; tautan demo proyek.</p>
+                        <h2 class="text-lg sm:text-xl font-extrabold tracking-tight">Bento Metrics &amp; Core Pillars</h2>
+                        <p class="text-xs mt-0.5" style="color: var(--text-secondary);">Kelola seluruh angka dan kartu pada section kedua (3.80 GPA, 3+ Case Studies, 99.7% Accuracy, dan Pillar Tags).</p>
                     </div>
-                    <button type="button" onclick="openCmsDrawer('proj', true)" class="px-4 py-2 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold flex-shrink-0">
-                        + Tambah Proyek
-                    </button>
+                    <span class="px-3 py-1 rounded-full bg-emerald-500/12 text-[#059669] dark:text-[#34D399] text-[11px] font-bold">SS 2 Sync</span>
                 </div>
 
-                <!-- Collapsible Form Drawer -->
-                <div id="proj-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
-                    <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
-                        <h3 id="proj-form-heading" class="text-base font-extrabold tracking-tight">Tambah Studi Kasus Baru</h3>
-                        <button type="button" onclick="resetProjectForm()" class="px-3 py-1 rounded-full text-xs font-bold text-[#D97706] bg-amber-500/12">Tutup</button>
+                <form onsubmit="saveBentoConfig(event)" class="space-y-4">
+                    <!-- Baris 1: Dua Kartu Metrik Atas -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                            <span class="text-[11px] font-extrabold uppercase text-[#10B981]">Kartu Metrik Kiri Atas</span>
+                            <div class="grid grid-cols-3 gap-2.5">
+                                <div class="col-span-2">
+                                    <label class="block text-[11px] font-bold mb-1">Label Metrik</label>
+                                    <input type="text" id="bento-m1-label" placeholder="Academic Distinction GPA" class="studio-input">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold mb-1">Angka</label>
+                                    <input type="text" id="bento-m1-val" placeholder="3.80" class="studio-input font-extrabold">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                            <span class="text-[11px] font-extrabold uppercase text-[#D97706]">Kartu Metrik Kanan Atas</span>
+                            <div class="grid grid-cols-3 gap-2.5">
+                                <div class="col-span-2">
+                                    <label class="block text-[11px] font-bold mb-1">Label Metrik</label>
+                                    <input type="text" id="bento-m2-label" placeholder="Delivered Works & Case Studies" class="studio-input">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold mb-1">Angka</label>
+                                    <input type="text" id="bento-m2-val" placeholder="3+" class="studio-input font-extrabold">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <form onsubmit="saveProject(event)" class="space-y-3.5">
-                        <input type="hidden" id="proj-edit-id">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                            <div>
-                                <label class="block text-xs font-bold mb-1">Judul Proyek *</label>
-                                <input type="text" id="proj-title" required placeholder="Cth: US Airlines Sentiment Dashboard" class="studio-input">
+                    <!-- Baris 2: Kartu Highlight Akurasi & Kartu Core Pillars -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                            <span class="text-[11px] font-extrabold uppercase text-[#10B981]">Kartu Highlight Kiri Bawah</span>
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <div>
+                                    <label class="block text-[11px] font-bold mb-1">Angka Utama</label>
+                                    <input type="text" id="bento-m3-val" placeholder="99.7%" class="studio-input font-extrabold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold mb-1">Pill Rating / Badge</label>
+                                    <input type="text" id="bento-m3-badge" placeholder="3.79 / 4.00" class="studio-input">
+                                </div>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold mb-1">Cover Gambar (URL atau Upload)</label>
-                                <input type="text" id="proj-img-url" placeholder="https://..." class="studio-input mb-1.5">
-                                <input type="file" id="proj-img-file" accept="image/*" class="w-full text-xs file:mr-3 file:py-1.5 file:px-3 rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-500/15 file:text-[#059669]">
+                                <label class="block text-[11px] font-bold mb-1">Deskripsi Sub-Metrik</label>
+                                <input type="text" id="bento-m3-label" placeholder="Classification & Data Model Accuracy" class="studio-input">
                             </div>
                         </div>
 
+                        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                            <span class="text-[11px] font-extrabold uppercase text-[#D97706]">Kartu Pilar Keahlian Kanan Bawah</span>
+                            <div>
+                                <label class="block text-[11px] font-bold mb-1">Judul Kartu Pilar</label>
+                                <input type="text" id="bento-pillar-title" placeholder="Analytical Clarity, Agile Execution" class="studio-input font-bold">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold mb-1">Daftar Pills (Pisahkan dengan koma)</label>
+                                <input type="text" id="bento-pillar-pills" placeholder="Data Analytics, Business Operations, No-Code & Vibe Coding, KNIME & Excel" class="studio-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-1">
+                        <button type="submit" id="btn-save-bento" class="w-full sm:w-auto px-7 py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold shadow-sm">
+                            Simpan Perubahan Bento &amp; Stats
+                        </button>
+                    </div>
+                </form>
+            </section>
+            <!-- ==================== TAB 4: CORE SERVICES (SS 3) & ENGAGEMENT MODELS (SS 4) ==================== -->
+            <section id="panel-services" class="hidden cms-panel panel-animate space-y-5">
+
+                <!-- 4A. SS 3 & SS 4 Section Header + Spotlight Card + 2 Engagement Cards -->
+                <div class="forest-card spotlight-card rounded-[24px] sm:rounded-[26px] p-5 sm:p-7 space-y-5">
+                    <div class="border-b border-emerald-400/20 pb-3.5 flex flex-wrap items-center justify-between gap-2">
                         <div>
-                            <label class="block text-xs font-bold mb-1">Ringkasan Kartu (Deskripsi Singkat) *</label>
-                            <textarea id="proj-desc" rows="2" required placeholder="Ringkasan singkat yang muncul di kartu depan..." class="studio-input"></textarea>
+                            <h2 class="text-lg sm:text-xl font-extrabold tracking-tight text-white">Core Services Card &amp; Engagement Models</h2>
+                            <p class="text-xs text-emerald-100/75 mt-0.5">Edit section gelap "Solutions Built For Growth" (SS 3) dan dua paket kolaborasi "Project-Based" &amp; "Rapid MVP Build" (SS 4).</p>
                         </div>
+                        <span class="px-3 py-1 rounded-full bg-emerald-400/15 text-[#34D399] text-[11px] font-bold">SS 3 &amp; SS 4 Sync</span>
+                    </div>
 
-                        <div>
-                            <label class="block text-xs font-bold mb-1">Konten Lengkap Studi Kasus (Mendukung HTML / Paragraf)</label>
-                            <textarea id="proj-content" rows="4" placeholder="Jelaskan latar belakang masalah, metodologi, hasil analisis, dan tautan demo/GitHub..." class="studio-input"></textarea>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                            <div>
-                                <label class="block text-xs font-bold mb-1">Tags / Tools (Pisahkan dengan koma)</label>
-                                <input type="text" id="proj-tags" placeholder="Python, Streamlit, Pandas" class="studio-input">
+                    <form onsubmit="saveServicesShowcase(event)" class="space-y-5">
+                        <!-- SS 3: Core Services Card -->
+                        <div class="p-4 rounded-2xl bg-black/30 border border-emerald-400/20 space-y-3">
+                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#34D399] block">Bagian SS 3 — Solutions Built For Growth</span>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-emerald-100/80 mb-1">Eyebrow / Badge Atas</label>
+                                    <input type="text" id="cs-eyebrow" placeholder="Core Services" class="studio-input">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-emerald-100/80 mb-1">Judul Section Besar</label>
+                                    <input type="text" id="cs-section-title" placeholder="Solutions Built For Growth" class="studio-input">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-emerald-100/80 mb-1">Pill Badge Kartu</label>
+                                    <input type="text" id="cs-card-badge" placeholder="Custom Collaboration" class="studio-input">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-emerald-100/80 mb-1">Judul Kartu Utama</label>
+                                    <input type="text" id="cs-card-title" placeholder="Data Analytics & Rapid Web Partner." class="studio-input">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-emerald-100/80 mb-1">Tag Bawah &amp; Teks Tombol CTA</label>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <input type="text" id="cs-card-tag" placeholder="Structured & Actionable" class="studio-input">
+                                        <input type="text" id="cs-card-cta" placeholder="Start a Project" class="studio-input">
+                                    </div>
+                                </div>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold mb-1">External Link / Demo / Repo (Opsional)</label>
-                                <input type="text" id="proj-link" placeholder="https://github.com/..." class="studio-input">
+                                <label class="block text-[11px] font-bold text-emerald-100/80 mb-1">Deskripsi Kartu Utama</label>
+                                <textarea id="cs-card-desc" rows="2" placeholder="Butuh pengolahan data bisnis, laporan KPI rapi, atau prototipe web fungsional..." class="studio-input"></textarea>
                             </div>
                         </div>
 
-                        <button type="submit" id="btn-save-proj" class="w-full sm:w-auto px-7 py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
-                            Simpan Studi Kasus
+                        <!-- SS 4: Engagement Models Header & 2 Paket Cards -->
+                        <div class="p-4 rounded-2xl bg-black/30 border border-emerald-400/20 space-y-4">
+                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#FBBF24] block">Bagian SS 4 — Engagement Models (2 Paket Kolaborasi)</span>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-emerald-100/80 mb-1">Eyebrow Section</label>
+                                    <input type="text" id="em-eyebrow" placeholder="Engagement Models" class="studio-input">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-[11px] font-bold text-emerald-100/80 mb-1">Headline Section</label>
+                                    <input type="text" id="em-title" placeholder="Flexible analytical & digital support for growing teams" class="studio-input">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                <!-- Paket Kiri (Dark Card) -->
+                                <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 space-y-2.5">
+                                    <span class="text-[11px] font-bold text-[#34D399]">Paket 1 (Kartu Kiri Gelap)</span>
+                                    <input type="text" id="em-p1-sub" placeholder="Analytics & Insight Sprint" class="studio-input">
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <input type="text" id="em-p1-title" placeholder="Project-Based" class="studio-input col-span-2 font-bold">
+                                        <input type="text" id="em-p1-unit" placeholder="/ Sprint" class="studio-input">
+                                    </div>
+                                    <textarea id="em-p1-desc" rows="2" placeholder="Ideal untuk pembersihan data operasional..." class="studio-input"></textarea>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-emerald-100/70 mb-1">What's Included (1 baris = 1 poin)</label>
+                                        <textarea id="em-p1-items" rows="4" placeholder="Data Cleaning & Exploratory Analysis&#10;Automated Excel / Google Sheets Dashboard&#10;KNIME Predictive / Association Modeling&#10;Executive Summary & Actionable Insights" class="studio-input text-xs"></textarea>
+                                    </div>
+                                    <input type="text" id="em-p1-cta" placeholder="Get In Touch" class="studio-input">
+                                </div>
+
+                                <!-- Paket Kanan (Light Highlight Card) -->
+                                <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 space-y-2.5">
+                                    <span class="text-[11px] font-bold text-[#FBBF24]">Paket 2 (Kartu Kanan Terang)</span>
+                                    <input type="text" id="em-p2-sub" placeholder="AI-Assisted Web & Admin System" class="studio-input">
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <input type="text" id="em-p2-title" placeholder="Rapid MVP Build" class="studio-input col-span-2 font-bold">
+                                        <input type="text" id="em-p2-unit" placeholder="/ Custom Scope" class="studio-input">
+                                    </div>
+                                    <textarea id="em-p2-desc" rows="2" placeholder="Solusi cepat untuk UMKM, organisasi, atau tim..." class="studio-input"></textarea>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-emerald-100/70 mb-1">What's Included (1 baris = 1 poin)</label>
+                                        <textarea id="em-p2-items" rows="4" placeholder="Database & Content Workflow Setup&#10;Admin Panel & Easy Content Management&#10;Handover Guide & Post-Launch Support&#10;Modern Responsive Web Interface&#10;Deployment, Domain & Hosting Configuration" class="studio-input text-xs"></textarea>
+                                    </div>
+                                    <input type="text" id="em-p2-cta" placeholder="Get In Touch" class="studio-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btn-save-showcase" class="w-full sm:w-auto px-7 py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold shadow-sm">
+                            Simpan Core Services &amp; Engagement Models
                         </button>
                     </form>
                 </div>
 
-                <div id="projects-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            </section>
-
-            <!-- ==================== TAB 4: SERVICES & OFFERINGS ==================== -->
-            <section id="panel-services" class="hidden cms-panel panel-animate space-y-4">
+                <!-- 4B. Katalog Layanan Tambahan (Database Services Table) -->
                 <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
                     <div>
-                        <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Professional Services</h2>
-                        <p class="text-xs" style="color: var(--text-secondary);">Kelola katalog jasa, skema harga, dan status slot.</p>
+                        <h3 class="text-base sm:text-lg font-extrabold tracking-tight">Katalog Layanan Detail (Modal &amp; Inquiry)</h3>
+                        <p class="text-xs" style="color: var(--text-secondary);">Kelola katalog jasa tambahan, skema harga, dan status slot.</p>
                     </div>
                     <button type="button" onclick="openCmsDrawer('srv', true)" class="px-4 py-2 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold flex-shrink-0">
                         + Tambah Layanan
                     </button>
                 </div>
 
-                <!-- Collapsible Form Drawer -->
                 <div id="srv-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
                     <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
                         <h3 id="srv-form-heading" class="text-base font-extrabold tracking-tight">Tambah Layanan Profesional</h3>
@@ -740,7 +1016,110 @@
                 <div id="services-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </section>
 
-            <!-- ==================== TAB 5: TECHNICAL ARSENAL ==================== -->
+            <!-- ==================== TAB 5: Q&A ACCORDION MANAGER (SS 5) ==================== -->
+            <section id="panel-faq" class="hidden cms-panel panel-animate space-y-4">
+                <div class="studio-card spotlight-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Q&amp;A Accordion (FAQ)</h2>
+                            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/12 text-[#059669] dark:text-[#34D399] text-[10px] font-bold">SS 5 Sync</span>
+                        </div>
+                        <p class="text-xs mt-0.5" style="color: var(--text-secondary);">Tambah, edit, atau hapus daftar pertanyaan &amp; jawaban interaktif di bagian bawah landing page.</p>
+                    </div>
+                    <button type="button" onclick="openCmsDrawer('faq', true)" class="px-4 py-2 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold flex-shrink-0">
+                        + Tambah Q&amp;A
+                    </button>
+                </div>
+
+                <!-- Collapsible Form Drawer -->
+                <div id="faq-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
+                    <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                        <h3 id="faq-form-heading" class="text-base font-extrabold tracking-tight">Tambah Pertanyaan &amp; Jawaban</h3>
+                        <button type="button" onclick="resetFaqForm()" class="px-3 py-1 rounded-full text-xs font-bold text-[#D97706] bg-amber-500/12">Tutup</button>
+                    </div>
+
+                    <form onsubmit="saveFaqItem(event)" class="space-y-3.5">
+                        <input type="hidden" id="faq-edit-index" value="-1">
+                        <div>
+                            <label class="block text-xs font-bold mb-1">Pertanyaan (Question) *</label>
+                            <input type="text" id="faq-question" required placeholder="Cth: Apa fokus keahlian utama Anda dalam kolaborasi atau pekerjaan?" class="studio-input font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold mb-1">Jawaban (Answer — mendukung &lt;strong&gt; untuk penebalan kata) *</label>
+                            <textarea id="faq-answer" rows="3" required placeholder="Fokus utama saya adalah Data Analytics, Business Operations..." class="studio-input"></textarea>
+                        </div>
+                        <button type="submit" id="btn-save-faq" class="w-full sm:w-auto px-7 py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
+                            Simpan Q&amp;A
+                        </button>
+                    </form>
+                </div>
+
+                <div id="faq-list" class="space-y-3"></div>
+            </section>
+
+            <!-- ==================== TAB 6: CASE STUDIES / PROJECTS ==================== -->
+            <section id="panel-projects" class="hidden cms-panel panel-animate space-y-4">
+                <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Featured Case Studies</h2>
+                        <p class="text-xs" style="color: var(--text-secondary);">Kelola studi kasus &amp; tautan demo proyek.</p>
+                    </div>
+                    <button type="button" onclick="openCmsDrawer('proj', true)" class="px-4 py-2 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold flex-shrink-0">
+                        + Tambah Proyek
+                    </button>
+                </div>
+
+                <div id="proj-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
+                    <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
+                        <h3 id="proj-form-heading" class="text-base font-extrabold tracking-tight">Tambah Studi Kasus Baru</h3>
+                        <button type="button" onclick="resetProjectForm()" class="px-3 py-1 rounded-full text-xs font-bold text-[#D97706] bg-amber-500/12">Tutup</button>
+                    </div>
+
+                    <form onsubmit="saveProject(event)" class="space-y-3.5">
+                        <input type="hidden" id="proj-edit-id">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                            <div>
+                                <label class="block text-xs font-bold mb-1">Judul Proyek *</label>
+                                <input type="text" id="proj-title" required placeholder="Cth: US Airlines Sentiment Dashboard" class="studio-input">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold mb-1">Cover Gambar (URL atau Upload)</label>
+                                <input type="text" id="proj-img-url" placeholder="https://..." class="studio-input mb-1.5">
+                                <input type="file" id="proj-img-file" accept="image/*" class="w-full text-xs file:mr-3 file:py-1.5 file:px-3 rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-500/15 file:text-[#059669]">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold mb-1">Ringkasan Kartu (Deskripsi Singkat) *</label>
+                            <textarea id="proj-desc" rows="2" required placeholder="Ringkasan singkat yang muncul di kartu depan..." class="studio-input"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold mb-1">Konten Lengkap Studi Kasus (Mendukung HTML / Paragraf)</label>
+                            <textarea id="proj-content" rows="4" placeholder="Jelaskan latar belakang masalah, metodologi, hasil analisis, dan tautan demo/GitHub..." class="studio-input"></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                            <div>
+                                <label class="block text-xs font-bold mb-1">Tags / Tools (Pisahkan dengan koma)</label>
+                                <input type="text" id="proj-tags" placeholder="Python, Streamlit, Pandas" class="studio-input">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold mb-1">External Link / Demo / Repo (Opsional)</label>
+                                <input type="text" id="proj-link" placeholder="https://github.com/..." class="studio-input">
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btn-save-proj" class="w-full sm:w-auto px-7 py-3 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold">
+                            Simpan Studi Kasus
+                        </button>
+                    </form>
+                </div>
+
+                <div id="projects-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </section>
+
+            <!-- ==================== TAB 7: TECHNICAL ARSENAL ==================== -->
             <section id="panel-arsenal" class="hidden cms-panel panel-animate space-y-4">
                 <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
                     <div>
@@ -752,7 +1131,6 @@
                     </button>
                 </div>
 
-                <!-- Collapsible Form Drawer -->
                 <div id="sk-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
                     <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
                         <h3 id="sk-form-heading" class="text-base font-extrabold tracking-tight">Tambah Skill / Tool</h3>
@@ -786,9 +1164,8 @@
                 <div id="arsenal-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
             </section>
 
-            <!-- ==================== TAB 6: EDUCATION & CERTIFICATIONS ==================== -->
+            <!-- ==================== TAB 8: EDUCATION & CERTIFICATIONS ==================== -->
             <section id="panel-credentials" class="hidden cms-panel panel-animate grid grid-cols-1 lg:grid-cols-2 gap-5">
-                <!-- Education Column -->
                 <div class="space-y-3.5">
                     <div class="studio-card rounded-[22px] p-4 flex items-center justify-between gap-2">
                         <h2 class="text-base font-extrabold tracking-tight">Education &amp; GPA</h2>
@@ -818,7 +1195,6 @@
                     <div id="edu-list" class="space-y-3"></div>
                 </div>
 
-                <!-- Certifications Column -->
                 <div class="space-y-3.5">
                     <div class="studio-card rounded-[22px] p-4 flex items-center justify-between gap-2">
                         <h2 class="text-base font-extrabold tracking-tight">Certifications</h2>
@@ -852,7 +1228,7 @@
                 </div>
             </section>
 
-            <!-- ==================== TAB 7: GALLERY ALBUMS ==================== -->
+            <!-- ==================== TAB 9: GALLERY ALBUMS ==================== -->
             <section id="panel-gallery" class="hidden cms-panel panel-animate space-y-4">
                 <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
                     <div>
@@ -864,7 +1240,6 @@
                     </button>
                 </div>
 
-                <!-- Collapsible Form Drawer -->
                 <div id="gal-drawer" class="hidden studio-card rounded-[24px] p-5 sm:p-6 space-y-4 border-emerald-500/30 panel-animate">
                     <div class="border-b pb-3 flex items-center justify-between gap-2" style="border-color: var(--border-hairline);">
                         <h3 id="gal-form-heading" class="text-base font-extrabold tracking-tight">Buat Album Dokumentasi Baru</h3>
@@ -915,7 +1290,7 @@
                 <div id="gallery-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </section>
 
-            <!-- ==================== TAB 8: VISITOR INQUIRIES INBOX ==================== -->
+            <!-- ==================== TAB 10: VISITOR INQUIRIES INBOX ==================== -->
             <section id="panel-inquiries" class="hidden cms-panel panel-animate space-y-4">
                 <div class="studio-card rounded-[22px] sm:rounded-[24px] p-4 sm:p-5 flex items-center justify-between gap-3">
                     <div>
@@ -932,8 +1307,7 @@
 
         </main>
     </div>
-
-    <!-- ==================== PWA, DRAWER & THEME SCRIPT ==================== -->
+    <!-- ==================== PWA, DRAWER, CROPPER & MOTION SCRIPT ==================== -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -980,10 +1354,135 @@
             document.getElementById('mobile-more-drawer').classList.add('hidden');
         };
 
+        // ==================== ANTI-MAINSTREAM MOTION: SPOTLIGHT & 3D MAGNETIC TILT ====================
+        document.addEventListener('mousemove', (e) => {
+            document.querySelectorAll('.spotlight-card').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (e.clientX >= rect.left - 80 && e.clientX <= rect.right + 80 && e.clientY >= rect.top - 80 && e.clientY <= rect.bottom + 80) {
+                    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                }
+            });
+        }, { passive: true });
+
+        document.addEventListener('mousemove', (e) => {
+            document.querySelectorAll('.magnetic-card').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const isInside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+                if (isInside) {
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+                    card.style.transform = `perspective(900px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg) translateZ(4px)`;
+                } else if (card.style.transform) {
+                    card.style.transform = '';
+                }
+            });
+        }, { passive: true });
+
+        // ==================== INTERACTIVE PHOTO CROPPER ENGINE ====================
+        let cropperInstance = null;
+        let croppedPhotoBlob = null;
+
+        window.syncPhotoPreview = function(url) {
+            const img = document.getElementById('prof-photo-preview');
+            if (img && url) img.src = url;
+        };
+
+        window.openCropperWithSrc = function(srcUrl) {
+            if (!srcUrl) {
+                showToast('Pilih file foto atau isi URL terlebih dahulu');
+                return;
+            }
+            const modal = document.getElementById('photo-crop-modal');
+            const imgEl = document.getElementById('cropper-source-img');
+            imgEl.crossOrigin = 'anonymous';
+            imgEl.src = srcUrl;
+            modal.classList.remove('hidden');
+
+            if (cropperInstance) {
+                cropperInstance.destroy();
+                cropperInstance = null;
+            }
+
+            imgEl.onload = () => {
+                cropperInstance = new Cropper(imgEl, {
+                    aspectRatio: 0.82,
+                    viewMode: 1,
+                    dragMode: 'move',
+                    autoCropArea: 0.9,
+                    restore: false,
+                    guides: true,
+                    center: true,
+                    highlight: false,
+                    cropBoxMovable: true,
+                    cropBoxResizable: true,
+                    toggleDragModeOnDblclick: false,
+                });
+            };
+        };
+
+        window.handlePhotoFileSelect = function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                openCropperWithSrc(ev.target.result);
+            };
+            reader.readAsDataURL(file);
+        };
+
+        window.openCropperFromCurrentUrl = function() {
+            const currentUrl = document.getElementById('prof-photo-url').value.trim();
+            const previewSrc = document.getElementById('prof-photo-preview').src;
+            openCropperWithSrc(currentUrl || previewSrc);
+        };
+
+        window.setCropRatio = function(ratio) {
+            if (cropperInstance) cropperInstance.setAspectRatio(ratio);
+        };
+        window.zoomCropper = function(delta) {
+            if (cropperInstance) cropperInstance.zoom(delta);
+        };
+        window.rotateCropper = function(deg) {
+            if (cropperInstance) cropperInstance.rotate(deg);
+        };
+
+        window.closePhotoCropper = function() {
+            document.getElementById('photo-crop-modal').classList.add('hidden');
+            if (cropperInstance) {
+                cropperInstance.destroy();
+                cropperInstance = null;
+            }
+        };
+
+        window.applyCroppedPhoto = function() {
+            if (!cropperInstance) return;
+            try {
+                const canvas = cropperInstance.getCroppedCanvas({
+                    width: 820,
+                    height: 1000,
+                    imageSmoothingEnabled: true,
+                    imageSmoothingQuality: 'high'
+                });
+                canvas.toBlob((blob) => {
+                    if (!blob) return;
+                    croppedPhotoBlob = new File([blob], `hero_cropped_${Date.now()}.webp`, { type: 'image/webp' });
+                    const previewUrl = URL.createObjectURL(blob);
+                    document.getElementById('prof-photo-preview').src = previewUrl;
+                    closePhotoCropper();
+                    showToast('Crop diterapkan! Klik "Simpan Perubahan Hero & Profile" untuk upload.');
+                }, 'image/webp', 0.92);
+            } catch (err) {
+                alert('Gambar eksternal memblokir akses canvas CORS. Silakan upload file gambar langsung dari perangkat Anda untuk di-crop.');
+                closePhotoCropper();
+            }
+        };
+
         // Collapsible Form Drawer Controller
         window.openCmsDrawer = function(prefix, resetFirst = false) {
             if (resetFirst) {
                 if (prefix === 'st') resetStatusForm(true);
+                if (prefix === 'faq') resetFaqForm(true);
                 if (prefix === 'proj') resetProjectForm(true);
                 if (prefix === 'srv') resetServiceForm(true);
                 if (prefix === 'sk') resetSkillForm(true);
@@ -1009,7 +1508,7 @@
             document.querySelectorAll('.theme-icon-sync').forEach(icon => {
                 icon.className = isDark ? 'theme-icon-sync bx bx-sun text-amber-400' : 'theme-icon-sync bx bx-moon text-zinc-700';
             });
-            if (meta) meta.setAttribute('content', isDark ? '#09090B' : '#10B981');
+            if (meta) meta.setAttribute('content', isDark ? '#07110C' : '#10B981');
         }
         syncThemeIcon();
 
@@ -1021,7 +1520,7 @@
             else document.documentElement.classList.remove('dark');
             localStorage.setItem('mz_spatial_theme', next);
             syncThemeIcon();
-            showToast(next === 'dark' ? 'Dark Mode aktif' : 'Warm Light Mode aktif');
+            showToast(next === 'dark' ? 'Dark Forest Mode aktif' : 'Executive Mint Light aktif');
         };
 
         let toastTimer;
@@ -1034,7 +1533,7 @@
             toastTimer = setTimeout(() => {
                 toast.classList.remove('show');
                 toast.classList.add('opacity-0', 'pointer-events-none');
-            }, 2500);
+            }, 2600);
         };
 
         window.switchTab = function(tabName) {
@@ -1057,7 +1556,7 @@
                 }
             });
 
-            const drawerTabs = ['statuses', 'arsenal', 'credentials', 'gallery'];
+            const drawerTabs = ['statuses', 'faq', 'projects', 'arsenal', 'credentials', 'gallery'];
             const activeDockKey = drawerTabs.includes(tabName) ? 'more' : tabName;
             document.querySelectorAll('.dock-btn').forEach(btn => {
                 if (btn.dataset.dock === activeDockKey) {
@@ -1080,6 +1579,7 @@
         const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
         const PORTFOLIO_CACHE_KEY = 'mz_portfolio_cache_v4';
+        const LANDING_EXTRAS_KEY = 'mz_landing_sections_v1';
 
         let cachedStatuses = [];
         let cachedProjects = [];
@@ -1089,6 +1589,83 @@
         let cachedCerts = [];
         let cachedAlbums = [];
         let editingAlbumPhotos = [];
+        let currentProfileRow = {};
+
+        // Default Struktur Lengkap SS 1–SS 5 (Tersimpan di profile.landing_config / localStorage fallback)
+        const DEFAULT_LANDING_EXTRAS = {
+            hero_watermark: 'ANALYST',
+            bento: {
+                m1_label: 'Academic Distinction GPA',
+                m1_val: '3.80',
+                m2_label: 'Delivered Works & Case Studies',
+                m2_val: '3+',
+                m3_val: '99.7%',
+                m3_badge: '3.79 / 4.00',
+                m3_label: 'Classification & Data Model Accuracy',
+                pillar_title: 'Analytical Clarity, Agile Execution',
+                pillar_pills: ['Data Analytics', 'Business Operations', 'No-Code & Vibe Coding', 'KNIME & Excel']
+            },
+            core_services: {
+                eyebrow: 'Core Services',
+                section_title: 'Solutions Built For Growth',
+                card_badge: 'Custom Collaboration',
+                card_title: 'Data Analytics & Rapid Web Partner.',
+                card_desc: 'Butuh pengolahan data bisnis, laporan KPI rapi, atau prototipe web fungsional dengan waktu pengerjaan cepat? Saya bantu bangun sistem dan insight yang siap langsung dipakai tim Anda.',
+                card_tag: 'Structured & Actionable',
+                card_cta: 'Start a Project'
+            },
+            engagement: {
+                eyebrow: 'Engagement Models',
+                title: 'Flexible analytical & digital support for growing teams',
+                p1_sub: 'Analytics & Insight Sprint',
+                p1_title: 'Project-Based',
+                p1_unit: '/ Sprint',
+                p1_desc: 'Ideal untuk pembersihan data operasional, perancangan dashboard KPI, hingga analisis perilaku pelanggan.',
+                p1_items: [
+                    'Data Cleaning & Exploratory Analysis',
+                    'Automated Excel / Google Sheets Dashboard',
+                    'KNIME Predictive / Association Modeling',
+                    'Executive Summary & Actionable Insights'
+                ],
+                p1_cta: 'Get In Touch',
+                p2_sub: 'AI-Assisted Web & Admin System',
+                p2_title: 'Rapid MVP Build',
+                p2_unit: '/ Custom Scope',
+                p2_desc: 'Solusi cepat untuk UMKM, organisasi, atau tim yang membutuhkan profil digital dan panel admin terintegrasi.',
+                p2_items: [
+                    'Database & Content Workflow Setup',
+                    'Admin Panel & Easy Content Management',
+                    'Handover Guide & Post-Launch Support',
+                    'Modern Responsive Web Interface',
+                    'Deployment, Domain & Hosting Configuration'
+                ],
+                p2_cta: 'Get In Touch'
+            },
+            faqs: [
+                {
+                    q: 'Apa fokus keahlian utama Anda dalam kolaborasi atau pekerjaan?',
+                    a: 'Fokus utama saya adalah Data Analytics, Business Operations, serta pengembangan MVP web berbasis AI-assisted workflow.'
+                },
+                {
+                    q: 'Apakah Anda terbuka untuk posisi Full-Time maupun proyek kolaborasi?',
+                    a: 'Ya, saat ini saya terbuka untuk peluang Full-Time maupun kerja sama proyek berbasis sprint sesuai kebutuhan tim.'
+                },
+                {
+                    q: 'Bagaimana alur kerja saat memulai sebuah proyek analisis atau sistem web?',
+                    a: 'Dimulai dari pemetaan masalah dan struktur data, dilanjutkan dengan perancangan prototipe cepat, validasi KPI, hingga serah terima dokumentasi lengkap.'
+                },
+                {
+                    q: 'Tools apa saja yang biasa Anda gunakan dalam pengerjaan proyek?',
+                    a: 'KNIME Analytics Platform, Python (Pandas, Streamlit), SQL, Excel/Google Sheets, serta Next.js, Laravel Filament, dan Supabase.'
+                },
+                {
+                    q: 'Apakah sistem web yang dibuat mudah dikelola sendiri setelah selesai?',
+                    a: 'Tentu. Setiap proyek web dilengkapi panel admin terstruktur seperti Studio CMS ini sehingga Anda dapat memperbarui konten kapan saja tanpa menyentuh kode.'
+                }
+            ]
+        };
+
+        let landingExtras = JSON.parse(JSON.stringify(DEFAULT_LANDING_EXTRAS));
 
         function escapeHTML(str) {
             if (str === null || str === undefined) return '';
@@ -1107,6 +1684,65 @@
             if (error) throw error;
             const { data } = supabaseClient.storage.from('portfolio-assets').getPublicUrl(fileName);
             return data.publicUrl;
+        }
+
+        // Helper sinkronisasi landing_config ke Supabase profile (dengan graceful fallback jika kolom JSONB belum dibuat)
+        async function persistLandingExtras() {
+            localStorage.setItem(LANDING_EXTRAS_KEY, JSON.stringify(landingExtras));
+            localStorage.removeItem(PORTFOLIO_CACHE_KEY);
+            const { error } = await supabaseClient
+                .from('profile')
+                .update({ landing_config: landingExtras })
+                .eq('id', 1);
+            if (error) {
+                console.warn('Info: Kolom landing_config belum tersedia di tabel profile, data tersimpan di localStorage:', error.message);
+            }
+        }
+
+        function hydrateLandingExtrasForms() {
+            document.getElementById('prof-watermark').value = landingExtras.hero_watermark || 'ANALYST';
+
+            // Bento SS 2
+            const b = landingExtras.bento || DEFAULT_LANDING_EXTRAS.bento;
+            document.getElementById('bento-m1-label').value = b.m1_label || '';
+            document.getElementById('bento-m1-val').value = b.m1_val || '';
+            document.getElementById('bento-m2-label').value = b.m2_label || '';
+            document.getElementById('bento-m2-val').value = b.m2_val || '';
+            document.getElementById('bento-m3-val').value = b.m3_val || '';
+            document.getElementById('bento-m3-badge').value = b.m3_badge || '';
+            document.getElementById('bento-m3-label').value = b.m3_label || '';
+            document.getElementById('bento-pillar-title').value = b.pillar_title || '';
+            document.getElementById('bento-pillar-pills').value = Array.isArray(b.pillar_pills) ? b.pillar_pills.join(', ') : (b.pillar_pills || '');
+
+            // Core Services SS 3
+            const cs = landingExtras.core_services || DEFAULT_LANDING_EXTRAS.core_services;
+            document.getElementById('cs-eyebrow').value = cs.eyebrow || '';
+            document.getElementById('cs-section-title').value = cs.section_title || '';
+            document.getElementById('cs-card-badge').value = cs.card_badge || '';
+            document.getElementById('cs-card-title').value = cs.card_title || '';
+            document.getElementById('cs-card-desc').value = cs.card_desc || '';
+            document.getElementById('cs-card-tag').value = cs.card_tag || '';
+            document.getElementById('cs-card-cta').value = cs.card_cta || '';
+
+            // Engagement Models SS 4
+            const em = landingExtras.engagement || DEFAULT_LANDING_EXTRAS.engagement;
+            document.getElementById('em-eyebrow').value = em.eyebrow || '';
+            document.getElementById('em-title').value = em.title || '';
+            document.getElementById('em-p1-sub').value = em.p1_sub || '';
+            document.getElementById('em-p1-title').value = em.p1_title || '';
+            document.getElementById('em-p1-unit').value = em.p1_unit || '';
+            document.getElementById('em-p1-desc').value = em.p1_desc || '';
+            document.getElementById('em-p1-items').value = Array.isArray(em.p1_items) ? em.p1_items.join('\n') : '';
+            document.getElementById('em-p1-cta').value = em.p1_cta || '';
+
+            document.getElementById('em-p2-sub').value = em.p2_sub || '';
+            document.getElementById('em-p2-title').value = em.p2_title || '';
+            document.getElementById('em-p2-unit').value = em.p2_unit || '';
+            document.getElementById('em-p2-desc').value = em.p2_desc || '';
+            document.getElementById('em-p2-items').value = Array.isArray(em.p2_items) ? em.p2_items.join('\n') : '';
+            document.getElementById('em-p2-cta').value = em.p2_cta || '';
+
+            renderFaqAdmin();
         }
 
         async function checkSession() {
@@ -1173,21 +1809,12 @@
             checkSession();
         };
 
-        // Telemetry Renderer & Reset
         function renderTelemetryStats(events = []) {
-            const counts = {
-                page_view: 0,
-                cv_download: 0,
-                project_open: 0,
-                service_wa: 0,
-                copy_brief: 0
-            };
+            const counts = { page_view: 0, cv_download: 0, project_open: 0, service_wa: 0, copy_brief: 0 };
             const projectHits = {};
 
             (events || []).forEach(ev => {
-                if (counts[ev.event_type] !== undefined) {
-                    counts[ev.event_type]++;
-                }
+                if (counts[ev.event_type] !== undefined) counts[ev.event_type]++;
                 if (ev.event_type === 'project_open' && ev.target_label) {
                     projectHits[ev.target_label] = (projectHits[ev.target_label] || 0) + 1;
                 }
@@ -1247,7 +1874,9 @@
                 renderTelemetryStats(pageEvents || []);
 
                 if (profile) {
+                    currentProfileRow = profile;
                     document.getElementById('prof-photo-url').value = profile.photo_url || '';
+                    syncPhotoPreview(profile.photo_url || '');
                     document.getElementById('prof-cv-url').value = profile.cv_url || '';
                     document.getElementById('prof-badge').value = profile.badge || '';
                     document.getElementById('prof-focus-domain').value = profile.focus_domain || 'Data & IT Solutions';
@@ -1258,7 +1887,21 @@
                     document.getElementById('prof-linkedin').value = profile.linkedin_link || '';
                     document.getElementById('prof-footer-title').value = profile.footer_title || '';
                     document.getElementById('prof-footer-sub').value = profile.footer_sub || '';
+
+                    const localSaved = localStorage.getItem(LANDING_EXTRAS_KEY);
+                    const remoteConfig = profile.landing_config || (localSaved ? JSON.parse(localSaved) : null);
+                    if (remoteConfig) {
+                        landingExtras = {
+                            ...DEFAULT_LANDING_EXTRAS,
+                            ...remoteConfig,
+                            bento: { ...DEFAULT_LANDING_EXTRAS.bento, ...(remoteConfig.bento || {}) },
+                            core_services: { ...DEFAULT_LANDING_EXTRAS.core_services, ...(remoteConfig.core_services || {}) },
+                            engagement: { ...DEFAULT_LANDING_EXTRAS.engagement, ...(remoteConfig.engagement || {}) },
+                            faqs: Array.isArray(remoteConfig.faqs) ? remoteConfig.faqs : DEFAULT_LANDING_EXTRAS.faqs
+                        };
+                    }
                 }
+                hydrateLandingExtrasForms();
 
                 cachedStatuses = statuses || [];
                 renderStatusesAdmin(cachedStatuses);
@@ -1287,7 +1930,7 @@
             }
         };
 
-        // 1. Save Profile
+        // 1. Save Hero, Photo (dengan hasil Cropper jika ada) & Watermark
         window.saveProfile = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-save-profile');
@@ -1296,12 +1939,18 @@
 
             try {
                 let photoUrl = document.getElementById('prof-photo-url').value.trim();
-                const photoFile = document.getElementById('prof-photo-file').files[0];
-                if (photoFile) photoUrl = await uploadAsset(photoFile, 'profile');
+                const rawPhotoFile = document.getElementById('prof-photo-file').files[0];
+                const fileToUpload = croppedPhotoBlob || rawPhotoFile;
+                if (fileToUpload) {
+                    photoUrl = await uploadAsset(fileToUpload, 'profile');
+                    croppedPhotoBlob = null;
+                }
 
                 let cvUrl = document.getElementById('prof-cv-url').value.trim();
                 const cvFile = document.getElementById('prof-cv-file').files[0];
                 if (cvFile) cvUrl = await uploadAsset(cvFile, 'cv');
+
+                landingExtras.hero_watermark = document.getElementById('prof-watermark').value.trim() || 'ANALYST';
 
                 const payload = {
                     id: 1,
@@ -1321,34 +1970,186 @@
                 const { error } = await supabaseClient.from('profile').upsert(payload);
                 if (error) throw error;
 
+                await persistLandingExtras();
+
                 document.getElementById('prof-photo-url').value = photoUrl;
+                syncPhotoPreview(photoUrl);
                 document.getElementById('prof-cv-url').value = cvUrl;
-                localStorage.removeItem(PORTFOLIO_CACHE_KEY);
-                showToast('Profile berhasil diperbarui!');
+                showToast('Hero, Foto & Profile berhasil diperbarui!');
             } catch (err) {
                 alert('Gagal menyimpan profile: ' + err.message);
             } finally {
-                btn.innerText = 'Simpan Perubahan Profile';
+                btn.innerText = 'Simpan Perubahan Hero & Profile';
                 btn.disabled = false;
             }
         };
 
-        // 2. Status Pills CRUD
+        // 1B. Save Bento Stats & Pillars (SS 2)
+        window.saveBentoConfig = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-save-bento');
+            btn.innerText = 'Menyimpan...';
+            btn.disabled = true;
+
+            try {
+                const pillsRaw = document.getElementById('bento-pillar-pills').value.trim();
+                landingExtras.bento = {
+                    m1_label: document.getElementById('bento-m1-label').value.trim(),
+                    m1_val: document.getElementById('bento-m1-val').value.trim(),
+                    m2_label: document.getElementById('bento-m2-label').value.trim(),
+                    m2_val: document.getElementById('bento-m2-val').value.trim(),
+                    m3_val: document.getElementById('bento-m3-val').value.trim(),
+                    m3_badge: document.getElementById('bento-m3-badge').value.trim(),
+                    m3_label: document.getElementById('bento-m3-label').value.trim(),
+                    pillar_title: document.getElementById('bento-pillar-title').value.trim(),
+                    pillar_pills: pillsRaw ? pillsRaw.split(',').map(s => s.trim()).filter(Boolean) : []
+                };
+                await persistLandingExtras();
+                showToast('Bento Stats & Core Pillars tersimpan!');
+            } catch (err) {
+                alert('Gagal menyimpan Bento: ' + err.message);
+            } finally {
+                btn.innerText = 'Simpan Perubahan Bento & Stats';
+                btn.disabled = false;
+            }
+        };
+
+        // 1C. Save Core Services & Engagement Models (SS 3 & SS 4)
+        window.saveServicesShowcase = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-save-showcase');
+            btn.innerText = 'Menyimpan...';
+            btn.disabled = true;
+
+            try {
+                landingExtras.core_services = {
+                    eyebrow: document.getElementById('cs-eyebrow').value.trim(),
+                    section_title: document.getElementById('cs-section-title').value.trim(),
+                    card_badge: document.getElementById('cs-card-badge').value.trim(),
+                    card_title: document.getElementById('cs-card-title').value.trim(),
+                    card_desc: document.getElementById('cs-card-desc').value.trim(),
+                    card_tag: document.getElementById('cs-card-tag').value.trim(),
+                    card_cta: document.getElementById('cs-card-cta').value.trim()
+                };
+
+                landingExtras.engagement = {
+                    eyebrow: document.getElementById('em-eyebrow').value.trim(),
+                    title: document.getElementById('em-title').value.trim(),
+                    p1_sub: document.getElementById('em-p1-sub').value.trim(),
+                    p1_title: document.getElementById('em-p1-title').value.trim(),
+                    p1_unit: document.getElementById('em-p1-unit').value.trim(),
+                    p1_desc: document.getElementById('em-p1-desc').value.trim(),
+                    p1_items: document.getElementById('em-p1-items').value.split('\n').map(s => s.trim()).filter(Boolean),
+                    p1_cta: document.getElementById('em-p1-cta').value.trim(),
+                    p2_sub: document.getElementById('em-p2-sub').value.trim(),
+                    p2_title: document.getElementById('em-p2-title').value.trim(),
+                    p2_unit: document.getElementById('em-p2-unit').value.trim(),
+                    p2_desc: document.getElementById('em-p2-desc').value.trim(),
+                    p2_items: document.getElementById('em-p2-items').value.split('\n').map(s => s.trim()).filter(Boolean),
+                    p2_cta: document.getElementById('em-p2-cta').value.trim()
+                };
+
+                await persistLandingExtras();
+                showToast('Core Services & Engagement Models tersimpan!');
+            } catch (err) {
+                alert('Gagal menyimpan Showcase: ' + err.message);
+            } finally {
+                btn.innerText = 'Simpan Core Services & Engagement Models';
+                btn.disabled = false;
+            }
+        };
+
+        // 1D. Q&A Accordion CRUD (SS 5)
+        function renderFaqAdmin() {
+            const list = landingExtras.faqs || [];
+            const badge = document.getElementById('count-faq');
+            if (badge) badge.innerText = list.length;
+
+            const wrap = document.getElementById('faq-list');
+            if (!wrap) return;
+            if (!list.length) {
+                wrap.innerHTML = `<div class="studio-card rounded-2xl p-6 text-center text-xs" style="color: var(--text-muted);">Belum ada item Q&A. Klik "+ Tambah Q&A" di atas.</div>`;
+                return;
+            }
+            wrap.innerHTML = list.map((item, idx) => `
+                <div class="studio-card rounded-[20px] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="space-y-1 min-w-0">
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#10B981]">Pertanyaan #${idx + 1}</span>
+                        <h4 class="font-bold text-sm sm:text-base">${escapeHTML(item.q)}</h4>
+                        <p class="text-xs leading-relaxed" style="color: var(--text-secondary);">${escapeHTML(item.a)}</p>
+                    </div>
+                    <div class="flex items-center gap-1.5 flex-shrink-0">
+                        <button type="button" onclick="editFaqItem(${idx})" class="px-3.5 py-1.5 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
+                        <button type="button" onclick="deleteFaqItem(${idx})" class="w-8 h-8 rounded-full bg-red-500/12 text-red-600 flex items-center justify-center"><i class='bx bx-trash'></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.editFaqItem = function(idx) {
+            const item = (landingExtras.faqs || [])[idx];
+            if (!item) return;
+            document.getElementById('faq-edit-index').value = idx;
+            document.getElementById('faq-question').value = item.q || '';
+            document.getElementById('faq-answer').value = item.a || '';
+            document.getElementById('faq-form-heading').innerText = `Edit Pertanyaan #${idx + 1}`;
+            openCmsDrawer('faq', false);
+        };
+
+        window.resetFaqForm = function(keepOpen = false) {
+            document.getElementById('faq-edit-index').value = '-1';
+            document.getElementById('faq-question').value = '';
+            document.getElementById('faq-answer').value = '';
+            document.getElementById('faq-form-heading').innerText = 'Tambah Pertanyaan & Jawaban';
+            if (!keepOpen) closeCmsDrawer('faq');
+        };
+
+        window.saveFaqItem = async function(e) {
+            e.preventDefault();
+            const q = document.getElementById('faq-question').value.trim();
+            const a = document.getElementById('faq-answer').value.trim();
+            const idx = parseInt(document.getElementById('faq-edit-index').value, 10);
+
+            if (!Array.isArray(landingExtras.faqs)) landingExtras.faqs = [];
+            if (idx >= 0 && idx < landingExtras.faqs.length) {
+                landingExtras.faqs[idx] = { q, a };
+            } else {
+                landingExtras.faqs.push({ q, a });
+            }
+
+            await persistLandingExtras();
+            resetFaqForm();
+            renderFaqAdmin();
+            showToast('Q&A Accordion berhasil disimpan!');
+        };
+
+        window.deleteFaqItem = async function(idx) {
+            if (!confirm('Hapus pertanyaan Q&A ini?')) return;
+            landingExtras.faqs.splice(idx, 1);
+            await persistLandingExtras();
+            renderFaqAdmin();
+            showToast('Q&A dihapus');
+        };
+
+        // 2. Floating Balloons / Status Pills CRUD
         function renderStatusesAdmin(list) {
             const wrap = document.getElementById('statuses-list');
             if (!list.length) {
-                wrap.innerHTML = `<div class="col-span-full studio-card rounded-2xl p-6 text-center text-xs" style="color: var(--text-muted);">Belum ada status pill. Klik "+ Tambah Status" di atas.</div>`;
+                wrap.innerHTML = `<div class="col-span-full studio-card rounded-2xl p-6 text-center text-xs" style="color: var(--text-muted);">Belum ada floating balloon. Klik "+ Tambah Balloon" di atas.</div>`;
                 return;
             }
             wrap.innerHTML = list.map(s => `
-                <div class="studio-card rounded-2xl p-4 flex items-center justify-between gap-3">
-                    <div class="min-w-0">
-                        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${s.is_active ? 'bg-emerald-500/15 text-[#059669]' : 'bg-zinc-500/15 text-zinc-500'}">${s.is_active ? 'Active' : 'Hidden'}</span>
-                        <h4 class="font-bold text-sm mt-1 truncate">${escapeHTML(s.title)} ${s.organization ? '• ' + escapeHTML(s.organization) : ''}</h4>
+                <div class="studio-card balloon-float rounded-full px-5 py-3.5 flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <span class="w-2.5 h-2.5 rounded-full flex-shrink-0 ${s.is_active ? 'bg-[#10B981]' : 'bg-zinc-400'}"></span>
+                        <div class="min-w-0">
+                            <h4 class="font-bold text-sm truncate">${escapeHTML(s.title)}</h4>
+                            ${s.organization ? `<span class="text-[11px] block truncate" style="color: var(--text-muted);">${escapeHTML(s.organization)}</span>` : ''}
+                        </div>
                     </div>
                     <div class="flex items-center gap-1.5 flex-shrink-0">
-                        <button type="button" onclick="editStatus('${escapeHTML(s.id)}')" class="px-3 py-1.5 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
-                        <button type="button" onclick="toggleStatus('${escapeHTML(s.id)}', ${!s.is_active})" class="px-3 py-1.5 rounded-full border text-xs font-semibold" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <button type="button" onclick="editStatus('${escapeHTML(s.id)}')" class="px-3 py-1 rounded-full bg-amber-500/15 text-[#D97706] text-xs font-bold">Edit</button>
+                        <button type="button" onclick="toggleStatus('${escapeHTML(s.id)}', ${!s.is_active})" class="px-3 py-1 rounded-full border text-xs font-semibold" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
                             ${s.is_active ? 'Hide' : 'Show'}
                         </button>
                         <button type="button" onclick="deleteRow('statuses', '${escapeHTML(s.id)}')" class="w-8 h-8 rounded-full bg-red-500/12 text-red-600 flex items-center justify-center"><i class='bx bx-trash'></i></button>
@@ -1364,7 +2165,7 @@
             document.getElementById('st-type').value = st.status_type || 'open';
             document.getElementById('st-title').value = st.title || '';
             document.getElementById('st-org').value = st.organization || '';
-            document.getElementById('st-form-heading').innerText = 'Edit Status Pill';
+            document.getElementById('st-form-heading').innerText = 'Edit Floating Balloon';
             document.getElementById('btn-save-st').innerText = 'Simpan Perubahan';
             openCmsDrawer('st', false);
         };
@@ -1374,8 +2175,8 @@
             document.getElementById('st-type').value = 'open';
             document.getElementById('st-title').value = '';
             document.getElementById('st-org').value = '';
-            document.getElementById('st-form-heading').innerText = 'Tambah Status Pill';
-            document.getElementById('btn-save-st').innerText = 'Simpan Status';
+            document.getElementById('st-form-heading').innerText = 'Tambah Floating Balloon';
+            document.getElementById('btn-save-st').innerText = 'Simpan Balloon';
             if (!keepOpen) closeCmsDrawer('st');
         };
 
@@ -1400,7 +2201,7 @@
 
             resetStatusForm();
             localStorage.removeItem(PORTFOLIO_CACHE_KEY);
-            showToast('Status tersimpan');
+            showToast('Floating Balloon tersimpan');
             loadAllData();
         };
 
@@ -1409,7 +2210,7 @@
             if (error) return alert('Gagal mengubah status: ' + error.message);
             if (!data || data.length === 0) return alert('Perubahan ditolak oleh RLS Policy Supabase.');
             localStorage.removeItem(PORTFOLIO_CACHE_KEY);
-            showToast('Status diperbarui');
+            showToast('Visibilitas balloon diperbarui');
             loadAllData();
         };
 
@@ -1421,7 +2222,7 @@
                 return;
             }
             wrap.innerHTML = list.map(p => `
-                <div class="studio-card rounded-[22px] overflow-hidden flex flex-col justify-between">
+                <div class="studio-card magnetic-card rounded-[22px] overflow-hidden flex flex-col justify-between">
                     <div>
                         <img src="${escapeHTML(p.image_url)}" alt="" class="w-full h-36 object-cover bg-zinc-200">
                         <div class="p-4">
@@ -1513,11 +2314,11 @@
         function renderServicesAdmin(list) {
             const wrap = document.getElementById('services-list');
             if (!list.length) {
-                wrap.innerHTML = `<div class="col-span-full studio-card rounded-2xl p-6 text-center text-xs" style="color: var(--text-muted);">Belum ada layanan terdaftar. Klik "+ Tambah Layanan" di atas.</div>`;
+                wrap.innerHTML = `<div class="col-span-full studio-card rounded-2xl p-6 text-center text-xs" style="color: var(--text-muted);">Belum ada layanan detail terdaftar. Klik "+ Tambah Layanan" di atas.</div>`;
                 return;
             }
             wrap.innerHTML = list.map(s => `
-                <div class="studio-card rounded-[22px] p-4 sm:p-5 flex flex-col justify-between gap-3">
+                <div class="studio-card magnetic-card rounded-[22px] p-4 sm:p-5 flex flex-col justify-between gap-3">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-1.5">
                             <span class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-[#D97706] text-[11px] font-bold">${escapeHTML(s.badge)}</span>
