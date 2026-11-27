@@ -1,8 +1,11 @@
-const CACHE_NAME = 'mz-portfolio-pwa-v4';
+const CACHE_NAME = 'portzi-pwa-v5';
 const CORE_ASSETS = [
     './',
     './index.html',
     './admin.html',
+    './project-detail.html',
+    './project-amazon.html',
+    './project-bunhaven.html',
     './manifest.json',
     './admin-manifest.json'
 ];
@@ -41,11 +44,16 @@ self.addEventListener('fetch', (event) => {
         event.respondWith(
             fetch(req)
                 .then((res) => {
-                    const copy = res.clone();
-                    caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+                    if (res && res.status === 200) {
+                        const copy = res.clone();
+                        caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+                    }
                     return res;
                 })
-                .catch(() => caches.match(req).then((cached) => cached || caches.match('./index.html')))
+                .catch(() =>
+                    caches.match(req, { ignoreSearch: true })
+                        .then((cached) => cached || caches.match('./index.html'))
+                )
         );
         return;
     }

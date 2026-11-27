@@ -2440,13 +2440,28 @@
                 const titleColor = isPrimaryGlow ? 'text-white' : 'text-[#121316]';
                 const descColor = isPrimaryGlow ? 'text-emerald-50/90' : 'text-zinc-600';
 
-                const decorativePills = idx === 0 ? `
-                    <div class="flex flex-wrap gap-1.5 pt-2 pb-1">
-                        <span class="px-2.5 py-1 rounded-full bg-white/90 text-[#121316] text-[10px] font-medium shadow-sm -rotate-3">KNIME &amp; Excel</span>
-                        <span class="px-2.5 py-1 rounded-full bg-white/90 text-[#121316] text-[10px] font-medium shadow-sm rotate-6">KPI Insights</span>
-                        <span class="px-2.5 py-1 rounded-full bg-white/90 text-[#121316] text-[10px] font-medium shadow-sm">Vibe Coding</span>
-                    </div>
-                ` : '';
+               // Deteksi otomatis pill badge agar sesuai dengan kategori masing-masing kartu layanan
+const combinedLabel = `${srv.badge || ''} ${srv.title || ''}`.toLowerCase();
+let cardPills = [];
+
+if (combinedLabel.includes('web') || combinedLabel.includes('umkm') || combinedLabel.includes('landing') || combinedLabel.includes('prototype')) {
+    cardPills = ['Mobile-Ready', 'WhatsApp CTA', 'Vibe Coding'];
+} else if (combinedLabel.includes('data') || combinedLabel.includes('excel') || combinedLabel.includes('report') || combinedLabel.includes('analytic')) {
+    cardPills = ['KNIME & Excel', 'KPI Insights', 'Clean Reporting'];
+} else if (combinedLabel.includes('admin') || combinedLabel.includes('ops') || combinedLabel.includes('system')) {
+    cardPills = ['SOP Workflow', 'Auto-Tracker', 'Structured Docs'];
+}
+
+const pillRotations = ['-rotate-3', 'rotate-6', ''];
+const pillTextColor = isPrimaryGlow ? 'text-[#121316] bg-white/90' : 'text-[#121316] bg-[#F3F4F2] border border-black/5';
+
+const decorativePills = cardPills.length > 0 ? `
+    <div class="flex flex-wrap gap-1.5 pt-2 pb-1">
+        ${cardPills.map((p, pIdx) => `
+            <span class="px-2.5 py-1 rounded-full ${pillTextColor} text-[10px] font-medium shadow-sm ${pillRotations[pIdx] || ''}">${escapeHTML(p)}</span>
+        `).join('')}
+    </div>
+` : '';
 
                 return `
                     <div onclick="openServiceModal(${idx})" class="service-tilt-card motion-reveal ${staggerClass} group rounded-[26px] p-6 border ${cardSurface} cursor-pointer flex flex-col justify-between transition-all duration-300 shadow-lg ${!isOpen ? 'opacity-85' : ''}">

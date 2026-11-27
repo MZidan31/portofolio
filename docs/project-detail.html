@@ -3,17 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Case Study — Muhammad Zidan</title>
-
-    <!-- PWA & Apple Native Meta -->
+    <title>Case Study — Portzi | Muhammad Zidan</title>
+    <meta name="description" content="Detail studi kasus proyek Data Analytics, Business Operations, & AI-Assisted Systems oleh Muhammad Zidan.">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0071E3" id="meta-theme-color">
+    <meta id="meta-theme-color" name="theme-color" content="#10B981">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Prevent Theme Flash Before Render -->
+    <!-- Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        (function() {
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Early Theme Init (Sinkron dengan index.html) -->
+    <script>
+        (function () {
             const saved = localStorage.getItem('mz_spatial_theme');
             const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
             const theme = saved || (prefersDark ? 'dark' : 'light');
@@ -22,133 +45,153 @@
         })();
     </script>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Google Fonts & Boxicons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-
     <style>
-        /* ==================== SPATIAL DESIGN TOKENS ==================== */
         :root {
-            --bg-canvas: #F5F6FA;
-            --surface-glass: rgba(255, 255, 255, 0.80);
+            --bg-canvas: #F6F7F5;
             --surface-solid: #FFFFFF;
-            --surface-elevated: #F0F2F7;
-            --text-primary: #1D1D1F;
-            --text-secondary: #515154;
-            --text-muted: #86868B;
-            --border-hairline: rgba(0, 0, 0, 0.07);
-            --accent-blue: #0071E3;
+            --surface-elevated: #EFF1EE;
+            --surface-nav-scrolled: rgba(255, 255, 255, 0.84);
+            --text-primary: #121316;
+            --text-secondary: #4B5563;
+            --text-muted: #6B7280;
+            --border-hairline: rgba(18, 19, 22, 0.08);
             --accent-emerald: #10B981;
-            --card-shadow: 0 12px 34px -10px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+            --accent-fire: #D97706;
+            --bounce-ease: cubic-bezier(0.22, 1, 0.36, 1);
+            --mouse-x: 50%;
+            --mouse-y: 50%;
         }
 
         [data-theme="dark"] {
-            --bg-canvas: #07080B;
-            --surface-glass: rgba(20, 22, 29, 0.78);
-            --surface-solid: #111319;
-            --surface-elevated: #191C24;
-            --text-primary: #F5F5F7;
-            --text-secondary: #A1A1A6;
-            --text-muted: #6E6E73;
+            --bg-canvas: #090A0B;
+            --surface-solid: #121417;
+            --surface-elevated: #1A1D21;
+            --surface-nav-scrolled: rgba(18, 20, 23, 0.82);
+            --text-primary: #F4F5F6;
+            --text-secondary: #A1A1AA;
+            --text-muted: #71717A;
             --border-hairline: rgba(255, 255, 255, 0.09);
-            --accent-blue: #2997FF;
             --accent-emerald: #34D399;
-            --card-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            --accent-fire: #FBBF24;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
             background-color: var(--bg-canvas);
             color: var(--text-primary);
-            -webkit-font-smoothing: antialiased;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
             transition: background-color 0.35s ease, color 0.35s ease;
         }
 
-        .spatial-mesh {
-            background-image:
-                radial-gradient(at 15% 6%, rgba(0, 113, 227, 0.10) 0px, transparent 50%),
-                radial-gradient(at 85% 15%, rgba(16, 185, 129, 0.09) 0px, transparent 50%);
-        }
-        [data-theme="dark"] .spatial-mesh {
-            background-image:
-                radial-gradient(at 15% 5%, rgba(41, 151, 255, 0.15) 0px, transparent 50%),
-                radial-gradient(at 85% 15%, rgba(52, 211, 153, 0.10) 0px, transparent 50%);
+        .neo-display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -0.025em;
         }
 
-        .dynamic-nav {
-            background: var(--surface-glass);
-            backdrop-filter: saturate(190%) blur(24px);
-            -webkit-backdrop-filter: saturate(190%) blur(24px);
-            border: 1px solid var(--border-hairline);
-            box-shadow: 0 10px 36px rgba(0, 0, 0, 0.08);
-        }
-
-        .bento-card {
+        /* Editorial Surface & Cursor Spotlight */
+        .editorial-surface {
             background: var(--surface-solid);
             border: 1px solid var(--border-hairline);
-            box-shadow: var(--card-shadow);
-            transition: background-color 0.35s ease, border-color 0.3s ease;
+            box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.04);
+            position: relative;
+            transition: transform 0.35s var(--bounce-ease), border-color 0.3s ease, box-shadow 0.35s ease;
         }
 
-        /* Editorial Article Typography */
-        .prose-spatial {
+        .editorial-surface::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: radial-gradient(420px circle at var(--mouse-x) var(--mouse-y), rgba(16, 185, 129, 0.08), transparent 55%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .editorial-surface:hover::before { opacity: 1; }
+        .editorial-surface:hover { border-color: rgba(16, 185, 129, 0.35); }
+
+        #scroll-progress {
+            transform-origin: left center;
+            transform: scaleX(0);
+        }
+
+        .portzi-header {
+            padding-top: 1.1rem;
+            padding-bottom: 1.1rem;
+            transition: all 0.35s var(--bounce-ease);
+        }
+
+        .portzi-header.is-scrolled {
+            padding-top: 0.7rem;
+            padding-bottom: 0.7rem;
+            background: var(--surface-nav-scrolled);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-hairline);
+        }
+
+        .agency-cta-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            cursor: pointer;
+        }
+
+        .agency-cta-arrow {
+            transition: transform 0.32s var(--bounce-ease);
+        }
+
+        .agency-cta-group:hover .agency-cta-arrow {
+            transform: rotate(-45deg);
+        }
+
+        .detail-hero-stage {
+            background:
+                radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.11), transparent 50%),
+                radial-gradient(circle at 85% 40%, rgba(217, 119, 6, 0.07), transparent 48%);
+        }
+
+        /* Rich Article Typography */
+        .case-prose {
             color: var(--text-secondary);
-            font-size: 16px;
-            line-height: 1.78;
+            font-size: 0.96rem;
+            line-height: 1.8;
         }
-        .prose-spatial h2 {
+        @media (min-width: 640px) {
+            .case-prose { font-size: 1.03rem; }
+        }
+        .case-prose p + p { margin-top: 1.15rem; }
+        .case-prose strong, .case-prose b {
             color: var(--text-primary);
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-top: 2rem;
-            margin-bottom: 0.75rem;
-        }
-        .prose-spatial h3 {
-            color: var(--text-primary);
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .prose-spatial p {
-            margin-bottom: 1.15rem;
-        }
-        .prose-spatial ul, .prose-spatial ol {
-            margin-left: 1.4rem;
-            margin-bottom: 1.25rem;
-        }
-        .prose-spatial ul { list-style-type: disc; }
-        .prose-spatial ol { list-style-type: decimal; }
-        .prose-spatial li { margin-bottom: 0.45rem; }
-        .prose-spatial strong {
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-        .prose-spatial a {
-            color: var(--accent-blue);
-            text-decoration: underline;
             font-weight: 600;
         }
-        .prose-spatial blockquote {
-            border-left: 3px solid var(--accent-blue);
+        .case-prose h2, .case-prose h3, .case-prose h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-primary);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-top: 1.85rem;
+            margin-bottom: 0.65rem;
+        }
+        .case-prose h2 { font-size: 1.45rem; }
+        .case-prose h3 { font-size: 1.25rem; }
+        .case-prose h4 { font-size: 1.1rem; }
+        .case-prose ul, .case-prose ol {
+            margin-top: 0.85rem;
+            margin-bottom: 1.15rem;
+            padding-left: 1.35rem;
+        }
+        .case-prose ul { list-style-type: disc; }
+        .case-prose ol { list-style-type: decimal; }
+        .case-prose li { margin-bottom: 0.45rem; }
+        .case-prose a {
+            color: var(--accent-emerald);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .case-prose blockquote {
+            border-left: 3px solid var(--accent-emerald);
             background: var(--surface-elevated);
             padding: 1rem 1.25rem;
             border-radius: 0 16px 16px 0;
@@ -156,167 +199,292 @@
             font-style: italic;
         }
 
+        .motion-reveal {
+            opacity: 0;
+            filter: blur(6px);
+            transform: translateY(18px);
+            transition: opacity 0.65s var(--bounce-ease), transform 0.65s var(--bounce-ease), filter 0.6s ease;
+        }
+        .motion-reveal.is-visible {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+
+        #ios-toast {
+            top: max(1.25rem, calc(env(safe-area-inset-top) + 0.65rem));
+            transform: translate(-50%, -140%);
+            transition: transform 0.32s var(--bounce-ease), opacity 0.25s ease;
+        }
+        #ios-toast.show { transform: translate(-50%, 0); }
+
+        @keyframes pulseSoft {
+            0%, 100% { opacity: 0.55; }
+            50% { opacity: 1; }
+        }
+        .skeleton-box {
+            background: var(--surface-elevated);
+            animation: pulseSoft 1.6s ease-in-out infinite;
+        }
+
         /* Clean Light Print Mode for Save PDF */
         @media print {
             body {
                 background: #FFFFFF !important;
-                color: #1D1D1F !important;
+                color: #121316 !important;
             }
-            .no-print {
-                display: none !important;
-            }
-            .bento-card {
+            .no-print { display: none !important; }
+            .editorial-surface {
                 box-shadow: none !important;
                 border: 1px solid #E5E7EB !important;
                 background: #FFFFFF !important;
             }
-            .prose-spatial, .prose-spatial h2, .prose-spatial h3, .prose-spatial strong {
-                color: #1D1D1F !important;
+            .case-prose, .case-prose h2, .case-prose h3, .case-prose strong {
+                color: #121316 !important;
             }
         }
     </style>
 </head>
-<body class="antialiased spatial-mesh selection:bg-[#0071E3] selection:text-white pb-20">
+<body class="antialiased selection:bg-[#10B981] selection:text-white">
 
     <!-- Top Reading Progress Bar -->
-    <div class="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-transparent no-print">
-        <div id="read-progress-bar" class="h-full bg-gradient-to-r from-[#0071E3] to-[#10B981] w-0 transition-all duration-100"></div>
+    <div id="scroll-progress" class="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#10B981] via-[#34D399] to-[#D97706] z-[100] pointer-events-none no-print"></div>
+
+    <!-- Dynamic Toast -->
+    <div id="ios-toast" class="fixed left-1/2 z-[200] opacity-0 pointer-events-none max-w-[90vw] no-print">
+        <div class="rounded-full px-5 py-2.5 flex items-center gap-2.5 shadow-xl border" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-[#10B981] flex-shrink-0 flex items-center justify-center text-sm"><i class='bx bx-check'></i></span>
+            <span id="toast-msg" class="text-xs font-medium truncate">Action completed</span>
+        </div>
     </div>
 
-    <!-- Floating Top Navigation -->
-    <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[92%] md:w-[86%] max-w-4xl z-50 dynamic-nav rounded-full px-5 sm:px-6 py-3 no-print">
-        <div class="flex items-center justify-between gap-3">
-            <a href="./#projects" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold hover:text-[#0071E3] dark:hover:text-[#2997FF] transition">
-                <span class="w-7 h-7 rounded-full flex items-center justify-center" style="background: var(--surface-elevated);">
-                    <i class='bx bx-chevron-left text-lg'></i>
-                </span>
-                <span>Back to Portfolio</span>
-            </a>
+    <!-- ==================== Multi-Slide Visual Artifacts Lightbox ==================== -->
+    <div id="ios-project-lightbox" class="hidden fixed inset-0 z-[9999] bg-black/92 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-6 select-none no-print" onclick="closeProjectLightbox()">
+        <div class="max-w-5xl w-full mx-auto flex items-center justify-between gap-3" onclick="event.stopPropagation()">
+            <span id="slb-counter" class="text-xs font-semibold uppercase tracking-wider text-emerald-400"></span>
+            <button type="button" onclick="closeProjectLightbox()" aria-label="Tutup Preview" class="w-10 h-10 rounded-full bg-white/15 hover:bg-red-500/80 text-white flex items-center justify-center text-2xl transition cursor-pointer">&times;</button>
+        </div>
+
+        <div class="relative flex-1 flex items-center justify-center my-4 overflow-hidden" onclick="event.stopPropagation()">
+            <button type="button" id="slb-prev-btn" onclick="prevProjectSlide()" class="absolute left-1 sm:left-4 z-10 w-11 h-11 rounded-full bg-white/15 hover:bg-[#10B981] text-white flex items-center justify-center text-2xl backdrop-blur-md transition cursor-pointer">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+            <div class="max-h-[72vh] max-w-[88vw] overflow-auto rounded-2xl shadow-2xl border border-white/15 bg-black/50 flex items-center justify-center">
+                <img id="slb-img" src="" alt="Artifact Preview" onclick="this.classList.toggle('scale-150'); this.classList.toggle('cursor-zoom-out');" class="max-h-[70vh] max-w-[85vw] object-contain cursor-zoom-in transition-transform duration-300">
+            </div>
+            <button type="button" id="slb-next-btn" onclick="nextProjectSlide()" class="absolute right-1 sm:right-4 z-10 w-11 h-11 rounded-full bg-white/15 hover:bg-[#10B981] text-white flex items-center justify-center text-2xl backdrop-blur-md transition cursor-pointer">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+        </div>
+
+        <div class="max-w-3xl w-full mx-auto text-center space-y-1.5" onclick="event.stopPropagation()">
+            <p id="slb-caption" class="text-white text-sm sm:text-base font-medium leading-relaxed"></p>
+            <p class="text-white/50 text-[11px]">Klik gambar untuk Zoom &bull; Gunakan panah keyboard &larr; &rarr;</p>
+        </div>
+    </div>
+
+    <!-- ==================== BORDERLESS EDITORIAL NAVBAR ==================== -->
+    <header id="main-navbar" class="fixed top-0 left-0 right-0 z-50 portzi-header no-print">
+        <div class="w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-14 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4 sm:gap-6">
+                <a href="index.html#projects" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border text-xs font-medium transition hover:border-[#10B981] group" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+                    <i class='bx bx-left-arrow-alt text-base text-[#10B981] transition-transform group-hover:-translate-x-0.5'></i>
+                    <span>Back to Works</span>
+                </a>
+
+                <a href="index.html" class="hidden sm:flex items-center gap-2 group">
+                    <span class="w-7 h-7 rounded-[9px] bg-gradient-to-br from-[#10B981] to-[#059669] text-white flex items-center justify-center shadow-sm">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
+                            <path d="M9.5 15V9h3.5a2 2 0 0 1 0 4H9.5"/>
+                        </svg>
+                    </span>
+                    <span class="neo-display font-semibold text-lg tracking-tight">Portzi</span>
+                </a>
+            </div>
 
             <div class="flex items-center gap-2">
-                <!-- Dark / Light Mode Toggle -->
-                <button type="button" onclick="toggleSpatialTheme()" title="Ganti Tema Terang / Gelap" class="w-9 h-9 rounded-full border flex items-center justify-center text-base transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                <button type="button" onclick="shareCurrentCase()" title="Bagikan Studi Kasus" class="w-9 h-9 sm:w-auto sm:px-3.5 rounded-full border flex items-center justify-center gap-1.5 text-xs font-medium transition hover:border-[#10B981]" style="background: var(--surface-solid); border-color: var(--border-hairline); color: var(--text-secondary);">
+                    <i class='bx bx-share-alt text-base text-[#10B981]'></i>
+                    <span class="hidden sm:inline">Share</span>
+                </button>
+
+                <button type="button" onclick="toggleSpatialTheme()" title="Ganti Tema Terang / Gelap" class="w-9 h-9 rounded-full border flex items-center justify-center text-base transition hover:border-[#10B981]" style="background: var(--surface-solid); border-color: var(--border-hairline);">
                     <i id="theme-toggle-icon" class='bx bx-moon'></i>
                 </button>
 
-                <!-- Save / Print PDF -->
-                <button type="button" onclick="window.print()" class="h-9 px-4 rounded-full bg-[#0071E3] dark:bg-[#2997FF] text-white text-xs font-semibold inline-flex items-center gap-1.5 hover:opacity-90 transition shadow-sm">
+                <button type="button" onclick="window.print()" class="h-9 px-4 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-medium inline-flex items-center gap-1.5 transition shadow-sm">
                     <i class='bx bxs-file-pdf text-base'></i>
                     <span>Save PDF</span>
                 </button>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Main Case Study Container -->
-    <main class="pt-24 md:pt-32 px-5 sm:px-8 max-w-4xl mx-auto space-y-10">
-
-        <!-- Loading Skeleton -->
-        <div id="project-loading" class="bento-card rounded-[32px] p-10 text-center space-y-3">
-            <div class="w-10 h-10 rounded-full border-2 border-[#0071E3] border-t-transparent animate-spin mx-auto"></div>
-            <p class="text-sm font-medium" style="color: var(--text-secondary);">Memuat detail studi kasus...</p>
-        </div>
-
-        <!-- Error State -->
-        <div id="project-error" class="hidden bento-card rounded-[32px] p-10 text-center space-y-4">
+    <!-- ==================== ERROR STATE ==================== -->
+    <div id="project-error" class="hidden pt-32 pb-20 px-5 max-w-xl mx-auto text-center">
+        <div class="editorial-surface rounded-[32px] p-10 space-y-4">
             <div class="w-14 h-14 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center text-3xl mx-auto">
                 <i class='bx bx-error-circle'></i>
             </div>
-            <h1 class="text-2xl font-extrabold">Studi Kasus Tidak Ditemukan</h1>
-            <p class="text-sm max-w-md mx-auto" style="color: var(--text-secondary);">Proyek yang Anda cari mungkin telah dipindahkan atau tautan tidak valid.</p>
-            <a href="./#projects" class="inline-flex items-center gap-2 bg-[#0071E3] text-white px-6 py-3 rounded-full text-sm font-semibold">
+            <h1 class="neo-display text-2xl font-semibold">Studi Kasus Tidak Ditemukan</h1>
+            <p class="text-sm" style="color: var(--text-secondary);">Proyek yang Anda cari mungkin telah dipindahkan atau tautan tidak valid.</p>
+            <a href="index.html#projects" class="inline-flex items-center gap-2 bg-[#10B981] text-white px-6 py-3 rounded-full text-sm font-medium">
                 Kembali ke Daftar Proyek
             </a>
         </div>
-
-        <!-- Case Study Content -->
-        <article id="project-article" class="hidden space-y-8">
-            <!-- Header Card -->
-            <header class="bento-card rounded-[32px] p-7 sm:p-10 space-y-6">
-                <div class="flex flex-wrap items-center justify-between gap-3">
-                    <div class="flex items-center gap-2">
-                        <span class="px-3.5 py-1 rounded-full bg-blue-500/10 text-[#0071E3] dark:text-[#2997FF] text-xs font-bold uppercase tracking-wider">Case Study</span>
-                        <span id="proj-date" class="text-xs font-medium" style="color: var(--text-muted);"></span>
-                    </div>
-                    <a id="proj-repo-btn" href="#" target="_blank" class="hidden no-print inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-bold transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                        <i class='bx bxl-github text-base'></i>
-                        <span>Source / Live Preview</span>
-                        <i class='bx bx-link-external text-xs'></i>
-                    </a>
-                </div>
-
-                <h1 id="proj-title" class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.15]"></h1>
-                <p id="proj-summary" class="text-base sm:text-lg leading-relaxed" style="color: var(--text-secondary);"></p>
-
-                <!-- Hero Cover Image -->
-                <div id="proj-cover-wrap" class="hidden rounded-[24px] overflow-hidden border" style="border-color: var(--border-hairline); background: var(--surface-elevated);">
-                    <img id="proj-cover-img" src="" alt="Project Cover" class="w-full max-h-[480px] object-cover">
-                </div>
-            </header>
-
-            <!-- Rich Text Body -->
-            <section class="bento-card rounded-[32px] p-7 sm:p-11">
-                <div id="proj-content" class="prose-spatial"></div>
-            </section>
-
-            <!-- Documentation Gallery Grid -->
-            <section id="proj-gallery-section" class="hidden bento-card rounded-[32px] p-7 sm:p-10 space-y-6">
-                <div class="flex items-center justify-between border-b pb-4" style="border-color: var(--border-hairline);">
-                    <div>
-                        <span class="text-xs font-bold uppercase tracking-wider text-[#0071E3] dark:text-[#2997FF]">Visual Artifacts</span>
-                        <h2 class="text-2xl font-extrabold tracking-tight mt-0.5">Documentation & Results</h2>
-                    </div>
-                    <span id="proj-gallery-count" class="text-xs font-semibold px-3 py-1 rounded-full" style="background: var(--surface-elevated); color: var(--text-secondary);"></span>
-                </div>
-
-                <div id="proj-gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5"></div>
-            </section>
-
-            <!-- Bottom Navigation CTA -->
-            <div class="bento-card rounded-[28px] p-7 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 no-print">
-                <div>
-                    <h3 class="font-bold text-lg tracking-tight">Tertarik mendiskusikan studi kasus ini?</h3>
-                    <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">Ajukan pertanyaan teknis, kolaborasi riset, atau kebutuhan proyek serupa.</p>
-                </div>
-                <div class="flex items-center gap-3 w-full sm:w-auto">
-                    <a href="./#inquiry-box" class="flex-1 sm:flex-initial text-center bg-[#0071E3] dark:bg-[#2997FF] text-white px-6 py-3 rounded-full text-xs sm:text-sm font-semibold hover:opacity-90 transition">
-                        Ajukan Kolaborasi
-                    </a>
-                    <a href="./#projects" class="flex-1 sm:flex-initial text-center border px-5 py-3 rounded-full text-xs sm:text-sm font-semibold transition" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                        Proyek Lainnya
-                    </a>
-                </div>
-            </div>
-        </article>
-
-    </main>
-
-    <!-- ==================== Spatial Project Lightbox Modal ==================== -->
-    <div id="ios-project-lightbox" class="hidden fixed inset-0 z-[9999] bg-black/92 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-6 select-none no-print" onclick="closeProjectLightbox()">
-        <div class="max-w-5xl w-full mx-auto flex items-center justify-between gap-3" onclick="event.stopPropagation()">
-            <span id="slb-counter" class="text-xs font-bold uppercase tracking-wider text-blue-400"></span>
-            <button type="button" onclick="closeProjectLightbox()" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-xl transition">&times;</button>
-        </div>
-
-        <div class="relative flex-1 flex items-center justify-center my-4 overflow-hidden" onclick="event.stopPropagation()">
-            <button type="button" onclick="prevProjectSlide()" class="absolute left-1 sm:left-4 z-10 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center text-2xl backdrop-blur-md transition">
-                <i class='bx bx-chevron-left'></i>
-            </button>
-            <div class="max-h-[72vh] max-w-[88vw] overflow-auto rounded-2xl shadow-2xl border border-white/15 bg-black/40 flex items-center justify-center">
-                <img id="slb-img" src="" alt="Artifact Preview" onclick="this.classList.toggle('scale-150'); this.classList.toggle('cursor-zoom-out');" class="max-h-[70vh] max-w-[85vw] object-contain cursor-zoom-in transition-transform duration-300">
-            </div>
-            <button type="button" onclick="nextProjectSlide()" class="absolute right-1 sm:right-4 z-10 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center text-2xl backdrop-blur-md transition">
-                <i class='bx bx-chevron-right'></i>
-            </button>
-        </div>
-
-        <div style="max-width: 760px; width: 100%; margin: 0 auto; text-align: center;" onclick="event.stopPropagation()">
-            <p id="slb-caption" style="color: #FFFFFF !important; font-size: 15px !important; font-weight: 600 !important; line-height: 1.5 !important; margin-bottom: 6px !important;"></p>
-            <p style="color: rgba(255,255,255,0.5) !important; font-size: 11px !important; margin: 0 !important;">Klik gambar untuk Zoom &bull; Gunakan panah keyboard &larr; &rarr;</p>
-        </div>
     </div>
 
-    <!-- ==================== Scripts ==================== -->
+    <!-- ==================== CASE STUDY HERO STAGE ==================== -->
+    <main id="project-article" class="pt-24 sm:pt-28 pb-16">
+        <section class="detail-hero-stage border-b pb-12 sm:pb-16" style="border-color: var(--border-hairline);">
+            <div class="w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-14 space-y-8">
+                
+                <!-- Tags & Read Time -->
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div id="detail-tags" class="flex flex-wrap items-center gap-2">
+                        <span class="skeleton-box w-24 h-6 rounded-full"></span>
+                        <span class="skeleton-box w-20 h-6 rounded-full"></span>
+                    </div>
+                    <span id="detail-read-time" class="text-xs font-medium inline-flex items-center gap-1.5" style="color: var(--text-muted);">
+                        <i class='bx bx-time-five text-sm text-[#10B981]'></i> <span>Case Study</span>
+                    </span>
+                </div>
+
+                <!-- Title & Lead Summary -->
+                <div class="max-w-4xl space-y-4">
+                    <h1 id="detail-title" class="neo-display text-3xl sm:text-5xl lg:text-[56px] font-semibold leading-[1.08]">
+                        Memuat Studi Kasus...
+                    </h1>
+                    <p id="detail-summary" class="text-base sm:text-lg lg:text-xl leading-relaxed font-normal" style="color: var(--text-secondary);">
+                        Menyiapkan ringkasan analisis, metodologi, dan dokumentasi proyek.
+                    </p>
+                </div>
+
+                <!-- Hero Cover Frame (Klik untuk Zoom) -->
+                <div id="detail-cover-wrap" onclick="openCoverLightbox()" class="hidden group relative rounded-[28px] sm:rounded-[34px] overflow-hidden border shadow-xl cursor-zoom-in" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+                    <div class="aspect-[16/9] sm:aspect-[21/9] w-full overflow-hidden">
+                        <img id="detail-cover" src="" alt="Project Cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]">
+                    </div>
+                    <span class="no-print absolute bottom-4 right-4 px-3.5 py-1.5 rounded-full bg-black/70 text-white text-xs font-medium backdrop-blur-md inline-flex items-center gap-1.5 opacity-85 group-hover:opacity-100 transition">
+                        <i class='bx bx-fullscreen text-sm text-[#34D399]'></i> Klik untuk perbesar
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== EDITORIAL BODY & STICKY METADATA SIDEBAR ==================== -->
+        <section class="pt-12 sm:pt-16 w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-14">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                
+                <!-- Left Sticky Sidebar: Project Metadata & Actions -->
+                <aside class="lg:col-span-4 lg:sticky lg:top-24 space-y-5 motion-reveal no-print">
+                    <div class="editorial-surface rounded-[26px] p-6 sm:p-7 space-y-5">
+                        <div class="flex items-center justify-between border-b pb-4" style="border-color: var(--border-hairline);">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[#10B981] dark:text-[#34D399]">Project Overview</span>
+                            <span id="detail-date-badge" class="text-xs font-normal" style="color: var(--text-muted);">2026</span>
+                        </div>
+
+                        <div class="space-y-4 text-sm">
+                            <div>
+                                <p class="text-[11px] font-medium uppercase tracking-wider" style="color: var(--text-muted);">Author / Analyst</p>
+                                <p class="font-semibold mt-0.5">Muhammad Zidan</p>
+                            </div>
+
+                            <div>
+                                <p class="text-[11px] font-medium uppercase tracking-wider" style="color: var(--text-muted);">Domain &amp; Methods</p>
+                                <div id="sidebar-tags" class="flex flex-wrap gap-1.5 mt-1.5"></div>
+                            </div>
+
+                            <div id="sidebar-demo-wrap" class="hidden pt-2">
+                                <a id="detail-demo-btn" href="#" target="_blank" rel="noopener noreferrer" class="w-full agency-cta-group justify-between bg-[#10B981] hover:bg-[#059669] text-white pl-5 pr-1.5 py-1.5 rounded-full text-xs sm:text-sm font-medium shadow-sm transition">
+                                    <span>Source / Live Preview</span>
+                                    <span class="agency-cta-arrow w-8 h-8 rounded-full bg-white text-[#10B981] flex items-center justify-center text-base">
+                                        <i class='bx bx-link-external'></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t flex items-center gap-2" style="border-color: var(--border-hairline);">
+                            <button type="button" onclick="shareCurrentCase()" class="flex-1 py-2.5 px-4 rounded-full border text-xs font-medium inline-flex items-center justify-center gap-1.5 transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                                <i class='bx bx-copy-alt text-base text-[#10B981]'></i> Salin Tautan
+                            </button>
+                            <a href="index.html#projects" class="py-2.5 px-4 rounded-full border text-xs font-medium inline-flex items-center justify-center gap-1 transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                                All Works
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Mini Collaboration Card -->
+                    <div class="rounded-[26px] p-6 bg-gradient-to-br from-[#0E1E18] to-[#09120F] text-white border border-white/10 space-y-3">
+                        <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#34D399]">
+                            <i class='bx bx-star'></i> Need Similar Results?
+                        </span>
+                        <h3 class="neo-display text-lg font-semibold leading-snug">
+                            Tertarik mendiskusikan studi kasus ini atau kolaborasi serupa?
+                        </h3>
+                        <a href="index.html#contact" class="inline-flex items-center gap-1.5 text-xs font-medium text-white bg-white/12 hover:bg-white/20 px-4 py-2 rounded-full transition">
+                            <span>Ajukan Kolaborasi</span> <i class='bx bx-right-arrow-alt text-base text-[#34D399]'></i>
+                        </a>
+                    </div>
+                </aside>
+
+                <!-- Right Main Column: Detailed Narrative + Visual Artifacts Gallery -->
+                <div class="lg:col-span-8 space-y-8 motion-reveal">
+                    <article class="editorial-surface rounded-[28px] sm:rounded-[32px] p-6 sm:p-10 lg:p-12">
+                        <div class="flex items-center gap-2 text-xs font-medium text-[#D97706] dark:text-[#FBBF24] mb-4">
+                            <i class='bx bx-file-blank text-base'></i>
+                            <span>Detailed Documentation &amp; Findings</span>
+                        </div>
+
+                        <div id="detail-content" class="case-prose">
+                            <div class="space-y-3">
+                                <div class="skeleton-box h-4 w-full rounded-lg"></div>
+                                <div class="skeleton-box h-4 w-11/12 rounded-lg"></div>
+                                <div class="skeleton-box h-4 w-4/5 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Visual Artifacts / Documentation Gallery Grid (RESTORED) -->
+                    <section id="proj-gallery-section" class="hidden editorial-surface rounded-[28px] sm:rounded-[32px] p-6 sm:p-10 space-y-6">
+                        <div class="flex items-center justify-between border-b pb-4" style="border-color: var(--border-hairline);">
+                            <div>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-[#10B981] dark:text-[#34D399]">Visual Artifacts</span>
+                                <h2 class="neo-display text-2xl font-semibold mt-0.5">Documentation &amp; Results</h2>
+                            </div>
+                            <span id="proj-gallery-count" class="text-xs font-medium px-3.5 py-1 rounded-full" style="background: var(--surface-elevated); color: var(--text-secondary);"></span>
+                        </div>
+
+                        <div id="proj-gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5"></div>
+                    </section>
+
+                    <!-- Prev / Next Case Study Navigation -->
+                    <div id="related-projects-nav" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 no-print"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== COMPACT EDITORIAL FOOTER ==================== -->
+    <footer class="bg-gradient-to-br from-[#0E1E18] via-[#09120F] to-[#08090A] text-white py-12 border-t border-white/10 no-print">
+        <div class="w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-14 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-300">
+            <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-[#10B981] text-white flex items-center justify-center font-bold">P</span>
+                <span>&copy; 2026 Portzi &mdash; Muhammad Zidan.</span>
+            </div>
+
+            <div class="flex items-center gap-5">
+                <a href="index.html#hero" class="hover:text-white transition">Home</a>
+                <a href="index.html#projects" class="hover:text-white transition">Works</a>
+                <a href="index.html#services" class="hover:text-white transition">Services</a>
+                <a href="index.html#contact" class="hover:text-white transition">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== SUPABASE & INTERACTION SCRIPT ==================== -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         if ('serviceWorker' in navigator) {
@@ -325,13 +493,75 @@
             });
         }
 
+        const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
+        const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        function escapeHTML(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function safeUrl(url, fallback = '#') {
+            if (!url) return fallback;
+            const trimmed = String(url).trim();
+            if (trimmed.startsWith('/') || trimmed.startsWith('./') || trimmed.startsWith('#')) return trimmed;
+            try {
+                const parsed = new URL(trimmed, window.location.origin);
+                if (parsed.protocol === 'http:' || parsed.protocol === 'https:') return parsed.href;
+            } catch (e) {}
+            return fallback;
+        }
+
+        function sanitizeRichHTML(html) {
+            if (!html) return '';
+            const raw = String(html).trim();
+            if (!/<[a-z][\s\S]*>/i.test(raw)) {
+                return escapeHTML(raw).replace(/\r?\n/g, '<br>');
+            }
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(raw, 'text/html');
+            const allowedTags = new Set(['P', 'BR', 'STRONG', 'B', 'EM', 'I', 'U', 'UL', 'OL', 'LI', 'SPAN', 'DIV', 'H2', 'H3', 'H4', 'A', 'BLOCKQUOTE', 'IMG']);
+
+            function cleanNode(node) {
+                const children = Array.from(node.childNodes);
+                for (const child of children) {
+                    if (child.nodeType === Node.ELEMENT_NODE) {
+                        if (!allowedTags.has(child.tagName)) {
+                            node.replaceChild(document.createTextNode(child.textContent || ''), child);
+                            continue;
+                        }
+                        for (const attr of Array.from(child.attributes)) {
+                            const name = attr.name.toLowerCase();
+                            if (name.startsWith('on') || name === 'style') {
+                                child.removeAttribute(attr.name);
+                            } else if (name === 'href' || name === 'src') {
+                                child.setAttribute(attr.name, safeUrl(attr.value, '#'));
+                                if (name === 'href') child.setAttribute('rel', 'noopener noreferrer');
+                            } else if (name !== 'class' && name !== 'target' && name !== 'alt') {
+                                child.removeAttribute(attr.name);
+                            }
+                        }
+                        cleanNode(child);
+                    }
+                }
+            }
+            cleanNode(doc.body);
+            return doc.body.innerHTML;
+        }
+
         // Theme Sync
         function syncThemeIcon() {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             const icon = document.getElementById('theme-toggle-icon');
             const meta = document.getElementById('meta-theme-color');
-            if (icon) icon.className = isDark ? 'bx bx-sun text-amber-400' : 'bx bx-moon text-slate-700';
-            if (meta) meta.setAttribute('content', isDark ? '#07080B' : '#0071E3');
+            if (icon) icon.className = isDark ? 'bx bx-sun text-amber-400' : 'bx bx-moon text-zinc-700';
+            if (meta) meta.setAttribute('content', isDark ? '#090A0B' : '#10B981');
         }
         syncThemeIcon();
 
@@ -343,26 +573,49 @@
             else document.documentElement.classList.remove('dark');
             localStorage.setItem('mz_spatial_theme', next);
             syncThemeIcon();
+            showIosToast(next === 'dark' ? 'Dark Mode aktif' : 'Warm Light Mode aktif');
         };
 
-        // Reading Progress Bar
-        window.addEventListener('scroll', () => {
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const pct = docHeight > 0 ? Math.min(100, Math.max(0, (window.scrollY / docHeight) * 100)) : 0;
-            const bar = document.getElementById('read-progress-bar');
-            if (bar) bar.style.width = pct + '%';
-        }, { passive: true });
+        // Toast & Share
+        let toastTimer;
+        window.showIosToast = function(msg) {
+            const toast = document.getElementById('ios-toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2400);
+        };
 
-        // Lightbox Logic
-        let projectSlides = [];
+        window.shareCurrentCase = async function() {
+            const title = document.getElementById('detail-title').innerText;
+            const url = window.location.href;
+            if (navigator.share) {
+                try { await navigator.share({ title, url }); return; } catch (e) {}
+            }
+            navigator.clipboard?.writeText(`${title} — ${url}`);
+            showIosToast('Tautan studi kasus disalin!');
+        };
+
+        // Multi-Slide Lightbox Logic (Mendukung Cover & Visual Artifacts Gallery)
+        let allLightboxSlides = [];
         let currentSlideIndex = 0;
 
         window.openProjectLightbox = function(idx) {
-            if (!projectSlides.length) return;
+            if (!allLightboxSlides.length) return;
             currentSlideIndex = idx;
             renderProjectSlide();
             document.getElementById('ios-project-lightbox').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
+        };
+
+        window.openCoverLightbox = function() {
+            if (allLightboxSlides.length > 0) {
+                window.openProjectLightbox(0);
+            }
         };
 
         window.closeProjectLightbox = function() {
@@ -371,25 +624,223 @@
         };
 
         function renderProjectSlide() {
-            const slide = projectSlides[currentSlideIndex];
+            const slide = allLightboxSlides[currentSlideIndex];
             const img = document.getElementById('slb-img');
             img.classList.remove('scale-150', 'cursor-zoom-out');
             img.src = slide.url;
             document.getElementById('slb-caption').innerText = slide.caption || `Dokumentasi #${currentSlideIndex + 1}`;
-            document.getElementById('slb-counter').innerText = `Artifact ${currentSlideIndex + 1} of ${projectSlides.length}`;
+            document.getElementById('slb-counter').innerText = `Artifact ${currentSlideIndex + 1} of ${allLightboxSlides.length}`;
+
+            const showArrows = allLightboxSlides.length > 1;
+            document.getElementById('slb-prev-btn').style.display = showArrows ? 'flex' : 'none';
+            document.getElementById('slb-next-btn').style.display = showArrows ? 'flex' : 'none';
         }
 
         window.nextProjectSlide = function() {
-            if (!projectSlides.length) return;
-            currentSlideIndex = (currentSlideIndex + 1) % projectSlides.length;
+            if (!allLightboxSlides.length) return;
+            currentSlideIndex = (currentSlideIndex + 1) % allLightboxSlides.length;
             renderProjectSlide();
         };
 
         window.prevProjectSlide = function() {
-            if (!projectSlides.length) return;
-            currentSlideIndex = (currentSlideIndex - 1 + projectSlides.length) % projectSlides.length;
+            if (!allLightboxSlides.length) return;
+            currentSlideIndex = (currentSlideIndex - 1 + allLightboxSlides.length) % allLightboxSlides.length;
             renderProjectSlide();
         };
+
+        // Scroll Progress & Header Morph
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const doc = document.documentElement;
+            const maxScroll = doc.scrollHeight - doc.clientHeight;
+            const ratio = maxScroll > 0 ? Math.min(1, Math.max(0, scrollY / maxScroll)) : 0;
+
+            const bar = document.getElementById('scroll-progress');
+            if (bar) bar.style.transform = `scaleX(${ratio})`;
+
+            const header = document.getElementById('main-navbar');
+            if (header) {
+                if (scrollY > 24) header.classList.add('is-scrolled');
+                else header.classList.remove('is-scrolled');
+            }
+        }, { passive: true });
+
+        // Cursor Spotlight on Cards
+        document.addEventListener('mousemove', (e) => {
+            const card = e.target.closest('.editorial-surface');
+            if (card) {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            }
+        }, { passive: true });
+
+        // Reveal Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.motion-reveal').forEach(el => revealObserver.observe(el));
+
+        const staticFallbackProjects = [
+            {
+                id: 'static-bunhaven',
+                isStatic: true,
+                title: 'Bun Haven Bakery Sales Optimization',
+                description: 'Designed a business strategy utilizing Association Rules and the Apriori algorithm to identify purchasing patterns, resulting in data-driven recommendations for product bundling and store layout optimization.',
+                content: '<h3>Latar Belakang & Permasalahan</h3><p>Log transaksi harian pada toko roti memiliki pola pembelian berulang antar produk yang belum dimanfaatkan dalam strategi paket promo maupun penataan rak display.</p><h3>Metodologi & Tools</h3><p>Mengolah data historis transaksi POS menggunakan <strong>KNIME Analytics Platform</strong> dan menerapkan algoritma <strong>Apriori (Association Rules)</strong> dengan parameter Support, Confidence, dan Lift untuk menemukan kombinasi produk dengan keterkaitan tertinggi.</p><h3>Dampak & Rekomendasi</h3><ul><li>Menyusun rekomendasi paket <em>cross-selling</em> berbasis kombinasi produk dengan nilai Lift tertinggi.</li><li>Memberikan usulan penataan ulang posisi produk pendamping untuk meningkatkan rata-rata nilai belanja per transaksi.</li></ul>',
+                image_url: '/artifacts/image_d69916.png',
+                tags: ['Data Mining', 'KNIME', 'Apriori'],
+                full_url: 'project-bunhaven.html'
+            },
+            {
+                id: 'static-amazon',
+                isStatic: true,
+                title: 'Amazon Sales Report Analysis',
+                description: 'Structured raw sales data and developed predictive models using Random Forest (99.78% accuracy) and Decision Tree algorithms to forecast delivery statuses and optimize fulfillment strategies.',
+                content: '<h3>Latar Belakang & Permasalahan</h3><p>Pengiriman pesanan e-commerce lintas wilayah memiliki variasi status pengantaran yang memerlukan pemetaan faktor risiko keterlambatan lebih awal.</p><h3>Metodologi & Tools</h3><p>Melakukan pembersihan data dan rekayasa fitur pada dataset penjualan Amazon menggunakan <strong>KNIME</strong>, lalu melatih serta membandingkan model klasifikasi <strong>Decision Tree</strong> dan <strong>Random Forest</strong>.</p><h3>Dampak & Rekomendasi</h3><ul><li>Mencapai akurasi klasifikasi <strong>99.78%</strong> menggunakan Random Forest untuk memprediksi status akhir pengiriman.</li><li>Mengidentifikasi kanal pengiriman dan kategori produk yang paling berpengaruh terhadap ketepatan waktu pemenuhan pesanan.</li></ul>',
+                image_url: '/artifacts/image_d3e5a3.png',
+                tags: ['Machine Learning', 'KNIME', 'Random Forest'],
+                full_url: 'project-amazon.html'
+            }
+        ];
+
+        async function loadCaseStudyDetail() {
+            const params = new URLSearchParams(window.location.search);
+            const projectId = params.get('id');
+
+            let allProjects = [];
+            try {
+                const { data, error } = await supabaseClient
+                    .from('projects')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                if (!error && Array.isArray(data)) allProjects = [...data, ...staticFallbackProjects];
+                else allProjects = [...staticFallbackProjects];
+            } catch (e) {
+                allProjects = [...staticFallbackProjects];
+            }
+
+            if (!projectId && allProjects.length === 0) {
+                document.getElementById('project-article').classList.add('hidden');
+                document.getElementById('project-error').classList.remove('hidden');
+                return;
+            }
+
+            let currentIdx = allProjects.findIndex(p => String(p.id) === String(projectId));
+            if (currentIdx === -1) currentIdx = 0;
+
+            const proj = allProjects[currentIdx];
+            if (!proj) {
+                document.getElementById('project-article').classList.add('hidden');
+                document.getElementById('project-error').classList.remove('hidden');
+                return;
+            }
+
+            document.title = `${proj.title} — Portzi Case Study`;
+            document.getElementById('detail-title').innerText = proj.title;
+            document.getElementById('detail-summary').innerText = proj.description || '';
+
+            if (proj.created_at) {
+                const d = new Date(proj.created_at);
+                if (!Number.isNaN(d.getTime())) {
+                    document.getElementById('detail-date-badge').innerText = d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+                }
+            }
+
+            const tags = Array.isArray(proj.tags) ? proj.tags : [];
+            const tagBadgesHTML = tags.map((t, idx) => `
+                <span class="px-3 py-1 rounded-full text-xs font-medium ${idx === 0 ? 'bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24]' : ''}" style="${idx === 0 ? '' : 'background: var(--surface-solid); border: 1px solid var(--border-hairline); color: var(--text-secondary);'}">
+                    ${escapeHTML(t)}
+                </span>
+            `).join('');
+
+            document.getElementById('detail-tags').innerHTML = tagBadgesHTML;
+            document.getElementById('sidebar-tags').innerHTML = tagBadgesHTML;
+
+            // Cek semua kemungkinan kolom link (demo_url, repo_url, link)
+            const repoLink = safeUrl(proj.demo_url || proj.repo_url || proj.link, '');
+            if (repoLink) {
+                document.getElementById('detail-demo-btn').href = repoLink;
+                document.getElementById('sidebar-demo-wrap').classList.remove('hidden');
+            }
+
+            // Cover Image & Masukkan ke urutan pertama Lightbox
+            allLightboxSlides = [];
+            const coverUrl = safeUrl(proj.image_url, '');
+            if (coverUrl) {
+                document.getElementById('detail-cover').src = coverUrl;
+                document.getElementById('detail-cover-wrap').classList.remove('hidden');
+                allLightboxSlides.push({ url: coverUrl, caption: `${proj.title} — Cover Overview` });
+            }
+
+            // Konten Utama
+            const contentEl = document.getElementById('detail-content');
+            const rawBody = proj.content || proj.description || '<p>Detail studi kasus sedang diperbarui.</p>';
+            contentEl.innerHTML = sanitizeRichHTML(rawBody);
+
+            const wordCount = contentEl.innerText.trim().split(/\s+/).length;
+            const mins = Math.max(1, Math.ceil(wordCount / 200));
+            document.getElementById('detail-read-time').innerHTML = `<i class='bx bx-time-five text-sm text-[#10B981]'></i> <span>${mins} min read</span>`;
+
+            // Parse Gallery Artifacts (proj.gallery)
+            let rawGallery = proj.gallery;
+            if (typeof rawGallery === 'string') {
+                try { rawGallery = JSON.parse(rawGallery); } catch (e) { rawGallery = []; }
+            }
+            const galleryItems = (Array.isArray(rawGallery) ? rawGallery : []).map((item, i) => {
+                if (typeof item === 'string') {
+                    return { url: safeUrl(item, ''), caption: `${proj.title} — Dokumentasi #${i + 1}` };
+                }
+                return { url: safeUrl(item?.url, ''), caption: item?.caption || `${proj.title} — Dokumentasi #${i + 1}` };
+            }).filter(s => s.url);
+
+            if (galleryItems.length > 0) {
+                const startOffset = allLightboxSlides.length;
+                allLightboxSlides.push(...galleryItems);
+
+                document.getElementById('proj-gallery-section').classList.remove('hidden');
+                document.getElementById('proj-gallery-count').innerText = `${galleryItems.length} Artifacts`;
+                const grid = document.getElementById('proj-gallery-grid');
+                grid.innerHTML = galleryItems.map((slide, idx) => `
+                    <figure onclick="openProjectLightbox(${startOffset + idx})" class="group cursor-pointer rounded-[22px] overflow-hidden border flex flex-col transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                        <div class="h-56 overflow-hidden relative">
+                            <img src="${escapeHTML(slide.url)}" alt="${escapeHTML(slide.caption)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="no-print absolute bottom-3 right-3 w-8 h-8 rounded-full bg-black/65 text-white flex items-center justify-center text-sm backdrop-blur-md opacity-80 group-hover:opacity-100 transition">
+                                <i class='bx bx-fullscreen'></i>
+                            </span>
+                        </div>
+                        <figcaption class="p-4 text-xs font-medium leading-relaxed" style="color: var(--text-secondary);">
+                            ${escapeHTML(slide.caption)}
+                        </figcaption>
+                    </figure>
+                `).join('');
+            }
+
+            // Prev / Next Case Study Navigation
+            const navWrap = document.getElementById('related-projects-nav');
+            if (allProjects.length > 1 && navWrap) {
+                const prevProj = allProjects[(currentIdx - 1 + allProjects.length) % allProjects.length];
+                const nextProj = allProjects[(currentIdx + 1) % allProjects.length];
+                const getHref = (item) => item.isStatic ? item.full_url : `project-detail.html?id=${encodeURIComponent(item.id)}`;
+
+                navWrap.innerHTML = `
+                    <a href="${safeUrl(getHref(prevProj), '#')}" class="editorial-surface rounded-[24px] p-5 flex flex-col justify-between gap-2 group">
+                        <span class="text-[11px] font-medium uppercase tracking-wider inline-flex items-center gap-1" style="color: var(--text-muted);">
+                            <i class='bx bx-left-arrow-alt text-base text-[#10B981]'></i> Previous Case
+                        </span>
+                        <span class="neo-display font-semibold text-base line-clamp-1 group-hover:text-[#10B981] transition-colors">${escapeHTML(prevProj.title)}</span>
+                    </a>
+                    <a href="${safeUrl(getHref(nextProj), '#')}" class="editorial-surface rounded-[24px] p-5 flex flex-col justify-between gap-2 text-right group">
+                        <span class="text-[11px] font-medium uppercase tracking-wider inline-flex items-center justify-end gap-1" style="color: var(--text-muted);">
+                            Next Case <i class='bx bx-right-arrow-alt text-base text-[#10B981]'></i>
+                        </span>
+                        <span class="neo-display font-semibold text-base line-clamp-1 group-hover:text-[#10B981] transition-colors">${escapeHTML(nextProj.title)}</span>
+                    </a>
+                `;
+            }
+        }
 
         document.addEventListener('keydown', (e) => {
             const lb = document.getElementById('ios-project-lightbox');
@@ -399,90 +850,7 @@
             if (e.key === 'ArrowLeft') prevProjectSlide();
         });
 
-        // Fetch Project Detail from Supabase
-        const supabaseUrl = 'https://rnjzmdondbnkmmiexnzg.supabase.co';
-        const supabaseKey = 'sb_publishable_0cOoMiEnxmakBCaJetNw7w_dI3yOTeE';
-        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            const params = new URLSearchParams(window.location.search);
-            const projectId = params.get('id');
-
-            const loadingEl = document.getElementById('project-loading');
-            const errorEl = document.getElementById('project-error');
-            const articleEl = document.getElementById('project-article');
-
-            if (!projectId) {
-                loadingEl.classList.add('hidden');
-                errorEl.classList.remove('hidden');
-                return;
-            }
-
-            try {
-                const { data: project, error } = await supabaseClient
-                    .from('projects')
-                    .select('*')
-                    .eq('id', projectId)
-                    .single();
-
-                if (error || !project) throw new Error('Not found');
-
-                document.title = `${project.title} — Muhammad Zidan`;
-                document.getElementById('proj-title').innerText = project.title;
-                document.getElementById('proj-summary').innerText = project.description || '';
-
-                if (project.created_at) {
-                    const d = new Date(project.created_at);
-                    document.getElementById('proj-date').innerText = d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
-                }
-
-                const repoLink = project.repo_url || project.link;
-                if (repoLink) {
-                    const repoBtn = document.getElementById('proj-repo-btn');
-                    repoBtn.href = repoLink;
-                    repoBtn.classList.remove('hidden');
-                }
-
-                if (project.image_url) {
-                    document.getElementById('proj-cover-img').src = project.image_url;
-                    document.getElementById('proj-cover-wrap').classList.remove('hidden');
-                }
-
-                document.getElementById('proj-content').innerHTML = project.content || '<p>Detail studi kasus sedang diperbarui.</p>';
-
-                // Parse Gallery
-                const rawGallery = Array.isArray(project.gallery) ? project.gallery : [];
-                projectSlides = rawGallery.map((item, i) => {
-                    if (typeof item === 'string') return { url: item, caption: `${project.title} — Gambar #${i + 1}` };
-                    return { url: item.url, caption: item.caption || `${project.title} — Gambar #${i + 1}` };
-                }).filter(s => s.url);
-
-                if (projectSlides.length > 0) {
-                    document.getElementById('proj-gallery-section').classList.remove('hidden');
-                    document.getElementById('proj-gallery-count').innerText = `${projectSlides.length} Artifacts`;
-                    const grid = document.getElementById('proj-gallery-grid');
-                    grid.innerHTML = projectSlides.map((slide, idx) => `
-                        <figure onclick="openProjectLightbox(${idx})" class="group cursor-pointer rounded-2xl overflow-hidden border flex flex-col transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                            <div class="h-56 overflow-hidden relative">
-                                <img src="${slide.url}" alt="${slide.caption}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                <span class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center text-sm backdrop-blur-md opacity-0 group-hover:opacity-100 transition no-print">
-                                    <i class='bx bx-fullscreen'></i>
-                                </span>
-                            </div>
-                            <figcaption class="p-4 text-xs font-medium leading-relaxed" style="color: var(--text-secondary);">
-                                ${slide.caption}
-                            </figcaption>
-                        </figure>
-                    `).join('');
-                }
-
-                loadingEl.classList.add('hidden');
-                articleEl.classList.remove('hidden');
-            } catch (err) {
-                loadingEl.classList.add('hidden');
-                errorEl.classList.remove('hidden');
-            }
-        });
+        document.addEventListener('DOMContentLoaded', loadCaseStudyDetail);
     </script>
 </body>
 </html>

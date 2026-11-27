@@ -2,25 +2,23 @@
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <title>Detail Proyek | Strategi Wirausaha Toko Roti Bun Haven</title>
+    <title>Detail Proyek | Strategi Wirausaha Toko Roti Bun Haven — Portzi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Studi kasus Strategi Wirausaha Toko Roti Bun Haven menggunakan KNIME Analytics Platform dan Association Rules (Apriori) oleh Muhammad Zidan.">
 
     <!-- PWA & Apple Native Meta -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0071E3" id="meta-theme-color">
+    <meta name="theme-color" content="#10B981" id="meta-theme-color">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Prevent Theme Flash Before Render -->
-    <script>
-        (function() {
-            const saved = localStorage.getItem('mz_spatial_theme');
-            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = saved || (prefersDark ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
-            if (theme === 'dark') document.documentElement.classList.add('dark');
-        })();
-    </script>
+    <!-- Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,47 +28,53 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Inter', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
                     }
                 }
             }
-        }
+        };
     </script>
 
-    <!-- Google Fonts & Boxicons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Early Theme Init (Sinkron dengan index.html) -->
+    <script>
+        (function () {
+            const saved = localStorage.getItem('mz_spatial_theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = saved || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            if (theme === 'dark') document.documentElement.classList.add('dark');
+        })();
+    </script>
 
     <style>
-        /* ==================== SPATIAL DESIGN TOKENS (LIGHT & OLED DARK) ==================== */
         :root {
-            --bg-canvas: #F5F6FA;
-            --surface-glass: rgba(255, 255, 255, 0.80);
+            --bg-canvas: #F6F7F5;
             --surface-solid: #FFFFFF;
-            --surface-elevated: #F0F2F7;
-            --text-primary: #1D1D1F;
-            --text-secondary: #515154;
-            --text-muted: #86868B;
-            --border-hairline: rgba(0, 0, 0, 0.07);
-            --accent-blue: #0071E3;
+            --surface-elevated: #EFF1EE;
+            --surface-nav-scrolled: rgba(255, 255, 255, 0.84);
+            --text-primary: #121316;
+            --text-secondary: #4B5563;
+            --text-muted: #6B7280;
+            --border-hairline: rgba(18, 19, 22, 0.08);
             --accent-emerald: #10B981;
-            --card-shadow: 0 12px 34px -10px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+            --accent-fire: #D97706;
+            --bounce-ease: cubic-bezier(0.22, 1, 0.36, 1);
+            --mouse-x: 50%;
+            --mouse-y: 50%;
         }
 
         [data-theme="dark"] {
-            --bg-canvas: #07080B;
-            --surface-glass: rgba(20, 22, 29, 0.78);
-            --surface-solid: #111319;
-            --surface-elevated: #191C24;
-            --text-primary: #F5F5F7;
-            --text-secondary: #A1A1A6;
-            --text-muted: #6E6E73;
+            --bg-canvas: #090A0B;
+            --surface-solid: #121417;
+            --surface-elevated: #1A1D21;
+            --surface-nav-scrolled: rgba(18, 20, 23, 0.82);
+            --text-primary: #F4F5F6;
+            --text-secondary: #A1A1AA;
+            --text-muted: #71717A;
             --border-hairline: rgba(255, 255, 255, 0.09);
-            --accent-blue: #2997FF;
             --accent-emerald: #34D399;
-            --card-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            --accent-fire: #FBBF24;
         }
 
         * {
@@ -79,159 +83,153 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
             background-color: var(--bg-canvas);
             color: var(--text-primary);
-            margin: 0;
-            padding: 104px 16px 80px 16px;
-            line-height: 1.75;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
             transition: background-color 0.35s ease, color 0.35s ease;
         }
 
-        .spatial-mesh {
-            background-image:
-                radial-gradient(at 15% 6%, rgba(0, 113, 227, 0.10) 0px, transparent 50%),
-                radial-gradient(at 85% 15%, rgba(16, 185, 129, 0.09) 0px, transparent 50%);
-        }
-        [data-theme="dark"] .spatial-mesh {
-            background-image:
-                radial-gradient(at 15% 5%, rgba(41, 151, 255, 0.15) 0px, transparent 50%),
-                radial-gradient(at 85% 15%, rgba(52, 211, 153, 0.10) 0px, transparent 50%);
-        }
-
-        /* Floating Dynamic Island Top Navbar */
-        .dynamic-nav {
-            position: fixed;
-            top: 16px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 92%;
-            max-width: 896px;
-            z-index: 9999;
-            background: var(--surface-glass);
-            backdrop-filter: saturate(190%) blur(24px);
-            -webkit-backdrop-filter: saturate(190%) blur(24px);
-            border: 1px solid var(--border-hairline);
-            box-shadow: 0 10px 36px rgba(0, 0, 0, 0.08);
-            border-radius: 999px;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-        }
-
-        /* Header */
-        header.case-header {
-            background: transparent;
-            padding: 10px 16px 24px 16px;
-            text-align: center;
-            max-width: 820px;
-            margin: 0 auto 20px auto;
-        }
-        header.case-header .badge-pill {
-            display: inline-block;
-            padding: 5px 14px;
-            border-radius: 999px;
-            background: rgba(0, 113, 227, 0.12);
-            color: var(--accent-blue);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-        }
-        header.case-header h1 {
-            color: var(--text-primary);
-            font-size: clamp(28px, 4.5vw, 46px);
-            font-weight: 800;
+        .neo-display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
             letter-spacing: -0.025em;
-            line-height: 1.15;
-            margin: 0 0 12px 0;
-        }
-        header.case-header p {
-            color: var(--text-secondary);
-            font-size: 15px;
-            font-weight: 500;
-            margin: 0;
         }
 
-        /* Main Spatial Bento Card */
-        main.bento-article {
-            max-width: 896px;
-            margin: 0 auto;
+        /* Editorial Surface & Cursor Spotlight */
+        .editorial-surface {
             background: var(--surface-solid);
-            border-radius: 32px;
-            padding: clamp(24px, 5vw, 52px);
-            box-shadow: var(--card-shadow);
             border: 1px solid var(--border-hairline);
-            transition: background-color 0.35s ease, border-color 0.3s ease;
+            box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.04);
+            position: relative;
+            transition: transform 0.35s var(--bounce-ease), border-color 0.3s ease, box-shadow 0.35s ease;
         }
 
-        /* Editorial Typography */
-        .bento-article h2 {
-            color: var(--text-primary);
-            font-size: 1.45rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-top: 32px;
-            margin-bottom: 12px;
+        .editorial-surface::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: radial-gradient(420px circle at var(--mouse-x) var(--mouse-y), rgba(16, 185, 129, 0.08), transparent 55%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        .bento-article h3 {
-            color: var(--text-primary);
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-top: 22px;
-            margin-bottom: 8px;
+
+        .editorial-surface:hover::before { opacity: 1; }
+        .editorial-surface:hover { border-color: rgba(16, 185, 129, 0.35); }
+
+        #scroll-progress {
+            transform-origin: left center;
+            transform: scaleX(0);
         }
-        .bento-article p, .bento-article li {
+
+        .portzi-header {
+            padding-top: 1.1rem;
+            padding-bottom: 1.1rem;
+            transition: all 0.35s var(--bounce-ease);
+        }
+
+        .portzi-header.is-scrolled {
+            padding-top: 0.7rem;
+            padding-bottom: 0.7rem;
+            background: var(--surface-nav-scrolled);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-hairline);
+        }
+
+        .detail-hero-stage {
+            background:
+                radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.11), transparent 50%),
+                radial-gradient(circle at 85% 40%, rgba(217, 119, 6, 0.07), transparent 48%);
+        }
+
+        /* Editorial Article Typography */
+        .case-prose {
             color: var(--text-secondary);
-            font-size: 15.5px;
-            line-height: 1.75;
+            font-size: 0.96rem;
+            line-height: 1.8;
         }
-        .bento-article b, .bento-article strong {
+        @media (min-width: 640px) {
+            .case-prose { font-size: 1.02rem; }
+        }
+        .case-prose h2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
             color: var(--text-primary);
+            font-size: 1.4rem;
             font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-top: 2.1rem;
+            margin-bottom: 0.75rem;
+        }
+        .case-prose h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-primary);
+            font-size: 1.12rem;
+            font-weight: 600;
+            margin-top: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        .case-prose p {
+            margin-bottom: 1rem;
+        }
+        .case-prose b, .case-prose strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .case-prose code {
+            background: var(--surface-elevated);
+            color: var(--accent-emerald);
+            border: 1px solid var(--border-hairline);
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 600;
         }
         .text-justify-clean {
             text-align: justify;
         }
 
-        /* Data Table */
+        /* Editorial Data Table */
         .spatial-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 24px 0;
-            border-radius: 16px;
+            margin: 1.5rem 0;
+            border-radius: 18px;
             overflow: hidden;
             border: 1px solid var(--border-hairline);
         }
         .spatial-table th {
             background: var(--surface-elevated);
             color: var(--text-primary);
-            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
             padding: 12px 16px;
             text-align: left;
-            font-size: 13.5px;
+            font-size: 13px;
         }
         .spatial-table td {
-            padding: 12px 16px;
+            padding: 11px 16px;
             border-top: 1px solid var(--border-hairline);
-            font-size: 14px;
+            font-size: 13.5px;
             color: var(--text-secondary);
+        }
+        .spatial-table tr:hover td {
+            background: rgba(16, 185, 129, 0.04);
         }
 
         /* Gallery Artifact Cards */
         .artifact-card {
             background: var(--surface-elevated);
             border: 1px solid var(--border-hairline);
-            border-radius: 20px;
+            border-radius: 22px;
             padding: 14px;
-            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
+            transition: transform 0.35s var(--bounce-ease), border-color 0.3s ease, box-shadow 0.35s ease;
         }
         .artifact-card:hover {
             transform: translateY(-3px);
-            border-color: var(--accent-blue);
+            border-color: rgba(16, 185, 129, 0.45);
+            box-shadow: 0 14px 30px -10px rgba(16, 185, 129, 0.15);
         }
         .apple-zoomable {
             cursor: zoom-in;
@@ -239,7 +237,7 @@
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 0.35s var(--bounce-ease);
         }
         .artifact-card:hover .apple-zoomable {
             transform: scale(1.015);
@@ -250,9 +248,9 @@
             position: fixed;
             inset: 0;
             z-index: 99999;
-            background: rgba(9, 10, 15, 0.92);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
+            background: rgba(9, 10, 11, 0.94);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -260,6 +258,27 @@
             user-select: none;
         }
         #ios-project-lightbox.hidden { display: none !important; }
+
+        /* Reveal Animation */
+        .motion-reveal {
+            opacity: 0;
+            filter: blur(6px);
+            transform: translateY(18px);
+            transition: opacity 0.65s var(--bounce-ease), transform 0.65s var(--bounce-ease), filter 0.6s ease;
+        }
+        .motion-reveal.is-visible {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+
+        /* Toast */
+        #ios-toast {
+            top: max(1.25rem, calc(env(safe-area-inset-top) + 0.65rem));
+            transform: translate(-50%, -140%);
+            transition: transform 0.32s var(--bounce-ease), opacity 0.25s ease;
+        }
+        #ios-toast.show { transform: translate(-50%, 0); }
 
         /* Kop Dokumen Khusus Cetak PDF */
         .pdf-formal-header { display: none; }
@@ -273,7 +292,7 @@
             html, body {
                 background: #FFFFFF !important;
                 background-image: none !important;
-                color: #1D1D1F !important;
+                color: #121316 !important;
                 padding: 0 !important;
                 margin: 0 !important;
                 font-size: 11pt !important;
@@ -281,7 +300,7 @@
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            .dynamic-nav, #ios-project-lightbox, .no-print, button {
+            header#main-navbar, #ios-project-lightbox, .no-print, button, aside {
                 display: none !important;
             }
             .pdf-formal-header {
@@ -292,37 +311,27 @@
                 padding-bottom: 10px;
                 margin-bottom: 20px;
                 font-size: 9pt;
-                color: #6E6E73;
+                color: #6B7280;
             }
-            header.case-header {
-                text-align: left !important;
+            .detail-hero-stage {
+                background: none !important;
                 padding: 0 0 16px 0 !important;
-                margin: 0 0 20px 0 !important;
-                border-bottom: 1px solid #F1F5F9 !important;
-                max-width: 100% !important;
+                margin-bottom: 20px !important;
+                border-bottom: 1px solid #E5E7EB !important;
             }
-            header.case-header h1 {
-                color: #1D1D1F !important;
-                font-size: 22pt !important;
-            }
-            header.case-header p {
-                color: #515154 !important;
-            }
-            main.bento-article {
-                max-width: 100% !important;
-                width: 100% !important;
-                padding: 0 !important;
+            .editorial-surface {
                 background: #FFFFFF !important;
                 box-shadow: none !important;
                 border: none !important;
+                padding: 0 !important;
             }
-            .bento-article h2, .bento-article h3, .bento-article b, .bento-article strong {
-                color: #1D1D1F !important;
+            .case-prose h2, .case-prose h3, .case-prose b, .case-prose strong {
+                color: #121316 !important;
                 break-after: avoid !important;
                 page-break-after: avoid !important;
             }
-            .bento-article p, .bento-article li, .spatial-table td {
-                color: #3A3A3C !important;
+            .case-prose p, .case-prose li, .spatial-table td {
+                color: #374151 !important;
             }
             .spatial-table th {
                 background: #F3F4F6 !important;
@@ -337,7 +346,7 @@
                 border: 1px solid #E5E7EB !important;
             }
             img {
-                max-height: 270px !important;
+                max-height: 260px !important;
                 width: auto !important;
                 max-width: 100% !important;
                 object-fit: contain !important;
@@ -346,199 +355,358 @@
         }
     </style>
 </head>
-<body class="spatial-mesh selection:bg-[#0071E3] selection:text-white">
+<body class="antialiased selection:bg-[#10B981] selection:text-white">
 
     <!-- Top Reading Progress Bar -->
-    <div class="fixed top-0 left-0 right-0 h-[3px] z-[10000] bg-transparent no-print">
-        <div id="read-progress-bar" class="h-full bg-gradient-to-r from-[#0071E3] to-[#10B981] w-0 transition-all duration-100"></div>
+    <div id="scroll-progress" class="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#10B981] via-[#34D399] to-[#D97706] z-[10000] pointer-events-none no-print"></div>
+
+    <!-- Dynamic Toast -->
+    <div id="ios-toast" class="fixed left-1/2 z-[200] opacity-0 pointer-events-none max-w-[90vw] no-print">
+        <div class="rounded-full px-5 py-2.5 flex items-center gap-2.5 shadow-xl border" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-[#10B981] flex-shrink-0 flex items-center justify-center text-sm"><i class='bx bx-check'></i></span>
+            <span id="toast-msg" class="text-xs font-medium truncate">Action completed</span>
+        </div>
     </div>
 
-    <!-- Floating Dynamic Island Top Navbar -->
-    <nav class="dynamic-nav no-print">
-        <a href="./#projects" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold hover:text-[#0071E3] dark:hover:text-[#2997FF] transition">
-            <span class="w-7 h-7 rounded-full flex items-center justify-center" style="background: var(--surface-elevated);">
-                <i class='bx bx-chevron-left text-lg'></i>
-            </span>
-            <span>Back to Portfolio</span>
-        </a>
+    <!-- ==================== BORDERLESS EDITORIAL NAVBAR ==================== -->
+    <header id="main-navbar" class="fixed top-0 left-0 right-0 z-50 portzi-header no-print">
+        <div class="w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-14 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4 sm:gap-6">
+                <a href="index.html#projects" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border text-xs font-medium transition hover:border-[#10B981] group" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+                    <i class='bx bx-left-arrow-alt text-base text-[#10B981] transition-transform group-hover:-translate-x-0.5'></i>
+                    <span>Back to Works</span>
+                </a>
 
-        <span class="hidden md:inline-block text-[11px] font-bold uppercase tracking-widest opacity-50">Case Study</span>
+                <a href="index.html" class="hidden sm:flex items-center gap-2 group">
+                    <span class="w-7 h-7 rounded-[9px] bg-gradient-to-br from-[#10B981] to-[#059669] text-white flex items-center justify-center shadow-sm">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
+                            <path d="M9.5 15V9h3.5a2 2 0 0 1 0 4H9.5"/>
+                        </svg>
+                    </span>
+                    <span class="neo-display font-semibold text-lg tracking-tight">Portzi</span>
+                </a>
+            </div>
 
-        <div class="flex items-center gap-2">
-            <!-- Dark / Light Mode Toggle -->
-            <button type="button" onclick="toggleSpatialTheme()" title="Ganti Tema Terang / Gelap" class="w-9 h-9 rounded-full border flex items-center justify-center text-base transition hover:border-[#0071E3]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-                <i id="theme-toggle-icon" class='bx bx-moon'></i>
-            </button>
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="shareCurrentCase()" title="Bagikan Studi Kasus" class="w-9 h-9 sm:w-auto sm:px-3.5 rounded-full border flex items-center justify-center gap-1.5 text-xs font-medium transition hover:border-[#10B981]" style="background: var(--surface-solid); border-color: var(--border-hairline); color: var(--text-secondary);">
+                    <i class='bx bx-share-alt text-base text-[#10B981]'></i>
+                    <span class="hidden sm:inline">Share</span>
+                </button>
 
-            <!-- Save PDF -->
-            <button type="button" onclick="exportCaseStudyPDF()" class="h-9 px-4 rounded-full bg-[#0071E3] dark:bg-[#2997FF] text-white text-xs font-semibold inline-flex items-center gap-1.5 hover:opacity-90 transition shadow-sm">
-                <i class='bx bxs-file-pdf text-base'></i>
-                <span>Save PDF</span>
-            </button>
-        </div>
-    </nav>
+                <button type="button" onclick="toggleSpatialTheme()" title="Ganti Tema Terang / Gelap" class="w-9 h-9 rounded-full border flex items-center justify-center text-base transition hover:border-[#10B981]" style="background: var(--surface-solid); border-color: var(--border-hairline);">
+                    <i id="theme-toggle-icon" class='bx bx-moon'></i>
+                </button>
 
-    <!-- ==================== Header ==================== -->
-    <header class="case-header">
-        <span class="badge-pill">Project Case Study</span>
-        <h1>Strategi Wirausaha Toko Roti Bun Haven</h1>
-        <p>Dibuat oleh: Muhammad Zidan &bull; Data Mining &amp; Business Analytics</p>
-    </header>
-
-    <!-- ==================== Konten Artikel ==================== -->
-    <main class="bento-article">
-        <!-- Peran dalam Proyek -->
-        <h2 style="margin-top: 0;">Peran dalam Proyek</h2>
-        <p class="text-justify-clean mb-8">
-            Dalam proyek ini, saya memiliki peran kunci dalam setiap tahapan, mulai dari perancangan <b>analisis bisnis</b>, <b>pemahaman data</b>, <b>persiapan data</b>, <b>pemodelan</b>, hingga <b>evaluasi</b>. Saya bekerja sama dengan tim untuk memastikan setiap tahapan berjalan dengan lancar dan sesuai dengan tujuan bisnis yang telah ditetapkan.
-        </p>
-        
-        <!-- Teks Laporan -->
-        <h2>1. Business Understanding</h2>
-        <p class="text-justify-clean mb-4">
-            Toko roti Bun Haven menghadapi tantangan operasional dan penjualan, terutama dalam mengelola stok produk dan merancang strategi promosi yang efektif. Keterbatasan pemahaman tentang pola pembelian pelanggan menyebabkan inefisiensi dan potensi kerugian. Untuk mengatasi masalah ini, analisis data dengan metode Association Rules diterapkan untuk menemukan hubungan tersembunyi antar produk.
-        </p>
-        <p class="text-justify-clean mb-4">
-            Tujuan utama proyek ini adalah mengidentifikasi produk yang paling sering dibeli bersamaan. Hasilnya akan digunakan untuk merumuskan rekomendasi strategi bisnis, seperti penataan produk, kampanye promosi, dan optimasi stok, guna meningkatkan penjualan dan profitabilitas.
-        </p>
-
-        <h2>2. Data Understanding</h2>
-        <p class="text-justify-clean mb-4">
-            Dataset yang digunakan adalah "Bakery.csv", yang berisi data transaksi toko roti Bun Haven dari tahun 2016 hingga 2017. Dataset ini memiliki tiga kolom utama:
-        </p>
-        <table class="spatial-table">
-            <thead>
-                <tr>
-                    <th>Kolom</th>
-                    <th>Keterangan</th>
-                    <th>Tipe Data</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Date</td>
-                    <td>Tanggal Transaksi</td>
-                    <td>Date</td>
-                </tr>
-                <tr>
-                    <td>Time</td>
-                    <td>Waktu Transaksi</td>
-                    <td>Time</td>
-                </tr>
-                <tr>
-                    <td>Item</td>
-                    <td>Nama Produk</td>
-                    <td>String</td>
-                </tr>
-            </tbody>
-        </table>
-        <p class="text-justify-clean mb-4">
-            Dataset ini tidak memiliki nilai yang hilang (missing values) dan cocok untuk diterapkan pada teknik Association Rule.
-        </p>
-
-        <h2>3. Data Preparation</h2>
-        <p class="text-justify-clean mb-4">
-            Tahapan persiapan data dilakukan menggunakan <b>KNIME Analytics Platform</b> dengan langkah-langkah berikut:
-        </p>
-        <ol class="list-decimal list-inside space-y-2 mb-4">
-            <li><b>Load Data</b>: Menggunakan node "File Reader" untuk mengimpor dataset.</li>
-            <li><b>Agregasi Data</b>: Menggunakan node "Group By" untuk mengelompokkan item ke dalam transaksi berdasarkan tanggal dan waktu.</li>
-            <li><b>Konversi Tipe Data</b>: Menggunakan node "String to Collection" untuk mengubah data transaksi menjadi format yang sesuai dengan node "Association Rule Learner".</li>
-        </ol>
-
-        <h2>4. Modeling dan Evaluasi</h2>
-        <p class="text-justify-clean mb-4">
-            Pemodelan dilakukan menggunakan metode <b>Association Rule</b> dengan algoritma <b>Apriori</b> untuk menemukan pola pembelian antar produk.
-        </p>
-        <h3>Hasil Analisis</h3>
-        <p class="text-justify-clean mb-4">
-            Dari hasil analisis, ditemukan beberapa aturan asosiasi dengan nilai <b>support</b>, <b>confidence</b>, dan <b>lift</b> yang tinggi.
-        </p>
-        <div class="p-5 rounded-2xl border my-4" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
-            <p class="mb-0">
-                <b>Aturan Paling Menarik (Contoh):</b><br/>
-                <b>Aturan 1:</b> {Toast} &rarr; {Coffee}<br/>
-                Support: <b>0.033</b> &bull; Confidence: <b>0.704</b> &bull; Lift: <b>1.48</b>
-            </p>
-        </div>
-        <p class="text-justify-clean mb-4">
-            Aturan ini menunjukkan bahwa 70.4% pembeli yang membeli Toast juga membeli Coffee. Nilai lift sebesar 1.48 (&gt;1) mengindikasikan bahwa hubungan ini signifikan dan lebih dari sekadar kebadar kebetulan.
-        </p>
-
-        <h2>5. Kesimpulan dan Rekomendasi</h2>
-        <h3>Kesimpulan</h3>
-        <p class="text-justify-clean mb-4">
-            Berdasarkan analisis Association Rule, ditemukan pola pembelian yang kuat antara beberapa produk. Pola ini dapat digunakan untuk mengoptimalkan strategi bisnis. Produk yang paling sering dibeli secara individu adalah Coffee, Bread, dan Tea.
-        </p>
-        <h3>Rekomendasi</h3>
-        <p class="text-justify-clean mb-4">
-            Berikut beberapa rekomendasi untuk meningkatkan penjualan:
-        </p>
-        <ul class="list-disc list-inside space-y-2 mb-4">
-            <li><b>Strategi Penempatan Produk</b>: Tempatkan produk-produk yang memiliki hubungan kuat (misalnya, Toast dan Coffee) berdekatan di area toko untuk memicu pembelian tambahan.</li>
-            <li><b>Strategi Bundling</b>: Tawarkan paket promosi seperti "Toast &amp; Coffee Special" dengan harga diskon untuk mendorong penjualan kedua produk.</li>
-            <li><b>Kampanye Promosi</b>: Rancang kampanye pemasaran yang menargetkan produk-produk terlaris yang dapat dipasangkan dengan produk lain, seperti diskon khusus untuk Tea saat pembelian Coffee.</li>
-            <li><b>Manajemen Stok</b>: Lakukan monitoring stok secara berkala untuk produk-produk yang sering dibeli bersamaan untuk memastikan ketersediaannya.</li>
-        </ul>
-        
-        <!-- ==================== Dokumentasi Proyek (Etalase Foto) ==================== -->
-        <div class="mt-12 pt-8 border-t" style="border-color: var(--border-hairline);">
-            <h2 class="text-center" style="margin-top: 0; margin-bottom: 24px;">Dokumentasi Proyek</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="artifact-card">
-                    <img src="/artifacts/fp-statistik.png" alt="Tampilan statistik KNIME" class="apple-zoomable mb-3">
-                    <p class="text-xs font-medium text-center">Tampilan statistik KNIME</p>
-                </div>
-                <div class="artifact-card">
-                    <img src="/artifacts/fp-statistik1.png" alt="Statistik data transaksi KNIME" class="apple-zoomable mb-3">
-                    <p class="text-xs font-medium text-center">Statistik data transaksi KNIME</p>
-                </div>
-                <div class="artifact-card">
-                    <img src="/artifacts/fp-statistik2.png" alt="Statistik jumlah transaksi KNIME" class="apple-zoomable mb-3">
-                    <p class="text-xs font-medium text-center">Statistik jumlah transaksi KNIME</p>
-                </div>
-                <div class="artifact-card">
-                    <img src="/artifacts/fp-statistik3.png" alt="Statistik nilai support" class="apple-zoomable mb-3">
-                    <p class="text-xs font-medium text-center">Statistik nilai support</p>
-                </div>
-                <div class="artifact-card">
-                    <img src="/artifacts/fp-statistik4.png" alt="Statistik nilai confidence" class="apple-zoomable mb-3">
-                    <p class="text-xs font-medium text-center">Statistik nilai confidence</p>
-                </div>
-                <div class="artifact-card">
-                    <img src="/artifacts/fp-statistik5.png" alt="Statistik nilai lift" class="apple-zoomable mb-3">
-                    <p class="text-xs font-medium text-center">Statistik nilai lift</p>
-                </div>
-                <div class="artifact-card">
-                    <img src="/artifacts/fp-barchart.png" alt="Rekomendasi produk dengan grafik" class="apple-zoomable mb-3">
-                    <p class="text-xs font-medium text-center">Rekomendasi produk dengan grafik</p>
-                </div>
-                <div class="artifact-card">
-                    <img src="/artifacts/fp-barchart1.png" alt="Rekomendasi produk dengan confidence" class="apple-zoomable mb-3">
-                    <p class="text-xs font-medium text-center">Rekomendasi produk dengan confidence</p>
-                </div>
-                <div class="artifact-card">
-                    <img src="/artifacts/fp-scaterplot.png" alt="Scatter plot hubungan produk" class="apple-zoomable mb-3">
-                    <p class="text-xs font-medium text-center">Scatter plot hubungan produk</p>
-                </div>
+                <button type="button" onclick="exportCaseStudyPDF()" class="h-9 px-4 rounded-full bg-[#10B981] hover:bg-[#059669] text-white text-xs font-medium inline-flex items-center gap-1.5 transition shadow-sm">
+                    <i class='bx bxs-file-pdf text-base'></i>
+                    <span>Save PDF</span>
+                </button>
             </div>
         </div>
+    </header>
+
+    <!-- ==================== CASE STUDY HERO STAGE ==================== -->
+    <main class="pt-24 sm:pt-28 pb-16">
+        <section class="detail-hero-stage border-b pb-12 sm:pb-14" style="border-color: var(--border-hairline);">
+            <div class="w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-14 space-y-6">
+                
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="px-3.5 py-1 rounded-full bg-amber-500/12 text-[#D97706] dark:text-[#FBBF24] text-xs font-semibold">
+                            Data Mining
+                        </span>
+                        <span class="px-3 py-1 rounded-full text-xs font-medium border" style="background: var(--surface-solid); border-color: var(--border-hairline); color: var(--text-secondary);">
+                            KNIME Analytics
+                        </span>
+                        <span class="px-3 py-1 rounded-full text-xs font-medium border" style="background: var(--surface-solid); border-color: var(--border-hairline); color: var(--text-secondary);">
+                            Association Rules (Apriori)
+                        </span>
+                    </div>
+                    <span class="text-xs font-medium inline-flex items-center gap-1.5" style="color: var(--text-muted);">
+                        <i class='bx bx-time-five text-sm text-[#10B981]'></i> <span>4 min read &bull; Case Study</span>
+                    </span>
+                </div>
+
+                <div class="max-w-4xl space-y-3">
+                    <h1 class="neo-display text-3xl sm:text-5xl lg:text-[54px] font-semibold leading-[1.08]">
+                        Strategi Wirausaha Toko Roti Bun Haven
+                    </h1>
+                    <p class="text-base sm:text-lg leading-relaxed font-normal" style="color: var(--text-secondary);">
+                        Analisis pola keranjang belanja pelanggan (Market Basket Analysis) menggunakan algoritma Apriori untuk mengoptimalkan penataan produk, paket bundling promosi, dan manajemen stok toko roti.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== EDITORIAL BODY & STICKY METADATA SIDEBAR ==================== -->
+        <section class="pt-10 sm:pt-14 w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-14">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                
+                <!-- Left Sticky Sidebar -->
+                <aside class="lg:col-span-4 lg:sticky lg:top-24 space-y-5 motion-reveal no-print">
+                    <div class="editorial-surface rounded-[26px] p-6 sm:p-7 space-y-5">
+                        <div class="flex items-center justify-between border-b pb-4" style="border-color: var(--border-hairline);">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[#10B981] dark:text-[#34D399]">Project Overview</span>
+                            <span class="text-xs font-normal" style="color: var(--text-muted);">Market Basket Analysis</span>
+                        </div>
+
+                        <div class="space-y-4 text-sm">
+                            <div>
+                                <p class="text-[11px] font-medium uppercase tracking-wider" style="color: var(--text-muted);">Author / Analyst</p>
+                                <p class="font-semibold mt-0.5">Muhammad Zidan</p>
+                            </div>
+
+                            <div>
+                                <p class="text-[11px] font-medium uppercase tracking-wider" style="color: var(--text-muted);">Top Association Rule</p>
+                                <div class="mt-2 grid grid-cols-2 gap-2.5">
+                                    <div class="p-3 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                                        <span class="neo-display text-xl font-semibold text-[#10B981] dark:text-[#34D399]">70.4%</span>
+                                        <p class="text-[11px] mt-0.5" style="color: var(--text-secondary);">Confidence (Toast &rarr; Coffee)</p>
+                                    </div>
+                                    <div class="p-3 rounded-2xl border" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                                        <span class="neo-display text-xl font-semibold text-[#D97706] dark:text-[#FBBF24]">1.48x</span>
+                                        <p class="text-[11px] mt-0.5" style="color: var(--text-secondary);">Lift Ratio</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="text-[11px] font-medium uppercase tracking-wider" style="color: var(--text-muted);">Tools &amp; Methods</p>
+                                <div class="flex flex-wrap gap-1.5 mt-1.5">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium" style="background: var(--surface-elevated); color: var(--text-secondary);">KNIME Platform</span>
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium" style="background: var(--surface-elevated); color: var(--text-secondary);">Apriori Algorithm</span>
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium" style="background: var(--surface-elevated); color: var(--text-secondary);">Group By</span>
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium" style="background: var(--surface-elevated); color: var(--text-secondary);">Retail Strategy</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t flex items-center gap-2" style="border-color: var(--border-hairline);">
+                            <button type="button" onclick="shareCurrentCase()" class="flex-1 py-2.5 px-4 rounded-full border text-xs font-medium inline-flex items-center justify-center gap-1.5 transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                                <i class='bx bx-copy-alt text-base text-[#10B981]'></i> Salin Tautan
+                            </button>
+                            <a href="project-amazon.html" class="py-2.5 px-4 rounded-full border text-xs font-medium inline-flex items-center justify-center gap-1 transition hover:border-[#10B981]" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                                Next Case &rarr;
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Mini Collaboration Card -->
+                    <div class="rounded-[26px] p-6 bg-gradient-to-br from-[#0E1E18] to-[#09120F] text-white border border-white/10 space-y-3">
+                        <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#34D399]">
+                            <i class='bx bx-star'></i> Need Similar Insights?
+                        </span>
+                        <h3 class="neo-display text-lg font-semibold leading-snug">
+                            Ingin menemukan pola pembelian pelanggan dan merancang paket bundling untuk bisnis Anda?
+                        </h3>
+                        <a href="index.html#contact" class="inline-flex items-center gap-1.5 text-xs font-medium text-white bg-white/12 hover:bg-white/20 px-4 py-2 rounded-full transition">
+                            <span>Diskusi dengan Zidan</span> <i class='bx bx-right-arrow-alt text-base text-[#34D399]'></i>
+                        </a>
+                    </div>
+                </aside>
+
+                <!-- Right Main Column: Narrative & All 9 Documentation Artifacts -->
+                <div class="lg:col-span-8 space-y-8 motion-reveal">
+                    <article class="editorial-surface rounded-[28px] sm:rounded-[32px] p-6 sm:p-10 lg:p-12 case-prose">
+                        <div class="flex items-center gap-2 text-xs font-medium text-[#D97706] dark:text-[#FBBF24] mb-4">
+                            <i class='bx bx-file-blank text-base'></i>
+                            <span>CRISP-DM Methodology &amp; Findings</span>
+                        </div>
+
+                        <!-- Peran dalam Proyek -->
+                        <h2 style="margin-top: 0;">Peran dalam Proyek</h2>
+                        <p class="text-justify-clean">
+                            Dalam proyek ini, saya memiliki peran kunci dalam setiap tahapan, mulai dari perancangan <b>analisis bisnis</b>, <b>pemahaman data</b>, <b>persiapan data</b>, <b>pemodelan</b>, hingga <b>evaluasi</b>. Saya bekerja sama dengan tim untuk memastikan setiap tahapan berjalan dengan lancar dan sesuai dengan tujuan bisnis yang telah ditetapkan.
+                        </p>
+                        
+                        <!-- Teks Laporan -->
+                        <h2>1. Business Understanding</h2>
+                        <p class="text-justify-clean">
+                            Toko roti Bun Haven menghadapi tantangan operasional dan penjualan, terutama dalam mengelola stok produk dan merancang strategi promosi yang efektif. Keterbatasan pemahaman tentang pola pembelian pelanggan menyebabkan inefisiensi dan potensi kerugian. Untuk mengatasi masalah ini, analisis data dengan metode <b>Association Rules</b> diterapkan untuk menemukan hubungan tersembunyi antar produk.
+                        </p>
+                        <p class="text-justify-clean">
+                            Tujuan utama proyek ini adalah mengidentifikasi produk yang paling sering dibeli bersamaan. Hasilnya akan digunakan untuk merumuskan rekomendasi strategi bisnis, seperti penataan produk, kampanye promosi, dan optimasi stok, guna meningkatkan penjualan dan profitabilitas.
+                        </p>
+
+                        <h2>2. Data Understanding</h2>
+                        <p class="text-justify-clean">
+                            Dataset yang digunakan adalah <strong>"Bakery.csv"</strong>, yang berisi data transaksi toko roti Bun Haven dari tahun 2016 hingga 2017. Dataset ini memiliki tiga kolom utama:
+                        </p>
+                        <div class="overflow-x-auto">
+                            <table class="spatial-table">
+                                <thead>
+                                    <tr>
+                                        <th>Kolom</th>
+                                        <th>Keterangan</th>
+                                        <th>Tipe Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>Date</code></td>
+                                        <td>Tanggal Transaksi</td>
+                                        <td>Date</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>Time</code></td>
+                                        <td>Waktu Transaksi</td>
+                                        <td>Time</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>Item</code></td>
+                                        <td>Nama Produk</td>
+                                        <td>String</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-justify-clean">
+                            Dataset ini tidak memiliki nilai yang hilang (<em>missing values</em>) dan cocok untuk diterapkan pada teknik Association Rule.
+                        </p>
+
+                        <h2>3. Data Preparation</h2>
+                        <p class="text-justify-clean">
+                            Tahapan persiapan data dilakukan menggunakan <b>KNIME Analytics Platform</b> dengan langkah-langkah berikut:
+                        </p>
+                        <ol class="list-decimal list-inside space-y-2 mb-4">
+                            <li><b>Load Data</b>: Menggunakan node <code>File Reader</code> untuk mengimpor dataset.</li>
+                            <li><b>Agregasi Data</b>: Menggunakan node <code>Group By</code> untuk mengelompokkan item ke dalam transaksi berdasarkan tanggal dan waktu.</li>
+                            <li><b>Konversi Tipe Data</b>: Menggunakan node <code>String to Collection</code> untuk mengubah data transaksi menjadi format yang sesuai dengan node <code>Association Rule Learner</code>.</li>
+                        </ol>
+
+                        <h2>4. Modeling dan Evaluasi</h2>
+                        <p class="text-justify-clean">
+                            Pemodelan dilakukan menggunakan metode <b>Association Rule</b> dengan algoritma <b>Apriori</b> untuk menemukan pola pembelian antar produk.
+                        </p>
+                        <h3>Hasil Analisis</h3>
+                        <p class="text-justify-clean">
+                            Dari hasil analisis, ditemukan beberapa aturan asosiasi dengan nilai <b>support</b>, <b>confidence</b>, dan <b>lift</b> yang tinggi.
+                        </p>
+                        <div class="p-5 rounded-2xl border my-5" style="background: var(--surface-elevated); border-color: var(--border-hairline);">
+                            <p class="mb-0">
+                                <b>Aturan Paling Menarik (Contoh):</b><br>
+                                <b>Aturan 1:</b> <code>{Toast}</code> &rarr; <code>{Coffee}</code><br>
+                                Support: <b>0.033</b> &bull; Confidence: <b class="text-[#10B981] dark:text-[#34D399]">0.704</b> &bull; Lift: <b class="text-[#D97706] dark:text-[#FBBF24]">1.48</b>
+                            </p>
+                        </div>
+                        <p class="text-justify-clean">
+                            Aturan ini menunjukkan bahwa 70.4% pembeli yang membeli Toast juga membeli Coffee. Nilai lift sebesar 1.48 (&gt;1) mengindikasikan bahwa hubungan ini signifikan dan lebih dari sekadar kebetulan.
+                        </p>
+
+                        <h2>5. Kesimpulan dan Rekomendasi</h2>
+                        <h3>Kesimpulan</h3>
+                        <p class="text-justify-clean">
+                            Berdasarkan analisis Association Rule, ditemukan pola pembelian yang kuat antara beberapa produk. Pola ini dapat digunakan untuk mengoptimalkan strategi bisnis. Produk yang paling sering dibeli secara individu adalah <b>Coffee</b>, <b>Bread</b>, dan <b>Tea</b>.
+                        </p>
+                        <h3>Rekomendasi</h3>
+                        <p class="text-justify-clean">
+                            Berikut beberapa rekomendasi untuk meningkatkan penjualan:
+                        </p>
+                        <ul class="list-disc list-inside space-y-2 mb-2">
+                            <li><b>Strategi Penempatan Produk</b>: Tempatkan produk-produk yang memiliki hubungan kuat (misalnya, Toast dan Coffee) berdekatan di area toko untuk memicu pembelian tambahan.</li>
+                            <li><b>Strategi Bundling</b>: Tawarkan paket promosi seperti "Toast &amp; Coffee Special" dengan harga diskon untuk mendorong penjualan kedua produk.</li>
+                            <li><b>Kampanye Promosi</b>: Rancang kampanye pemasaran yang menargetkan produk-produk terlaris yang dapat dipasangkan dengan produk lain, seperti diskon khusus untuk Tea saat pembelian Coffee.</li>
+                            <li><b>Manajemen Stok</b>: Lakukan monitoring stok secara berkala untuk produk-produk yang sering dibeli bersamaan untuk memastikan ketersediaannya.</li>
+                        </ul>
+                    </article>
+
+                    <!-- ==================== Dokumentasi Proyek (9 Etalase Foto) ==================== -->
+                    <section class="editorial-surface rounded-[28px] sm:rounded-[32px] p-6 sm:p-10 space-y-6">
+                        <div class="flex items-center justify-between border-b pb-4" style="border-color: var(--border-hairline);">
+                            <div>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-[#10B981] dark:text-[#34D399]">Visual Artifacts</span>
+                                <h2 class="neo-display text-2xl font-semibold mt-0.5">Dokumentasi Proyek</h2>
+                            </div>
+                            <span class="text-xs font-medium px-3.5 py-1 rounded-full" style="background: var(--surface-elevated); color: var(--text-secondary);">9 Artifacts</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div class="artifact-card">
+                                <img src="/artifacts/fp-statistik.png" alt="Tampilan statistik KNIME" class="apple-zoomable mb-3">
+                                <p class="text-xs font-medium text-center" style="color: var(--text-secondary);">Tampilan statistik KNIME</p>
+                            </div>
+                            <div class="artifact-card">
+                                <img src="/artifacts/fp-statistik1.png" alt="Statistik data transaksi KNIME" class="apple-zoomable mb-3">
+                                <p class="text-xs font-medium text-center" style="color: var(--text-secondary);">Statistik data transaksi KNIME</p>
+                            </div>
+                            <div class="artifact-card">
+                                <img src="/artifacts/fp-statistik2.png" alt="Statistik jumlah transaksi KNIME" class="apple-zoomable mb-3">
+                                <p class="text-xs font-medium text-center" style="color: var(--text-secondary);">Statistik jumlah transaksi KNIME</p>
+                            </div>
+                            <div class="artifact-card">
+                                <img src="/artifacts/fp-statistik3.png" alt="Statistik nilai support" class="apple-zoomable mb-3">
+                                <p class="text-xs font-medium text-center" style="color: var(--text-secondary);">Statistik nilai support</p>
+                            </div>
+                            <div class="artifact-card">
+                                <img src="/artifacts/fp-statistik4.png" alt="Statistik nilai confidence" class="apple-zoomable mb-3">
+                                <p class="text-xs font-medium text-center" style="color: var(--text-secondary);">Statistik nilai confidence</p>
+                            </div>
+                            <div class="artifact-card">
+                                <img src="/artifacts/fp-statistik5.png" alt="Statistik nilai lift" class="apple-zoomable mb-3">
+                                <p class="text-xs font-medium text-center" style="color: var(--text-secondary);">Statistik nilai lift</p>
+                            </div>
+                            <div class="artifact-card">
+                                <img src="/artifacts/fp-barchart.png" alt="Rekomendasi produk dengan grafik" class="apple-zoomable mb-3">
+                                <p class="text-xs font-medium text-center" style="color: var(--text-secondary);">Rekomendasi produk dengan grafik</p>
+                            </div>
+                            <div class="artifact-card">
+                                <img src="/artifacts/fp-barchart1.png" alt="Rekomendasi produk dengan confidence" class="apple-zoomable mb-3">
+                                <p class="text-xs font-medium text-center" style="color: var(--text-secondary);">Rekomendasi produk dengan confidence</p>
+                            </div>
+                            <div class="artifact-card">
+                                <img src="/artifacts/fp-scaterplot.png" alt="Scatter plot hubungan produk" class="apple-zoomable mb-3">
+                                <p class="text-xs font-medium text-center" style="color: var(--text-secondary);">Scatter plot hubungan produk</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Navigation to Other Case Study -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 no-print">
+                        <a href="index.html#projects" class="editorial-surface rounded-[24px] p-5 flex flex-col justify-between gap-2 group">
+                            <span class="text-[11px] font-medium uppercase tracking-wider inline-flex items-center gap-1" style="color: var(--text-muted);">
+                                <i class='bx bx-left-arrow-alt text-base text-[#10B981]'></i> Portfolio Index
+                            </span>
+                            <span class="neo-display font-semibold text-base group-hover:text-[#10B981] transition-colors">Semua Studi Kasus</span>
+                        </a>
+                        <a href="project-amazon.html" class="editorial-surface rounded-[24px] p-5 flex flex-col justify-between gap-2 text-right group">
+                            <span class="text-[11px] font-medium uppercase tracking-wider inline-flex items-center justify-end gap-1" style="color: var(--text-muted);">
+                                Next Case <i class='bx bx-right-arrow-alt text-base text-[#10B981]'></i>
+                            </span>
+                            <span class="neo-display font-semibold text-base line-clamp-1 group-hover:text-[#10B981] transition-colors">Analisis Laporan Penjualan Amazon</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- ==================== Footer ==================== -->
-    <footer class="text-center pt-10 text-xs font-medium no-print" style="color: var(--text-muted);">
-        &copy; 2026 Muhammad Zidan. Spatial Portfolio Architecture.
+    <!-- ==================== COMPACT EDITORIAL FOOTER ==================== -->
+    <footer class="bg-gradient-to-br from-[#0E1E18] via-[#09120F] to-[#08090A] text-white py-12 border-t border-white/10 no-print">
+        <div class="w-full max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-14 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-300">
+            <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-[#10B981] text-white flex items-center justify-center font-bold">P</span>
+                <span>&copy; 2026 Portzi &mdash; Muhammad Zidan.</span>
+            </div>
+
+            <div class="flex items-center gap-5">
+                <a href="index.html#hero" class="hover:text-white transition">Home</a>
+                <a href="index.html#projects" class="hover:text-white transition">Works</a>
+                <a href="index.html#services" class="hover:text-white transition">Services</a>
+                <a href="index.html#contact" class="hover:text-white transition">Contact</a>
+            </div>
+        </div>
     </footer>
 
-    <!-- ==================== Unified iOS Photos Carousel Lightbox ==================== -->
+    <!-- ==================== Unified Carousel Lightbox ==================== -->
     <div id="ios-project-lightbox" class="hidden no-print" onclick="closeStaticLightbox()">
         <div style="max-width: 1100px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;" onclick="event.stopPropagation()">
-            <span id="slb-counter" style="padding: 5px 14px; border-radius: 999px; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 600;"></span>
-            <button type="button" onclick="closeStaticLightbox()" style="width: 36px; height: 36px; border-radius: 999px; border: none; background: rgba(255,255,255,0.16); color: #fff; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+            <span id="slb-counter" style="padding: 5px 14px; border-radius: 999px; background: rgba(16, 185, 129, 0.18); color: #34D399; font-size: 12px; font-weight: 600;"></span>
+            <button type="button" onclick="closeStaticLightbox()" aria-label="Tutup Preview" style="width: 38px; height: 38px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.14); color: #fff; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
         </div>
 
         <div id="slb-stage-wrap" style="position: relative; flex: 1; display: flex; align-items: center; justify-content: center; margin: 12px 0; overflow: hidden;" onclick="event.stopPropagation()">
-            <button type="button" id="slb-prev" onclick="prevStaticPhoto()" style="position: absolute; left: 8px; z-index: 10; width: 44px; height: 44px; border-radius: 999px; border: none; background: rgba(255,255,255,0.16); color: #fff; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
+            <button type="button" id="slb-prev" onclick="prevStaticPhoto()" aria-label="Foto Sebelumnya" style="position: absolute; left: 8px; z-index: 10; width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.16); color: #fff; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
                 <i class='bx bx-chevron-left'></i>
             </button>
 
@@ -546,13 +714,13 @@
                 <img id="slb-img" src="" alt="Preview" onclick="toggleStaticZoom()" style="max-height: 73vh; max-width: 86vw; width: auto; height: auto; object-fit: contain; cursor: zoom-in; transition: transform 0.3s ease; margin: 0; border: none; border-radius: 0;">
             </div>
 
-            <button type="button" id="slb-next" onclick="nextStaticPhoto()" style="position: absolute; right: 8px; z-index: 10; width: 44px; height: 44px; border-radius: 999px; border: none; background: rgba(255,255,255,0.16); color: #fff; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
+            <button type="button" id="slb-next" onclick="nextStaticPhoto()" aria-label="Foto Berikutnya" style="position: absolute; right: 8px; z-index: 10; width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.16); color: #fff; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
                 <i class='bx bx-chevron-right'></i>
             </button>
         </div>
 
         <div style="max-width: 760px; width: 100%; margin: 0 auto; text-align: center;" onclick="event.stopPropagation()">
-            <p id="slb-caption" style="color: #FFFFFF !important; font-size: 15px !important; font-weight: 600 !important; line-height: 1.5 !important; margin-bottom: 6px !important;"></p>
+            <p id="slb-caption" style="color: #FFFFFF !important; font-size: 15px !important; font-weight: 500 !important; line-height: 1.5 !important; margin-bottom: 6px !important;"></p>
             <p style="color: rgba(255,255,255,0.5) !important; font-size: 11px !important; margin: 0 !important;">Klik gambar untuk Zoom &bull; Geser atau gunakan panah keyboard &larr; &rarr;</p>
         </div>
     </div>
@@ -569,8 +737,8 @@
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             const icon = document.getElementById('theme-toggle-icon');
             const meta = document.getElementById('meta-theme-color');
-            if (icon) icon.className = isDark ? 'bx bx-sun text-amber-400' : 'bx bx-moon text-slate-700';
-            if (meta) meta.setAttribute('content', isDark ? '#07080B' : '#0071E3');
+            if (icon) icon.className = isDark ? 'bx bx-sun text-amber-400' : 'bx bx-moon text-zinc-700';
+            if (meta) meta.setAttribute('content', isDark ? '#090A0B' : '#10B981');
         }
         syncThemeIcon();
 
@@ -582,15 +750,67 @@
             else document.documentElement.classList.remove('dark');
             localStorage.setItem('mz_spatial_theme', next);
             syncThemeIcon();
+            showIosToast(next === 'dark' ? 'Dark Mode aktif' : 'Warm Light Mode aktif');
         };
 
-        // Reading Progress Bar
+        // Toast & Share
+        let toastTimer;
+        window.showIosToast = function(msg) {
+            const toast = document.getElementById('ios-toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2400);
+        };
+
+        window.shareCurrentCase = async function() {
+            const title = document.title;
+            const url = window.location.href;
+            if (navigator.share) {
+                try { await navigator.share({ title, url }); return; } catch (e) {}
+            }
+            navigator.clipboard?.writeText(`${title} — ${url}`);
+            showIosToast('Tautan studi kasus disalin!');
+        };
+
+        // Reading Progress Bar & Header Morph
         window.addEventListener('scroll', () => {
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const pct = docHeight > 0 ? Math.min(100, Math.max(0, (window.scrollY / docHeight) * 100)) : 0;
-            const bar = document.getElementById('read-progress-bar');
-            if (bar) bar.style.width = pct + '%';
+            const scrollY = window.scrollY;
+            const doc = document.documentElement;
+            const maxScroll = doc.scrollHeight - doc.clientHeight;
+            const ratio = maxScroll > 0 ? Math.min(1, Math.max(0, scrollY / maxScroll)) : 0;
+
+            const bar = document.getElementById('scroll-progress');
+            if (bar) bar.style.transform = `scaleX(${ratio})`;
+
+            const header = document.getElementById('main-navbar');
+            if (header) {
+                if (scrollY > 24) header.classList.add('is-scrolled');
+                else header.classList.remove('is-scrolled');
+            }
         }, { passive: true });
+
+        // Cursor Spotlight on Cards
+        document.addEventListener('mousemove', (e) => {
+            const card = e.target.closest('.editorial-surface');
+            if (card) {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            }
+        }, { passive: true });
+
+        // Reveal Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.motion-reveal').forEach(el => revealObserver.observe(el));
 
         // PDF Export
         function exportCaseStudyPDF() {
@@ -599,7 +819,7 @@
                 pdfHeader.className = 'pdf-formal-header';
                 const today = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
                 pdfHeader.innerHTML = `
-                    <span><strong>MUHAMMAD ZIDAN</strong> &bull; Portfolio Case Study</span>
+                    <span><strong>MUHAMMAD ZIDAN</strong> &bull; Portzi Case Study</span>
                     <span>Generated on ${today}</span>
                 `;
                 document.body.prepend(pdfHeader);
